@@ -1,0 +1,89 @@
+import type { ViewBuilder } from "../ViewConstructors/ViewBuilder"
+import type { LinkAttribute } from "./Link"
+import type { View } from "./View"
+import type { ElementAttribute } from "../ViewConstructors/Styles/Attributes"
+import type { LinkPathClass } from "../Navigation/Components/LinkPath"
+import { ViewSubElements, SubElementsStyles, SubElementsListeners } from "../ViewConstructors/ViewSubElements"
+import { Listeners } from "../ViewConstructors/Styles/Listeners"
+import { Styles } from "../ViewConstructors/Styles/Styles"
+import { App } from "../Navigation/App"
+
+
+
+
+
+
+
+
+
+
+
+export class NavigationLinkView<V extends (new (...args: any) => View)> extends ViewSubElements {
+	protected HTMLElement?: HTMLAnchorElement
+
+	protected styles: Styles<SubElementsStyles> = new Styles
+	protected listeners: Listeners<SubElementsListeners<HTMLAnchorElement>> = new Listeners
+	protected attribute?: ElementAttribute<LinkAttribute>
+
+	protected content: (ViewBuilder | undefined)[]
+	protected destination: string
+	protected disablePopover?: boolean
+
+
+
+
+	public disableAnyPopover(): this { this.disablePopover = true; return this }
+
+
+
+
+	protected importProperty(view: NavigationLinkView<any>): void {
+		this.destination = view.destination;
+		this.disablePopover = view.disablePopover
+		super.importProperty(view);
+	}
+
+	public render(newRender?: NavigationLinkView<any>, withAnimatiom?: boolean): HTMLAnchorElement {
+
+		// first render
+		if (!this.HTMLElement) {
+			if (newRender) { this.importProperty(newRender); newRender = undefined; }
+			this.HTMLElement = document.createElement('a');
+			this.HTMLElement.href = this.destination;
+
+			this.renderModifiers(this.HTMLElement, undefined, withAnimatiom);
+			this.renderMainElement(this.HTMLElement, this.generateContentElements(this.content));
+
+			return this.HTMLElement
+		}
+
+		// not update
+		if (!newRender) {
+			this.renderModifiers(this.HTMLElement);
+			return this.HTMLElement
+		}
+
+		// update
+		if (this.destination != newRender.destination) { this.destination = newRender.destination; this.HTMLElement.href = this.destination }
+		this.renderMainElement(this.HTMLElement, this.generateContentElements(this.content, newRender.content, true));
+		this.renderModifiers(this.HTMLElement, newRender, withAnimatiom);
+		return this.HTMLElement;
+	}
+
+	constructor(view: V | LinkPathClass<V>, data: ConstructorParameters<V>, elements: (ViewBuilder | undefined)[]) {
+		super();
+		this.content = elements;
+		this.destination = App.core.generateURL(view, data[0]);
+
+		this.listeners.set('click', (_, event) => {
+			try {
+				if (this.disablePopover) App.core.disablePopover();
+				App.core.navigate(view, data);
+			}
+			catch (error) { console.error(error) }
+			finally { event.preventDefault() }
+		});
+	}
+}
+
+export function NavigationLink<V extends new (...p: any[]) => View>(view: V | LinkPathClass<V>, ...data: ConstructorParameters<V>): (...elements: (ViewBuilder | undefined)[]) => NavigationLinkView<V> { return (...elements) => new NavigationLinkView(view, data, elements) }

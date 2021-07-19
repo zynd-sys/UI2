@@ -1,0 +1,6 @@
+.DS_STORE
+
+*.min.css
+
+Dist
+node_modules

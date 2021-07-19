@@ -1,0 +1,17 @@
+{
+  "name": "ui2",
+  "version": "0.5.0",
+  "main": "./Dist/index.js",
+  "types": "./Dist/index.d.ts",
+  "scripts": {
+    "prepare": "tsc",
+    "watch": "tsc -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  }
+}
