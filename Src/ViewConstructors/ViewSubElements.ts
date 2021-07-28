@@ -269,12 +269,12 @@ export abstract class ViewSubElements extends ViewModifiers {
 	}
 	/** ↔︎ */ public HGridTemplate(values: GridTrackClass[], repeat?: GridTrackRepeat | number): this {
 		this.isGrid = true;
-		this.styles.set('grid-template-columns', repeat ? `repeat(${values.join(' ')},${repeat})` : values.join(' '));
+		this.styles.set('grid-template-columns', repeat ? `repeat(${repeat},${values.join(' ')})` : values.join(' '));
 		return this
 	}
 	/** ↕︎ */ public VGridTemplate(values: GridTrackClass[], repeat?: GridTrackRepeat | number): this {
 		this.isGrid = true;
-		this.styles.set('grid-template-rows', repeat ? `repeat(${values.join(' ')},${repeat})` : values.join(' '));
+		this.styles.set('grid-template-rows', repeat ? `repeat(${repeat},${values.join(' ')})` : values.join(' '));
 		return this
 	}
 	/** ↔︎ */ public HGridTemplateAuto(...values: GridTrackClass[]): this {
