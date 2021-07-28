@@ -1,5 +1,6 @@
 import type { View } from "../Elements/View";
 import type { ColorMode } from "../Data/PageData/PageDataColorMode";
+import type { ManifestItem } from "./Components/ManifestItem";
 import { AppCoreClass } from "./Components/AppCore";
 
 
@@ -8,8 +9,8 @@ import { AppCoreClass } from "./Components/AppCore";
 
 
 
-/** @deprecated */
-export const App = new class AppNavigationClass {
+
+export const App = new class AppClass {
 
 	public readonly core: AppCoreClass = new AppCoreClass
 
@@ -25,26 +26,10 @@ export const App = new class AppNavigationClass {
 			return view
 		}
 	}
-	// public errorPath<V extends new (error: Error) => View>(view: V): V { this.system.addErrorPath(view); return view }
-	// public notFoundPath<V extends new () => View>(view: V): V { console.log(this); this.system.addNotFoundPath(view); return view }
-	public rootPath(value: string, colorMode?: ColorMode): <V extends new () => View>(view: V) => V {
-		return view => {
-			this.core.addPath(view, value, true, false, colorMode);
-			return view
-		}
-	}
-	public partPath(value: string, colorMode?: ColorMode): <V extends new () => View>(view: V) => V {
-		return view => {
-			this.core.addPath(view, value, false, false, colorMode);
-			return view
-		}
-	}
-	public genericPath(value: string, colorMode?: ColorMode): <V extends new (id: string) => View>(view: V) => V {
-		return view => {
-			this.core.addPath(view, value, false, true, colorMode);
-			return view
-		}
-	}
+
+
+	public useManifest(...value: ManifestItem<any, any>[]): void { this.core.addManifest(value); }
+
 
 	/** 
 	 * * priorety 2 
