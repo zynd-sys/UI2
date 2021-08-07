@@ -250,26 +250,18 @@ export abstract class ViewModifiers extends ViewBuilder {
 	public alignSelf(value?: ContentAlign): this { if (value) this.styles.set('align-self', value); return this }
 	public justifySelf(value?: ContentAlign): this { if (value) this.styles.set('justify-self', value); return this }
 	public scrollSnapAlignSelf(value?: Align): this { if (value) this.styles.set('scroll-snap-align', value); return this }
-	/** 
-	 * ↕︎ 
-	 * @inDevelop 
-	 */
-	public VGridLines(start: number, end?: number, cover?: boolean): this {
-		this.styles.set('grid-row-start', start);
-		if (end) this.styles.set('grid-row-end', cover ? 'span ' + end : end);
+	/** ↕︎  */
+	public VGridLines(start?: number, end?: number, endSpan?: boolean): this {
+		if (start) this.styles.set('grid-row-start', start);
+		if (end) this.styles.set('grid-row-end', endSpan ? 'span ' + end : end);
 		return this
 	}
-	// /** ↕︎ */ public VGridCover(value: number): this { this.styles.set('grid-row', `sapn ${value}`); return this }
-	/** 
-	 * ↔︎ 
-	 * @inDevelop
-	 */
-	public HGridLines(start: number, end?: number, cover?: boolean): this {
-		this.styles.set('grid-column-start', start);
-		if (end) this.styles.set('grid-column-end', cover ? 'span ' + end : end);
+	/** ↔︎ */
+	public HGridLines(start?: number, end?: number, endSpan?: boolean): this {
+		if (start) this.styles.set('grid-column-start', start);
+		if (end) this.styles.set('grid-column-end', endSpan ? 'span ' + end : end);
 		return this
 	}
-	// /** ↔︎ */ public HGridCover(value: number): this { this.styles.set('grid-column', `sapn ${value}`); return this }
 
 
 
@@ -295,7 +287,7 @@ export abstract class ViewModifiers extends ViewBuilder {
 			.set('transition-property', 'all')
 			.set('transition-duration', duration.toString() + 'ms');
 		if (delay) this.styles.set('transition-delay', delay.toString() + 'ms');
-		if(timingFunction) this.styles.set('transition-timing-function', timingFunction);
+		if (timingFunction) this.styles.set('transition-timing-function', timingFunction);
 		return this
 	}
 	// /** @deprecated */
