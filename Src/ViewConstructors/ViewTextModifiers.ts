@@ -98,7 +98,7 @@ export abstract class ViewTextModifiers extends ViewModifiers {
 	/** @param value defualt true */
 	public oneLine(value: boolean = true): this { if (value) this.styles.set('white-space', TextSpacing.nowrap); return this }
 	/** @param value defualt true */
-	public unwrap(value: boolean = true): this { if (value) this.styles.set('overflow-wrap', 'normal').set('hyphens', 'none').set('-webkit-hyphens', 'none'); return this }
+	public hyphens(value: boolean = true): this { if (value) this.styles.set('overflow-wrap', 'normal').set('hyphens', 'auto').set('-webkit-hyphens', 'auto'); return this }
 	/** @param value defualt true */
 	public underline(value: boolean = true): this { if (value) this.styles.set('text-decoration', 'underline'); return this }
 	/** @param value defualt true */

@@ -87,8 +87,8 @@ ui-layer[layer="app"] > ui-view > * {
 	/* text-transform: inherit; */
 
 	overflow-wrap: break-word;
-	-webkit-hyphens: auto;
-	hyphens: auto;
+	/* -webkit-hyphens: auto;
+	hyphens: auto; */
 	text-overflow: ellipsis;
 }
 a {
