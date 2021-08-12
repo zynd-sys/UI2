@@ -197,34 +197,30 @@ export class UIAnimationClass<A extends AnimationResize> {
 		if (keyFrames.transform) keyFrames.transform = keyFrames.transform.map(v => v.toString());
 		return keyFrames
 	}
-	protected getDestroyKeyFrames(element: HTMLElement) {
+
+	protected getKeyFrames(element: HTMLElement, revers?: boolean) {
 		let keyFrames = Object.assign({ 'overflow': ['hidden', 'hidden'] }, this.keyFrames);
 
-		if (element.parentElement?.style.flexDirection == 'row') {
-			keyFrames.minWidth = ['0', '0'];
-			keyFrames.width = [`${element.clientWidth}px`, '0'];
-		} else {
-			keyFrames.minHeight = ['0', '0'];
-			keyFrames.height = [`${element.clientHeight}px`, '0'];
-		}
-		if (element.style.margin) keyFrames.margin = [element.style.margin, '0'];
-		if (element.style.padding) keyFrames.padding = [element.style.padding, '0'];
-		this.getGeneralKeyFrames(keyFrames);
+		const isRow = element.parentElement?.style.flexDirection == 'row';
+		const isTextConteainer = element.classList.contains('text-conteainer');
 
-		return keyFrames
-	}
-	protected getCreateKeyFrames(element: HTMLElement) {
-		let keyFrames = Object.assign({ 'overflow': ['hidden', 'hidden'] }, this.keyFrames);
-
-		if (element.parentElement?.style.flexDirection == 'row') {
+		if (isRow || isTextConteainer) {
 			keyFrames.minWidth = ['0', '0'];
 			keyFrames.width = ['0', `${element.clientWidth}px`];
-		} else {
+			if (revers) keyFrames.width.reverse();
+		}
+		if (!isRow || isTextConteainer) {
 			keyFrames.minHeight = ['0', '0'];
 			keyFrames.height = ['0', `${element.clientHeight}px`];
+			if (revers) keyFrames.height.reverse();
 		}
+
 		if (element.style.margin) keyFrames.margin = ['0', element.style.margin];
 		if (element.style.padding) keyFrames.padding = ['0', element.style.padding];
+		if (revers) {
+			keyFrames.margin?.reverse();
+			keyFrames.padding?.reverse();
+		}
 		this.getGeneralKeyFrames(keyFrames);
 
 		return keyFrames
@@ -244,10 +240,10 @@ export class UIAnimationClass<A extends AnimationResize> {
 		let promise: Promise<AnimatedStyles>;
 		switch (this.options.reSize) {
 			case AnimationResize.none: promise = Promise.resolve(this.getGeneralKeyFrames(Object.assign({}, this.keyFrames))); break;
-			case AnimationResize.destroy: promise = Promise.resolve(this.getDestroyKeyFrames(element)); break;
+			case AnimationResize.destroy: promise = Promise.resolve(this.getKeyFrames(element, true)); break;
 			case AnimationResize.create:
-				if (element.isConnected) promise = Promise.resolve(this.getCreateKeyFrames(element))
-				else promise = new Promise(resolve => window.requestAnimationFrame(() => resolve(this.getCreateKeyFrames(element))))
+				if (element.isConnected) promise = Promise.resolve(this.getKeyFrames(element))
+				else promise = new Promise(resolve => window.requestAnimationFrame(() => resolve(this.getKeyFrames(element))))
 				break;
 
 			default: throw new Error('not found animation type ' + this.options.reSize)
