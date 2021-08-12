@@ -158,6 +158,7 @@ export class ToggleView extends ViewSubElements {
 			};
 			this.HTMLElement.HTMLInput.type = 'checkbox';
 			this.HTMLElement.HTMLInput.addEventListener('change', this.mainHandler);
+			this.HTMLElement.HTMLInput.checked = this.state
 			this.renderModifiers(this.HTMLElement.parent, undefined, withAnimatiom)
 
 			let htmlElements = this.generateContentElements(this.content);
