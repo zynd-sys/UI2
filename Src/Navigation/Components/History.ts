@@ -82,38 +82,38 @@ export class AppHistoryClass {
 
 
 		let manifestItem: ManifestItem<string, new (...p: any[]) => View> | undefined;
+		if (pathSplit.length == 1) {
+			for (let item of manifest) if (item.pathType == PathType.root && item.path == '') { manifestItem = item; break }
+			if (manifestItem) return manifestItem
+			throw new NotFoundError('not found start page manifest')
+		}
+
 		for (let i = 1; i < pathSplit.length; i++) {
 			let partPath: string = pathSplit[i];
 
 			let checkGeneric = pathSplit[i].match(/(.+)~(.+)/);
-			if (checkGeneric) partPath = checkGeneric[1];
+			let genericValue: string | undefined;
+			if (checkGeneric) { partPath = checkGeneric[1]; genericValue = checkGeneric[2] };
 
 			let addPath: string | undefined
-			for (let item of manifest) {
-				if (item.pathType == PathType.root && i != 1) throw new Error(`manifest item is root path type. manifest.path: ${item.path}`)
+			for (let item of manifest)
+				if (item.path == partPath || (item.redirectsValue && item.redirectsValue.includes(partPath))) {
+					manifestItem = item;
+					addPath = item.pathType == PathType.generic && genericValue ? item.path + '~' + genericValue : item.path;
+					break
+				}
 
-				if (item.path == partPath) {
-					manifestItem = item;
-					addPath = item.pathType == PathType.generic ? pathSplit[i] : partPath;
-					break
-				}
-				else if (item.redirectsValue && item.redirectsValue.includes(partPath)) {
-					manifestItem = item;
-					addPath = item.path;
-					break
-				}
-			}
+			if (manifestItem && manifestItem.pathType == PathType.root && i != 1) throw new NotFoundError(`manifestItem("${manifestItem.path}") is root path type`)
 			if (addPath) newPath.push(addPath);
-			else new NotFoundError(url)
+			else throw new NotFoundError(`not found path: ${url}`)
 		}
 
-		if (!manifestItem) for (let item of manifest) { if (item.pathType == PathType.root && item.path == '') { manifestItem = item; break } }
-
-		let newURL = newPath.join('/')
-		if (newURL != pathSplit.join('/')) window.history.replaceState(undefined, '', newURL)
-
-		if (manifestItem) return manifestItem
-		else throw new Error('not found manifest item')
+		if (manifestItem) {
+			let newURL = newPath.join('/')
+			if (newURL != pathSplit.join('/')) window.history.replaceState(undefined, '', newURL)
+			return manifestItem
+		}
+		throw new NotFoundError('not found manifest item')
 	}
 
 
