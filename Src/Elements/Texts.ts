@@ -68,7 +68,7 @@ export class TextsView extends ViewTextModifiers {
 	 * @param value default true
 	 * @inDevelop
 	 */
-	public textScaleToFill(value: boolean = true): this { if (value) { this.unwrap(); this.scaling = value; } return this }
+	public textScaleToFill(value: boolean = true): this { if (value) { this.unwrapWord(); this.scaling = value; }; return this }
 
 
 
