@@ -105,16 +105,10 @@ export abstract class ViewSubElements extends ViewModifiers {
 				continue
 			}
 
-
-			// if (!itemNow || (itemNow instanceof View && itemNew instanceof View)) {
-			// 	targetContent[index] = itemNew;
-			// 	arr.push(itemNew.render(itemNow)); // animation
-			// 	return arr
-			// }
-
 			if (itemNow.constructor != itemNew.constructor) {
 				targetContent[i] = itemNew;
-				itemNow.destroy(animation);
+				let result = itemNow.destroy(animation);
+				if (result instanceof Promise) HTMLElementList.push(result)
 				itemNow = itemNew;
 				itemNew = undefined;
 			}
