@@ -32,7 +32,7 @@ export interface SubElementsStyles extends StylesInterface {
 	'grid-template-rows'?: string
 	'grid-auto-columns'?: string
 	'grid-auto-rows'?: string
-	'grid-auto-flow'?: Direction.vertical | Direction.horizontal;
+	'grid-auto-flow'?: `${Direction.horizontal | Direction.vertical} dense`;
 
 	'flex-wrap'?: 'nowrap' | 'wrap'
 	'flex-direction'?: Direction
@@ -172,7 +172,7 @@ export abstract class ViewSubElements extends ViewModifiers {
 			if (list.contains('depth') && (this.isGrid || this.directionToken != Direction.depth)) list.remove('depth')
 			else if (this.directionToken)
 				if (this.directionToken == Direction.depth) list.add('depth');
-				else this.styles.set(this.isGrid ? 'grid-auto-flow' : 'flex-direction', this.directionToken)
+				else this.isGrid ? this.styles.set('grid-auto-flow', `${this.directionToken} dense`) : this.styles.set('flex-direction', this.directionToken)
 
 			if (this.isScroll) { if (!list.contains('scroll')) list.add('scroll') }
 			else if (list.contains('scroll')) list.remove('scroll')
@@ -186,7 +186,7 @@ export abstract class ViewSubElements extends ViewModifiers {
 
 		if (this.directionToken)
 			if (this.directionToken == Direction.depth) { if (!this.isGrid) list.add('depth') }
-			else this.styles.set(this.isGrid ? 'grid-auto-flow' : 'flex-direction', this.directionToken)
+			else this.isGrid ? this.styles.set('grid-auto-flow', `${this.directionToken} dense`) : this.styles.set('flex-direction', this.directionToken)
 
 		if (this.isScroll) list.add('scroll')
 
