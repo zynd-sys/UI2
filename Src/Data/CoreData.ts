@@ -26,7 +26,7 @@ class CoreDataDBClass {
 
 
 	protected async unloadPage() {
-		this.coreDataStorage.forEach(async (id, value) => {
+		this.coreDataStorage.forEach(async (_, value) => {
 			value.lastOpen = Date.now();
 			await (await this.db).put('data',Object.assign({}, value))
 		})

@@ -233,7 +233,7 @@ export namespace Observed {
 			let proxy = new Proxy(this, ProxyHandler as ProxyHandler<this>);
 			if (elements.length) {
 				this[storage].send = false
-				proxy.push(...elements);
+				proxy.concat(elements);
 				this[storage].send = true
 			}
 			return proxy

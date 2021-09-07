@@ -17,7 +17,7 @@ export class PageDataClass extends Observed.Objects {
 
 		let mediaQHover = window.matchMedia('(hover: hover)');
 		this.isTouch = !mediaQHover.matches;
-		mediaQHover.addEventListener('change', event => this.hoverStatus = !event.matches)
+		mediaQHover.addEventListener('change', event => this.isTouch = !event.matches)
 
 		// let deviceOrientation = window.matchMedia('(orientation: portrait)');
 		// this.orientationPortrait = deviceOrientation.matches;

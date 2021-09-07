@@ -103,7 +103,7 @@ export class AppCoreClass {
 			this.setAppLayers(viewv, viewParametrs, manifestItem?.colorModeValue);
 			this.urlNow = window.location.pathname;
 
-		} catch (error) { this.setErrorView(error) }
+		} catch (error:any) { this.setErrorView(error) }
 	}
 
 
@@ -221,8 +221,8 @@ export class AppCoreClass {
 
 			this.setAppLayers(await data.view, [generateURL], data.colorModeValue, false);
 
-			
-		} catch (error) {
+
+		} catch (error: any) {
 			if (error instanceof NotFoundError) {
 				console.warn('not found', error.url);
 				this.popoverMod = false;
