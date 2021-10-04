@@ -25,7 +25,6 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 	protected listeners: Listeners<SubElementsListeners<HTMLAnchorElement>> = new Listeners
 	protected attribute?: ElementAttribute<LinkAttribute>
 
-	protected content: (ViewBuilder | undefined)[]
 	protected destination: string
 	protected disablePopover?: boolean
 
@@ -71,8 +70,7 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 	}
 
 	constructor(view: V | LinkPathClass<V>, data: ConstructorParameters<V>, elements: (ViewBuilder | undefined)[]) {
-		super();
-		this.content = elements;
+		super(elements);
 		this.destination = App.core.generateURL(view, data[0]);
 
 		this.listeners.set('click', (_, event) => {

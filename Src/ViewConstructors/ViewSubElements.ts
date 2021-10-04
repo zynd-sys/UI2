@@ -5,6 +5,7 @@ import type { StylesInterface, Styles } from "./Styles/Styles";
 import type { ViewBuilder } from "./ViewBuilder";
 import type { GridTrackClass } from "./Styles/GridTrack";
 import type { GridTrackRepeat } from "./Enum/GridTrackRepeat";
+import { ViewsList } from "./Styles/ListView";
 import { Side } from "./Enum/Side";
 import { Direction } from "./Enum/Direction";
 import { Units } from "./Enum/Units";
@@ -59,97 +60,10 @@ export abstract class ViewSubElements extends ViewModifiers {
 
 	protected abstract styles: Styles<SubElementsStyles>
 	protected abstract listeners?: Listeners<SubElementsListeners<any>>
-	protected abstract content: (ViewBuilder | undefined)[]
+	protected content: ViewsList
 	protected isScroll?: boolean
 	protected isGrid?: boolean
 	protected directionToken?: Direction
-
-
-
-
-
-	protected importProperty(view: ViewSubElements): void {
-		if (view.isScroll) this.isScroll = view.isScroll;
-		if (view.isGrid) this.isGrid = view.isGrid;
-		if (view.directionToken) this.directionToken = view.directionToken;
-		return super.importProperty(view)
-	}
-
-
-
-	protected generateContentElements(targetContent: (ViewBuilder | undefined)[], contentNew?: (ViewBuilder | undefined)[], animation?: boolean): (HTMLElement | Promise<void>)[] {
-		let HTMLElementList: (HTMLElement | Promise<void>)[] = [];
-
-		if (!contentNew) {
-			targetContent.forEach(view => { if (view) HTMLElementList.push(view.render(undefined, this.animations.withChild)) });
-			return HTMLElementList
-		}
-
-
-		for (let i = 0; i < contentNew.length; i++) {
-			let itemNew: ViewBuilder | undefined = contentNew[i];
-			let itemNow: ViewBuilder | undefined = targetContent[i];
-
-			// not new item  (delete old view)
-			if (!itemNew) {
-				let result = itemNow?.destroy(animation);
-				if (result instanceof Promise) HTMLElementList.push(result);
-				targetContent[i] = undefined;
-				continue
-			}
-
-			// not now item  (create new view)
-			if (!itemNow) {
-				targetContent[i] = itemNew;
-				HTMLElementList.push(itemNew.render(undefined, animation));
-				continue
-			}
-
-			if (itemNow.constructor != itemNew.constructor) {
-				targetContent[i] = itemNew;
-				let result = itemNow.destroy(animation);
-				if (result instanceof Promise) HTMLElementList.push(result)
-				itemNow = itemNew;
-				itemNew = undefined;
-			}
-			HTMLElementList.push(itemNow.render(itemNew));
-		}
-
-		if (targetContent.length > contentNew.length) {
-			for (let i = contentNew.length; i < targetContent.length; i++) {
-				let result = targetContent[i]?.destroy(animation);
-				if (result instanceof Promise) HTMLElementList.push(result)
-			};
-			targetContent.length = contentNew.length;
-		}
-		return HTMLElementList
-	}
-
-
-
-	protected renderMainElement(parent: HTMLElement, content: (HTMLElement | Promise<void>)[]): void {
-		if (parent.children.length == 0) {
-			for (let i = 0; i < content.length; i++) {
-				let element = content[i];
-				if (element instanceof Promise) continue
-				parent.appendChild(element)
-			}
-			return
-		};
-
-
-		for (let i = 0; i < content.length; i++) {
-			let elementNow = parent.children.item(i);
-			let elementNew = content[i];
-
-			if (elementNew instanceof Promise || elementNew == elementNow) continue;
-			if (!elementNow) { parent.appendChild(elementNew); continue }
-			elementNow.replaceWith(elementNew);
-		}
-		if (content.length < parent.children.length)
-			for (let i = content.length; i < parent.children.length; i++)
-				parent.children.item(i)?.remove()
-	}
 
 
 
@@ -250,7 +164,7 @@ export abstract class ViewSubElements extends ViewModifiers {
 
 
 
-	public elements(...value: (ViewBuilder | undefined)[]): this { this.content = value; return this }
+	public elements(...value: (ViewBuilder | undefined)[]): this { this.content.replace(value); return this }
 	/** @param value defualt true */
 	public animateChild(value: boolean = true): this { this.animations.withChild = value; return this }
 	/** ⚠️ check browser compatibility https://caniuse.com/?search=gap */
@@ -344,5 +258,14 @@ export abstract class ViewSubElements extends ViewModifiers {
 		})
 
 		return this
+	}
+
+
+
+
+
+	constructor(value: (ViewBuilder | undefined)[]) {
+		super();
+		this.content = new ViewsList(value)
 	}
 }

@@ -16,7 +16,6 @@ export class StackView extends ViewSubElements {
 	protected listeners?: Listeners<SubElementsListeners<HTMLElement>>
 	protected attribute?: ElementAttribute<any>
 
-	protected content: (ViewBuilder | undefined)[]
 	protected HTMLTagName: TagName = 'div'
 
 
@@ -60,10 +59,7 @@ export class StackView extends ViewSubElements {
 		return this.HTMLElement;
 	}
 
-	constructor(elements: (ViewBuilder | undefined)[]) {
-		super();
-		this.content = elements;
-	}
+	constructor(elements: (ViewBuilder | undefined)[]) { super(elements); }
 }
 
 

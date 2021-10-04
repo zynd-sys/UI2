@@ -48,7 +48,6 @@ export class LinkView extends ViewSubElements {
 	protected attribute: ElementAttribute<LinkAttribute> = new ElementAttribute
 
 
-	protected content: (ViewBuilder | undefined)[]
 
 
 	public referrerPolicy(value: ReferrerPolicyOptions): this { this.attribute.set('referrerPolicy', value); return this }
@@ -82,10 +81,9 @@ export class LinkView extends ViewSubElements {
 	}
 
 
-	constructor(path: string | URL, content: (ViewBuilder | undefined)[], action?: (event: Event) => void) {
-		super();
-		this.content = content;
-		this.attribute.set('href', path);
+	constructor(path: string | URL, elements: (ViewBuilder | undefined)[], action?: (event: Event) => void) {
+		super(elements);
+		this.attribute.set('href', path)
 		if (action) this.listeners.set('click', (_, event) => action(event));
 	}
 }

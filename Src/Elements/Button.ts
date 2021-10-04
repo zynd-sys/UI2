@@ -15,8 +15,6 @@ export class ButttonView extends ViewSubElements {
 	protected listeners?: Listeners<SubElementsListeners<HTMLButtonElement>>
 	protected attribute?: ElementAttribute<any>
 
-	protected content: (ViewBuilder | undefined)[]
-
 
 
 
@@ -46,9 +44,9 @@ export class ButttonView extends ViewSubElements {
 	}
 
 	constructor(action: () => void, elements: (ViewBuilder | undefined)[]) {
-		super();
-		this.content = elements;
-		this.safeListeners.set('click', action);
+		super(elements);
+		this.styles.set('touch-action','none');
+		this.safeListeners.set('click', () => action());
 	}
 }
 
