@@ -10,7 +10,7 @@ import { ViewSubElements, SubElementsStyles, SubElementsListeners } from "../Vie
 type TagName = 'section' | 'main' | 'footer' | 'header' | 'aside' | 'nav' | 'article' | 'div' | 'ul' | 'ol' | 'li'
 
 
-export class StackView extends ViewSubElements {
+export class StackView extends ViewSubElements<HTMLElement> {
 	protected HTMLElement?: HTMLElement
 	protected styles: Styles<SubElementsStyles> = new Styles
 	protected listeners?: Listeners<SubElementsListeners<HTMLElement>>
@@ -19,7 +19,14 @@ export class StackView extends ViewSubElements {
 	protected HTMLTagName: TagName = 'div'
 
 
-	public tagName(value: TagName): this { this.HTMLTagName = value; return this }
+	protected merge(newRender: StackView, element: HTMLElement): void {
+		if (this.HTMLTagName != newRender.HTMLTagName) {
+			this.HTMLTagName = newRender.HTMLTagName;
+			this.HTMLElement = document.createElement(this.HTMLTagName);
+			element.replaceWith(this.HTMLElement);
+		}
+	}
+	protected generateHTMLElement(): HTMLElement { return document.createElement(this.HTMLTagName); }
 
 
 
@@ -28,36 +35,9 @@ export class StackView extends ViewSubElements {
 		return super.importProperty(view)
 	}
 
-	public render(newRender?: StackView, withAnimatiom?: boolean): HTMLElement {
-
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined }
-			this.HTMLElement = document.createElement(this.HTMLTagName);
-
-			this.renderMainElement(this.HTMLElement, this.generateContentElements(this.content));
-			this.renderModifiers(this.HTMLElement, undefined, withAnimatiom);
-			return this.HTMLElement
-		}
 
 
-		// not update
-		if (!newRender) {
-			this.renderModifiers(this.HTMLElement);
-			return this.HTMLElement
-		}
-
-
-		// update
-		if (this.HTMLTagName != newRender.HTMLTagName) {
-			this.HTMLTagName = newRender.HTMLTagName;
-			this.HTMLElement = document.createElement(this.HTMLTagName)
-		}
-
-		this.renderMainElement(this.HTMLElement, this.generateContentElements(this.content, newRender.content, true));
-		this.renderModifiers(this.HTMLElement, newRender, withAnimatiom);
-		return this.HTMLElement;
-	}
+	public tagName(value: TagName): this { this.HTMLTagName = value; return this }
 
 	constructor(elements: (ViewBuilder | undefined)[]) { super(elements); }
 }

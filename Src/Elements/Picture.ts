@@ -28,6 +28,7 @@ export interface PictureStyleInterface extends StylesInterface {
 
 
 
+export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, image: HTMLImageElement, sources?: Map<ImageMimeType, HTMLSourceElement> }>  {
 
 export class PictureView extends ViewModifiers {
 	protected HTMLElement?: { parent: HTMLPictureElement, image: HTMLImageElement, sources?: Map<ImageMimeType, HTMLSourceElement> }
@@ -81,63 +82,36 @@ export class PictureView extends ViewModifiers {
 	/**
 	 * import: styles, listeners, content, description, stylesImage, sourceArray
 	 */
-	protected importProperty(view: PictureView): ReturnType<ViewModifiers['importProperty']> {
+	protected importProperty(view: PictureView): ReturnType<ViewModifiers<any>['importProperty']> {
 		super.importProperty(view);
 		this.description = view.description;
 		this.sourceMap = view.sourceMap;
 	}
-
-	// protected loadAnimation(event: Event) {
-	// 	let transition = this.styles.get('transition');
-	// 	let options: KeyframeAnimationOptions = {};
-	// 	if (transition) {
-	// 		if (transition.duration) options.duration = transition.duration;
-	// 		// if(transition.delay) options.delay = transition.delay;
-	// 		if (transition.timingFunction) options.easing = transition.timingFunction.toString();
-	// 	}
-
-	// 	if (!options.duration) options.duration = 400;
-
-	// 	(event.target as HTMLImageElement).animate({ opacity: ['0', '1'] }, options)
-	// }
-
-
-
-	public render(newRender?: PictureView, withAnimatiom?: boolean): HTMLElement {
-
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined }
+	protected generateHTMLElement(): { parent: HTMLPictureElement; image: HTMLImageElement; sources?: Map<ImageMimeType, HTMLSourceElement> } {
 			let pictureElement = document.createElement('picture');
 			let imageElement = pictureElement.appendChild(document.createElement('img'));
 			imageElement.alt = this.description;
 			imageElement.src = this.content;
 			imageElement.loading = 'lazy';
 			imageElement.decoding = 'async';
-			// imageElement.addEventListener('load', event => this.loadAnimation(event))
 
-			this.HTMLElement = { parent: pictureElement, image: imageElement }
+		let element: { parent: HTMLPictureElement; image: HTMLImageElement; sources?: Map<ImageMimeType, HTMLSourceElement> } = { parent: pictureElement, image: imageElement }
+		if (this.sourceMap) this.renderSourceMap(pictureElement, element.sources = new Map, this.sourceMap)
 
-			this.renderModifiers(pictureElement, undefined, withAnimatiom);
-			if (this.sourceMap) this.renderSourceMap(pictureElement, this.HTMLElement.sources = new Map, this.sourceMap)
-			return this.HTMLElement.parent
+		return element
+		}
+	protected merge(newRender: PictureView, element: { parent: HTMLPictureElement; image: HTMLImageElement; sources?: Map<ImageMimeType, HTMLSourceElement> | undefined }): void {
+		if (this.description != newRender.description) { this.description = newRender.description; element.image.alt = this.description; }
+		if (this.content != newRender.content) { this.content = newRender.content; element.image.src = this.content; }
+
+		if (this.sourceMap) this.renderSourceMap(element.parent, element.sources ? element.sources : element.sources = new Map, this.sourceMap)
 		}
 
-		// not update
-		if (!newRender) {
-			this.renderModifiers(this.HTMLElement.parent)
-			return this.HTMLElement.parent
-		}
-
-		// update
-		if (this.description != newRender.description) { this.description = newRender.description; this.HTMLElement.image.alt = this.description; }
-		if (this.content != newRender.content) { this.content = newRender.content; this.HTMLElement.image.src = this.content; }
 
 
-		this.renderModifiers(this.HTMLElement.parent, newRender, withAnimatiom);
-		if (this.sourceMap) this.renderSourceMap(this.HTMLElement.parent, this.HTMLElement.sources ? this.HTMLElement.sources : this.HTMLElement.sources = new Map, this.sourceMap)
-		return this.HTMLElement.parent
-	}
+
+
+
 
 
 	public destroy(withAnimatiom?: boolean): Promise<void> | void {

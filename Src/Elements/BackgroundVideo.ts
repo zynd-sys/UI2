@@ -8,13 +8,31 @@ import { FitPositionStyle } from "../ViewConstructors/Styles/CollectableStyles/F
 import { Direction } from "../ViewConstructors/Enum/Direction";
 
 
+
+
+
+
+
+
+
 export interface ViedeoStyleInterface extends StylesInterface {
 	'object-fit'?: MediaFit
 	'object-position'?: FitPositionStyle
 }
 
 
-export class BackgroundVideoView extends ViewModifiers {
+
+
+
+
+
+
+
+
+
+
+export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> implements MediaInterface {
+
 	protected HTMLElement?: HTMLVideoElement
 	protected styles: Styles<ViedeoStyleInterface> = new Styles
 	protected listeners?: Listeners<ListenersInterface<any>>
@@ -31,7 +49,7 @@ export class BackgroundVideoView extends ViewModifiers {
 	}
 
 
-	protected importProperty(view: BackgroundVideoView): ReturnType<ViewModifiers['importProperty']> {
+	protected importProperty(view: BackgroundVideoView): ReturnType<ViewModifiers<any>['importProperty']> {
 		super.importProperty(view);
 		this.loop = view.loop;
 		this.poster = view.poster;
@@ -86,10 +104,15 @@ export class BackgroundVideoView extends ViewModifiers {
 
 
 
-	public render(newRender?: BackgroundVideoView, withAnimatiom?: boolean): HTMLVideoElement {
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined; }
+	protected merge(newRender:BackgroundVideoView,element:HTMLVideoElement): void {
+		if (newRender.poster && this.poster != newRender.poster) { this.poster = newRender.poster; element.poster = this.poster; }
+		if (this.content != newRender.content) { this.content = newRender.content; element.src = this.content; }
+		this.loop = newRender.loop;
+		if (this.loop) element.loop = true;
+
+		this.renderSourceMap(element, newRender.sourceMap);
+	}
+	protected generateHTMLElement(): HTMLVideoElement {
 			let e = this.HTMLElement = document.createElement('video');
 			e.src = this.content;
 			if (this.loop) e.loop = true;
@@ -102,31 +125,9 @@ export class BackgroundVideoView extends ViewModifiers {
 			if (e.disablePictureInPicture) e.disablePictureInPicture();
 			// @ts-ignore
 			if (e.disableRemotePlayback) e.disableRemotePlayback();
-			this.renderModifiers(e, undefined, withAnimatiom);
-			this.renderSourceMap(e)
 
-			return this.HTMLElement
+		return e
 		}
-
-
-		// not update
-		if (!newRender) {
-			this.renderModifiers(this.HTMLElement)
-			return this.HTMLElement
-		}
-
-
-		// update
-		if (newRender.poster && this.poster != newRender.poster) { this.poster = newRender.poster; this.HTMLElement.poster = this.poster; }
-		if (this.content != newRender.content) { this.content = newRender.content; this.HTMLElement.src = this.content; }
-		this.loop = newRender.loop;
-		if (this.loop) this.HTMLElement.loop = true;
-
-		this.renderModifiers(this.HTMLElement, newRender, withAnimatiom);
-		this.renderSourceMap(this.HTMLElement, newRender.sourceMap);
-		return this.HTMLElement
-	}
-
 
 
 	public unInfinity(value: boolean = true): this { this.loop = !value; return this }

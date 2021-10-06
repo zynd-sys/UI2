@@ -38,10 +38,9 @@ import { ScrollIntoSelf } from "./Styles/ScrollIntoSelf"
 
 
 
-export abstract class ViewModifiers extends ViewBuilder {
-	protected abstract content: any
+export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElement }> extends ViewBuilder {
 
-	protected abstract HTMLElement?: HTMLElement | { parent: HTMLElement }
+	protected abstract HTMLElement?: E
 
 	protected abstract styles: Styles<StylesInterface>
 	/** event listeners for html element */
@@ -65,7 +64,7 @@ export abstract class ViewModifiers extends ViewBuilder {
 
 
 	/** import: styles, Listeners, content, isPresentedModals, attribute? */
-	protected importProperty(view: ViewModifiers): void {
+	protected importProperty(view: ViewModifiers<any>): void {
 		this.styles = view.styles;
 		this.content = view.content;
 		this.animations = view.animations;
@@ -75,7 +74,7 @@ export abstract class ViewModifiers extends ViewBuilder {
 		if (view.scrollSafe) this.scrollSafe = view.scrollSafe;
 	}
 
-	protected renderModifiers(element: HTMLElement, newRender?: ViewModifiers, withAnimatiom?: boolean): void {
+	protected renderModifiers(element: HTMLElement, newRender?: ViewModifiers<any>, withAnimatiom?: boolean): void {
 		if (newRender) {
 			if (this.popoverData || newRender.popoverData) {
 				if (this.popoverData && !newRender.popoverData) { this.popoverData.destroy(); this.popoverData = undefined }
@@ -109,21 +108,18 @@ export abstract class ViewModifiers extends ViewBuilder {
 		return
 	}
 
+	protected update(element: E): void { this.renderModifiers(element instanceof HTMLElement ? element : element.parent) }
+	protected abstract generateHTMLElement(): E
+	protected abstract merge?(newRender: ViewModifiers<any>, HTMLElement: E): void
 
 
-	public destroy(withAnimatiom?: boolean): Promise<void> | void {
-		if (!this.HTMLElement) return
-		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
-
-		if (withAnimatiom) return this.animations.animateDestruction(element)?.then(() => { element.remove(); this.HTMLElement = undefined })
-		element.remove();
-		this.HTMLElement = undefined
-		return
-
-	}
 
 
-	public abstract render(newRender?: ViewModifiers, withAnimatiom?: boolean, ...param: any[]): HTMLElement
+
+
+
+
+
 
 
 
@@ -422,4 +418,54 @@ export abstract class ViewModifiers extends ViewBuilder {
 	}
 	// public onDoubleClick(value?: Listeners['doubleClick']): this { this.listeners.doubleClick = value; return this }
 	// public onContextMenu(value?: Listeners['contextMenu']): this { this.listeners.contextMenu = value; return this }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public render(newRender?: ViewModifiers<any>, withAnimatiom?: boolean): HTMLElement {
+		// first render
+		if (!this.HTMLElement) {
+			if (newRender) { this.importProperty(newRender); newRender = undefined; }
+			this.HTMLElement = this.generateHTMLElement();
+			let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+			this.renderModifiers(element, undefined, withAnimatiom);
+			return element
+		}
+
+		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+		// not update
+		if (!newRender) { this.update(this.HTMLElement); return element }
+
+		// update
+		if (this.merge) this.merge(newRender, this.HTMLElement);
+		this.renderModifiers(element, newRender, withAnimatiom);
+		return element;
+	}
+
+	public destroy(withAnimatiom?: boolean): Promise<void> | void {
+		if (!this.HTMLElement) return
+		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+
+		if (withAnimatiom) return this.animations.animateDestruction(element)?.then(() => { element.remove(); this.HTMLElement = undefined })
+		element.remove();
+		this.HTMLElement = undefined
+		return
+
+	}
 }

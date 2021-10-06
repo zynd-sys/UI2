@@ -40,13 +40,28 @@ export interface LinkAttribute extends ElementAttributeInterface {
 
 
 
-export class LinkView extends ViewSubElements {
+export class LinkView extends ViewSubElements<HTMLAnchorElement> {
 	protected HTMLElement?: HTMLAnchorElement
 
 	protected styles: Styles<SubElementsStyles> = new Styles
 	protected listeners: Listeners<SubElementsListeners<HTMLAnchorElement>> = new Listeners
 	protected attribute: ElementAttribute<LinkAttribute> = new ElementAttribute
 
+	// protected destination: string
+
+	protected merge?(): void
+	// protected merge(newRender:LinkView,element:HTMLAnchorElement): void {
+	// 	if(newRender.destination != element.href) element.href = this.destination = newRender.destination;
+	// }
+	// protected importProperty(view:LinkView):void {
+	// 	this.destination = view.destination;
+	// 	return super.importProperty(view)
+	// }
+	protected generateHTMLElement(): HTMLAnchorElement {
+		let element = document.createElement('a');
+		// element.href = this.destination;
+		return element
+	}
 
 
 
@@ -56,29 +71,6 @@ export class LinkView extends ViewSubElements {
 	public download(value: boolean | string = true): this { if (value == true || typeof value == 'string') this.attribute.set('download', value); return this }
 
 
-	public render(newRender?: LinkView, withAnimatiom?: boolean): HTMLAnchorElement {
-
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined }
-			this.HTMLElement = document.createElement('a');
-
-			this.renderMainElement(this.HTMLElement, this.generateContentElements(this.content));
-			this.renderModifiers(this.HTMLElement, undefined, withAnimatiom);
-			return this.HTMLElement
-		}
-
-		// not update
-		if (!newRender) {
-			this.renderModifiers(this.HTMLElement);
-			return this.HTMLElement
-		}
-
-		// update
-		this.renderMainElement(this.HTMLElement, this.generateContentElements(this.content, newRender.content, true));
-		this.renderModifiers(this.HTMLElement, newRender, withAnimatiom);
-		return this.HTMLElement
-	}
 
 
 	constructor(path: string | URL, elements: (ViewBuilder | undefined)[], action?: (event: Event) => void) {

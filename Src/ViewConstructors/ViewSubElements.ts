@@ -55,8 +55,7 @@ export interface SubElementsListeners<E extends HTMLElement> extends ListenersIn
 
 
 
-export abstract class ViewSubElements extends ViewModifiers {
-	protected abstract HTMLElement?: HTMLElement | { parent: HTMLElement }
+export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElement }> extends ViewModifiers<E> {
 
 	protected abstract styles: Styles<SubElementsStyles>
 	protected abstract listeners?: Listeners<SubElementsListeners<any>>
@@ -69,7 +68,7 @@ export abstract class ViewSubElements extends ViewModifiers {
 
 
 
-	protected renderModifiers(element: HTMLElement, newRender?: ViewSubElements, withAnimatiom?: boolean): ReturnType<ViewModifiers['renderModifiers']> {
+	protected renderModifiers(element: HTMLElement, newRender?: ViewSubElements<any>, withAnimatiom?: boolean): ReturnType<ViewModifiers<any>['renderModifiers']> {
 		const list = element.classList;
 
 		if (newRender) {
@@ -95,7 +94,7 @@ export abstract class ViewSubElements extends ViewModifiers {
 		}
 
 
-		list.add('container');
+		// list.add('container');
 		if (this.isGrid) list.add('grid');
 
 		if (this.directionToken)
@@ -108,40 +107,18 @@ export abstract class ViewSubElements extends ViewModifiers {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public abstract render(newRender?: ViewSubElements, withAnimatiom?: boolean, ...param: any[]): HTMLElement
-
-	public destroy(withAnimatiom?: boolean): Promise<void> | void {
-		if (withAnimatiom && this.HTMLElement) {
-			if (this.animations.withChild) {
-				let animations = this.content.map(v => v?.destroy(true));
-				animations.push(
-					this.animations.animateDestruction(this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent)
-						?.then(() => super.destroy())
-				)
-				return Promise.all(animations).then(() => { if (this.HTMLElement) super.destroy() });
-			}
-			return super.destroy(withAnimatiom)?.then(() => this.content.forEach(element => element?.destroy()))
-		}
-
-		this.content.forEach(element => element?.destroy());
-		return super.destroy()
+	protected importProperty(view: ViewSubElements<any>): void {
+		if (view.isScroll) this.isScroll = view.isScroll;
+		if (view.isGrid) this.isGrid = view.isGrid;
+		if (view.directionToken) this.directionToken = view.directionToken;
+		return super.importProperty(view)
 	}
+
+
+
+
+	protected abstract merge?(newRender: ViewSubElements<any>, HTMLElement: E): void
+
 
 
 
@@ -259,6 +236,74 @@ export abstract class ViewSubElements extends ViewModifiers {
 
 		return this
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public render(newRender?: ViewSubElements<any>, withAnimatiom?: boolean): HTMLElement {
+		// first render
+		if (!this.HTMLElement) {
+			if (newRender) { this.importProperty(newRender); newRender = undefined; }
+			this.HTMLElement = this.generateHTMLElement();
+			let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+			element.classList.add('container');
+
+			this.content.render(element, withAnimatiom || this.animations.withChild);
+			this.renderModifiers(element, undefined, withAnimatiom);
+
+			return element
+		}
+
+		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+		// not change
+		if (!newRender) { this.update(this.HTMLElement); return element }
+
+		// changes
+		if (this.merge) this.merge(newRender, this.HTMLElement);
+		this.content.render(element, true, newRender.content);
+		this.renderModifiers(element, newRender, withAnimatiom);
+		return element;
+	}
+
+
+
+
+
+	public destroy(withAnimatiom?: boolean): Promise<void> | void {
+		if (withAnimatiom && this.HTMLElement) {
+			if (this.animations.withChild) {
+				let animations = this.content.map(v => v?.destroy(true));
+				animations.push(
+					this.animations.animateDestruction(this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent)
+						?.then(() => super.destroy())
+				)
+				return Promise.all(animations).then(() => { if (this.HTMLElement) super.destroy() });
+			}
+			return super.destroy(withAnimatiom)?.then(() => void this.content.forEach(element => element?.destroy()))
+		}
+
+		this.content.forEach(element => element?.destroy());
+		return super.destroy()
+	}
+
+
+
+
+
 
 
 

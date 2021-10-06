@@ -81,7 +81,7 @@ type TextAutocomplete = 'off' | 'on'
 
 
 /** @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement */
-export class TextFieldView extends ViewTextModifiers {
+export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLTextAreaElement> {
 	protected HTMLElement?: HTMLInputElement | HTMLTextAreaElement
 
 	protected styles: Styles<StylesInterface> = new Styles
@@ -97,6 +97,31 @@ export class TextFieldView extends ViewTextModifiers {
 		this.isWrap = view.isWrap;
 		return super.importProperty(view)
 	}
+
+
+	protected merge(newRender: TextFieldView, element: HTMLInputElement | HTMLTextAreaElement): void {
+		this.content = newRender.content;
+		if (this.isWrap != newRender.isWrap) {
+			this.isWrap = newRender.isWrap;
+			let newElement = document.createElement(this.isWrap ? 'textarea' : 'input')
+			element.replaceWith(newElement);
+			this.HTMLElement = element = newElement;
+		}
+		if (element.value != this.content) element.value = this.content;
+	}
+	protected generateHTMLElement(): HTMLInputElement | HTMLTextAreaElement {
+		let element = document.createElement(this.isWrap ? 'textarea' : 'input');
+		element.value = this.content;
+		return element
+	}
+
+
+
+
+
+
+
+
 
 
 	// spellcheck?
@@ -119,38 +144,6 @@ export class TextFieldView extends ViewTextModifiers {
 
 
 
-	public render(newRender?: TextFieldView, withAnimatiom?: boolean): HTMLElement | HTMLTextAreaElement {
-
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined; }
-			this.HTMLElement = document.createElement(this.isWrap ? 'textarea' : 'input');
-			this.HTMLElement.value = this.content;
-
-			this.renderModifiers(this.HTMLElement, undefined, withAnimatiom);
-			return this.HTMLElement
-		}
-
-		// not update
-		if (!newRender) {
-			this.renderModifiers(this.HTMLElement)
-			return this.HTMLElement
-		}
-
-
-		// update
-		this.content = newRender.content;
-		if (this.isWrap != newRender.isWrap) {
-			this.isWrap = newRender.isWrap;
-			let newElement = document.createElement(this.isWrap ? 'textarea' : 'input')
-			this.HTMLElement.replaceWith(newElement);
-			this.HTMLElement = newElement;
-		}
-		if (this.HTMLElement.value != this.content) this.HTMLElement.value = this.content
-		this.renderModifiers(this.HTMLElement, newRender, withAnimatiom);
-		return this.HTMLElement
-	}
-
 
 
 
@@ -165,41 +158,3 @@ export class TextFieldView extends ViewTextModifiers {
 }
 
 export function TextField(placeHolder: string, value: string, onInput: (value: string) => void): TextFieldView { return new TextFieldView(placeHolder, value, onInput) }
-
-
-
-
-
-
-
-
-
-// let inputElement = document.createElement('textarea');
-// inputElement.style.display = 'block';
-// inputElement.style.resize = 'none';
-// // inputElement.style.width = '20px';
-// inputElement.style.transition = 'all 600ms';
-// inputElement.style.overflow = 'hidden';
-// inputElement.style.padding = '4px'
-// inputElement.rows = 2;
-// inputElement.cols = 1;
-
-// // let beforeinputValue: undefined | number = undefined;
-// // inputElement.addEventListener('beforeinput', () => { if (inputElement.scrollHeight != inputElement.clientHeight) beforeinputValue = inputElement.scrollHeight })
-
-// inputElement.addEventListener('input', () => {
-// 	let startHeight = inputElement.clientHeight;
-// 	inputElement.style.height = 'auto';
-
-// 	console.log(inputElement.scrollHeight, inputElement.clientHeight)
-// 	if (inputElement.scrollHeight != inputElement.clientHeight) {
-// 		inputElement.animate({ height: [startHeight + 'px', inputElement.scrollHeight + 'px'] }, {
-// 			duration: parseInt(inputElement.style.getPropertyValue('transition-duration')),
-// 			composite: 'replace'
-// 		}).onfinish = () => { inputElement.style.height = inputElement.scrollHeight + 'px' };
-// 	}
-// 	// inputElement.style.height = inputElement.scrollHeight + 'px'
-// })
-// document.body.style.height = '200vh';
-// document.body.appendChild(inputElement)
-// if (inputElement.scrollHeight > inputElement.clientHeight) inputElement.style.height = inputElement.scrollHeight + 'px'

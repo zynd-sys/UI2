@@ -18,7 +18,8 @@ import { App } from "../Navigation/App"
 
 
 
-export class NavigationLinkView<V extends (new (...args: any) => View)> extends ViewSubElements {
+export class NavigationLinkView<V extends (new (...args: any) => View)> extends ViewSubElements<HTMLAnchorElement> {
+	
 	protected HTMLElement?: HTMLAnchorElement
 
 	protected styles: Styles<SubElementsStyles> = new Styles
@@ -28,6 +29,12 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 	protected destination: string
 	protected disablePopover?: boolean
 
+	protected merge(newRender: NavigationLinkView<any>, element: HTMLAnchorElement): void { if (this.destination != newRender.destination) element.href = this.destination = newRender.destination; }
+	protected generateHTMLElement(): HTMLAnchorElement {
+		let element = document.createElement('a');
+		element.href = this.destination;
+		return element
+	}
 
 
 
@@ -42,32 +49,8 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 		super.importProperty(view);
 	}
 
-	public render(newRender?: NavigationLinkView<any>, withAnimatiom?: boolean): HTMLAnchorElement {
 
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined; }
-			this.HTMLElement = document.createElement('a');
-			this.HTMLElement.href = this.destination;
 
-			this.renderModifiers(this.HTMLElement, undefined, withAnimatiom);
-			this.renderMainElement(this.HTMLElement, this.generateContentElements(this.content));
-
-			return this.HTMLElement
-		}
-
-		// not update
-		if (!newRender) {
-			this.renderModifiers(this.HTMLElement);
-			return this.HTMLElement
-		}
-
-		// update
-		if (this.destination != newRender.destination) { this.destination = newRender.destination; this.HTMLElement.href = this.destination }
-		this.renderMainElement(this.HTMLElement, this.generateContentElements(this.content, newRender.content, true));
-		this.renderModifiers(this.HTMLElement, newRender, withAnimatiom);
-		return this.HTMLElement;
-	}
 
 	constructor(view: V | LinkPathClass<V>, data: ConstructorParameters<V>, elements: (ViewBuilder | undefined)[]) {
 		super(elements);

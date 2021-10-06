@@ -8,7 +8,7 @@ import { ViewSubElements, SubElementsStyles, SubElementsListeners } from "../Vie
 
 
 
-export class ButttonView extends ViewSubElements {
+export class ButttonView extends ViewSubElements<HTMLButtonElement> {
 	protected HTMLElement?: HTMLButtonElement
 
 	protected styles: Styles<SubElementsStyles> = new Styles
@@ -17,31 +17,8 @@ export class ButttonView extends ViewSubElements {
 
 
 
-
-
-	public render(newRender?: ButttonView, withAnimatiom?: boolean): HTMLButtonElement {
-
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined; }
-			this.HTMLElement = document.createElement('button');
-			this.renderModifiers(this.HTMLElement, undefined, withAnimatiom);
-			this.renderMainElement(this.HTMLElement, this.generateContentElements(this.content));
-
-			return this.HTMLElement
-		}
-
-		// not change
-		if (!newRender) {
-			this.renderModifiers(this.HTMLElement);
-			return this.HTMLElement
-		}
-
-		// changes
-		this.renderMainElement(this.HTMLElement, this.generateContentElements(this.content, newRender.content, true));
-		this.renderModifiers(this.HTMLElement, newRender, withAnimatiom);
-		return this.HTMLElement;
-	}
+	protected merge?(): void
+	protected generateHTMLElement(): HTMLButtonElement { return document.createElement('button') }
 
 	constructor(action: () => void, elements: (ViewBuilder | undefined)[]) {
 		super(elements);

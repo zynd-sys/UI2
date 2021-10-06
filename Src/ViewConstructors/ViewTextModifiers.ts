@@ -42,15 +42,11 @@ export interface TextStyles extends StylesInterface {
 
 
 
-export abstract class ViewTextModifiers extends ViewModifiers {
+export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLElement }> extends ViewModifiers<E> {
 
 	protected abstract styles: Styles<TextStyles>
 
 
-	protected renderModifiers(element: HTMLElement, newRender?: ViewTextModifiers, withAnimatiom?: boolean): void {
-		if (!element.isConnected) element.classList.add('text-conteainer')
-		return super.renderModifiers(element, newRender, withAnimatiom);
-	}
 
 
 	// -webkit-line-clamp
@@ -109,4 +105,31 @@ export abstract class ViewTextModifiers extends ViewModifiers {
 	public italic(value: boolean = true): this { if (value) this.styles.set('font-style', 'italic'); return this }
 	/** @param value defualt true */
 	public bold(value: boolean = true): this { if (value) this.styles.set('font-weight', TextWeight.Bold); return this }
+
+
+
+
+
+
+
+	public render(newRender?: ViewModifiers<any>, withAnimatiom?: boolean): HTMLElement {
+		// first render
+		if (!this.HTMLElement) {
+			if (newRender) { this.importProperty(newRender); newRender = undefined; }
+			this.HTMLElement = this.generateHTMLElement();
+			let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+			element.classList.add('text-conteainer')
+			this.renderModifiers(element, undefined, withAnimatiom);
+			return element
+		}
+
+		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+		// not update
+		if (!newRender) { this.update(this.HTMLElement); return element }
+
+		// update
+		if (this.merge) this.merge(newRender, this.HTMLElement);
+		this.renderModifiers(element, newRender, withAnimatiom);
+		return element;
+	}
 }

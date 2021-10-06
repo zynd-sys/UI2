@@ -6,7 +6,8 @@ import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 
 
 
-export class IframeView extends ViewModifiers {
+export class IframeView extends ViewModifiers<HTMLIFrameElement> {
+	
 	protected HTMLElement?: HTMLIFrameElement
 	protected styles: Styles<StylesInterface> = new Styles
 	protected listeners?: Listeners<ListenersInterface<HTMLIFrameElement>>
@@ -15,28 +16,16 @@ export class IframeView extends ViewModifiers {
 
 	protected content: string;
 
-	public render(newRender?: IframeView, withAnimatiom?: boolean): HTMLElement {
-
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined; }
-			this.HTMLElement = document.createElement('iframe');
-			this.HTMLElement.src = this.content;
-			this.renderModifiers(this.HTMLElement, undefined, withAnimatiom);
-			return this.HTMLElement
-		}
-
-		// not update
-		if (!newRender) {
-			this.renderModifiers(this.HTMLElement);
-			return this.HTMLElement
-		}
-
-		// update
-		if (this.content != newRender.content) { this.content = newRender.content; this.HTMLElement.src = this.content }
-		this.renderModifiers(this.HTMLElement, newRender, withAnimatiom);
-		return this.HTMLElement;
+	protected generateHTMLElement(): HTMLIFrameElement {
+		let element = document.createElement('iframe');
+		element.src = this.content;
+		return element
 	}
+	protected merge(newRender:IframeView,HTMLElement:HTMLIFrameElement):void {
+		if (this.content != newRender.content) { this.content = newRender.content; HTMLElement.src = this.content }
+		}
+
+
 
 	constructor(src: string) {
 		super();
