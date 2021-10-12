@@ -100,6 +100,16 @@ a {
 	color: inherit;
 	text-decoration: none;
 }
+.text-conteainer.stack > * { 
+	vertical-align: text-bottom;
+	-webkit-user-select: inherit;
+	user-select: inherit;
+	color: inherit;
+	font: inherit;
+}
+.text-conteainer.stack > .text-conteainer { display: inline-block; }
+.text-conteainer.stack > .container { display: inline-flex; }
+.text-conteainer.stack > .container.grid { display: inline-grid; }
 
 
 
@@ -253,24 +263,30 @@ hr.spacer { flex: 1 0 auto; } */
 button,
 input,
 textarea {
-	border: 0;
 	border-radius: 0;
 	outline: none;
 	box-shadow: none;
 	background-color: transparent;
-	user-select: initial;
-	-webkit-user-select: initial;
 }
-textarea { resize: none; max-width: 100%; }
+input[type=date] {
+	min-height: 54px;
+}
+textarea { 
+	resize: none;
+	max-width: 100%;
+}
+input.text-conteainer,
+textarea.text-conteainer { 
+	user-select: auto;
+	-webkit-user-select: auto;
+}
+
 :-webkit-autofill {
     box-shadow: 0 0 100px #fff inset;
     -webkit-text-fill-color: currentColor;
 }
 
-
-input[type="radio"],
-input[type="checkbox"],
-input[type="file"] {
+.hiddenElement {
 	position: absolute;
 	-webkit-appearance: none;
 	-moz-appearance: none;
