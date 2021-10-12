@@ -20,6 +20,10 @@ export interface PictureStyleInterface extends StylesInterface {
 	'--object-position'?: FitPositionStyle
 }
 
+export interface MediaInterface {
+	mediaFit(value: MediaFit): this
+	mediaPosition(direction: Direction.horizontal | Direction.vertical, value: number, unit?: Units): this
+}
 
 
 
@@ -28,9 +32,8 @@ export interface PictureStyleInterface extends StylesInterface {
 
 
 
-export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, image: HTMLImageElement, sources?: Map<ImageMimeType, HTMLSourceElement> }>  {
+export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, image: HTMLImageElement, sources?: Map<ImageMimeType, HTMLSourceElement> }> implements MediaInterface {
 
-export class PictureView extends ViewModifiers {
 	protected HTMLElement?: { parent: HTMLPictureElement, image: HTMLImageElement, sources?: Map<ImageMimeType, HTMLSourceElement> }
 
 	protected styles: Styles<PictureStyleInterface> = new Styles

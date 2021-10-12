@@ -1,6 +1,7 @@
 import type { MediaFit } from "../ViewConstructors/Enum/MediaFit";
 import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Styles/Attributes";
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners/Listeners";
+import type { MediaInterface } from "./Picture";
 import { Units } from "../ViewConstructors/Enum/Units";
 import { Styles, StylesInterface } from "../ViewConstructors/Styles/Styles";
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers";
@@ -113,21 +114,21 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 		this.renderSourceMap(element, newRender.sourceMap);
 	}
 	protected generateHTMLElement(): HTMLVideoElement {
-			let e = this.HTMLElement = document.createElement('video');
-			e.src = this.content;
-			if (this.loop) e.loop = true;
-			if (this.poster) e.poster = this.poster;
-			e.autoplay = true;
-			e.controls = false;
-			e.muted = true;
-			e.playsInline = true
-			// @ts-ignore
-			if (e.disablePictureInPicture) e.disablePictureInPicture();
-			// @ts-ignore
-			if (e.disableRemotePlayback) e.disableRemotePlayback();
+		let e = this.HTMLElement = document.createElement('video');
+		e.src = this.content;
+		if (this.loop) e.loop = true;
+		if (this.poster) e.poster = this.poster;
+		e.autoplay = true;
+		e.controls = false;
+		e.muted = true;
+		e.playsInline = true
+		// @ts-ignore
+		if (e.disablePictureInPicture) e.disablePictureInPicture();
+		// @ts-ignore
+		if (e.disableRemotePlayback) e.disableRemotePlayback();
 
 		return e
-		}
+	}
 
 
 	public unInfinity(value: boolean = true): this { this.loop = !value; return this }
