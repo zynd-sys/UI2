@@ -8,6 +8,7 @@ export * from './ViewConstructors/ViewTextModifiers'
 
 
 // elements
+export * from './Elements/Form/Styles/ToggleStyle'
 export * from './Elements/Form/FileField'
 export * from './Elements/Form/TextField'
 export * from './Elements/Form/Toggle'

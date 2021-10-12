@@ -7,8 +7,9 @@ import type { View } from "../Elements/View"
 import type { UIAnimationClass } from "./Styles/Animation/UIAnimation"
 import type { AnimationResize } from "./Enum/AnimationResize"
 import type { Color } from "./Styles/Colors/Colors"
+import type { GestureClass } from "./Styles/Listeners/Gesture/Gesture"
 import { ElementAttribute, ElementAttributeInterface } from "./Styles/Attributes"
-import { Listeners, ListenersInterface } from "./Styles/Listeners"
+import { Listeners, ListenersInterface } from "./Styles/Listeners/Listeners"
 import { BorderStyle } from "./Enum/BorderStyle"
 import { Side } from "./Enum/Side"
 import { Units } from "./Enum/Units"
@@ -54,7 +55,8 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 	/**  */
 	protected popoverData?: PopoverData
-	protected scrollSafe?: ScrollIntoSelf
+	protected scrollSelf?: ScrollIntoSelf
+	protected gestureState?: GestureClass<any>
 
 	protected animations: UIAnimationObject = new UIAnimationObject
 
@@ -71,7 +73,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		if (view.attribute) this.attribute = view.attribute;
 		if (view.listeners) this.listeners = view.listeners;
 		if (view.popoverData) this.popoverData = view.popoverData;
-		if (view.scrollSafe) this.scrollSafe = view.scrollSafe;
+		if (view.scrollSelf) this.scrollSelf = view.scrollSelf;
 	}
 
 	protected renderModifiers(element: HTMLElement, newRender?: ViewModifiers<any>, withAnimatiom?: boolean): void {
@@ -81,16 +83,19 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 				else if (newRender.popoverData) { this.popoverData = newRender.popoverData; this.popoverData.render() }
 			}
 
-
 			this.styles = newRender.styles.render(element);
-			if (newRender.listeners) this.listeners = newRender.listeners.render(element);
+			if (newRender.gestureState) {
+				if (this.gestureState) if (this.gestureState.constructor != newRender.gestureState.constructor) console.error('different gesture')
+				else this.gestureState = newRender.gestureState;
+			} else if (this.gestureState) this.gestureState = undefined
+			if (newRender.listeners) this.listeners = newRender.listeners.render(element, this.gestureState);
 			else if (this.listeners) { this.listeners.destroy(element); this.listeners = undefined }
 			if (newRender.attribute) this.attribute = newRender.attribute.render(element)
 			else if (this.attribute) { this.attribute.destroy(element); this.attribute = undefined }
 			if (newRender.scrollObserver) this.scrollObserver = newRender.scrollObserver.render(element)
 			else if (this.scrollObserver) { this.scrollObserver.destroy(element); this.scrollObserver = undefined }
-			if (newRender.scrollSafe) this.scrollSafe = newRender.scrollSafe.render(element)
-			else if (this.scrollSafe) this.scrollSafe = undefined;
+			if (newRender.scrollSelf) this.scrollSelf = newRender.scrollSelf.render(element)
+			else this.scrollSelf = undefined;
 
 			return
 		}
@@ -100,9 +105,9 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 			if (withAnimatiom) this.animations.animateCreation(element)
 			this.popoverData?.render();
 			this.scrollObserver?.render(element);
-			this.listeners?.render(element);
+			this.listeners?.render(element, this.gestureState);
 			this.attribute?.render(element);
-			this.scrollSafe?.render(element)
+			this.scrollSelf?.render(element);
 		}
 
 		return
@@ -159,7 +164,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 	public srcollIntoSelf(isScroll: boolean, onEndScroll: () => void): (HAlign?: Align.start | Align.center | Align.end, VAlign?: Align.start | Align.center | Align.end, animated?: boolean) => this {
-		return (HAlign, VAlign, animated) => { if (isScroll) this.scrollSafe = new ScrollIntoSelf(onEndScroll, HAlign, VAlign, animated ? 'smooth' : undefined); return this }
+		return (HAlign, VAlign, animated) => { if (isScroll) this.scrollSelf = new ScrollIntoSelf(onEndScroll, HAlign, VAlign, animated ? 'smooth' : undefined); return this }
 	}
 
 
@@ -169,7 +174,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	/** @deprecated */
 	public id(value: string): this { this.safeAttribute.set('id', value); return this }
 	/** @param value defualt true */
-	public userSelect(value: boolean = true): this { if (value) this.styles.set('user-select', 'auto'); return this }
+	public userSelect(value: boolean = true): this { if (value) this.styles.set('-webkit-user-select', 'auto').set('user-select', 'auto'); return this }
 	/** @param value defualt "auto" */
 	public cursor(value: cursorType = 'auto'): this { this.styles.set('cursor', value); return this }
 	/**
@@ -205,10 +210,11 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 	public outlineWidth(value: number, unit: Units = Units.px): this { this.styles.set('outline-width', String(value) + unit); return this }
+	public outlineOffset(value: number, unit: Units = Units.px): this { this.styles.set('outline-offset', String(value) + unit); return this }
 	/** @param value defualt BorderStyle.solid */
 	public outlineStyle(value: BorderStyle = BorderStyle.solid): this { this.styles.set('outline-style', value); return this }
 	/** @param value defualt black(#000) */
-	public outlineColor(value: Color = DefaultColor.black): this { this.styles.set('border-color', value); return this }
+	public outlineColor(value: Color = DefaultColor.black): this { this.styles.set('outline-color', value); return this }
 	public borderWidth(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('border-', side, value, unit, '-width'); return this }
 	/** @param value defualt BorderStyle.solid */
 	public borderStyle(value: BorderStyle = BorderStyle.solid): this { this.styles.set('border-style', value); return this }
@@ -240,7 +246,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 	// position
 	/** @param value default true */
-	public positionSticky(value: boolean = true): this { if (value) { this.styles.set('position', 'sticky'); this.styles.set('z-index', 100) }; return this }
+	public positionSticky(value: boolean = true, ZIndex: number = 100): this { if (value) { this.styles.set('position', 'sticky'); this.styles.set('z-index', ZIndex) }; return this }
 	public position(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('', side, value, unit); return this }
 	public orderSelf(value?: number): this { if (value) this.styles.set('order', value); return this }
 	public alignSelf(value?: ContentAlign): this { if (value) this.styles.set('align-self', value); return this }
@@ -286,8 +292,6 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		if (timingFunction) this.styles.set('transition-timing-function', timingFunction);
 		return this
 	}
-	// /** @deprecated */
-	// public transitionTimingFunction(value: TimingFunction | CubicBezier): this { this.styles.set('transition-timing-function', value); return this }
 
 
 
@@ -297,13 +301,13 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 	// shadow
-	public dropShadowOffsetX(value: number, unit = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['offset-x'] = value + unit; return this }
-	public dropShadowOffsetY(value: number, unit = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['offset-y'] = value + unit; return this }
-	public dropShadowBlurRadius(value: number, unit = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['blur-radius'] = value + unit; return this }
+	public dropShadowOffsetX(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['offset-x'] = value + unit; return this }
+	public dropShadowOffsetY(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['offset-y'] = value + unit; return this }
+	public dropShadowBlurRadius(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['blur-radius'] = value + unit; return this }
 	public dropShadowColor(value: Color): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['color'] = value; return this }
-	public innerShadowOffsetX(value: number, unit = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['offset-x'] = value + unit; return this }
-	public innerShadowOffsetY(value: number, unit = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['offset-y'] = value + unit; return this }
-	public innerShadowBlurRadius(value: number, unit = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['blur-radius'] = value + unit; return this }
+	public innerShadowOffsetX(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['offset-x'] = value + unit; return this }
+	public innerShadowOffsetY(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['offset-y'] = value + unit; return this }
+	public innerShadowBlurRadius(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['blur-radius'] = value + unit; return this }
 	public innerShadowColor(value: Color): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['color'] = value; return this }
 
 
@@ -323,8 +327,8 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	 * @param vertical ↕︎ — % percentage
 	 */
 	public transformOrigin(horizontal: number, vertical: number): this { this.styles.set('transform-origin', `${horizontal}% ${vertical}%`); return this }
-	public perspective(value: number, unit = Units.px): this { this.styles.set('perspective', value + unit); return this }
-	public blurEffect(value: number, unit = Units.px, backdrop: boolean = false): this { return this.setFilterPrefix('blur', backdrop, value + unit) }
+	public perspective(value: number, unit: Units = Units.px): this { this.styles.set('perspective', value + unit); return this }
+	public blurEffect(value: number, unit: Units = Units.px, backdrop: boolean = false): this { return this.setFilterPrefix('blur', backdrop, value + unit) }
 	public brightnessEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('brightness', backdrop, value) }
 	public contrastEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('contrast', backdrop, value) }
 	public grayscaleEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('grayscale', backdrop, value) }
@@ -414,6 +418,15 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 			if (action) action(true)
 		})
 		if (action) this.safeListeners.set('dragend', () => action(false))
+		return this
+	}
+	public onTranstionEnd(value: (element: this) => void): this { this.safeListeners.set('transitionend', () => value(this)); return this }
+	public gesture(value: (element: this) => GestureClass<any>): this {
+		this.styles
+			.set('touch-action', 'none')
+			.set('user-select', 'none');
+		this.gestureState = value(this);
+		this.safeListeners.gesture();
 		return this
 	}
 	// public onDoubleClick(value?: Listeners['doubleClick']): this { this.listeners.doubleClick = value; return this }

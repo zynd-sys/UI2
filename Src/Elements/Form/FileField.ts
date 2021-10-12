@@ -1,9 +1,8 @@
 import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder"
-import type { HTMLInputListeners } from "./TextField"
+import { FormElementListeners, SpanView, ViewFormElement } from "../../ViewConstructors/ViewFormElement"
 import { ElementAttributeInterface, ElementAttribute } from "../../ViewConstructors/Styles/Attributes"
-import { Listeners } from "../../ViewConstructors/Styles/Listeners"
+import { Listeners } from "../../ViewConstructors/Styles/Listeners/Listeners"
 import { Styles, StylesInterface } from "../../ViewConstructors/Styles/Styles"
-import { ViewSubElements } from "../../ViewConstructors/ViewSubElements"
 
 
 
@@ -18,14 +17,21 @@ export interface FileFielAttributes extends ElementAttributeInterface {
 
 
 
-export class FileFieldView extends ViewSubElements {
+export class FileFieldView extends ViewFormElement<{ parent: HTMLLabelElement, input: HTMLInputElement }> {
+	protected elementStyleFirst?: boolean
+	protected merge?(): void
+	protected generateAlternativeElement?(): SpanView
+	protected generateHiddenElement(): HTMLInputElement {
+		let element = document.createElement('input');
+		element.type = 'file';
+		return element
+	}
 	protected HTMLElement?: { parent: HTMLLabelElement, input: HTMLInputElement }
 
 	protected styles: Styles<StylesInterface> = new Styles
-	protected listeners: Listeners<HTMLInputListeners<HTMLLabelElement>> = new Listeners
+	protected listeners: Listeners<FormElementListeners<HTMLLabelElement>> = new Listeners
 	protected attribute: ElementAttribute<FileFielAttributes> = new ElementAttribute
 
-	protected content: (ViewBuilder | undefined)[]
 
 
 	/** @param value defualt true */
@@ -41,45 +47,12 @@ export class FileFieldView extends ViewSubElements {
 
 
 
-	public render(newRender?: FileFieldView, withAnimatiom?: boolean): HTMLElement {
-
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined; }
-			this.HTMLElement = { parent: document.createElement('label'), input: document.createElement('input') }
-			this.attribute.render(this.HTMLElement.input);
-
-			let elements = this.generateContentElements(this.content);
-			elements.push(this.HTMLElement.input);
-			this.renderMainElement(this.HTMLElement.parent, elements);
-
-			this.renderModifiers(this.HTMLElement.parent, undefined, withAnimatiom);
-			return this.HTMLElement.parent
-		}
-
-		// not update
-		if (!newRender) {
-			this.renderModifiers(this.HTMLElement.parent);
-			return this.HTMLElement.parent
-		}
-
-		// update
-		let elements = this.generateContentElements(this.content, newRender.content, true);
-		elements.push(this.HTMLElement.input);
-		this.renderMainElement(this.HTMLElement.parent, elements);
-
-		this.renderModifiers(this.HTMLElement.parent, newRender, withAnimatiom);
-		this.attribute = newRender.attribute.render(this.HTMLElement.input);
-		return this.HTMLElement.parent;
-	}
 
 
 
 
-	constructor(onChange: (value: FileList) => void, content: (ViewBuilder | undefined)[]) {
-		super();
-		this.content = content;
-		this.attribute.set('type', 'file');
+	constructor(onChange: (value: FileList) => void, elements: (ViewBuilder | undefined)[]) {
+		super(elements);
 		this.listeners.set('change', element => {
 			let fileList = (element.control as HTMLInputElement | null)?.files;
 			if (!fileList) throw new Error('not found file list')
