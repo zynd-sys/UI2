@@ -1,24 +1,22 @@
-import type { SubElementsListeners } from "../../ViewConstructors/ViewSubElements";
 import { ElementAttributeInterface, ElementAttribute } from "../../ViewConstructors/Styles/Attributes";
 import { Listeners } from "../../ViewConstructors/Styles/Listeners";
 import { Styles, StylesInterface } from "../../ViewConstructors/Styles/Styles";
 import { ViewTextModifiers } from "../../ViewConstructors/ViewTextModifiers";
+import { FormElementListeners } from "../../ViewConstructors/ViewFormElement";
 
 
 
 
 
-export interface HTMLInputListeners<E extends HTMLElement> extends SubElementsListeners<E> {
-	change?: (element: E, event: Event) => void
-	input?: (element: E, event: Event) => void
-}
+
 export interface TextFieldAttributes extends ElementAttributeInterface {
-	placeholder?: string
-	type?: KeyboardStyle
-	autocomplete?: TextAutocomplete
-	maxlength?: number
-	minlength?: number
-	readonly?: boolean
+	'placeholder'?: string
+	'type'?: KeyboardStyle
+	'autocomplete'?: TextAutocomplete
+	'maxlength'?: number
+	'minlength'?: number
+	'readonly'?: boolean
+	'required'?: true
 }
 
 
@@ -85,7 +83,7 @@ export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLText
 	protected HTMLElement?: HTMLInputElement | HTMLTextAreaElement
 
 	protected styles: Styles<StylesInterface> = new Styles
-	protected listeners: Listeners<HTMLInputListeners<HTMLInputElement>> = new Listeners
+	protected listeners: Listeners<FormElementListeners<HTMLInputElement | HTMLTextAreaElement>> = new Listeners
 	protected attribute: ElementAttribute<TextFieldAttributes> = new ElementAttribute
 	protected isWrap: boolean = false
 
@@ -131,6 +129,8 @@ export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLText
 	public maxLength(value: number): this { this.attribute.set('maxlength', value); return this }
 	public minLength(value: number): this { this.attribute.set('minlength', value); return this }
 	/** @param value defualt true */
+	public required(value: boolean = true) { if (value) { this.attribute.set('required', true); this.listeners.set('invalid', (_, e) => e.preventDefault()) }; return this }
+	/** @param value defualt true */
 	public readOnly(value: boolean = true): this { if (value) this.attribute.set('readonly', value); return this }
 	public keyboardStyle(value: KeyboardStyle, autocomplete?: TextAutocomplete): this {
 		this.attribute.set('type', value);
@@ -139,7 +139,8 @@ export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLText
 	}
 
 	public onEndInput(value: (value: string) => void): this { this.listeners.set('change', () => value(this.content)); return this }
-	// public onInput(value: (value: string) => void): this { this.listeners.set('input', element => { this.content.value = element.value; this.content.userInput = true; value(this.content.value) }); return this }
+	/** @param value defualt true */
+	public secureField(value: boolean = true, currentPassword: boolean = true): this { if (value) this.keyboardStyle(KeyboardStyle.password, currentPassword ? 'current-password' : 'new-password'); return this }
 
 
 
