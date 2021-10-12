@@ -19,13 +19,13 @@ class ViewStorage {
 	public HTMLElement?: ViewHTMLElement
 	public renderingContent?: ViewBuilder
 
-	public cancelHandlerStorage: (() => void)[] = []
+	public cancelHandlerStorage: Map<Observed.Interface, () => void> = new Map
 	public isObserved: boolean = false
 }
 
 
 
-export function State(target: View, propertyKey: string): void { (target.constructor as typeof View).listenProperty(propertyKey) }
+export function State(target: View, propertyKey: string): void { (target.constructor as typeof View).addObservedProperty(propertyKey) }
 
 
 
@@ -46,13 +46,13 @@ export abstract class View extends ViewBuilder {
 
 
 	static observedProperty?: Map<string | number | symbol, any>
-	static listenProperty(value: string): void {
+	static addObservedProperty(value: string): void {
 		if (!this.observedProperty) this.observedProperty = new Map;
-		else if (!this.hasOwnProperty('test')) { this.observedProperty = new Map(this.observedProperty.entries()) }
+		else if (!this.hasOwnProperty('observedProperty')) { this.observedProperty = new Map(this.observedProperty.entries()) }
 		this.observedProperty.set(value, undefined);
 	}
 	public addSafeHandler(object: Observed.Interface, target: () => void): this {
-		this[ViewStorageKey].cancelHandlerStorage.push(object.addBeacon(target));
+		this[ViewStorageKey].cancelHandlerStorage.set(object, object.addBeacon(target));
 		return this
 	}
 
@@ -70,22 +70,30 @@ export abstract class View extends ViewBuilder {
 	private setObservedProperty(observedProperty: Map<string | number | symbol, any>): void {
 		const storage = this[ViewStorageKey];
 		const MainHandler = () => this.render();
-		
+
 		observedProperty.forEach((_, propertyName) => {
 			if (typeof propertyName == 'symbol') return
+
 			let value: any = this[propertyName as keyof this];
+			if (Observed.isObserved(value)) storage.cancelHandlerStorage.set(value, value.addBeacon(MainHandler))
 			observedProperty.set(propertyName, value);
-			if (Observed.isObserved(value)) {
-				Object.defineProperty(this, propertyName, {
-					writable: false,
-					configurable: false,
-					value
-				})
-				storage.cancelHandlerStorage.push(value.addBeacon(MainHandler))
-			} else Object.defineProperty(this, propertyName, {
+
+			Object.defineProperty(this, propertyName, {
 				configurable: false,
-				get() { return observedProperty.get(propertyName) },
-				set(v) { observedProperty.set(propertyName, v); MainHandler() }
+				get(): any { return observedProperty.get(propertyName) },
+				set(value: any): void {
+					let oldValue = observedProperty.get(propertyName);
+					observedProperty.set(propertyName, value);
+
+					if (value !== oldValue) {
+						if (Observed.isObserved(oldValue)) {
+							let c = storage.cancelHandlerStorage.get(oldValue);
+							if (c) { c(); storage.cancelHandlerStorage.delete(oldValue) }
+						}
+						if (Observed.isObserved(value)) storage.cancelHandlerStorage.set(value, value.addBeacon(MainHandler))
+					}
+					MainHandler()
+				}
 			})
 		})
 		storage.isObserved = true;
@@ -159,7 +167,7 @@ export abstract class View extends ViewBuilder {
 	public destroy(withAnimatiom?: boolean, destroyContent: boolean = true) {
 		const storage = this[ViewStorageKey];
 		storage.cancelHandlerStorage.forEach(v => v());
-		storage.cancelHandlerStorage.length = 0;
+		storage.cancelHandlerStorage.clear();
 
 
 		if (withAnimatiom) {
