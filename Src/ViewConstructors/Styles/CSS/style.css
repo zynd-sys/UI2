@@ -229,6 +229,13 @@ video {
 }
 
 
+
+
+/* form > .container {
+	align-content: start;
+	align-items: start;
+} */
+
 a.container,
 button.container,
 label.container,
@@ -250,13 +257,19 @@ label { cursor: pointer; }
 
 
 
-/* hr {
+hr {
 	display: block;
-	border-width: 0;
-	margin-block: 0;
-	margin-inline: 0;
+	min-width: 1px;
+	min-height: 1px;
+	justify-self: stretch;
+	align-self: stretch;
+	background-color: #000;
 }
-hr.spacer { flex: 1 0 auto; } */
+hr.spacer {
+	flex-grow: 1;
+	background-color: transparent;
+}
+
 
 
 
