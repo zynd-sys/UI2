@@ -1,6 +1,6 @@
 import type { ViewBuilder } from "../ViewConstructors/ViewBuilder";
 import type { ElementAttribute } from "../ViewConstructors/Styles/Attributes";
-import type { Listeners } from "../ViewConstructors/Styles/Listeners";
+import type { Listeners } from "../ViewConstructors/Styles/Listeners/Listeners";
 import { Styles } from "../ViewConstructors/Styles/Styles";
 import { ViewSubElements, SubElementsStyles, SubElementsListeners } from "../ViewConstructors/ViewSubElements";
 
@@ -10,13 +10,13 @@ import { ViewSubElements, SubElementsStyles, SubElementsListeners } from "../Vie
 
 export class ButttonView extends ViewSubElements<HTMLButtonElement> {
 	protected HTMLElement?: HTMLButtonElement
-
+	
 	protected styles: Styles<SubElementsStyles> = new Styles
 	protected listeners?: Listeners<SubElementsListeners<HTMLButtonElement>>
 	protected attribute?: ElementAttribute<any>
-
-
-
+	
+	
+	
 	protected merge?(): void
 	protected generateHTMLElement(): HTMLButtonElement { return document.createElement('button') }
 

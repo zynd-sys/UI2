@@ -1,5 +1,5 @@
 import { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Styles/Attributes"
-import { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners"
+import { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners/Listeners"
 import { Styles, StylesInterface } from "../ViewConstructors/Styles/Styles"
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 
@@ -23,7 +23,7 @@ export class IframeView extends ViewModifiers<HTMLIFrameElement> {
 	}
 	protected merge(newRender:IframeView,HTMLElement:HTMLIFrameElement):void {
 		if (this.content != newRender.content) { this.content = newRender.content; HTMLElement.src = this.content }
-		}
+	}
 
 
 

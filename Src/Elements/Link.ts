@@ -1,6 +1,6 @@
 import type { ViewBuilder } from "../ViewConstructors/ViewBuilder"
 import { ElementAttributeInterface, ElementAttribute } from "../ViewConstructors/Styles/Attributes"
-import { Listeners } from "../ViewConstructors/Styles/Listeners"
+import { Listeners } from "../ViewConstructors/Styles/Listeners/Listeners"
 import { Styles } from "../ViewConstructors/Styles/Styles"
 import { ViewSubElements, SubElementsStyles, SubElementsListeners } from "../ViewConstructors/ViewSubElements"
 

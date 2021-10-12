@@ -1,6 +1,6 @@
 import type { ViewBuilder } from "../ViewConstructors/ViewBuilder"
 import type { ElementAttribute } from "../ViewConstructors/Styles/Attributes"
-import type { Listeners } from "../ViewConstructors/Styles/Listeners"
+import type { Listeners } from "../ViewConstructors/Styles/Listeners/Listeners"
 import { Direction } from "../ViewConstructors/Enum/Direction"
 import { Styles } from "../ViewConstructors/Styles/Styles"
 import { ViewSubElements, SubElementsStyles, SubElementsListeners } from "../ViewConstructors/ViewSubElements"
@@ -15,10 +15,10 @@ export class StackView extends ViewSubElements<HTMLElement> {
 	protected styles: Styles<SubElementsStyles> = new Styles
 	protected listeners?: Listeners<SubElementsListeners<HTMLElement>>
 	protected attribute?: ElementAttribute<any>
-
+	
 	protected HTMLTagName: TagName = 'div'
-
-
+	
+	
 	protected merge(newRender: StackView, element: HTMLElement): void {
 		if (this.HTMLTagName != newRender.HTMLTagName) {
 			this.HTMLTagName = newRender.HTMLTagName;
@@ -27,7 +27,7 @@ export class StackView extends ViewSubElements<HTMLElement> {
 		}
 	}
 	protected generateHTMLElement(): HTMLElement { return document.createElement(this.HTMLTagName); }
-
+	
 
 
 	protected importProperty(view: StackView): void {
@@ -36,7 +36,7 @@ export class StackView extends ViewSubElements<HTMLElement> {
 	}
 
 
-
+	
 	public tagName(value: TagName): this { this.HTMLTagName = value; return this }
 
 	constructor(elements: (ViewBuilder | undefined)[]) { super(elements); }

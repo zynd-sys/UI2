@@ -1,6 +1,6 @@
 import type { ContentAlign } from "./Enum/ContentAlign";
 import type { ScrollSnapType } from "./Enum/ScrollSnapType";
-import type { ListenersInterface, Listeners } from "./Styles/Listeners";
+import type { ListenersInterface, Listeners } from "./Styles/Listeners/Listeners";
 import type { StylesInterface, Styles } from "./Styles/Styles";
 import type { ViewBuilder } from "./ViewBuilder";
 import type { GridTrackClass } from "./Styles/GridTrack";
@@ -262,7 +262,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 			let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
 			element.classList.add('container');
 
-			this.content.render(element, withAnimatiom || this.animations.withChild);
+			this.content.render(element, this.animations.withChild);
 			this.renderModifiers(element, undefined, withAnimatiom);
 
 			return element

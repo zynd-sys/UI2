@@ -1,6 +1,6 @@
 import type { MediaFit } from "../ViewConstructors/Enum/MediaFit";
 import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Styles/Attributes";
-import type { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners";
+import type { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners/Listeners";
 import { Units } from "../ViewConstructors/Enum/Units";
 import { Styles, StylesInterface } from "../ViewConstructors/Styles/Styles";
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers";

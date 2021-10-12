@@ -1,9 +1,8 @@
-import { HTMLElementDataStorage } from "../../Data/Storages/HTMLElments";
 import { SideStyle } from "./CollectableStyles/SideStyle";
 
 
 
-
+let HTMLElementDataStorage: WeakMap<HTMLElement, ScrollObserverStorage> = new WeakMap()
 
 
 class ScrollObserverStorage {
@@ -47,8 +46,7 @@ export class ScrollObserver {
 	public render(element: HTMLElement): this {
 		if (!this.userHandler) return this
 
-		let HTMLElementData = HTMLElementDataStorage.getData(element);
-		let observer = HTMLElementData.scrollObserver;
+		let observer = HTMLElementDataStorage.get(element);
 
 
 		if (observer) {
@@ -58,12 +56,11 @@ export class ScrollObserver {
 			}
 			observer.observer.unobserve(element);
 			observer.observer.disconnect();
-			observer = HTMLElementData.scrollObserver = undefined;
 		}
 
-
-		HTMLElementData.scrollObserver = new ScrollObserverStorage(this.userHandler, this);
-		HTMLElementData.scrollObserver.observer.observe(element);
+		observer = new ScrollObserverStorage(this.userHandler, this);
+		HTMLElementDataStorage.set(element, observer);
+		observer.observer.observe(element);
 		return this
 	}
 
@@ -72,13 +69,12 @@ export class ScrollObserver {
 
 
 	public destroy(element: HTMLElement): void {
-		let HTMLElementData = HTMLElementDataStorage.getData(element);
-		let observer = HTMLElementData.scrollObserver;
+		let observer = HTMLElementDataStorage.get(element);
 
 		if (!observer) return
 
 		observer.observer.unobserve(element);
 		observer.observer.disconnect();
-		HTMLElementData.scrollObserver = undefined;
+		HTMLElementDataStorage.delete(element)
 	}
 }

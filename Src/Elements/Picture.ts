@@ -1,6 +1,6 @@
 import type { ImageMimeType } from "../ViewConstructors/Enum/ImageMimeType"
 import type { ElementAttribute } from "../ViewConstructors/Styles/Attributes"
-import type { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners"
+import type { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners/Listeners"
 import type { MediaFit } from "../ViewConstructors/Enum/MediaFit"
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 import { Units } from "../ViewConstructors/Enum/Units"

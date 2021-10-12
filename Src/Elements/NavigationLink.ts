@@ -4,7 +4,7 @@ import type { View } from "./View"
 import type { ElementAttribute } from "../ViewConstructors/Styles/Attributes"
 import type { LinkPathClass } from "../Navigation/Components/LinkPath"
 import { ViewSubElements, SubElementsStyles, SubElementsListeners } from "../ViewConstructors/ViewSubElements"
-import { Listeners } from "../ViewConstructors/Styles/Listeners"
+import { Listeners } from "../ViewConstructors/Styles/Listeners/Listeners"
 import { Styles } from "../ViewConstructors/Styles/Styles"
 import { App } from "../Navigation/App"
 
@@ -21,21 +21,21 @@ import { App } from "../Navigation/App"
 export class NavigationLinkView<V extends (new (...args: any) => View)> extends ViewSubElements<HTMLAnchorElement> {
 	
 	protected HTMLElement?: HTMLAnchorElement
-
+	
 	protected styles: Styles<SubElementsStyles> = new Styles
 	protected listeners: Listeners<SubElementsListeners<HTMLAnchorElement>> = new Listeners
 	protected attribute?: ElementAttribute<LinkAttribute>
-
+	
 	protected destination: string
 	protected disablePopover?: boolean
-
+	
 	protected merge(newRender: NavigationLinkView<any>, element: HTMLAnchorElement): void { if (this.destination != newRender.destination) element.href = this.destination = newRender.destination; }
 	protected generateHTMLElement(): HTMLAnchorElement {
 		let element = document.createElement('a');
 		element.href = this.destination;
 		return element
 	}
-
+	
 
 
 	public disableAnyPopover(): this { this.disablePopover = true; return this }

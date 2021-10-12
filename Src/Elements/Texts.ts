@@ -1,5 +1,5 @@
 import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Styles/Attributes"
-import type { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners"
+import type { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners/Listeners"
 import { Styles } from "../ViewConstructors/Styles/Styles"
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 import { TextStyles, ViewTextModifiers } from "../ViewConstructors/ViewTextModifiers"
@@ -58,7 +58,7 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 			else window.requestAnimationFrame(() => this.scaleFontSize(element))
 	}
 
-	protected merge(newRender:TextsView,element:HTMLParagraphElement | HTMLHeadingElement | HTMLSpanElement) {
+	protected merge(newRender: TextsView, element: HTMLParagraphElement | HTMLHeadingElement | HTMLSpanElement) {
 		if (this.HTMLTagName != newRender.HTMLTagName) {
 			this.HTMLElement = document.createElement(this.HTMLTagName);
 			if (this.content != newRender.content) this.content = newRender.content;
@@ -72,8 +72,8 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 	}
 	protected generateHTMLElement(): HTMLParagraphElement | HTMLHeadingElement | HTMLSpanElement {
 		let element = document.createElement(this.HTMLTagName);
-			element.textContent = this.content;
-			return element
+		element.textContent = this.content;
+		return element
 	}
 
 
