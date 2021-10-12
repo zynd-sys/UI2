@@ -2,6 +2,8 @@ import type { Align } from "./Enum/Align";
 import type { TextTransform } from "./Enum/TextTransform";
 import type { Styles, StylesInterface } from "./Styles/Styles";
 import type { Color } from "./Styles/Colors/Colors";
+import type { ColumnInsideBreak } from "./Enum/ColumnInsideBreak";
+import type { BorderStyle } from "./Enum/BorderStyle";
 import { TextWeight } from "./Enum/TextWeight";
 import { TextSpacing } from "./Enum/TextSpacing";
 import { Units } from "./Enum/Units";
@@ -26,6 +28,14 @@ export interface TextStyles extends StylesInterface {
 	'letter-spacing'?: string
 	'text-transform'?: TextTransform
 	'line-height'?: string
+	'column-count'?: number
+	'column-width'?: string
+	'column-rule-width'?: string
+	'column-rule-style'?: BorderStyle
+	'column-rule-color'?: Color
+	'column-gap'?: string
+	'column-fill'?: 'auto' | 'balance'
+	'break-inside'?: ColumnInsideBreak
 	// 'word-break'?: 'normal' | 'break-all' | 'keep-all'
 	'overflow-wrap'?: 'normal' | 'anywhere' | 'break-word'
 	'text-overflow'?: 'clip' | 'ellipsis'
@@ -50,13 +60,23 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 
 
 	// -webkit-line-clamp
-	// column
 	// font-stretch
 	// letter-spacing
 	// text-transform
 	// word-spacing
 	// background-clip
 	// Text.Case
+
+	
+	public columnMaxCount(value: number): this { this.styles.set('column-count', value); return this }
+	public columnWidth(value: number, unit: Units = Units.px): this { this.styles.set('column-width', String(value) + unit); return this }
+	public columnGap(value: number, unit: Units = Units.px): this { this.styles.set('column-gap', String(value) + unit); return this }
+	public columnDridwerWidth(value: number, unit: Units = Units.px): this { this.styles.set('column-rule-width', String(value) + unit); return this }
+	public columnDridwerStyle(value: BorderStyle): this { this.styles.set('column-rule-style', value); return this }
+	public columnDridwerColor(value: Color): this { this.styles.set('column-rule-color', value); return this }
+	public columnInsideBreak(value: ColumnInsideBreak): this { this.styles.set('break-inside', value); return this }
+	public columnBalanceFill(value: boolean = true): this { if (value) this.styles.set('column-fill', 'balance'); return this }
+	// column-span
 
 
 
