@@ -9,8 +9,6 @@ export interface ElementAttributeInterface {
 
 export class ElementAttribute<I extends ElementAttributeInterface> extends Map<keyof I, I[keyof I]> {
 
-	// public replaceAttribute(attribute: ElementAttribute<I>): this { this.clear(); attribute.forEach((v, k) => this.set(k, v as NonNullable<I[keyof I]>)); return this }
-
 
 	public destroy(element: HTMLElement): void {
 		for (let key of element.attributes)

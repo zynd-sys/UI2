@@ -2,12 +2,25 @@ import type { ViewBuilder } from "../ViewBuilder";
 
 
 
+const ReplacePromise = Symbol('ReplacePromise');
+
+declare global {
+	interface Promise<T> {
+		[ReplacePromise]?: true
+	}
+}
+
+
+
+
 
 export class ViewsList {
 
 	protected data: (ViewBuilder | undefined)[] = []
+	protected useNodeCollection?: boolean
 
 
+	public renderNodeCollection(value: boolean = true): this { this.useNodeCollection = value; return this }
 	public get(i: number): ViewBuilder | undefined { return this.data[i] }
 	public length(): number { return this.data.length }
 	public push(value: ViewBuilder | undefined): this { this.data.push(value); return this }
@@ -15,7 +28,7 @@ export class ViewsList {
 	public clear(): this { this.data.length = 0; return this }
 	public replace(value: (ViewBuilder | undefined)[]): this {
 		this.data.length = 0;
-		for (let v of value) this.data.push(v);
+		for (let i = 0; i < value.length; i++) this.data.push(value[i]);
 		return this
 	}
 	public forEach(callbackfn: (value: ViewBuilder | undefined, index: number) => void): this {
@@ -37,8 +50,8 @@ export class ViewsList {
 
 
 
-	public generateElements(contentNew?: ViewsList, animation?: boolean): (HTMLElement | Promise<void>)[] {
-		let HTMLElementList: (HTMLElement | Promise<void>)[] = [];
+	protected generateElements(contentNew?: ViewsList, animation?: boolean): (Node | Promise<void>)[] {
+		let HTMLElementList: (Node | Promise<void>)[] = [];
 
 		if (!contentNew) {
 			this.forEach(view => { if (view) HTMLElementList.push(view.render(undefined, animation)) });
@@ -68,7 +81,10 @@ export class ViewsList {
 			if (itemNow.constructor != itemNew.constructor) {
 				this.data[i] = itemNew;
 				let result = itemNow.destroy(animation);
-				if (result instanceof Promise) HTMLElementList.push(result)
+				if (result instanceof Promise) {
+					result[ReplacePromise] = true;
+					HTMLElementList.push(result);
+				}
 				itemNow = itemNew;
 				itemNew = undefined;
 			}
@@ -94,8 +110,8 @@ export class ViewsList {
 		let content = this.generateElements(newListView, animation);
 		if (beforeElements) content.unshift(...beforeElements)
 
-
-		if (parent.children.length == 0) {
+		let elements = this.useNodeCollection ? parent.childNodes : parent.children;
+		if (elements.length == 0) {
 			for (let i = 0; i < content.length; i++) {
 				let element = content[i];
 				if (element instanceof Promise) continue
@@ -104,20 +120,26 @@ export class ViewsList {
 			return
 		};
 
-
 		for (let i = 0; i < content.length; i++) {
-			let elementNow = parent.children.item(i);
+			let elementNow = elements.item(i);
 			let elementNew = content[i];
 
-			if (elementNew instanceof Promise || elementNew == elementNow) continue;
+			if (elementNew instanceof Promise) {
+				if (elementNew[ReplacePromise]) {
+					let element: Node | Promise<void> | undefined = content[i + 1];
+					if (element && !(element instanceof Promise)) parent.insertBefore(element, elementNow ? elementNow.nextSibling : null)
+				}
+				continue
+			}
+			if (elementNew == elementNow) continue;
 			if (!elementNow) { parent.appendChild(elementNew); continue }
 			elementNow.replaceWith(elementNew);
 		}
-		if (content.length < parent.children.length)
-			for (let i = content.length; i < parent.children.length; i++)
-				parent.children.item(i)?.remove()
+		if (content.length < elements.length)
+			for (let i = content.length; i < elements.length; i++)
+				elements.item(i)?.remove()
 	}
 
 
-	constructor(value: (ViewBuilder | undefined)[]) { for (let v of value) this.data.push(v); }
+	constructor(value: (ViewBuilder | undefined)[]) { for (let i = 0; i < value.length; i++) this.data.push(value[i]); }
 }

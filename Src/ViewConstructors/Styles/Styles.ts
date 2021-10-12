@@ -1,5 +1,5 @@
 import type { Align } from "../Enum/Align";
-import { BorderStyle } from "../Enum/BorderStyle";
+import type { BorderStyle } from "../Enum/BorderStyle";
 import type { ContentAlign } from "../Enum/ContentAlign";
 import type { Scroll } from "../Enum/Scroll";
 import type { TimingFunction } from "../Enum/TimingFunction";
@@ -70,6 +70,7 @@ export interface StylesInterface {
 	'margin-left'?: string
 
 	'outline-width'?: string
+	'outline-offset'?: string
 	'outline-color'?: Color
 	'outline-style'?: BorderStyle
 
@@ -121,6 +122,7 @@ export interface StylesInterface {
 
 	'user-select'?: 'none' | 'auto'
 	'-webkit-user-select'?: 'none' | 'auto'
+	'touch-action'?: 'auto' | 'none' | 'manipulation' | 'pan-x' | 'pan-left' | 'pan-right' | 'pan-y' | 'pan-up' | 'pan-down' | 'pinch-zoom'
 
 
 	'transition-property'?: 'all'
@@ -143,6 +145,12 @@ export interface StylesInterface {
 
 
 export class Styles<I extends StylesInterface> extends Map<keyof I, I[keyof I]> {
+
+
+	// public set<P extends keyof I>(key: P, value: NonNullable<I[P]>, element?: HTMLElement): this {
+	// 	if(element) 
+	// 	return super.set(key, value)
+	// }
 
 	public getCollectableStyles<P extends keyof I, C extends NonNullable<I[P]>, A extends any[]>(key: P, constructor: new (...p: A) => C, ...constructorParameters: A): C {
 		let v = this.get(key);
