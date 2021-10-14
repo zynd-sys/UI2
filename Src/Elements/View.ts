@@ -1,5 +1,6 @@
 import { Observed } from "../Data/Observed";
 import { AnimationStorage } from "../Data/Storages/Animations";
+import { ViewsList } from "../ViewConstructors/Styles/ListView";
 import { ViewBuilder } from "../ViewConstructors/ViewBuilder";
 
 
@@ -17,7 +18,7 @@ const ViewStorageKey = Symbol('ViewStorage');
 
 class ViewStorage {
 	public HTMLElement?: ViewHTMLElement
-	public renderingContent?: ViewBuilder
+	public renderingContent?: ViewsList
 
 	public cancelHandlerStorage: Map<Observed.Interface, () => void> = new Map
 	public isObserved: boolean = false
@@ -103,18 +104,6 @@ export abstract class View extends ViewBuilder {
 
 
 
-	private setContent(target: ViewHTMLElement, element: HTMLElement): void {
-		let firstElement = target.firstElementChild;
-		if (firstElement) {
-			if (AnimationStorage.checkOutAnimation(firstElement)) {
-				let secondElement = target.children[1]
-				if (secondElement) secondElement.replaceWith(element);
-				else target.appendChild(element)
-			} else if (firstElement != element) firstElement.replaceWith(element)
-			return
-		}
-		target.appendChild(element);
-	}
 
 
 
@@ -131,28 +120,11 @@ export abstract class View extends ViewBuilder {
 			return storage.HTMLElement
 		}
 
+		if (storage.isObserved == false && (this.constructor as typeof View).observedProperty) this.setObservedProperty((this.constructor as typeof View).observedProperty!);
 
-		let observedProperty = (this.constructor as typeof View).observedProperty;
-		if (observedProperty && !storage.isObserved) this.setObservedProperty(observedProperty);
+		if (storage.renderingContent) storage.renderingContent.render(storage.HTMLElement, withAnimatiom, new ViewsList([this.content()]))
+		else { storage.renderingContent = new ViewsList([this.content()]); storage.renderingContent.render(storage.HTMLElement, withAnimatiom) }
 
-
-		let contentNow: ViewBuilder | undefined = storage.renderingContent;
-		let contentNew: ViewBuilder | undefined = this.content();
-
-
-
-		if (!contentNow) {
-			storage.renderingContent = contentNew;
-			this.setContent(storage.HTMLElement, contentNew.render(undefined, withAnimatiom));
-			return storage.HTMLElement
-		}
-		if (contentNow.constructor != contentNew.constructor) {
-			storage.renderingContent = contentNew;
-			contentNow.destroy(withAnimatiom);
-			this.setContent(storage.HTMLElement, contentNew.render(undefined, withAnimatiom))
-			return storage.HTMLElement
-		}
-		this.setContent(storage.HTMLElement, contentNow.render(contentNew))
 		return storage.HTMLElement
 	}
 
@@ -162,9 +134,7 @@ export abstract class View extends ViewBuilder {
 
 
 
-	// public destroy(withAnimatiom?: true, destroyContent?: boolean): Promise<void>
-	// public destroy(withAnimatiom?: false, destroyContent?: boolean): void
-	public destroy(withAnimatiom?: boolean, destroyContent: boolean = true) {
+	public destroy(withAnimatiom?: boolean) {
 		const storage = this[ViewStorageKey];
 		storage.cancelHandlerStorage.forEach(v => v());
 		storage.cancelHandlerStorage.clear();
@@ -174,19 +144,19 @@ export abstract class View extends ViewBuilder {
 			let renderingContent = storage.renderingContent;
 			let HTMLElement = storage.HTMLElement;
 
-			let result = renderingContent?.destroy(withAnimatiom);
-			if (!(result instanceof Promise)) result = Promise.resolve()
-			if (destroyContent) result.then(() => HTMLElement?.remove());
+			let content = renderingContent?.destroy(withAnimatiom);
+			let result: void | Promise<void>;
+			if (Array.isArray(content)) result = Promise.all(content).then(() => HTMLElement?.remove());
+			else HTMLElement?.remove()
 
 			storage.HTMLElement = undefined;
 			storage.renderingContent = undefined;
 			return result
 		}
 
-		if (destroyContent) {
-			storage.renderingContent?.destroy();
-			storage.HTMLElement?.remove();
-		}
+		storage.renderingContent?.destroy();
+		storage.HTMLElement?.remove();
+
 		storage.renderingContent = undefined;
 		storage.HTMLElement = undefined;
 	}

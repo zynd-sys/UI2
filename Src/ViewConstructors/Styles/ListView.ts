@@ -44,6 +44,10 @@ export class ViewsList {
 		this.data.splice(start, deleteCount, ...values);
 		return this
 	}
+	public destroy(withAnimatiom?: boolean): (Promise<void> | void)[] | void {
+		if (withAnimatiom) return this.map(v => v?.destroy(withAnimatiom))
+		this.forEach(v => v?.destroy())
+	}
 
 
 
@@ -57,7 +61,6 @@ export class ViewsList {
 			this.forEach(view => { if (view) HTMLElementList.push(view.render(undefined, animation)) });
 			return HTMLElementList
 		}
-
 
 		for (let i = 0; i < contentNew.data.length; i++) {
 			let itemNew: ViewBuilder | undefined = contentNew.data[i];

@@ -9,11 +9,15 @@ export * from './ViewConstructors/ViewTextModifiers'
 
 // elements
 export * from './Elements/Form/Styles/ToggleStyle'
+export * from './Elements/Form/DatePicker'
 export * from './Elements/Form/FileField'
+export * from './Elements/Form/Form'
+export * from './Elements/Form/SectionForm'
 export * from './Elements/Form/TextField'
 export * from './Elements/Form/Toggle'
 export * from './Elements/BackgroundVideo'
 export * from './Elements/Button'
+export * from './Elements/Divider'
 export * from './Elements/ForEach'
 export * from './Elements/Iframe'
 export * from './Elements/Link'
@@ -21,6 +25,7 @@ export * from './Elements/NavigationLink'
 export * from './Elements/Picture'
 export * from './Elements/Stack'
 export * from './Elements/Texts'
+export * from './Elements/TextStack'
 export * from './Elements/View'
 
 
