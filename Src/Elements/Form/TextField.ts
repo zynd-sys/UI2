@@ -3,6 +3,7 @@ import { Listeners } from "../../ViewConstructors/Styles/Listeners/Listeners";
 import { Styles, StylesInterface } from "../../ViewConstructors/Styles/Styles";
 import { ViewTextModifiers } from "../../ViewConstructors/ViewTextModifiers";
 import { FormElementListeners } from "../../ViewConstructors/ViewFormElement";
+import { Observed } from "../../Data/Observed";
 
 
 
@@ -148,14 +149,18 @@ export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLText
 
 
 
-	constructor(placeHolder: string, value: string, onInput: (value: string) => void) {
+	constructor(placeHolder: string, value: Observed.Binding<string> | { value: string, onChange: (value: string) => void }) {
 		super();
-		this.content = value;
+		this.content = value.value;
 		this.attribute.set('placeholder', placeHolder);
 		this.attribute.set('type', KeyboardStyle.text);
 
+		this.listeners.set('input', Observed.isObserved(value)
+			? element => value.value = this.content = element.value
+			: element => value.onChange(this.content = element.value)
+		);
 		this.listeners.set('input', element => onInput(this.content = element.value));
 	}
 }
 
-export function TextField(placeHolder: string, value: string, onInput: (value: string) => void): TextFieldView { return new TextFieldView(placeHolder, value, onInput) }
+export function TextField(placeHolder: string, value: Observed.Binding<string> | { value: string, onChange: (value: string) => void }): TextFieldView { return new TextFieldView(placeHolder, value) }

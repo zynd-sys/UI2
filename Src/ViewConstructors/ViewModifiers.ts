@@ -23,6 +23,7 @@ import { UIAnimationObject } from "./Styles/Animation/UIAnimationObject"
 import { ScrollObserver } from "./Styles/ScrollObserver"
 import { DefaultColor } from "./Styles/Colors/DefaultColors"
 import { ScrollIntoSelf } from "./Styles/ScrollIntoSelf"
+import { Observed } from "../Data/Observed"
 
 
 
@@ -364,11 +365,13 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 	// Listner
 	/** @param threshold range 0.0...1.0 */
-	public onScrollIntersection(...threshold: number[]): (value: (element: this, intersectionRatio: number, coordinates: DOMRect) => void) => this {
+	public onScrollIntersection(...threshold: number[]): (value: Observed.Binding<number> | ((intersectionRatio: number, coordinates: DOMRect) => void)) => this {
 		return value => {
 			let observer = this.safeScrollObserver
 			observer.threshold = threshold;
-			observer.userHandler = (ration, coords) => value(this, ration, coords);
+			observer.userHandler = Observed.isObserved(value)
+				? ration => value.value = ration
+				: (ration, coords) => value(ration, coords);
 			return this
 		}
 	}
@@ -394,17 +397,29 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		})
 		return this
 	}
-	public onClink(value: (element: this, coordinates: () => DOMRect) => void): this { this.safeListeners.set('click', (element: HTMLElement) => value(this, () => element.getBoundingClientRect())); return this }
-	public onHover(value: (over: boolean, element: this) => void): this {
-		this.safeListeners.set('mouseenter', () => value(true, this));
-		this.safeListeners.set('mouseleave', () => value(false, this));
+	public onClink(value: (coordinates: () => DOMRect) => void): this { this.safeListeners.set('click', (element: HTMLElement) => value(() => element.getBoundingClientRect())); return this }
+	public onHover(value: Observed.Binding<boolean> | ((value: boolean) => void)): this {
+		this.safeListeners.set('mouseenter', Observed.isObserved(value)
+			? () => value.value = true
+			: () => value(true)
+		);
+		this.safeListeners.set('mouseleave', Observed.isObserved(value)
+			? () => value.value = false
+			: () => value(false)
+		);
 		return this
 	}
 	/** set onfocus listners and add tabindex 0 */
-	public onFocus(value: (isFocused: boolean, element: this) => void, tabindex: number = 0): this {
+	public onFocus(value: Observed.Binding<boolean> | ((value: boolean) => void), tabindex: number = 0): this {
 		this.safeAttribute.set('tabindex', tabindex);
-		this.safeListeners.set('focusin', () => value(true, this));
-		this.safeListeners.set('focusout', () => value(false, this));
+		this.safeListeners.set('focusin', Observed.isObserved(value)
+			? () => value.value = true
+			: () => value(true)
+		);
+		this.safeListeners.set('focusout', Observed.isObserved(value)
+			? () => value.value = false
+			: () => value(false)
+		);
 		return this
 	}
 	public onDrag(data: () => { type: string, data: any }[], action?: (onStart: boolean) => void): this {
@@ -420,12 +435,12 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		if (action) this.safeListeners.set('dragend', () => action(false))
 		return this
 	}
-	public onTranstionEnd(value: (element: this) => void): this { this.safeListeners.set('transitionend', () => value(this)); return this }
-	public gesture(value: (element: this) => GestureClass<any>): this {
+	public onTranstionEnd(value: () => void): this { this.safeListeners.set('transitionend', () => value()); return this }
+	public gesture(value: () => GestureClass<any>): this {
 		this.styles
 			.set('touch-action', 'none')
 			.set('user-select', 'none');
-		this.gestureState = value(this);
+		this.gestureState = value();
 		this.safeListeners.gesture();
 		return this
 	}

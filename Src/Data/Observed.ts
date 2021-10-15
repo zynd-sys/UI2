@@ -155,6 +155,27 @@ export namespace Observed {
 		}
 	}
 
+	export abstract class Binding<T extends (string | number | boolean | undefined)> implements Observed.Interface {
+		[storage]: handlersStorage = new handlersStorage
+
+		private _value: T
+		public get value() { return this._value }
+		public set value(value: T) {
+			this._value = value;
+			this[storage].beaconAction();
+			this[storage].handlerAction('value', false);
+		}
+
+
+		public addHandler(value: handlerType): () => void { return addHandler.call(this, value) }
+		public removeHandler(value: handlerType): void { return removeHandler.call(this, value) }
+		public addBeacon(value: beaconType): () => void { return addBeacon.call(this, value) }
+		public removeBeacon(value: beaconType): void { return removeBeacon.call(this, value) }
+
+
+		constructor(value: T) { this._value = value }
+	}
+
 	export class Maps<K, V> extends Map<K, V> {
 		[storage]: handlersStorage = new handlersStorage;
 
