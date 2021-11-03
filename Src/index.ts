@@ -8,6 +8,8 @@ export * from './ViewConstructors/ViewTextModifiers'
 
 
 // elements
+export * from './Elements/ButtonAction/PaymentRequest'
+export * from './Elements/ButtonAction/ShareButton'
 export * from './Elements/Form/Styles/ToggleStyle'
 export * from './Elements/Form/DatePicker'
 export * from './Elements/Form/FileField'
