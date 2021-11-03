@@ -25,8 +25,8 @@ export namespace Observed {
 
 
 
-	const ProxyHandler: ProxyHandler<Objects | Arrays<any>> = {
-		set(target, property: string | number | symbol, value, reciver) {
+	const ProxyHandler = new class ProxyHandlerClass implements ProxyHandler<Objects | Arrays<any>> {
+		public set(target: Objects | Arrays<any>, property: string | number | symbol, value: any, reciver: any) {
 			if (property == 'length' || typeof property == 'symbol') return Reflect.set(target, property, value, reciver);
 
 			let isNewPropery: boolean = property in target;
@@ -46,8 +46,8 @@ export namespace Observed {
 				config.beaconAction()
 			}
 			return setSuccessful
-		},
-		deleteProperty(target, property: string | number | symbol) {
+		}
+		public deleteProperty(target: Objects | Arrays<any>, property: string | number | symbol) {
 			if (typeof property == 'symbol') return Reflect.deleteProperty(target, property);
 			let oldValue = target[property];
 
@@ -155,7 +155,7 @@ export namespace Observed {
 		}
 	}
 
-	export abstract class Binding<T extends (string | number | boolean | undefined)> implements Observed.Interface {
+	export class Binding<T extends (string | number | boolean | undefined)> implements Observed.Interface {
 		[storage]: handlersStorage = new handlersStorage
 
 		private _value: T

@@ -159,7 +159,6 @@ export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLText
 			? element => value.value = this.content = element.value
 			: element => value.onChange(this.content = element.value)
 		);
-		this.listeners.set('input', element => onInput(this.content = element.value));
 	}
 }
 
