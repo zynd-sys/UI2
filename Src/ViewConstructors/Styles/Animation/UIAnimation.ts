@@ -120,32 +120,20 @@ export class UIAnimationClass<A extends AnimationResize> {
 
 
 	public popoverEffect(fromElement: DOMRect, toElement: DOMRect, animateResize: AnimationResize.create | AnimationResize.destroy): this {
+		let x = -toElement.x - toElement.width / 2 + fromElement.x + fromElement.width / 2;
+		let y = -toElement.y - toElement.height / 2 + fromElement.y + fromElement.height / 2;
 		if (animateResize == AnimationResize.create) {
-			this.translateXEffect(Units.px, -(toElement.x - fromElement.x), 0)
-				.translateYEffect(Units.px, -(toElement.y - fromElement.y), 0)
+			this.translateXEffect(Units.px, x, 0)
+				.translateYEffect(Units.px, y, 0)
 				.scaleXEffect(fromElement.width / toElement.width, 1)
 				.scaleYEffect(fromElement.height / toElement.height, 1)
 		} else {
-			this.translateXEffect(Units.px, 0, -(toElement.x - fromElement.x))
-				.translateYEffect(Units.px, 0, -(toElement.y - fromElement.y))
+			this.translateXEffect(Units.px, 0, x)
+				.translateYEffect(Units.px, 0, y)
 				.scaleXEffect(1, fromElement.width / toElement.width)
 				.scaleYEffect(1, fromElement.height / toElement.height)
 		}
-		// const x = -toElement.x + (fromElement.x + fromElement.width / 2);
-		// const y = -toElement.y + (fromElement.y + fromElement.height / 2);
-		// if (animateResize == AnimationResize.create) {
-		// 	this.translateXEffect(Units.px, x, 0)
-		// 		.translateYEffect(Units.px, y, 0)
-		// 		.scaleXEffect(fromElement.width / toElement.width, 1)
-		// 		.scaleYEffect(fromElement.height / toElement.height, 1)
-		// } else {
-		// 	this.translateXEffect(Units.px, 0, x)
-		// 		.translateYEffect(Units.px, 0, y) // -(toElement.y - fromElement.y)
-		// 		.scaleXEffect(1, fromElement.width / toElement.width)
-		// 		.scaleYEffect(1, fromElement.height / toElement.height)
-		// }
-		// // return this.transformOrigin(0, 0)
-		return this.transformOrigin(0, 0)
+		return this
 	}
 
 	public backgroundColor(...values: [from: Color, to: Color, ...otherValues: Color[]]): this { this.keyFrames.backgroundColor = values; return this }
