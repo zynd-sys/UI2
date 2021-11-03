@@ -35,6 +35,8 @@ export class PageDataWidthClass extends Observed.LightObserver {
 	public safeAreaInsetBottom: number = 0
 	public safeAreaInsetLeft: number = 0
 
+	public orientationPortrait: boolean = window.matchMedia('(orientation: portrait)').matches
+
 
 	public fitViewport(): void {
 		let element = document.querySelector<HTMLMetaElement>('meta[name=viewport]');
@@ -66,7 +68,7 @@ export class PageDataWidthClass extends Observed.LightObserver {
 	constructor() {
 		super();
 		window.addEventListener('resize', () => this.mainHandler(), { passive: true });
-		window.addEventListener('orientationchange', () => this.mainHandler(), { passive: true });
+		window.addEventListener('orientationchange', () => { this.orientationPortrait = !this.orientationPortrait; this.mainHandler() }, { passive: true });
 
 		if (document.readyState != 'complete') window.addEventListener('load', () => this.setSafeArea(), { once: true })
 		else this.setSafeArea()

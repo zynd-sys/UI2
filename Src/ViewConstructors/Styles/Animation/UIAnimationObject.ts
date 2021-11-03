@@ -1,3 +1,4 @@
+import { PageData } from "../../../Data/PageData/PageData"
 import { AnimationStorage } from "../../../Data/Storages/Animations"
 import { AnimationResize } from "../../Enum/AnimationResize"
 import { UIAnimation, UIAnimationClass } from "./UIAnimation"
@@ -24,7 +25,7 @@ export class UIAnimationObject {
 
 
 	public animateCreation(element: HTMLElement): Promise<void> | void {
-		if (!this.created) return
+		if (!this.created || PageData.reducedAnimation) return
 
 		let func = this.created;
 		if (element.isConnected) return func(() => element.getBoundingClientRect()).animate(element)
@@ -37,7 +38,7 @@ export class UIAnimationObject {
 
 	}
 	public animateDestruction(element: HTMLElement): Promise<void> | void {
-		if (!this.destroyed) return
+		if (!this.destroyed || PageData.reducedAnimation) return
 		return this.destroyed(() => element.getBoundingClientRect()).animate(element)
 	}
 }

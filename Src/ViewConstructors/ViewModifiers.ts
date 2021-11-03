@@ -24,6 +24,7 @@ import { ScrollObserver } from "./Styles/ScrollObserver"
 import { DefaultColor } from "./Styles/Colors/DefaultColors"
 import { ScrollIntoSelf } from "./Styles/ScrollIntoSelf"
 import { Observed } from "../Data/Observed"
+import { PageData } from "../Data/PageData/PageData"
 
 
 
@@ -286,6 +287,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	 * @description 1000ms = 1s
 	 */
 	public transition(duration: number, timingFunction?: TimingFunction | CubicBezier, delay?: number): this {
+		if (PageData.reducedAnimation) return this
 		this.styles
 			.set('transition-property', 'all')
 			.set('transition-duration', duration.toString() + 'ms');
