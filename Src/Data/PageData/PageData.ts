@@ -19,8 +19,8 @@ export class PageDataClass extends Observed.LightObserver {
 		mediaQHover.addEventListener('change', event => this.action('isTouch', !event.matches));
 
 		let mediaQreducedAnimation = window.matchMedia('(prefers-reduced-motion: reduce)');
-		this.reducedAnimation = !mediaQreducedAnimation.matches;
-		mediaQreducedAnimation.addEventListener('change', event => this.action('reducedAnimation', !event.matches));
+		this.reducedAnimation = mediaQreducedAnimation.matches;
+		mediaQreducedAnimation.addEventListener('change', event => this.action('reducedAnimation', event.matches));
 
 	}
 }
