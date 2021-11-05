@@ -2,19 +2,6 @@ import { Observed } from "../Observed";
 
 
 
-function init(): HTMLMetaElement {
-	let element = document.querySelector<HTMLMetaElement>('meta[name=viewport]');
-	if (!element) {
-		element = document.createElement('meta');
-		element.content = 'width=device-width, initial-scale=1';
-		document.body.appendChild(element)
-	} //else if(element.content != 'width=device-width, initial-scale=1') 
-	return element
-}
-
-if (document.readyState != 'complete') window.addEventListener('load', () => init(), { once: true })
-else init()
-
 
 
 
@@ -27,6 +14,8 @@ else init()
 
 export class PageDataWidthClass extends Observed.LightObserver {
 	protected timeoutID?: number
+	protected isViewportCover: boolean = false
+	protected viewportCoverRegexp: RegExp = /viewport-fit\s*=\s*cover/
 
 	public value: number = window.innerWidth
 
@@ -38,10 +27,12 @@ export class PageDataWidthClass extends Observed.LightObserver {
 	public orientationPortrait: boolean = window.matchMedia('(orientation: portrait)').matches
 
 
-	public fitViewport(): void {
-		let element = document.querySelector<HTMLMetaElement>('meta[name=viewport]');
-		if (!element) element = init();
-		if (!element.content.includes('viewport-fit=cover')) element.content += ' ,viewport-fit=cover';
+	public setViewportCover(): void {
+		if(this.isViewportCover) return
+		let element = this.getMetaViewportElement();
+		element.content += ' ,viewport-fit=cover';
+		this.isViewportCover = true;
+		this.setSafeArea();
 	}
 
 
@@ -51,7 +42,7 @@ export class PageDataWidthClass extends Observed.LightObserver {
 		if (this.value == window.innerWidth) return
 		clearTimeout(this.timeoutID);
 		this.timeoutID = setTimeout(() => {
-			this.setSafeArea();
+			if (this.isViewportCover) this.setSafeArea();
 			this.action('value', window.innerWidth);
 		}, 350);
 	}
@@ -65,13 +56,28 @@ export class PageDataWidthClass extends Observed.LightObserver {
 		this.safeAreaInsetLeft = parseInt(styles.getPropertyValue('--safe-area-inset-left'));
 	}
 
+
+	protected getMetaViewportElement(): HTMLMetaElement {
+		let element = document.querySelector<HTMLMetaElement>('meta[name=viewport]');
+		if (!element) {
+			element = document.createElement('meta');
+			element.content = 'width=device-width, initial-scale=1';
+			document.body.appendChild(element)
+		}
+		return element
+	}
+	protected init(): void {
+		if (this.viewportCoverRegexp.test(this.getMetaViewportElement().content)) this.isViewportCover = true;
+		if (this.isViewportCover) this.setSafeArea();
+	}
+
 	constructor() {
 		super();
 		window.addEventListener('resize', () => this.mainHandler(), { passive: true });
 		window.addEventListener('orientationchange', () => { this.orientationPortrait = !this.orientationPortrait; this.mainHandler() }, { passive: true });
 
-		if (document.readyState != 'complete') window.addEventListener('load', () => this.setSafeArea(), { once: true })
-		else this.setSafeArea()
+		if (document.readyState != 'complete') window.addEventListener('load', () => this.init(), { once: true })
+		else this.init()
 
 	}
 }

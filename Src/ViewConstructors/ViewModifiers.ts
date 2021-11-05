@@ -234,7 +234,6 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	public borderColor(value: Color = DefaultColor.black, side: Side = Side.all): this { this.setSideStyles('border', side, value.toString(), '-color'); return this }
 	public borderRadius(side: SideBorderRadius, value: number, unit: Units = Units.px): this {
 		let v = String(value) + unit;
-		console.log(this.styles)
 		switch (side) {
 			case SideBorderRadius.all:
 				this.styles.set('border-start-start-radius', v);
