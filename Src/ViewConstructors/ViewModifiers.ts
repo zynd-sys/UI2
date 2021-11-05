@@ -138,19 +138,29 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 
-	protected setSideStyles(property: 'scroll-padding-' | 'padding-' | 'margin-' | 'border-' | '', side: Side, value: number, unit: Units, prefix: string = '') {
-		const v = value.toString() + unit;
+
+	protected setSideStyles(property: 'inset' | 'border' | 'padding' | 'margin' | 'scroll-padding', side: Side, value: string, postfix: '-width' | '-style' | '-color' | '' = '') {
 		switch (side) {
-			case Side.all: this.styles.set(property + 'bottom' + prefix as any, v); this.styles.set(property + 'top' + prefix as any, v); this.styles.set(property + 'left' + prefix as any, v); this.styles.set(property + 'right' + prefix as any, v); break
-			case Side.leftRight: this.styles.set(property + 'left' + prefix as any, v); this.styles.set(property + 'right' + prefix as any, v); break
-			case Side.topBottom: this.styles.set(property + 'bottom' + prefix as any, v); this.styles.set(property + 'top' + prefix as any, v); break
-			case Side.bottom: this.styles.set(property + 'bottom' + prefix as any, v); break
-			case Side.left: this.styles.set(property + 'left' + prefix as any, v); break
-			case Side.right: this.styles.set(property + 'right' + prefix as any, v); break
-			case Side.top: this.styles.set(property + 'top' + prefix as any, v); break
+			case Side.all:
+				this.styles.set(property + '-block-end' + postfix as any, value);
+				this.styles.set(property + '-block-start' + postfix as any, value);
+				this.styles.set(property + '-inline-end' + postfix as any, value);
+				this.styles.set(property + '-inline-start' + postfix as any, value);
+				break
+			case Side.leftRight:
+				this.styles.set(property + '-inline-end' + postfix as any, value);
+				this.styles.set(property + '-inline-start' + postfix as any, value);
+				break
+			case Side.topBottom:
+				this.styles.set(property + '-block-end' + postfix as any, value);
+				this.styles.set(property + '-block-start' + postfix as any, value);
+				break
+			case Side.bottom: this.styles.set(property + '-block-end' + postfix as any, value); break
+			case Side.left: this.styles.set(property + '-inline-start' + postfix as any, value); break
+			case Side.right: this.styles.set(property + '-inline-end' + postfix as any, value); break
+			case Side.top: this.styles.set(property + '-block-start' + postfix as any, value); break
 		}
 	}
-
 
 
 
@@ -192,18 +202,18 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 	// Size
-	public width(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('width', String(value) + unit); return this }
-	public maxWidth(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('max-width', String(value) + unit); return this }
-	public minWidth(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('min-width', String(value) + unit); return this }
+	public width(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('inline-size', String(value) + unit); return this }
+	public maxWidth(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('max-inline-size', String(value) + unit); return this }
+	public minWidth(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('min-inline-size', String(value) + unit); return this }
 
-	public height(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('height', String(value) + unit); return this }
-	public maxHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('max-height', String(value) + unit); return this }
-	public minHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('min-height', String(value) + unit); return this }
+	public height(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('block-size', String(value) + unit); return this }
+	public maxHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('max-block-size', String(value) + unit); return this }
+	public minHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('min-block-size', String(value) + unit); return this }
 
 	public growSelf(value?: number): this { if (value) this.styles.set('flex-grow', value); return this }
 
-	public padding(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('padding-', side, value, unit); return this }
-	public margin(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('margin-', side, value, unit); return this }
+	public padding(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('padding', side, String(value) + unit); return this }
+	public margin(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('margin', side, String(value) + unit); return this }
 
 
 
@@ -217,23 +227,41 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	public outlineStyle(value: BorderStyle = BorderStyle.solid): this { this.styles.set('outline-style', value); return this }
 	/** @param value defualt black(#000) */
 	public outlineColor(value: Color = DefaultColor.black): this { this.styles.set('outline-color', value); return this }
-	public borderWidth(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('border-', side, value, unit, '-width'); return this }
+	public borderWidth(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('border', side, String(value) + unit, '-width'); return this }
 	/** @param value defualt BorderStyle.solid */
-	public borderStyle(value: BorderStyle = BorderStyle.solid): this { this.styles.set('border-style', value); return this }
+	public borderStyle(value: BorderStyle = BorderStyle.solid, side: Side = Side.all): this { this.setSideStyles('border', side, value, '-style'); return this }
 	/** @param value defualt black(#000) */
-	public borderColor(value: Color = DefaultColor.black): this { this.styles.set('border-color', value); return this }
+	public borderColor(value: Color = DefaultColor.black, side: Side = Side.all): this { this.setSideStyles('border', side, value.toString(), '-color'); return this }
 	public borderRadius(side: SideBorderRadius, value: number, unit: Units = Units.px): this {
 		let v = String(value) + unit;
+		console.log(this.styles)
 		switch (side) {
-			case SideBorderRadius.all: this.styles.set('border-top-left-radius', v); this.styles.set('border-top-right-radius', v); this.styles.set('border-bottom-left-radius', v); this.styles.set('border-bottom-right-radius', v); break
-			case SideBorderRadius.top: this.styles.set('border-top-left-radius', v); this.styles.set('border-top-right-radius', v); break
-			case SideBorderRadius.bottom: this.styles.set('border-bottom-left-radius', v); this.styles.set('border-bottom-right-radius', v); break
-			case SideBorderRadius.left: this.styles.set('border-top-left-radius', v); this.styles.set('border-bottom-left-radius', v); break
-			case SideBorderRadius.right: this.styles.set('border-top-right-radius', v); this.styles.set('border-bottom-right-radius', v); break
-			case SideBorderRadius.topLeft: this.styles.set('border-top-left-radius', v); break
-			case SideBorderRadius.topRight: this.styles.set('border-top-right-radius', v); break
-			case SideBorderRadius.bottomLeft: this.styles.set('border-bottom-left-radius', v); break
-			case SideBorderRadius.bottomRight: this.styles.set('border-bottom-right-radius', v); break
+			case SideBorderRadius.all:
+				this.styles.set('border-start-start-radius', v);
+				this.styles.set('border-start-end-radius', v);
+				this.styles.set('border-end-start-radius', v);
+				this.styles.set('border-end-end-radius', v);
+				break
+			case SideBorderRadius.top:
+				this.styles.set('border-start-start-radius', v);
+				this.styles.set('border-start-end-radius', v);
+				break
+			case SideBorderRadius.bottom:
+				this.styles.set('border-end-start-radius', v);
+				this.styles.set('border-end-end-radius', v);
+				break
+			case SideBorderRadius.left:
+				this.styles.set('border-start-start-radius', v);
+				this.styles.set('border-end-start-radius', v);
+				break
+			case SideBorderRadius.right:
+				this.styles.set('border-start-end-radius', v);
+				this.styles.set('border-end-end-radius', v);
+				break
+			case SideBorderRadius.topLeft: this.styles.set('border-start-start-radius', v); break
+			case SideBorderRadius.topRight: this.styles.set('border-start-end-radius', v); break
+			case SideBorderRadius.bottomLeft: this.styles.set('border-end-start-radius', v); break
+			case SideBorderRadius.bottomRight: this.styles.set('border-end-end-radius', v); break
 		}
 		return this
 	}
@@ -249,12 +277,12 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	// position
 	/** @param value default true */
 	public positionSticky(value: boolean = true, ZIndex: number = 100): this { if (value) { this.styles.set('position', 'sticky'); this.styles.set('z-index', ZIndex) }; return this }
-	public position(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('', side, value, unit); return this }
+	public position(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('inset', side, String(value) + unit); return this }
 	public orderSelf(value?: number): this { if (value) this.styles.set('order', value); return this }
 	public alignSelf(value?: ContentAlign): this { if (value) this.styles.set('align-self', value); return this }
 	public justifySelf(value?: ContentAlign): this { if (value) this.styles.set('justify-self', value); return this }
 	public scrollSnapAlignSelf(value?: Align): this { if (value) this.styles.set('scroll-snap-align', value); return this }
-	/** ↕︎  */
+	/** ↕︎ */
 	public VGridLines(start?: number, end?: number, endSpan?: boolean): this {
 		if (start) this.styles.set('grid-row-start', start);
 		if (end) this.styles.set('grid-row-end', endSpan ? 'span ' + end : end);

@@ -24,10 +24,10 @@ export interface SubElementsStyles extends StylesInterface {
 	'justify-content'?: ContentAlign
 
 	'scroll-snap-type'?: string
-	'scroll-padding-top'?: string
-	'scroll-padding-right'?: string
-	'scroll-padding-bottom'?: string
-	'scroll-padding-left'?: string
+	'scroll-padding-block-start'?: string
+	'scroll-padding-inline-start'?: string
+	'scroll-padding-block-end'?: string
+	'scroll-padding-inline-end'?: string
 
 	'grid-template-columns'?: string
 	'grid-template-rows'?: string
@@ -190,7 +190,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 		if (vertical) this.styles.set('scroll-snap-type', 'y ' + vertical);
 		return this
 	}
-	public scrollSnapPadding(side: Side, value: number, unit: Units = Units.px) { this.setSideStyles('scroll-padding-', side, value, unit); return this }
+	public scrollSnapPadding(side: Side, value: number, unit: Units = Units.px) { this.setSideStyles('scroll-padding', side, String(value) + unit); return this }
 
 	/** @param value defualt true */
 	public unwrap(value: boolean = true): this { if (value) this.styles.set('flex-wrap', 'nowrap'); return this }

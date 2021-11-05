@@ -49,41 +49,48 @@ export type cursorType = 'auto' |
 
 
 export interface StylesInterface {
-	// [key: string]: string | number | InnerShadowStyle | undefined
 
-	'width'?: string
-	'max-width'?: string
-	'min-width'?: string
+	'inline-size'?: string
+	'max-inline-size'?: string
+	'min-inline-size'?: string
 
-	'height'?: string
-	'max-height'?: string
-	'min-height'?: string
+	'block-size'?: string
+	'max-block-size'?: string
+	'min-block-size'?: string
 
-	'padding-top'?: string
-	'padding-right'?: string
-	'padding-bottom'?: string
-	'padding-left'?: string
+	'padding-block-start': string
+	'padding-inline-start': string
+	'padding-block-end': string
+	'padding-inline-end': string
 
-	'margin-top'?: string
-	'margin-right'?: string
-	'margin-bottom'?: string
-	'margin-left'?: string
+	'margin-block-start': string
+	'margin-inline-start': string
+	'margin-block-end': string
+	'margin-inline-end': string
 
 	'outline-width'?: string
 	'outline-offset'?: string
 	'outline-color'?: Color
 	'outline-style'?: BorderStyle
 
-	'border-top-width'?: string
-	'border-right-width'?: string
-	'border-bottom-width'?: string
-	'border-left-width'?: string
-	'border-top-left-radius'?: string
-	'border-top-right-radius'?: string
-	'border-bottom-right-radius'?: string
-	'border-bottom-left-radius'?: string
-	'border-color'?: Color
-	'border-style'?: BorderStyle
+	'border-block-start-width':string
+	'border-inline-start-width':string
+	'border-block-end-width':string
+	'border-inline-end-width':string
+	'border-block-start-color'?: Color
+	'border-inline-start-color'?: Color
+	'border-block-end-color'?: Color
+	'border-inline-end-color'?: Color
+	'border-block-start-style'?: BorderStyle
+	'border-inline-start-style'?: BorderStyle
+	'border-block-end-style'?: BorderStyle
+	'border-inline-end-style'?: BorderStyle
+
+	'border-start-start-radius'?: string
+	'border-start-end-radius'?: string
+	'border-end-end-radius'?: string
+	'border-end-start-radius'?: string
+
 
 	'grid-column-start': string | number
 	'grid-column-end': string | number
@@ -99,10 +106,11 @@ export interface StylesInterface {
 	'overflow-x'?: Scroll
 
 	'position'?: 'sticky' | 'relative' | 'static'
-	'left'?: string
-	'right'?: string
-	'top'?: string
-	'bottom'?: string
+	'inset-block-start'?: string
+	'inset-inline-start'?: string
+	'inset-block-end'?: string
+	'inset-inline-end'?: string
+
 
 	'opacity': number
 	'transform'?: TransformsStyle
@@ -147,10 +155,6 @@ export interface StylesInterface {
 export class Styles<I extends StylesInterface> extends Map<keyof I, I[keyof I]> {
 
 
-	// public set<P extends keyof I>(key: P, value: NonNullable<I[P]>, element?: HTMLElement): this {
-	// 	if(element) 
-	// 	return super.set(key, value)
-	// }
 
 	public getCollectableStyles<P extends keyof I, C extends NonNullable<I[P]>, A extends any[]>(key: P, constructor: new (...p: A) => C, ...constructorParameters: A): C {
 		let v = this.get(key);
