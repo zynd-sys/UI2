@@ -91,24 +91,24 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 		this.sourceMap = view.sourceMap;
 	}
 	protected generateHTMLElement(): { parent: HTMLPictureElement; image: HTMLImageElement; sources?: Map<ImageMimeType, HTMLSourceElement> } {
-			let pictureElement = document.createElement('picture');
-			let imageElement = pictureElement.appendChild(document.createElement('img'));
-			imageElement.alt = this.description;
-			imageElement.src = this.content;
-			imageElement.loading = 'lazy';
-			imageElement.decoding = 'async';
+		let pictureElement = document.createElement('picture');
+		let imageElement = pictureElement.appendChild(document.createElement('img'));
+		imageElement.alt = this.description;
+		imageElement.src = this.content;
+		imageElement.loading = 'lazy';
+		imageElement.decoding = 'async';
 
 		let element: { parent: HTMLPictureElement; image: HTMLImageElement; sources?: Map<ImageMimeType, HTMLSourceElement> } = { parent: pictureElement, image: imageElement }
 		if (this.sourceMap) this.renderSourceMap(pictureElement, element.sources = new Map, this.sourceMap)
 
 		return element
-		}
+	}
 	protected merge(newRender: PictureView, element: { parent: HTMLPictureElement; image: HTMLImageElement; sources?: Map<ImageMimeType, HTMLSourceElement> | undefined }): void {
 		if (this.description != newRender.description) { this.description = newRender.description; element.image.alt = this.description; }
 		if (this.content != newRender.content) { this.content = newRender.content; element.image.src = this.content; }
 
 		if (this.sourceMap) this.renderSourceMap(element.parent, element.sources ? element.sources : element.sources = new Map, this.sourceMap)
-		}
+	}
 
 
 
