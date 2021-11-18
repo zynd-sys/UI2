@@ -385,6 +385,14 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 
+	public writeMode(dir?: 'rtl' | 'rtl', lang?: string, translate?: boolean) {
+		if (dir) this.safeAttribute.set('dir', dir);
+		if (lang) this.safeAttribute.set('lang', lang);
+		if (typeof translate == 'boolean') this.safeAttribute.set('translate', translate ? 'yes' : 'no')
+	}
+
+
+
 
 
 
