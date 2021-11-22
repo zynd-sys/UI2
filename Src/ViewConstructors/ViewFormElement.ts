@@ -64,29 +64,40 @@ export interface FormElementListeners<E extends HTMLElement> extends SubElements
 
 export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, input: HTMLInputElement | HTMLProgressElement | HTMLSelectElement }> extends ViewSubElements<E> {
 
-	protected abstract elementStyleFirst?: boolean
 	protected accentColorValue: Color = DefaultColor.blue
-
+	protected isUpdating: boolean = false
 
 
 
 	protected importProperty(view: ViewFormElement<any>) {
 		this.accentColorValue = view.accentColorValue;
-		this.elementStyleFirst = view.elementStyleFirst;
 		return super.importProperty(view)
 	}
 	protected generateHTMLElement(): E {
 		let labelElement = document.createElement('label');
 		labelElement.classList.add('container');
+		let inputElement = this.generateHiddenElement();
+		inputElement.classList.add('hiddenElement')
 		return {
-			input: this.generateHiddenElement(),
+			input: inputElement,
 			parent: labelElement
 		} as E
+	}
+	protected update(parent: E) {
+		if (!this.generateAlternativeElement) return super.update(parent)
+		let element = this.content.get(0);
+		if (element && element instanceof SpanView) element.render(this.generateAlternativeElement(this.accentColorValue))
+		return super.update(parent)
 	}
 
 	protected abstract generateHiddenElement(): E['input']
 	protected abstract generateAlternativeElement?(accentColorValue: Color): SpanView
 
+	protected safeUpdate(action: () => void) {
+		this.isUpdating = false;
+		action();
+		if (this.HTMLElement && !this.isUpdating) this.render();
+	}
 
 
 
@@ -97,14 +108,14 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 
 
 	public render(newRender?: ViewFormElement<any>, withAnimatiom?: boolean): HTMLElement {
+		this.isUpdating = true;
+
 		// first render
 		if (!this.HTMLElement) {
 			if (newRender) { this.importProperty(newRender); newRender = undefined; }
 			let e = this.HTMLElement = this.generateHTMLElement();
 
-			if (this.generateAlternativeElement && !(this.content.get(0) instanceof SpanView))
-				if (this.elementStyleFirst) this.content.unshift(this.generateAlternativeElement(this.accentColorValue))
-				else this.content.push(this.generateAlternativeElement(this.accentColorValue))
+			if (this.generateAlternativeElement) this.content.unshift(this.generateAlternativeElement(this.accentColorValue))
 			this.content.render(e.parent, withAnimatiom || this.animations.withChild, undefined, [e.input]);
 			this.renderModifiers(e.parent, undefined, withAnimatiom);
 
@@ -117,9 +128,7 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 
 		// changes
 		if (this.merge) this.merge(newRender, this.HTMLElement);
-		if (this.generateAlternativeElement && !(newRender.content.get(0) instanceof SpanView))
-			if (this.elementStyleFirst) newRender.content.unshift(this.generateAlternativeElement(this.accentColorValue))
-			else newRender.content.push(this.generateAlternativeElement(this.accentColorValue))
+		if (this.generateAlternativeElement) newRender.content.unshift(this.generateAlternativeElement(this.accentColorValue))
 		this.content.render(e.parent, true, newRender.content, [e.input])
 		this.renderModifiers(e.parent, newRender, withAnimatiom);
 		return e.parent;

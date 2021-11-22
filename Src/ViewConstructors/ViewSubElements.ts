@@ -36,7 +36,7 @@ export interface SubElementsStyles extends StylesInterface {
 	'grid-auto-flow'?: `${Direction.horizontal | Direction.vertical} dense`;
 
 	'flex-wrap'?: 'nowrap' | 'wrap'
-	'flex-direction'?: Direction
+	'flex-direction'?: Direction | `${Direction}-reverse`
 }
 export interface SubElementsListeners<E extends HTMLElement> extends ListenersInterface<E> {
 	'scroll'?: (element: E, event: MouseEvent) => any
@@ -63,6 +63,8 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 	protected isScroll?: boolean
 	protected isGrid?: boolean
 	protected directionToken?: Direction
+	protected flexDirectionRevers?: boolean
+
 
 
 
@@ -85,7 +87,9 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 			if (list.contains('depth') && (this.isGrid || this.directionToken != Direction.depth)) list.remove('depth')
 			else if (this.directionToken)
 				if (this.directionToken == Direction.depth) list.add('depth');
-				else this.isGrid ? this.styles.set('grid-auto-flow', `${this.directionToken} dense`) : this.styles.set('flex-direction', this.directionToken)
+				else this.isGrid
+					? this.styles.set('grid-auto-flow', `${this.directionToken} dense`)
+					: this.styles.set('flex-direction', this.flexDirectionRevers ? `${this.directionToken}-reverse` : this.directionToken)
 
 			if (this.isScroll) { if (!list.contains('scroll')) list.add('scroll') }
 			else if (list.contains('scroll')) list.remove('scroll')
@@ -99,7 +103,9 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 		if (this.directionToken)
 			if (this.directionToken == Direction.depth) { if (!this.isGrid) list.add('depth') }
-			else this.isGrid ? this.styles.set('grid-auto-flow', `${this.directionToken} dense`) : this.styles.set('flex-direction', this.directionToken)
+			else this.isGrid
+				? this.styles.set('grid-auto-flow', `${this.directionToken} dense`)
+				: this.styles.set('flex-direction', this.flexDirectionRevers ? `${this.directionToken}-reverse` : this.directionToken)
 
 		if (this.isScroll) list.add('scroll')
 
@@ -172,7 +178,11 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 		this.styles.set('grid-auto-rows', values.join(' '))
 		return this
 	}
-	public direction(value: Direction): this { this.directionToken = value; return this }
+	public direction(value?: Direction, flexReverse: boolean = false): this {
+		if (value) this.directionToken = value;
+		if (flexReverse) this.flexDirectionRevers = flexReverse;
+		return this
+	}
 	public alignItems(value: ContentAlign): this { this.styles.set('align-items', value); return this }
 	public alignContent(value: ContentAlign): this { this.styles.set('align-content', value); return this }
 	public justifyItems(value: ContentAlign): this { this.styles.set('justify-items', value); return this }

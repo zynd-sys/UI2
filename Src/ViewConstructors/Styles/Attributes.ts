@@ -4,6 +4,9 @@ export interface ElementAttributeInterface {
 	'tabindex'?: number
 	'draggable'?: true
 	'id'?: string
+	'dir': 'ltr' | 'rtl'
+	'lang'?: string
+	'translate'?: 'no' | 'yes'
 }
 
 
