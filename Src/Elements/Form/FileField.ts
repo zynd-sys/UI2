@@ -18,7 +18,6 @@ export interface FileFielAttributes extends ElementAttributeInterface {
 
 
 export class FileFieldView extends ViewFormElement<{ parent: HTMLLabelElement, input: HTMLInputElement }> {
-	protected elementStyleFirst?: boolean
 	protected merge?(): void
 	protected generateAlternativeElement?(): SpanView
 	protected generateHiddenElement(): HTMLInputElement {

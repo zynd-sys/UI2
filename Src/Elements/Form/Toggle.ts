@@ -41,12 +41,10 @@ export class ToggleView extends ViewFormElement<{ input: HTMLInputElement, paren
 	protected styles: Styles<SubElementsStyles> = new Styles
 	protected listeners?: Listeners<SubElementsListeners<any>>
 	protected attribute?: ElementAttribute<ElementAttributeInterface>
-	protected elementStyleFirst: boolean = true
 
 	protected state: boolean
 	protected elementStyle: ToggleStyleInterface = ToggleStyle.Switch
 	protected userHandler: (value: boolean) => void
-	protected isUpdating: boolean = false
 
 
 
@@ -60,20 +58,15 @@ export class ToggleView extends ViewFormElement<{ input: HTMLInputElement, paren
 
 
 
-	protected mainHandler = (e: Event) => {
-		let value = (e.currentTarget as HTMLInputElement).checked;
-		this.state = value;
-		this.isUpdating = false;
-		this.userHandler(value);
-		if (this.HTMLElement && !this.isUpdating) this.render();
-	}
 
 	protected generateAlternativeElement(accentColorValue: Color): SpanView { return this.elementStyle(accentColorValue, this.state) }
 	protected generateHiddenElement() {
 		let element = document.createElement('input');
-		element.classList.add('hiddenElement')
 		element.type = 'checkbox';
-		element.addEventListener('change', this.mainHandler);
+		element.addEventListener('change', e => {
+			this.state = (e.currentTarget as HTMLInputElement).checked;
+			this.safeUpdate(() => this.userHandler(this.state));
+		});
 		element.checked = this.state;
 		return element
 	}
@@ -95,6 +88,7 @@ export class ToggleView extends ViewFormElement<{ input: HTMLInputElement, paren
 	constructor(value: Observed.Binding<boolean> | { value: boolean, onChange: (value: boolean) => void }, elements: (ViewBuilder | undefined)[]) {
 		super(elements);
 		this.state = value.value;
+		this.direction(undefined, true);
 		this.userHandler = Observed.isObserved(value)
 			? (v: boolean) => value.value = v
 			: value.onChange;
