@@ -40,7 +40,7 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 	protected listeners?: Listeners<ListenersInterface<HTMLPictureElement>>
 	protected attribute?: ElementAttribute<any>
 
-	protected content: string
+	protected content: string | URL
 	protected description: string
 
 	protected sourceMap?: Map<ImageMimeType, string>
@@ -94,7 +94,7 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 		let pictureElement = document.createElement('picture');
 		let imageElement = pictureElement.appendChild(document.createElement('img'));
 		imageElement.alt = this.description;
-		imageElement.src = this.content;
+		imageElement.src = this.content.toString();
 		imageElement.loading = 'lazy';
 		imageElement.decoding = 'async';
 
@@ -105,7 +105,7 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 	}
 	protected merge(newRender: PictureView, element: { parent: HTMLPictureElement; image: HTMLImageElement; sources?: Map<ImageMimeType, HTMLSourceElement> | undefined }): void {
 		if (this.description != newRender.description) { this.description = newRender.description; element.image.alt = this.description; }
-		if (this.content != newRender.content) { this.content = newRender.content; element.image.src = this.content; }
+		if (this.content != newRender.content) { this.content = newRender.content; element.image.src = this.content.toString(); }
 
 		if (this.sourceMap) this.renderSourceMap(element.parent, element.sources ? element.sources : element.sources = new Map, this.sourceMap)
 	}
@@ -141,7 +141,7 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 		else this.styles.getCollectableStyles('--object-position', FitPositionStyle).y = value + unit;
 		return this
 	}
-	public imageSources(imageMimeType: ImageMimeType): (...elements: { src: string, size?: number }[]) => this {
+	public imageSources(imageMimeType: ImageMimeType): (...elements: { src: string | URL, size?: number }[]) => this {
 		return (...elements) => {
 			this.safeSourceMap.set(
 				imageMimeType,
@@ -152,11 +152,11 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 	}
 
 
-	constructor(src: string, description: string) {
+	constructor(src: string | URL, description: string) {
 		super();
 		this.content = src;
 		this.description = description;
 	}
 }
 
-export function Picture(src: string, description: string): PictureView { return new PictureView(src, description) }
+export function Picture(src: string | URL, description: string): PictureView { return new PictureView(src, description) }

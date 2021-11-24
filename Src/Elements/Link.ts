@@ -81,8 +81,8 @@ export class LinkView extends ViewSubElements<HTMLAnchorElement> {
 }
 
 
-export function Link(href: string, action?: (event: Event) => void): (...elements: (ViewBuilder | undefined)[]) => LinkView { return (...elements) => new LinkView(href, elements, action) }
+export function Link(href: string | URL, action?: (event: Event) => void): (...elements: (ViewBuilder | undefined)[]) => LinkView { return (...elements) => new LinkView(href, elements, action) }
 
 Link.Phone = (phone: string, action?: (event: Event) => void) => { return (...elements: (ViewBuilder | undefined)[]) => new LinkView(`tel:${phone}`, elements, action) }
 Link.Mail = (mail: string, action?: (event: Event) => void) => { return (...elements: (ViewBuilder | undefined)[]) => new LinkView(`mailto:${mail}`, elements, action) }
-Link.Download = (path: string, fileName?: string, action?: (event: Event) => void) => { return (...elements: (ViewBuilder | undefined)[]) => new LinkView(path, elements, action).download(fileName ? fileName : true) }
+Link.Download = (path: string | URL, fileName?: string, action?: (event: Event) => void) => { return (...elements: (ViewBuilder | undefined)[]) => new LinkView(path, elements, action).download(fileName ? fileName : true) }
