@@ -39,11 +39,11 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 	protected listeners?: Listeners<ListenersInterface<any>>
 	protected attribute?: ElementAttribute<ElementAttributeInterface>
 
-	protected content: string
+	protected content: string | URL
 	protected loop: boolean = true
 
 
-	protected poster?: string
+	protected poster?: string | URL
 	protected sourceMap?: {
 		elements?: HTMLSourceElement[]
 		data: Map<string, { mimeType: string, mediaQuery?: string }>
@@ -105,9 +105,9 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 
 
 
-	protected merge(newRender:BackgroundVideoView,element:HTMLVideoElement): void {
-		if (newRender.poster && this.poster != newRender.poster) { this.poster = newRender.poster; element.poster = this.poster; }
-		if (this.content != newRender.content) { this.content = newRender.content; element.src = this.content; }
+	protected merge(newRender: BackgroundVideoView, element: HTMLVideoElement): void {
+		if (newRender.poster && this.poster?.toString() != newRender.poster.toString()) { this.poster = newRender.poster; element.poster = this.poster.toString(); }
+		if (this.content.toString() != newRender.content.toString()) { this.content = newRender.content; element.src = this.content.toString(); }
 		this.loop = newRender.loop;
 		if (this.loop) element.loop = true;
 
@@ -115,17 +115,15 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 	}
 	protected generateHTMLElement(): HTMLVideoElement {
 		let e = this.HTMLElement = document.createElement('video');
-		e.src = this.content;
+		e.src = this.content.toString();
 		if (this.loop) e.loop = true;
-		if (this.poster) e.poster = this.poster;
+		if (this.poster) e.poster = this.poster.toString();
 		e.autoplay = true;
 		e.controls = false;
 		e.muted = true;
 		e.playsInline = true
-		// @ts-ignore
-		if (e.disablePictureInPicture) e.disablePictureInPicture();
-		// @ts-ignore
-		if (e.disableRemotePlayback) e.disableRemotePlayback();
+		e.disablePictureInPicture = true;
+		e.disableRemotePlayback = true;
 
 		return e
 	}
@@ -149,7 +147,7 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 
 
 
-	constructor(src: string, poster?: string) {
+	constructor(src: string | URL, poster?: string | URL) {
 		super();
 		this.content = src;
 		if (poster) this.poster = poster
@@ -157,4 +155,4 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 }
 
 
-export function BackgroundVideo(src: string, poster?: string): BackgroundVideoView { return new BackgroundVideoView(src, poster) }
+export function BackgroundVideo(src: string | URL, poster?: string): BackgroundVideoView { return new BackgroundVideoView(src, poster) }
