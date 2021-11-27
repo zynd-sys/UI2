@@ -44,8 +44,8 @@ export class ViewsList {
 		this.data.splice(start, deleteCount, ...values);
 		return this
 	}
-	public destroy(withAnimatiom?: boolean): (Promise<void> | void)[] | void {
-		if (withAnimatiom) return this.map(v => v?.destroy(withAnimatiom))
+	public destroy(withAnimation?: boolean): (Promise<void> | void)[] | void {
+		if (withAnimation) return this.map(v => v?.destroy(withAnimation))
 		this.forEach(v => v?.destroy())
 	}
 

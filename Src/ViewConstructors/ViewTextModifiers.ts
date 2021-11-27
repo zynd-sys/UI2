@@ -132,14 +132,14 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 
 
 
-	public render(newRender?: ViewModifiers<any>, withAnimatiom?: boolean): HTMLElement {
+	public render(newRender?: ViewModifiers<any>, withAnimation?: boolean): HTMLElement {
 		// first render
 		if (!this.HTMLElement) {
 			if (newRender) { this.importProperty(newRender); newRender = undefined; }
 			this.HTMLElement = this.generateHTMLElement();
 			let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
 			element.classList.add('text-conteainer')
-			this.renderModifiers(element, undefined, withAnimatiom);
+			this.renderModifiers(element, undefined, withAnimation);
 			return element
 		}
 
@@ -149,7 +149,7 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 
 		// update
 		if (this.merge) this.merge(newRender, this.HTMLElement);
-		this.renderModifiers(element, newRender, withAnimatiom);
+		this.renderModifiers(element, newRender, withAnimation);
 		return element;
 	}
 }

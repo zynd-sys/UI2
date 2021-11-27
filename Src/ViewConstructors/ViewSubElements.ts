@@ -5,6 +5,7 @@ import type { StylesInterface, Styles } from "./Styles/Styles";
 import type { ViewBuilder } from "./ViewBuilder";
 import type { GridTrackClass } from "./Styles/GridTrack";
 import type { GridTrackRepeat } from "./Enum/GridTrackRepeat";
+import type { CompositingCoords } from "./Styles/Compositing";
 import { ViewsList } from "./Styles/ListView";
 import { Side } from "./Enum/Side";
 import { Direction } from "./Enum/Direction";
@@ -70,7 +71,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 
 
-	protected renderModifiers(element: HTMLElement, newRender?: ViewSubElements<any>, withAnimatiom?: boolean): ReturnType<ViewModifiers<any>['renderModifiers']> {
+	protected renderModifiers(element: HTMLElement, newRender?: ViewSubElements<any>, withAnimation?: boolean): ReturnType<ViewModifiers<any>['renderModifiers']> {
 		const list = element.classList;
 
 		if (newRender) {
@@ -109,7 +110,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 		if (this.isScroll) list.add('scroll')
 
-		return super.renderModifiers(element, newRender, withAnimatiom)
+		return super.renderModifiers(element, newRender, withAnimation)
 	}
 
 
@@ -264,7 +265,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 
 
-	public render(newRender?: ViewSubElements<any>, withAnimatiom?: boolean): HTMLElement {
+	public render(newRender?: ViewSubElements<any>, withAnimation?: boolean): HTMLElement {
 		// first render
 		if (!this.HTMLElement) {
 			if (newRender) { this.importProperty(newRender); newRender = undefined; }
@@ -273,7 +274,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 			element.classList.add('container');
 
 			this.content.render(element, this.animations.withChild);
-			this.renderModifiers(element, undefined, withAnimatiom);
+			this.renderModifiers(element, undefined, withAnimation);
 
 			return element
 		}
@@ -285,7 +286,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 		// changes
 		if (this.merge) this.merge(newRender, this.HTMLElement);
 		this.content.render(element, true, newRender.content);
-		this.renderModifiers(element, newRender, withAnimatiom);
+		this.renderModifiers(element, newRender, withAnimation);
 		return element;
 	}
 
@@ -293,8 +294,8 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 
 
-	public destroy(withAnimatiom?: boolean): Promise<void> | void {
-		if (withAnimatiom && this.HTMLElement) {
+	public destroy(withAnimation?: boolean): Promise<void> | void {
+		if (withAnimation && this.HTMLElement) {
 			if (this.animations.withChild) {
 				let animations = this.content.map(v => v?.destroy(true));
 				animations.push(
@@ -303,11 +304,17 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 				)
 				return Promise.all(animations).then(() => { if (this.HTMLElement) super.destroy() });
 			}
-			return super.destroy(withAnimatiom)?.then(() => void this.content.forEach(element => element?.destroy()))
+			return super.destroy(withAnimation)?.then(() => void this.content.forEach(element => element?.destroy()))
 		}
 
 		this.content.forEach(element => element?.destroy());
 		return super.destroy()
+	}
+
+
+	public getRectElements(storage: Map<HTMLElement, CompositingCoords>): void {
+		super.getRectElements(storage);
+		this.content.forEach(view => { view?.getRectElements(storage) });
 	}
 
 

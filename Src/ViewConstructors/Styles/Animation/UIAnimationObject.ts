@@ -1,15 +1,14 @@
 import { PageData } from "../../../Data/PageData/PageData"
 import { AnimationStorage } from "../../../Data/Storages/Animations"
-import { AnimationResize } from "../../Enum/AnimationResize"
 import { UIAnimation, UIAnimationClass } from "./UIAnimation"
 
 
 
-const createAnimation: UIAnimationClass<AnimationResize.create> = UIAnimation(350, AnimationResize.create)
+const createAnimation: UIAnimationClass = UIAnimation(350)
 	.opacityEffect(0, 1)
 	.scaleXEffect(0, 1)
 	.scaleYEffect(0, 1)
-const destroyedAnimation: UIAnimationClass<AnimationResize.destroy> = UIAnimation(350, AnimationResize.destroy)
+const destroyedAnimation: UIAnimationClass = UIAnimation(350)
 	.opacityEffect(1, 0)
 	.scaleXEffect(1, 0)
 	.scaleYEffect(1, 0)
@@ -19,14 +18,14 @@ const destroyedAnimation: UIAnimationClass<AnimationResize.destroy> = UIAnimatio
 
 export class UIAnimationObject {
 	public withChild?: boolean
-	public created?: ((coordinates: () => DOMRect) => UIAnimationClass<AnimationResize.create>) = () => createAnimation
-	public destroyed?: ((coordinates: () => DOMRect) => UIAnimationClass<AnimationResize.destroy>) = () => destroyedAnimation
+	public created?: ((coordinates: () => DOMRect) => UIAnimationClass) = () => createAnimation
+	public destroyed?: ((coordinates: () => DOMRect) => UIAnimationClass) = () => destroyedAnimation
 
 
 
 	public animateCreation(element: HTMLElement): Promise<void> | void {
 		if (!this.created || PageData.reducedAnimation) return
-
+		
 		let func = this.created;
 		if (element.isConnected) return func(() => element.getBoundingClientRect()).animate(element)
 
@@ -37,6 +36,7 @@ export class UIAnimationObject {
 		return promise
 
 	}
+
 	public animateDestruction(element: HTMLElement): Promise<void> | void {
 		if (!this.destroyed || PageData.reducedAnimation) return
 		return this.destroyed(() => element.getBoundingClientRect()).animate(element)

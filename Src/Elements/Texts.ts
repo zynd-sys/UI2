@@ -50,8 +50,8 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 		this.styles.set('font-size', size + 'px');
 	}
 
-	protected renderModifiers(element: HTMLElement, newRender?: TextsView, withAnimatiom?: boolean): void {
-		super.renderModifiers(element, newRender, withAnimatiom);
+	protected renderModifiers(element: HTMLElement, newRender?: TextsView, withAnimation?: boolean): void {
+		super.renderModifiers(element, newRender, withAnimation);
 
 		if (this.scaling)
 			if (element.isConnected) this.scaleFontSize(element)

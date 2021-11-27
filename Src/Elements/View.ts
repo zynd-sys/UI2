@@ -1,3 +1,4 @@
+import type { CompositingCoords } from "../ViewConstructors/Styles/Compositing";
 import { Observed } from "../Data/Observed";
 import { AnimationStorage } from "../Data/Storages/Animations";
 import { ViewsList } from "../ViewConstructors/Styles/ListView";
@@ -108,22 +109,22 @@ export abstract class View extends ViewBuilder {
 
 
 
-	public render(newRender?: View, withAnimatiom?: boolean): ViewHTMLElement {
+	public render(newRender?: View, withAnimation?: boolean): ViewHTMLElement {
 		const storage = this[ViewStorageKey];
 
-		if (newRender) { newRender.destroy(withAnimatiom as any); newRender = undefined; }
+		if (newRender) { newRender.destroy(withAnimation as any); newRender = undefined; }
 		if (!storage.HTMLElement) storage.HTMLElement = new ViewHTMLElement;
 
 		// timeout
 		if (AnimationStorage.isAnimated) {
-			AnimationStorage.addAnimationCompletionHandler(this, () => this.render(newRender, withAnimatiom));
+			AnimationStorage.addAnimationCompletionHandler(this, () => this.render(newRender, withAnimation));
 			return storage.HTMLElement
 		}
 
 		if (storage.isObserved == false && (this.constructor as typeof View).observedProperty) this.setObservedProperty((this.constructor as typeof View).observedProperty!);
 
-		if (storage.renderingContent) storage.renderingContent.render(storage.HTMLElement, withAnimatiom, new ViewsList([this.content()]))
-		else { storage.renderingContent = new ViewsList([this.content()]); storage.renderingContent.render(storage.HTMLElement, withAnimatiom) }
+		if (storage.renderingContent) storage.renderingContent.render(storage.HTMLElement, withAnimation, new ViewsList([this.content()]))
+		else { storage.renderingContent = new ViewsList([this.content()]); storage.renderingContent.render(storage.HTMLElement, withAnimation) }
 
 		return storage.HTMLElement
 	}
@@ -134,17 +135,17 @@ export abstract class View extends ViewBuilder {
 
 
 
-	public destroy(withAnimatiom?: boolean) {
+	public destroy(withAnimation?: boolean) {
 		const storage = this[ViewStorageKey];
 		storage.cancelHandlerStorage.forEach(v => v());
 		storage.cancelHandlerStorage.clear();
 
 
-		if (withAnimatiom) {
+		if (withAnimation) {
 			let renderingContent = storage.renderingContent;
 			let HTMLElement = storage.HTMLElement;
 
-			let content = renderingContent?.destroy(withAnimatiom);
+			let content = renderingContent?.destroy(withAnimation);
 			let result: void | Promise<void>;
 			if (Array.isArray(content)) result = Promise.all(content).then(() => HTMLElement?.remove());
 			else HTMLElement?.remove()
@@ -160,4 +161,9 @@ export abstract class View extends ViewBuilder {
 		storage.renderingContent = undefined;
 		storage.HTMLElement = undefined;
 	}
+
+
+
+
+	public getRectElements(storage: Map<HTMLElement, CompositingCoords>): void { this[ViewStorageKey].renderingContent?.forEach(view => view?.getRectElements(storage)); }
 }

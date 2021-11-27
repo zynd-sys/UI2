@@ -16,15 +16,6 @@ export interface AnimatedStyles {
 	'transform'?: (TransformsStyle | string)[]
 	'filter'?: (FiltersStyle | string)[]
 
-	'minWidth'?: string[]
-	'width'?: string[]
-
-	'minHeight'?: string[]
-	'height'?: string[]
-
-	// 'flex-grow'?: (number | undefined)[]
-	'padding'?: string[]
-	'margin'?: string[]
 
 	// 'border-width'?: (SideStyle | undefined)[]
 	'borderRadius'?: string[]
@@ -51,8 +42,6 @@ export interface AnimatedStyles {
 	'lineHeight'?: string[]
 }
 
-type OmitAnimatedStyles = Omit<AnimatedStyles, 'transform' | 'filter' | 'width' | 'minWidth' | 'height' | 'minHeight' | 'margin' | 'padding' | 'overflow' | 'transformOrigin'>
-type ValueStyle<P extends keyof OmitAnimatedStyles> = NonNullable<NonNullable<AnimatedStyles[P]>[any]>
 interface s {
 	transform: TransformStyleInterface
 	filter: FilterStyleInterface
@@ -73,9 +62,9 @@ interface s {
 
 
 
-export class UIAnimationClass<A extends AnimationResize> {
+export class UIAnimationClass {
 
-	protected options: { reSize?: AnimationResize } & KeyframeAnimationOptions = { composite: 'replace', fill: 'backwards' }
+	protected options: KeyframeAnimationOptions = { composite: 'replace', fill: 'backwards' }
 	protected keyFrames: AnimatedStyles = {}
 
 
@@ -118,8 +107,10 @@ export class UIAnimationClass<A extends AnimationResize> {
 	public translateZEffect(units: Units, ...values: [from: number, to: number, ...otherValues: number[]]): this { this.setCollectableStyles('transform', 'translateZ', values.map(v => v.toString() + units)); return this }
 
 
+	public borderRadius(units: Units, ...values: [from: number, to: number, ...otherValues: number[]]): this { this.keyFrames.borderRadius = values.map(v => v.toString() + units); return this }
 
-	public popoverEffect(fromElement: DOMRect, toElement: DOMRect, animateResize: AnimationResize.create | AnimationResize.destroy): this {
+
+	public popoverEffect(fromElement: DOMRect, toElement: DOMRect, animateResize: AnimationResize): this {
 		let x = -toElement.x - toElement.width / 2 + fromElement.x + fromElement.width / 2;
 		let y = -toElement.y - toElement.height / 2 + fromElement.y + fromElement.height / 2;
 		if (animateResize == AnimationResize.create) {
@@ -152,8 +143,8 @@ export class UIAnimationClass<A extends AnimationResize> {
 		return this
 	}
 
-	// @ts-ignore
-	public customStyleProperty<P extends keyof OmitAnimatedStyles>(styleName: P, ...values: [from: ValueStyle<P>, to: ValueStyle<P>, ...otherValues: ValueStyle<P>[]]): this { this.keyFrames[styleName] = values; return this }
+	// // @ts-ignore
+	// public customStyleProperty<P extends keyof OmitAnimatedStyles>(styleName: P, ...values: [from: ValueStyle<P>, to: ValueStyle<P>, ...otherValues: ValueStyle<P>[]]): this { this.keyFrames[styleName] = values; return this }
 
 
 
@@ -180,39 +171,6 @@ export class UIAnimationClass<A extends AnimationResize> {
 
 
 
-	protected getGeneralKeyFrames(keyFrames: AnimatedStyles) {
-		if (keyFrames.filter) keyFrames.filter = keyFrames.filter.map(v => v.toString());
-		if (keyFrames.transform) keyFrames.transform = keyFrames.transform.map(v => v.toString());
-		return keyFrames
-	}
-
-	protected getKeyFrames(element: HTMLElement, revers?: boolean) {
-		let keyFrames = Object.assign({ 'overflow': ['hidden', 'hidden'] }, this.keyFrames);
-
-		const isRow = element.parentElement?.style.flexDirection == 'row';
-		const isTextConteainer = element.classList.contains('text-conteainer');
-
-		if (isRow || isTextConteainer) {
-			keyFrames.minWidth = ['0', '0'];
-			keyFrames.width = ['0', `${element.clientWidth}px`];
-			if (revers) keyFrames.width.reverse();
-		}
-		if (!isRow || isTextConteainer) {
-			keyFrames.minHeight = ['0', '0'];
-			keyFrames.height = ['0', `${element.clientHeight}px`];
-			if (revers) keyFrames.height.reverse();
-		}
-
-		if (element.style.margin) keyFrames.margin = ['0', element.style.margin];
-		if (element.style.padding) keyFrames.padding = ['0', element.style.padding];
-		if (revers) {
-			keyFrames.margin?.reverse();
-			keyFrames.padding?.reverse();
-		}
-		this.getGeneralKeyFrames(keyFrames);
-
-		return keyFrames
-	}
 
 	protected setHandlers(animation: Animation, endHandler: () => void): void {
 		const handler = () => { animation.oncancel = null; animation.onfinish = null; endHandler(); };
@@ -224,33 +182,19 @@ export class UIAnimationClass<A extends AnimationResize> {
 
 
 
-	public animate(element: HTMLElement, track: boolean = true): Promise<void> {
-		let promise: Promise<AnimatedStyles>;
-		switch (this.options.reSize) {
-			case AnimationResize.none: promise = Promise.resolve(this.getGeneralKeyFrames(Object.assign({}, this.keyFrames))); break;
-			case AnimationResize.destroy: promise = Promise.resolve(this.getKeyFrames(element, true)); break;
-			case AnimationResize.create:
-				if (element.isConnected) promise = Promise.resolve(this.getKeyFrames(element))
-				else promise = new Promise(resolve => window.requestAnimationFrame(() => resolve(this.getKeyFrames(element))))
-				break;
+	public animate(element: HTMLElement, trackAnimation: boolean = true): Promise<void> {
+		let animation = element.animate(this.keyFrames as unknown as PropertyIndexedKeyframes, this.options);
+		let p = new Promise<void>(resolve => this.setHandlers(animation, resolve));
 
-			default: throw new Error('not found animation type ' + this.options.reSize)
-		}
-
-		let p = promise.then<void>(keyFrames => {
-			let animation = element.animate(keyFrames as PropertyIndexedKeyframes, this.options);
-			return new Promise(resolve => this.setHandlers(animation, resolve));
-		})
-
-		if (track) AnimationStorage.addAnimation(element, p);
+		if (trackAnimation) AnimationStorage.addAnimation(element, p);
 		return p
 	}
 
 
 
 	/** @param duration milliseconds */
-	constructor(duration: number, animateResize: A) { this.options.reSize = animateResize; this.options.duration = duration }
+	constructor(duration: number) { this.options.duration = duration }
 }
 
 /** @param duration milliseconds */
-export function UIAnimation<A extends AnimationResize>(duration: number, animateResize: A): UIAnimationClass<A> { return new UIAnimationClass(duration, animateResize) }
+export function UIAnimation(duration: number): UIAnimationClass { return new UIAnimationClass(duration) }

@@ -1,4 +1,5 @@
 import type { View } from "../../Elements/View"
+import type { CompositingCoords } from "../../ViewConstructors/Styles/Compositing";
 import { ColorMode, PageDataColorMode } from "../../Data/PageData/PageDataColorMode";
 import { AnimationStorage } from "../../Data/Storages/Animations"
 import { AppLayerName, AppLayersClass } from "./Layers"
@@ -103,7 +104,7 @@ export class AppCoreClass {
 			this.setAppLayers(viewv, viewParametrs, manifestItem?.colorModeValue);
 			this.urlNow = window.location.pathname;
 
-		} catch (error:any) { this.setErrorView(error) }
+		} catch (error: any) { this.setErrorView(error) }
 	}
 
 
@@ -124,7 +125,7 @@ export class AppCoreClass {
 
 
 
-
+	public getRectElements(storage: Map<HTMLElement,CompositingCoords>): void { this.layers.getRectElements(storage) }
 
 	public addErrorPath(view: new (error: Error) => View): void { this.errorView = view }
 	public addNotFoundPath(view: new () => View): void { this.notFoundView = view }

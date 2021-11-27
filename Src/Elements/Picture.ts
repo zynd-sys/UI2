@@ -117,14 +117,14 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 
 
 
-	public destroy(withAnimatiom?: boolean): Promise<void> | void {
-		// if (withAnimatiom && this.sourceMap) return super.destroy(withAnimatiom).then(() => {
+	public destroy(withAnimation?: boolean): Promise<void> | void {
+		// if (withAnimation && this.sourceMap) return super.destroy(withAnimation).then(() => {
 		// 	// this.sourceMap?.elements?.forEach(e=>e.remove())
 		// 	this.sourceMap = undefined;
 		// });
 		// this.sourceMap?.elements?.forEach(e=>e.remove())
 		this.sourceMap = undefined;
-		return super.destroy(withAnimatiom)
+		return super.destroy(withAnimation)
 	}
 
 

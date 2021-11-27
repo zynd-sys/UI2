@@ -1,4 +1,5 @@
 import type { View } from "../../Elements/View";
+import type { CompositingCoords } from "../../ViewConstructors/Styles/Compositing";
 import { PageDataColorMode } from "../../Data/PageData/PageDataColorMode";
 import { PageDataWidth } from "../../Data/PageData/PageDataWidth";
 
@@ -24,12 +25,12 @@ export class AppLayersClass {
 	protected storage: Map<AppLayerName, { element: LayerHTMLElement, view: View | undefined }> = new Map
 
 
-	public setLayer(layerName: AppLayerName, view: View, withAnimatiom?: boolean): void {
+	public setLayer(layerName: AppLayerName, view: View, withAnimation?: boolean): void {
 		let layer = this.storage.get(layerName);
 		if (!layer) { console.error('not found', layerName); return }
 		// layer.element.textContent = null;
 
-		let result = view.render(layer.view, withAnimatiom);
+		let result = view.render(layer.view, withAnimation);
 
 		let firstElement = layer.element.firstElementChild;
 		if (firstElement) { if (firstElement != result) firstElement.replaceWith(result) }
@@ -41,7 +42,7 @@ export class AppLayersClass {
 
 
 
-	public clearLayer(layerName: AppLayerName | 'all', withAnimatiom?: boolean): this {
+	public clearLayer(layerName: AppLayerName | 'all', withAnimation?: boolean): this {
 		if (layerName == 'all') {
 			this.storage.forEach(v => {
 				v.element.textContent = null;
@@ -54,14 +55,15 @@ export class AppLayersClass {
 		let layer = this.storage.get(layerName);
 		if (!layer) { console.error('not found', layerName); return this }
 
-		let result = layer.view?.destroy(withAnimatiom as any);
-		if (result instanceof Promise) result.then(() => layer!.element.textContent = null )
-		else {  layer.element.textContent = null };
+		let result = layer.view?.destroy(withAnimation as any);
+		if (result instanceof Promise) result.then(() => layer!.element.textContent = null)
+		else { layer.element.textContent = null };
 
 		layer.view = undefined;
 		return this
 	}
 
+	public getRectElements(storage: Map<HTMLElement, CompositingCoords>): void { this.storage.forEach(v => v.view?.getRectElements(storage)) }
 
 
 

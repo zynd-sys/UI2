@@ -124,10 +124,8 @@ a {
 
 
 
-video
-/* , */
-/* picture  */
-{
+video,
+picture {
 	display: block;
 	overflow: hidden;
 	user-select: none;
@@ -143,7 +141,7 @@ picture img {
 	display: block;
 	position: absolute;
 	inset: 0;
-	/* block-size: 100%; */
+	block-size: 100%;
 	max-inline-size: 100%;
 	inline-size: 100%;
 }

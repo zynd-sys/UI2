@@ -41,6 +41,7 @@ class TextItem extends ViewBuilder {
 		this.HTMLElement.remove();
 		this.HTMLElement = undefined;
 	}
+	public getRectElements(): void { return }
 
 
 	constructor(value: string) { super(); this.content = value }

@@ -1,8 +1,10 @@
 import type { Color } from "./Styles/Colors/Colors"
 import type { ViewBuilder } from "./ViewBuilder"
-import { StackView } from "../Elements/Stack"
+import type { ElementAttribute, ElementAttributeInterface } from "./Styles/Attributes"
+import type { Listeners } from "./Styles/Listeners/Listeners"
 import { DefaultColor } from "./Styles/Colors/DefaultColors"
-import { SubElementsListeners, ViewSubElements } from "./ViewSubElements"
+import { SubElementsListeners, SubElementsStyles, ViewSubElements } from "./ViewSubElements"
+import { Styles } from "./Styles/Styles"
 
 
 
@@ -16,19 +18,14 @@ import { SubElementsListeners, ViewSubElements } from "./ViewSubElements"
 
 
 
-export class SpanView extends StackView {
-	protected HTMLTagName = 'span' as 'div'
-	protected handlerElementSize?: (value: DOMRect) => void
+export class SpanView extends ViewSubElements<HTMLSpanElement> {
+	protected styles: Styles<SubElementsStyles> = new Styles
+	protected listeners?: Listeners<SubElementsListeners<any>>
+	protected HTMLElement?: HTMLSpanElement
+	protected attribute?: ElementAttribute<ElementAttributeInterface>
 
-	protected renderModifiers(element: HTMLElement, newRender?: ViewSubElements<any>, withAnimatiom?: boolean): void {
-		let handler = this.handlerElementSize
-		if (handler) if (element.isConnected) handler(element.getBoundingClientRect())
-		else window.requestAnimationFrame(() => handler!(element.getBoundingClientRect()));
-		return super.renderModifiers(element, newRender, withAnimatiom)
-	}
-
-	public getElementSize(value: (coordinates: DOMRect) => void): this { this.handlerElementSize = value; return this };
-
+	protected generateHTMLElement(): HTMLSpanElement { return document.createElement('span') }
+	protected merge?(): void
 }
 export function Span(...elements: (ViewBuilder | undefined)[]): SpanView { return new SpanView(elements) }
 
@@ -107,7 +104,7 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 
 
 
-	public render(newRender?: ViewFormElement<any>, withAnimatiom?: boolean): HTMLElement {
+	public render(newRender?: ViewFormElement<any>, withAnimation?: boolean): HTMLElement {
 		this.isUpdating = true;
 
 		// first render
@@ -116,8 +113,8 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 			let e = this.HTMLElement = this.generateHTMLElement();
 
 			if (this.generateAlternativeElement) this.content.unshift(this.generateAlternativeElement(this.accentColorValue))
-			this.content.render(e.parent, withAnimatiom || this.animations.withChild, undefined, [e.input]);
-			this.renderModifiers(e.parent, undefined, withAnimatiom);
+			this.content.render(e.parent, withAnimation || this.animations.withChild, undefined, [e.input]);
+			this.renderModifiers(e.parent, undefined, withAnimation);
 
 			return e.parent
 		}
@@ -130,7 +127,7 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 		if (this.merge) this.merge(newRender, this.HTMLElement);
 		if (this.generateAlternativeElement) newRender.content.unshift(this.generateAlternativeElement(this.accentColorValue))
 		this.content.render(e.parent, true, newRender.content, [e.input])
-		this.renderModifiers(e.parent, newRender, withAnimatiom);
+		this.renderModifiers(e.parent, newRender, withAnimation);
 		return e.parent;
 	}
 }
