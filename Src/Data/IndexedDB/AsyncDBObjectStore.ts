@@ -1,6 +1,6 @@
 
 
-export class AsyncDBObjectStoreReadOnly {
+export class AsyncDBObjectStoreReadOnly<D> {
 	protected objectStore: IDBObjectStore
 
 
@@ -11,7 +11,7 @@ export class AsyncDBObjectStoreReadOnly {
 			request.onerror = () => reject(request.error)
 		})
 	}
-	public get(query: IDBValidKey | IDBKeyRange): Promise<any | undefined> {
+	public get(query: IDBValidKey | IDBKeyRange): Promise<D | undefined> {
 		return new Promise((resolve, reject) => {
 			let request = this.objectStore.get(query);
 			request.onsuccess = () => resolve(request.result)
@@ -25,7 +25,7 @@ export class AsyncDBObjectStoreReadOnly {
 			request.onerror = () => reject(request.error)
 		})
 	}
-	public getAll(query?: IDBValidKey | IDBKeyRange, count?: number): Promise<any[]> {
+	public getAll(query?: IDBValidKey | IDBKeyRange, count?: number): Promise<D[]> {
 		return new Promise((resolve, reject) => {
 			let request = this.objectStore.getAll(query, count);
 			request.onsuccess = () => resolve(request.result)
@@ -49,8 +49,8 @@ export class AsyncDBObjectStoreReadOnly {
 
 
 
-export class AsyncDBObjectStoreReadWrite extends AsyncDBObjectStoreReadOnly {
-	public add(value: any, key?: IDBValidKey): Promise<void> {
+export class AsyncDBObjectStoreReadWrite<D> extends AsyncDBObjectStoreReadOnly<D> {
+	public add(value: D, key?: IDBValidKey): Promise<void> {
 		return new Promise((resolve, reject) => {
 			let request = this.objectStore.add(value, key);
 			request.onsuccess = () => resolve()
@@ -71,7 +71,7 @@ export class AsyncDBObjectStoreReadWrite extends AsyncDBObjectStoreReadOnly {
 			request.onerror = () => reject(request.onerror);
 		})
 	}
-	public put(value: any, key?: IDBValidKey): Promise<void> {
+	public put(value: D, key?: IDBValidKey): Promise<void> {
 		return new Promise((resolve, reject) => {
 			let request = this.objectStore.put(value, key);
 			request.onsuccess = () => resolve();
