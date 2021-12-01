@@ -1,8 +1,8 @@
-import { Observed } from "../Observed"
+import { LightObserver } from "../Observed"
 
 
 
-export class PageDataClass extends Observed.LightObserver {
+export class PageDataClass extends LightObserver {
 	public readonly reducedAnimation: boolean
 	public readonly isTouch: boolean
 	public readonly network: boolean = navigator.onLine

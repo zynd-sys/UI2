@@ -23,7 +23,7 @@ import { UIAnimationObject } from "./Styles/Animation/UIAnimationObject"
 import { ScrollObserver } from "./Styles/ScrollObserver"
 import { DefaultColor } from "./Styles/Colors/DefaultColors"
 import { ScrollIntoSelf } from "./Styles/ScrollIntoSelf"
-import { Observed } from "../Data/Observed"
+import { Binding as BindingObserve, isObserved } from "../Data/Observed"
 import { PageData } from "../Data/PageData/PageData"
 
 
@@ -402,11 +402,11 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 	// Listner
 	/** @param threshold range 0.0...1.0 */
-	public onScrollIntersection(...threshold: number[]): (value: Observed.Binding<number> | ((intersectionRatio: number, coordinates: DOMRect) => void)) => this {
+	public onScrollIntersection(...threshold: number[]): (value: BindingObserve<number> | ((intersectionRatio: number, coordinates: DOMRect) => void)) => this {
 		return value => {
 			let observer = this.safeScrollObserver
 			observer.threshold = threshold;
-			observer.userHandler = Observed.isObserved(value)
+			observer.userHandler = isObserved(value)
 				? ration => value.value = ration
 				: (ration, coords) => value(ration, coords);
 			return this
@@ -435,25 +435,25 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		return this
 	}
 	public onClink(value: (coordinates: () => DOMRect) => void): this { this.safeListeners.set('click', (element: HTMLElement) => value(() => element.getBoundingClientRect())); return this }
-	public onHover(value: Observed.Binding<boolean> | ((value: boolean) => void)): this {
-		this.safeListeners.set('mouseenter', Observed.isObserved(value)
+	public onHover(value: BindingObserve<boolean> | ((value: boolean) => void)): this {
+		this.safeListeners.set('mouseenter', isObserved(value)
 			? () => value.value = true
 			: () => value(true)
 		);
-		this.safeListeners.set('mouseleave', Observed.isObserved(value)
+		this.safeListeners.set('mouseleave', isObserved(value)
 			? () => value.value = false
 			: () => value(false)
 		);
 		return this
 	}
 	/** set onfocus listners and add tabindex 0 */
-	public onFocus(value: Observed.Binding<boolean> | ((value: boolean) => void), tabindex: number = 0): this {
+	public onFocus(value: BindingObserve<boolean> | ((value: boolean) => void), tabindex: number = 0): this {
 		this.safeAttribute.set('tabindex', tabindex);
-		this.safeListeners.set('focusin', Observed.isObserved(value)
+		this.safeListeners.set('focusin', isObserved(value)
 			? () => value.value = true
 			: () => value(true)
 		);
-		this.safeListeners.set('focusout', Observed.isObserved(value)
+		this.safeListeners.set('focusout', isObserved(value)
 			? () => value.value = false
 			: () => value(false)
 		);

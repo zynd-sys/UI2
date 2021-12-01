@@ -1,4 +1,4 @@
-import { Observed } from "../Observed";
+import { LightObserver } from "../Observed";
 
 
 
@@ -12,7 +12,7 @@ import { Observed } from "../Observed";
 
 
 
-export class PageDataWidthClass extends Observed.LightObserver {
+export class PageDataWidthClass extends LightObserver {
 	protected timeoutID?: number
 	protected isViewportCover: boolean = false
 	protected viewportCoverRegexp: RegExp = /viewport-fit\s*=\s*cover/

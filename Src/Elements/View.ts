@@ -1,5 +1,5 @@
 import type { CompositingCoords } from "../ViewConstructors/Styles/Compositing";
-import { Observed } from "../Data/Observed";
+import { ObserverInterface, isObserved } from "../Data/Observed";
 import { AnimationStorage } from "../Data/Storages/Animations";
 import { ViewsList } from "../ViewConstructors/Styles/ListView";
 import { ViewBuilder } from "../ViewConstructors/ViewBuilder";
@@ -21,7 +21,7 @@ class ViewStorage {
 	public HTMLElement?: ViewHTMLElement
 	public renderingContent?: ViewsList
 
-	public cancelHandlerStorage: Map<Observed.Interface, () => void> = new Map
+	public cancelHandlerStorage: Map<ObserverInterface, () => void> = new Map
 	public isObserved: boolean = false
 }
 
@@ -53,7 +53,7 @@ export abstract class View extends ViewBuilder {
 		else if (!this.hasOwnProperty('observedProperty')) { this.observedProperty = new Map(this.observedProperty.entries()) }
 		this.observedProperty.set(value, undefined);
 	}
-	public addSafeHandler(object: Observed.Interface, target: () => void): this {
+	public addSafeHandler(object: ObserverInterface, target: () => void): this {
 		this[ViewStorageKey].cancelHandlerStorage.set(object, object.addBeacon(target));
 		return this
 	}
@@ -77,7 +77,7 @@ export abstract class View extends ViewBuilder {
 			if (typeof propertyName == 'symbol') return
 
 			let value: any = this[propertyName as keyof this];
-			if (Observed.isObserved(value)) storage.cancelHandlerStorage.set(value, value.addBeacon(MainHandler))
+			if (isObserved(value)) storage.cancelHandlerStorage.set(value, value.addBeacon(MainHandler))
 			observedProperty.set(propertyName, value);
 
 			Object.defineProperty(this, propertyName, {
@@ -88,11 +88,11 @@ export abstract class View extends ViewBuilder {
 					observedProperty.set(propertyName, value);
 
 					if (value !== oldValue) {
-						if (Observed.isObserved(oldValue)) {
+						if (isObserved(oldValue)) {
 							let c = storage.cancelHandlerStorage.get(oldValue);
 							if (c) { c(); storage.cancelHandlerStorage.delete(oldValue) }
 						}
-						if (Observed.isObserved(value)) storage.cancelHandlerStorage.set(value, value.addBeacon(MainHandler))
+						if (isObserved(value)) storage.cancelHandlerStorage.set(value, value.addBeacon(MainHandler))
 					}
 					MainHandler()
 				}

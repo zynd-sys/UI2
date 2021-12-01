@@ -6,7 +6,7 @@ import { Styles } from "../../ViewConstructors/Styles/Styles"
 import { ToggleStyle, ToggleStyleInterface } from "./Styles/ToggleStyle"
 import { SpanView, ViewFormElement } from "../../ViewConstructors/ViewFormElement"
 import { Color } from "../../ViewConstructors/Styles/Colors/Colors"
-import { Observed } from "../../Data/Observed"
+import { Binding as BindingObserve, isObserved } from "../../Data/Observed"
 
 
 
@@ -85,14 +85,14 @@ export class ToggleView extends ViewFormElement<{ input: HTMLInputElement, paren
 
 
 
-	constructor(value: Observed.Binding<boolean> | { value: boolean, onChange: (value: boolean) => void }, elements: (ViewBuilder | undefined)[]) {
+	constructor(value: BindingObserve<boolean> | { value: boolean, onChange: (value: boolean) => void }, elements: (ViewBuilder | undefined)[]) {
 		super(elements);
 		this.state = value.value;
 		this.direction(undefined, true);
-		this.userHandler = Observed.isObserved(value)
+		this.userHandler = isObserved(value)
 			? (v: boolean) => value.value = v
 			: value.onChange;
 	}
 }
 
-export function Toggle(value: Observed.Binding<boolean> | { value: boolean, onChange: (value: boolean) => void }): (...elements: (ViewBuilder | undefined)[]) => ToggleView { return (...elements) => new ToggleView(value, elements) }
+export function Toggle(value: BindingObserve<boolean> | { value: boolean, onChange: (value: boolean) => void }): (...elements: (ViewBuilder | undefined)[]) => ToggleView { return (...elements) => new ToggleView(value, elements) }

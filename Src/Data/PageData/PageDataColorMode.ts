@@ -1,5 +1,5 @@
 // import type { Color } from "../../ViewConstructors/Styles/Colors/Colors";
-import { Observed } from "../Observed";
+import { LightObserver } from "../Observed";
 
 
 
@@ -13,7 +13,7 @@ export enum ColorMode {
 
 
 
-export class PageDataColorModeClass extends Observed.LightObserver {
+export class PageDataColorModeClass extends LightObserver {
 	protected matchMedia = window.matchMedia('(prefers-color-scheme: light)')
 	protected mode?: ColorMode
 	// protected textColorValue?: Color
