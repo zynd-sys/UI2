@@ -1,8 +1,9 @@
+import type { Autocapitalize } from "../../ViewConstructors/Enum/Autocapitalize";
+import type { FormElementListeners } from "../../ViewConstructors/ViewFormElement";
 import { ElementAttributeInterface, ElementAttribute } from "../../ViewConstructors/Styles/Attributes";
 import { Listeners } from "../../ViewConstructors/Styles/Listeners/Listeners";
 import { Styles, StylesInterface } from "../../ViewConstructors/Styles/Styles";
 import { ViewTextModifiers } from "../../ViewConstructors/ViewTextModifiers";
-import { FormElementListeners } from "../../ViewConstructors/ViewFormElement";
 import { Binding as BindingObserve, isObserved } from "../../Data/Observed";
 
 
@@ -18,6 +19,7 @@ export interface TextFieldAttributes extends ElementAttributeInterface {
 	'minlength'?: number
 	'readonly'?: boolean
 	'required'?: true
+	'autocapitalize'?: Autocapitalize
 }
 
 
@@ -133,9 +135,10 @@ export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLText
 	public required(value: boolean = true) { if (value) { this.attribute.set('required', true); this.listeners.set('invalid', (_, e) => e.preventDefault()) }; return this }
 	/** @param value defualt true */
 	public readOnly(value: boolean = true): this { if (value) this.attribute.set('readonly', value); return this }
-	public keyboardStyle(value: KeyboardStyle, autocomplete?: TextAutocomplete): this {
+	public keyboardStyle(value: KeyboardStyle, autocomplete?: TextAutocomplete, autocapitalize?: Autocapitalize): this {
 		this.attribute.set('type', value);
 		if (autocomplete) this.attribute.set('autocomplete', autocomplete);
+		if (autocapitalize) this.attribute.set('autocapitalize', autocapitalize);
 		return this
 	}
 

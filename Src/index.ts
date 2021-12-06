@@ -34,6 +34,7 @@ export * from './Elements/View'
 // enums
 export * from './ViewConstructors/Enum/Align'
 export * from './ViewConstructors/Enum/AnimationResize'
+export * from './ViewConstructors/Enum/Autocapitalize'
 export * from './ViewConstructors/Enum/BorderStyle'
 export * from './ViewConstructors/Enum/ColumnInsideBreak'
 export * from './ViewConstructors/Enum/ContentAlign'
