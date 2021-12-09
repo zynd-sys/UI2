@@ -197,6 +197,9 @@ export class Binding<T extends (string | number | boolean | undefined)> implemen
 	public addBeacon(value: beaconType): () => void { return this[StorageKey].addBeacon(value) }
 	public removeBeacon(value: beaconType): void { return this[StorageKey].removeBeacon(value) }
 
+	public toString(): string { return String(this._value) }
+	public toJSON(): any { return this._value }
+
 
 	constructor(value: T) { this._value = value }
 }

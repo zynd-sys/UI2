@@ -385,10 +385,11 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 
-	public writeMode(dir?: 'rtl' | 'rtl', lang?: string, translate?: boolean) {
+	public writeMode(dir?: 'rtl' | 'rtl', lang?: string, translate?: boolean): this {
 		if (dir) this.safeAttribute.set('dir', dir);
 		if (lang) this.safeAttribute.set('lang', lang);
 		if (typeof translate == 'boolean') this.safeAttribute.set('translate', translate ? 'yes' : 'no')
+		return this
 	}
 
 
@@ -476,6 +477,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	public gesture(value: () => GestureClass<any>): this {
 		this.styles
 			.set('touch-action', 'none')
+			.set('-webkit-user-select', 'none')
 			.set('user-select', 'none');
 		this.gestureState = value();
 		this.safeListeners.gesture();

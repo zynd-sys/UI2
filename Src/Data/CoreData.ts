@@ -159,6 +159,7 @@ export abstract class CoreData extends Observed.Objects {
 	protected addedNewObject<T extends object>(value: T): T {
 		if (value.constructor == Object) return Object.assign(new class CoreDataSubObject extends Observed.Objects { }, value);
 		if (Array.isArray(value)) { return new Observed.Arrays(...value) as T }
+		if (value instanceof Map) { return new Observed.Maps(value) as T }
 		return value
 	}
 
