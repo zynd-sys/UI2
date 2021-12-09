@@ -1,5 +1,5 @@
 import type { View } from "../../Elements/View";
-import type { CompositingCoords } from "../../ViewConstructors/Styles/Compositing";
+import type { CompositingCoords } from "../../ViewConstructors/Modifiers/Compositing";
 import { PageDataColorMode } from "../../Data/PageData/PageDataColorMode";
 import { PageDataWidth } from "../../Data/PageData/PageDataWidth";
 

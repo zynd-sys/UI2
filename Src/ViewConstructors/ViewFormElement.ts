@@ -1,10 +1,10 @@
-import type { Color } from "./Styles/Colors/Colors"
+import type { Color } from "./Modifiers/Colors/Colors"
 import type { ViewBuilder } from "./ViewBuilder"
-import type { ElementAttribute, ElementAttributeInterface } from "./Styles/Attributes"
-import type { Listeners } from "./Styles/Listeners/Listeners"
-import { DefaultColor } from "./Styles/Colors/DefaultColors"
+import type { ElementAttribute, ElementAttributeInterface } from "./Modifiers/Attributes"
+import type { Listeners } from "./Modifiers/Listeners/Listeners"
+import { DefaultColor } from "./Modifiers/Colors/DefaultColors"
 import { SubElementsListeners, SubElementsStyles, ViewSubElements } from "./ViewSubElements"
-import { Styles } from "./Styles/Styles"
+import { Styles } from "./Modifiers/Styles"
 
 
 

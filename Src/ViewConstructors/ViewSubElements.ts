@@ -1,12 +1,12 @@
 import type { ContentAlign } from "./Enum/ContentAlign";
 import type { ScrollSnapType } from "./Enum/ScrollSnapType";
-import type { ListenersInterface, Listeners } from "./Styles/Listeners/Listeners";
-import type { StylesInterface, Styles } from "./Styles/Styles";
+import type { ListenersInterface, Listeners } from "./Modifiers/Listeners/Listeners";
+import type { StylesInterface, Styles } from "./Modifiers/Styles";
 import type { ViewBuilder } from "./ViewBuilder";
-import type { GridTrackClass } from "./Styles/GridTrack";
+import type { GridTrackClass } from "./Modifiers/GridTrack";
 import type { GridTrackRepeat } from "./Enum/GridTrackRepeat";
-import type { CompositingCoords } from "./Styles/Compositing";
-import { ViewsList } from "./Styles/ListView";
+import type { CompositingCoords } from "./Modifiers/Compositing";
+import { ViewsList } from "./Modifiers/ListView";
 import { Side } from "./Enum/Side";
 import { Direction } from "./Enum/Direction";
 import { Units } from "./Enum/Units";

@@ -1,9 +1,9 @@
-import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Styles/Attributes";
-import type { Listeners } from "../../ViewConstructors/Styles/Listeners/Listeners";
+import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Modifiers/Attributes";
+import type { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners";
 import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder";
 import { StackView } from "../Stack";
 import { TextsView } from "../Texts";
-import { Styles } from "../../ViewConstructors/Styles/Styles";
+import { Styles } from "../../ViewConstructors/Modifiers/Styles";
 import { SubElementsListeners, SubElementsStyles, ViewSubElements } from "../../ViewConstructors/ViewSubElements";
 
 

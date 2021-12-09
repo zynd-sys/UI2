@@ -1,7 +1,7 @@
-import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Styles/Attributes";
+import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Modifiers/Attributes";
 import type { FormElementListeners } from "../../ViewConstructors/ViewFormElement";
-import { Listeners } from "../../ViewConstructors/Styles/Listeners/Listeners";
-import { Styles, StylesInterface } from "../../ViewConstructors/Styles/Styles";
+import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners";
+import { Styles, StylesInterface } from "../../ViewConstructors/Modifiers/Styles";
 import { ViewTextModifiers } from "../../ViewConstructors/ViewTextModifiers";
 
 

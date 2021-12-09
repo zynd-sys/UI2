@@ -1,11 +1,11 @@
 import type { MediaFit } from "../ViewConstructors/Enum/MediaFit";
-import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Styles/Attributes";
-import type { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners/Listeners";
+import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Modifiers/Attributes";
+import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners";
 import type { MediaInterface } from "./Picture";
 import { Units } from "../ViewConstructors/Enum/Units";
-import { Styles, StylesInterface } from "../ViewConstructors/Styles/Styles";
+import { Styles, StylesInterface } from "../ViewConstructors/Modifiers/Styles";
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers";
-import { FitPositionStyle } from "../ViewConstructors/Styles/CollectableStyles/FitPosition";
+import { FitPositionStyle } from "../ViewConstructors/Modifiers/CollectableStyles/FitPosition";
 import { Direction } from "../ViewConstructors/Enum/Direction";
 
 

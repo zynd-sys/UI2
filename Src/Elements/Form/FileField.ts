@@ -1,8 +1,8 @@
 import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder"
 import { FormElementListeners, SpanView, ViewFormElement } from "../../ViewConstructors/ViewFormElement"
-import { ElementAttributeInterface, ElementAttribute } from "../../ViewConstructors/Styles/Attributes"
-import { Listeners } from "../../ViewConstructors/Styles/Listeners/Listeners"
-import { Styles, StylesInterface } from "../../ViewConstructors/Styles/Styles"
+import { ElementAttributeInterface, ElementAttribute } from "../../ViewConstructors/Modifiers/Attributes"
+import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners"
+import { Styles, StylesInterface } from "../../ViewConstructors/Modifiers/Styles"
 
 
 

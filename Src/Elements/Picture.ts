@@ -1,12 +1,12 @@
 import type { ImageMimeType } from "../ViewConstructors/Enum/ImageMimeType"
-import type { ElementAttribute } from "../ViewConstructors/Styles/Attributes"
-import type { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners/Listeners"
+import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
+import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { MediaFit } from "../ViewConstructors/Enum/MediaFit"
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 import { Units } from "../ViewConstructors/Enum/Units"
 import { Direction } from "../ViewConstructors/Enum/Direction"
-import { FitPositionStyle } from "../ViewConstructors/Styles/CollectableStyles/FitPosition"
-import { StylesInterface, Styles } from "../ViewConstructors/Styles/Styles"
+import { FitPositionStyle } from "../ViewConstructors/Modifiers/CollectableStyles/FitPosition"
+import { StylesInterface, Styles } from "../ViewConstructors/Modifiers/Styles"
 
 
 

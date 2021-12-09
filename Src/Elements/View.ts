@@ -1,7 +1,7 @@
-import type { CompositingCoords } from "../ViewConstructors/Styles/Compositing";
+import type { CompositingCoords } from "../ViewConstructors/Modifiers/Compositing";
 import { ObserverInterface, isObserved } from "../Data/Observed";
 import { AnimationStorage } from "../Data/Storages/Animations";
-import { ViewsList } from "../ViewConstructors/Styles/ListView";
+import { ViewsList } from "../ViewConstructors/Modifiers/ListView";
 import { ViewBuilder } from "../ViewConstructors/ViewBuilder";
 
 

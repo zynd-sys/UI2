@@ -1,4 +1,4 @@
-import type { Styles } from "../../ViewConstructors/Styles/Styles"
+import type { Styles } from "../../ViewConstructors/Modifiers/Styles"
 import type { ButtonActionInterface, ButtonActionStyles } from "../Button"
 import { TimingFunction } from "../../ViewConstructors/Enum/TimingFunction";
 

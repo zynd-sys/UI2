@@ -1,8 +1,8 @@
 import type { Autocapitalize } from "../../ViewConstructors/Enum/Autocapitalize";
 import type { FormElementListeners } from "../../ViewConstructors/ViewFormElement";
-import { ElementAttributeInterface, ElementAttribute } from "../../ViewConstructors/Styles/Attributes";
-import { Listeners } from "../../ViewConstructors/Styles/Listeners/Listeners";
-import { Styles, StylesInterface } from "../../ViewConstructors/Styles/Styles";
+import { ElementAttributeInterface, ElementAttribute } from "../../ViewConstructors/Modifiers/Attributes";
+import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners";
+import { Styles, StylesInterface } from "../../ViewConstructors/Modifiers/Styles";
 import { ViewTextModifiers } from "../../ViewConstructors/ViewTextModifiers";
 import { Binding as BindingObserve, isObserved } from "../../Data/Observed";
 

@@ -1,4 +1,4 @@
-import type { CompositingCoords } from "./Styles/Compositing";
+import type { CompositingCoords } from "./Modifiers/Compositing";
 
 
 function init() {

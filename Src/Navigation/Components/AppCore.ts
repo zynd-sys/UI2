@@ -1,5 +1,5 @@
 import type { View } from "../../Elements/View"
-import type { CompositingCoords } from "../../ViewConstructors/Styles/Compositing";
+import type { CompositingCoords } from "../../ViewConstructors/Modifiers/Compositing";
 import { ColorMode, PageDataColorMode } from "../../Data/PageData/PageDataColorMode";
 import { AnimationStorage } from "../../Data/Storages/Animations"
 import { AppLayerName, AppLayersClass } from "./Layers"

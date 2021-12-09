@@ -1,11 +1,11 @@
-import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Styles/Attributes"
-import type { Listeners } from "../../ViewConstructors/Styles/Listeners/Listeners"
+import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Modifiers/Attributes"
+import type { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder"
 import type { SubElementsListeners, SubElementsStyles } from "../../ViewConstructors/ViewSubElements"
-import { Styles } from "../../ViewConstructors/Styles/Styles"
+import { Styles } from "../../ViewConstructors/Modifiers/Styles"
 import { ToggleStyle, ToggleStyleInterface } from "./Styles/ToggleStyle"
 import { SpanView, ViewFormElement } from "../../ViewConstructors/ViewFormElement"
-import { Color } from "../../ViewConstructors/Styles/Colors/Colors"
+import { Color } from "../../ViewConstructors/Modifiers/Colors/Colors"
 import { Binding as BindingObserve, isObserved } from "../../Data/Observed"
 
 

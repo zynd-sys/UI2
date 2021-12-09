@@ -1,7 +1,7 @@
 import type { Align } from "./Enum/Align";
 import type { TextTransform } from "./Enum/TextTransform";
-import type { Styles, StylesInterface } from "./Styles/Styles";
-import type { Color } from "./Styles/Colors/Colors";
+import type { Styles, StylesInterface } from "./Modifiers/Styles";
+import type { Color } from "./Modifiers/Colors/Colors";
 import type { ColumnInsideBreak } from "./Enum/ColumnInsideBreak";
 import type { BorderStyle } from "./Enum/BorderStyle";
 import { TextWeight } from "./Enum/TextWeight";

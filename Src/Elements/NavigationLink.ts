@@ -1,11 +1,11 @@
 import type { ViewBuilder } from "../ViewConstructors/ViewBuilder"
 import type { LinkAttribute } from "./Link"
 import type { View } from "./View"
-import type { ElementAttribute } from "../ViewConstructors/Styles/Attributes"
+import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import type { LinkPathClass } from "../Navigation/Components/LinkPath"
 import { ViewSubElements, SubElementsStyles, SubElementsListeners } from "../ViewConstructors/ViewSubElements"
-import { Listeners } from "../ViewConstructors/Styles/Listeners/Listeners"
-import { Styles } from "../ViewConstructors/Styles/Styles"
+import { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners"
+import { Styles } from "../ViewConstructors/Modifiers/Styles"
 import { App } from "../Navigation/App"
 
 

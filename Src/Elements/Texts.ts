@@ -1,6 +1,6 @@
-import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Styles/Attributes"
-import type { Listeners, ListenersInterface } from "../ViewConstructors/Styles/Listeners/Listeners"
-import { Styles } from "../ViewConstructors/Styles/Styles"
+import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Modifiers/Attributes"
+import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
+import { Styles } from "../ViewConstructors/Modifiers/Styles"
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 import { TextStyles, ViewTextModifiers } from "../ViewConstructors/ViewTextModifiers"
 
