@@ -3,13 +3,28 @@
   "version": "1.3.6",
   "main": "./Dist/index.js",
   "types": "./Dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
   },
   "keywords": [],
   "license": "MIT",
-  "description": "",
+  "description": "Library for creating web interfaces",
+  "homepage": "https://github.com/zynd-sys/UI2",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/zynd-sys/UI2/issues"
+  },
+  "files": [
+    "/Dist/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zynd-sys/UI2.git"
+  },
   "devDependencies": {
     "typescript": "^4.5.3"
   }

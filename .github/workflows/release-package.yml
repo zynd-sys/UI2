@@ -1,23 +1,34 @@
 name: Node.js Package
 
 on:
-  workflow_dispatch:
-  release:
-    branches: [ master ]
+  push:
+    branches:
+      - master
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    continue-on-error: false
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
 
       - name: install dependencies and build packages
         run: npm ci
 
+      - name: set package version
+        run: npm version $(${{ GITHUB_REF }} | cut -d / -f 3)
+
+      - name: gihub release
+        run: gh release create $(${{ GITHUB_REF }} | cut -d / -f 3)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: publish
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
