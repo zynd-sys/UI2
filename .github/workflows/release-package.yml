@@ -21,10 +21,10 @@ jobs:
         run: npm ci
 
       - name: set package version
-        run: npm version $(${{ env.GITHUB_REF }} | cut -d / -f 3)
+        run: npm version $($GITHUB_REF | cut -d / -f 3)
 
       - name: gihub release
-        run: gh release create $(${{ env.GITHUB_REF }} | cut -d / -f 3)
+        run: gh release create $($GITHUB_REF | cut -d / -f 3)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
