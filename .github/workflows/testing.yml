@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  deploy:
+  testing:
     runs-on: ubuntu-latest
     continue-on-error: false
     steps:
