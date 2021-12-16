@@ -22,7 +22,7 @@ jobs:
         run: npm ci
 
       - name: set package version
-        run: npm version ${{ github.event.inputs.version }}
+        run: npm version ${{ github.event.inputs.version }} --git-tag-version false
 
       - name: gihub release
         run: gh release create ${{ github.event.inputs.version }}
