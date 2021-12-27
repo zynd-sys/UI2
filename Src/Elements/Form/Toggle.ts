@@ -50,7 +50,7 @@ export class ToggleView extends ViewFormElement<{ input: HTMLInputElement, paren
 
 
 
-	protected importProperty(view: ToggleView) {
+	protected override importProperty(view: ToggleView) {
 		this.userHandler = view.userHandler;
 		this.state = view.state;
 		return super.importProperty(view)

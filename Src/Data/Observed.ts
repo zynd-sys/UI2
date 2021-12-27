@@ -230,14 +230,14 @@ export class Maps<K, V> extends Map<K, V> {
 	public removeBeacon(value: beaconType): void { return this[StorageKey].removeBeacon(value) }
 
 
-	public clear() {
+	public override clear() {
 		this[StorageKey].silentActions(() => {
 			this.forEach(v => this[StorageKey].actionDelete(v, ''));
 			super.clear();
 		})
 		this[StorageKey].userAction('', false)
 	}
-	public delete(key: K): boolean {
+	public override delete(key: K): boolean {
 		let value = this.get(key);
 		let result = super.delete(key);
 		if (!result) return result
@@ -246,7 +246,7 @@ export class Maps<K, V> extends Map<K, V> {
 
 		return result
 	}
-	public set(key: K, value: V): this {
+	public override set(key: K, value: V): this {
 		let oldValue = this.get(key);
 		let isNewPropery = this.has(key);
 
@@ -294,7 +294,7 @@ export class Arrays<T> extends Array<T> implements ObserverInterface {
 		super();
 		let proxy = new Proxy<this>(this, ProxyHandler);
 		if (elements.length) this[StorageKey].silentActions(() => {
-			for (let i = 0; i < elements.length; i++)this.push(elements[i])
+			for (let i = 0; i < elements.length; i++) this.push(elements[i]!)
 		})
 		return proxy
 	}

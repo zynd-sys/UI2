@@ -44,7 +44,7 @@ export function State(target: View, propertyKey: string): void { (target.constru
 
 export abstract class View extends ViewBuilder {
 
-	protected abstract content: () => ViewBuilder
+	protected abstract override content: () => ViewBuilder
 
 
 	static observedProperty?: Map<string | number | symbol, any>

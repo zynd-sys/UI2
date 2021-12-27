@@ -12,5 +12,5 @@ export class DropShadowStyle {
 }
 
 export class InnerShadowStyle extends DropShadowStyle {
-	public toString(): string { return 'inset ' + super.toString() }
+	public override toString(): string { return 'inset ' + super.toString() }
 }

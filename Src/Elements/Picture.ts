@@ -85,7 +85,7 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 	/**
 	 * import: styles, listeners, content, description, stylesImage, sourceArray
 	 */
-	protected importProperty(view: PictureView): ReturnType<ViewModifiers<any>['importProperty']> {
+	protected override importProperty(view: PictureView): ReturnType<ViewModifiers<any>['importProperty']> {
 		super.importProperty(view);
 		this.description = view.description;
 		this.sourceMap = view.sourceMap;
@@ -117,7 +117,7 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 
 
 
-	public destroy(withAnimation?: boolean): Promise<void> | void {
+	public override destroy(withAnimation?: boolean): Promise<void> | void {
 		// if (withAnimation && this.sourceMap) return super.destroy(withAnimation).then(() => {
 		// 	// this.sourceMap?.elements?.forEach(e=>e.remove())
 		// 	this.sourceMap = undefined;

@@ -20,7 +20,7 @@ class ScrollObserverStorage {
 		};
 		this.threshold = options.threshold;
 		this.rootMargin = options.rootMargin;
-		this.observer = new IntersectionObserver(e => this.userHandler(e[0].intersectionRatio, e[0].boundingClientRect), o)
+		this.observer = new IntersectionObserver(e => this.userHandler(e[0]!.intersectionRatio, e[0]!.boundingClientRect), o)
 	}
 }
 

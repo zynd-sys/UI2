@@ -89,11 +89,11 @@ export class AppHistoryClass {
 		}
 
 		for (let i = 1; i < pathSplit.length; i++) {
-			let partPath: string = pathSplit[i];
+			let partPath: string = pathSplit[i]!;
 
-			let checkGeneric = pathSplit[i].match(/(.+)~(.+)/);
+			let checkGeneric = partPath.match(/(.+)~(.+)/);
 			let genericValue: string | undefined;
-			if (checkGeneric) { partPath = checkGeneric[1]; genericValue = checkGeneric[2] };
+			if (checkGeneric) { partPath = checkGeneric[1]!; genericValue = checkGeneric[2] };
 
 			let addPath: string | undefined
 			for (let item of manifest)

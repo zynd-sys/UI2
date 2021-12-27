@@ -64,7 +64,7 @@ export class TextStackView extends ViewTextModifiers<HTMLParagraphElement | HTML
 	/**
 	* import: styles, listeners, content, HTMLTagName
 	*/
-	protected importProperty(view: TextStackView): ReturnType<ViewModifiers<any>['importProperty']> {
+	protected override importProperty(view: TextStackView): ReturnType<ViewModifiers<any>['importProperty']> {
 		this.HTMLTagName = view.HTMLTagName;
 		this.content = view.content;
 		return super.importProperty(view);

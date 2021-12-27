@@ -66,7 +66,7 @@ class CoreDataDBClass {
 
 		if (ids[0]) window.localStorage.setItem(LocalStorageKey, window.localStorage.getItem(LocalStorageKey) == ids[0] ? 'oldValue' : ids[0])
 		for (let i = 1; i < ids.length; i++) {
-			let id = ids[i];
+			let id = ids[i]!;
 			window.localStorage.setItem(LocalStorageKey, id);
 		}
 	}
@@ -170,8 +170,8 @@ export abstract class CoreData extends Observed.Objects {
 	public update(value: CoreData): void {
 		let elements: { [key: string]: any }[] = [this, value];
 		for (let i = 0; i < elements.length; i = i + 2) {
-			let d1 = elements[i];
-			let d2 = elements[i + 1];
+			let d1 = elements[i]!;
+			let d2 = elements[i + 1]!;
 
 			for (let property in d2)
 				if (typeof d2[property] == 'object' && typeof d1[property] == 'object') elements.push(d1, d2);

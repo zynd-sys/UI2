@@ -58,8 +58,8 @@ export interface SubElementsListeners<E extends HTMLElement> extends ListenersIn
 
 export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElement }> extends ViewModifiers<E> {
 
-	protected abstract styles: Styles<SubElementsStyles>
-	protected abstract listeners?: Listeners<SubElementsListeners<any>>
+	protected abstract override styles: Styles<SubElementsStyles>
+	protected abstract override listeners?: Listeners<SubElementsListeners<any>>
 	protected content: ViewsList
 	protected isScroll?: boolean
 	protected isGrid?: boolean
@@ -71,7 +71,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 
 
-	protected renderModifiers(element: HTMLElement, newRender?: ViewSubElements<any>, withAnimation?: boolean): ReturnType<ViewModifiers<any>['renderModifiers']> {
+	protected override renderModifiers(element: HTMLElement, newRender?: ViewSubElements<any>, withAnimation?: boolean): ReturnType<ViewModifiers<any>['renderModifiers']> {
 		const list = element.classList;
 
 		if (newRender) {
@@ -114,7 +114,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 	}
 
 
-	protected importProperty(view: ViewSubElements<any>): void {
+	protected override importProperty(view: ViewSubElements<any>): void {
 		if (view.isScroll) this.isScroll = view.isScroll;
 		if (view.isGrid) this.isGrid = view.isGrid;
 		if (view.directionToken) this.directionToken = view.directionToken;
@@ -124,7 +124,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 
 
-	protected abstract merge?(newRender: ViewSubElements<any>, HTMLElement: E): void
+	protected abstract override merge?(newRender: ViewSubElements<any>, HTMLElement: E): void
 
 
 
@@ -265,7 +265,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 
 
-	public render(newRender?: ViewSubElements<any>, withAnimation?: boolean): HTMLElement {
+	public override render(newRender?: ViewSubElements<any>, withAnimation?: boolean): HTMLElement {
 		// first render
 		if (!this.HTMLElement) {
 			if (newRender) { this.importProperty(newRender); newRender = undefined; }
@@ -294,7 +294,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 
 
-	public destroy(withAnimation?: boolean): Promise<void> | void {
+	public override destroy(withAnimation?: boolean): Promise<void> | void {
 		if (withAnimation && this.HTMLElement) {
 			if (this.animations.withChild) {
 				let animations = this.content.map(v => v?.destroy(true));
@@ -312,7 +312,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 	}
 
 
-	public getRectElements(storage: Map<HTMLElement, CompositingCoords>): void {
+	public override getRectElements(storage: Map<HTMLElement, CompositingCoords>): void {
 		super.getRectElements(storage);
 		this.content.forEach(view => { view?.getRectElements(storage) });
 	}

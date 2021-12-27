@@ -94,7 +94,7 @@ export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLText
 	protected content: string
 
 
-	protected importProperty(view: TextFieldView): void {
+	protected override importProperty(view: TextFieldView): void {
 		this.isWrap = view.isWrap;
 		return super.importProperty(view)
 	}

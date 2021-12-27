@@ -43,7 +43,7 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 
 
 
-	protected importProperty(view: NavigationLinkView<any>): void {
+	protected override importProperty(view: NavigationLinkView<any>): void {
 		this.destination = view.destination;
 		this.disablePopover = view.disablePopover
 		super.importProperty(view);

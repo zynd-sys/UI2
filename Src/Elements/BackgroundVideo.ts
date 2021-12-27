@@ -50,7 +50,7 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 	}
 
 
-	protected importProperty(view: BackgroundVideoView): ReturnType<ViewModifiers<any>['importProperty']> {
+	protected override importProperty(view: BackgroundVideoView): ReturnType<ViewModifiers<any>['importProperty']> {
 		super.importProperty(view);
 		this.loop = view.loop;
 		this.poster = view.poster;
@@ -77,7 +77,7 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 
 		if (elements.length != this.sourceMap.data.size) {
 			if (elements.length > this.sourceMap.data.size) {
-				for (let i = this.sourceMap.data.size; i < elements.length; i++) elements[i].remove();
+				for (let i = this.sourceMap.data.size; i < elements.length; i++) elements[i]?.remove();
 				elements.length = this.sourceMap.data.size;
 			} else for (let i = elements.length; i < this.sourceMap.data.size; i++) {
 				elements[i] = picture.appendChild(document.createElement('source'))

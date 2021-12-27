@@ -30,7 +30,7 @@ export class StackView extends ViewSubElements<HTMLElement> {
 	
 
 
-	protected importProperty(view: StackView): void {
+	protected override importProperty(view: StackView): void {
 		this.HTMLTagName = view.HTMLTagName;
 		return super.importProperty(view)
 	}

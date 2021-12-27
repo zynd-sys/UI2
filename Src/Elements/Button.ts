@@ -32,7 +32,7 @@ export class ButttonView extends ViewSubElements<HTMLButtonElement> {
 	protected attribute?: ElementAttribute<any>
 	protected actionInterface?: true
 
-	protected importProperty(view: ButttonView): void {
+	protected override importProperty(view: ButttonView): void {
 		this.actionInterface = view.actionInterface;
 		return super.importProperty(view);
 	}
@@ -40,7 +40,7 @@ export class ButttonView extends ViewSubElements<HTMLButtonElement> {
 	protected merge?(): void
 	protected generateHTMLElement(): HTMLButtonElement { return document.createElement('button') }
 
-	public elements(...value: (ViewBuilder | undefined)[]): this { if (!this.actionInterface) this.content.replace(value); return this }
+	public override elements(...value: (ViewBuilder | undefined)[]): this { if (!this.actionInterface) this.content.replace(value); return this }
 
 	constructor(action: (() => void) | ButtonActionInterface | undefined, elements: (ViewBuilder | undefined)[]) {
 		super(elements);

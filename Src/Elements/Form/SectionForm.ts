@@ -47,7 +47,7 @@ export class SectionFormView extends ViewSubElements<HTMLFieldSetElement> {
 		this.footerContent = true;
 		return this
 	}
-	public elements(...values: (ViewBuilder | undefined)[]): this {
+	public override elements(...values: (ViewBuilder | undefined)[]): this {
 		const headerContent = this.headerContent ? 1 : 0;
 		this.content.splice(
 			headerContent,

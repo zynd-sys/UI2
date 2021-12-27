@@ -66,7 +66,7 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 
 
 
-	protected importProperty(view: ViewFormElement<any>) {
+	protected override importProperty(view: ViewFormElement<any>) {
 		this.accentColorValue = view.accentColorValue;
 		return super.importProperty(view)
 	}
@@ -80,7 +80,7 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 			parent: labelElement
 		} as E
 	}
-	protected update(parent: E) {
+	protected override update(parent: E) {
 		if (!this.generateAlternativeElement) return super.update(parent)
 		let element = this.content.get(0);
 		if (element && element instanceof SpanView) element.render(this.generateAlternativeElement(this.accentColorValue))
@@ -104,7 +104,7 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 
 
 
-	public render(newRender?: ViewFormElement<any>, withAnimation?: boolean): HTMLElement {
+	public override render(newRender?: ViewFormElement<any>, withAnimation?: boolean): HTMLElement {
 		this.isUpdating = true;
 
 		// first render

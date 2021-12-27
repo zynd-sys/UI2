@@ -116,7 +116,7 @@ export class ViewsList {
 		let elements = this.useNodeCollection ? parent.childNodes : parent.children;
 		if (elements.length == 0) {
 			for (let i = 0; i < content.length; i++) {
-				let element = content[i];
+				let element = content[i]!;
 				if (element instanceof Promise) continue
 				parent.appendChild(element)
 			}
@@ -125,7 +125,7 @@ export class ViewsList {
 
 		for (let i = 0; i < content.length; i++) {
 			let elementNow = elements.item(i);
-			let elementNew = content[i];
+			let elementNew = content[i]!;
 
 			if (elementNew instanceof Promise) {
 				if (elementNew[ReplacePromise]) {

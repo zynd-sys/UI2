@@ -32,7 +32,7 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 	/**
 	* import: styles, listeners, content, HTMLTagName
 	*/
-	protected importProperty(view: TextsView): ReturnType<ViewModifiers<any>['importProperty']> {
+	protected override importProperty(view: TextsView): ReturnType<ViewModifiers<any>['importProperty']> {
 		this.HTMLTagName = view.HTMLTagName;
 		this.scaling = view.scaling;
 		super.importProperty(view);
@@ -50,7 +50,7 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 		this.styles.set('font-size', size + 'px');
 	}
 
-	protected renderModifiers(element: HTMLElement, newRender?: TextsView, withAnimation?: boolean): void {
+	protected override renderModifiers(element: HTMLElement, newRender?: TextsView, withAnimation?: boolean): void {
 		super.renderModifiers(element, newRender, withAnimation);
 
 		if (this.scaling)

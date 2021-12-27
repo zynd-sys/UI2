@@ -20,7 +20,7 @@ export class FiltersStyle extends Map<keyof FilterStyleInterface, FilterStyleInt
 		return v
 	}
 
-	public toString(): string {
+	public override toString(): string {
 		let str: string = '';
 		this.forEach((value, property) => { if (value !== undefined) str += ` ${property}(${value.toString()})` })
 		return str

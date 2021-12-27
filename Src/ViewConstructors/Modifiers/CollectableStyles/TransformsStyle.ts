@@ -15,7 +15,7 @@ export interface TransformStyleInterface {
 
 
 export class TransformsStyle extends Map<keyof TransformStyleInterface, TransformStyleInterface[keyof TransformStyleInterface]> {
-	public toString(): string {
+	public override toString(): string {
 		let str: string = '';
 		this.forEach((value, property) => { if (value !== undefined) str += ` ${property}(${value.toString()})` })
 		return str

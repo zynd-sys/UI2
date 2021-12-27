@@ -54,7 +54,7 @@ export interface TextStyles extends StylesInterface {
 
 export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLElement }> extends ViewModifiers<E> {
 
-	protected abstract styles: Styles<TextStyles>
+	protected abstract override styles: Styles<TextStyles>
 
 
 
@@ -132,7 +132,7 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 
 
 
-	public render(newRender?: ViewModifiers<any>, withAnimation?: boolean): HTMLElement {
+	public override render(newRender?: ViewModifiers<any>, withAnimation?: boolean): HTMLElement {
 		// first render
 		if (!this.HTMLElement) {
 			if (newRender) { this.importProperty(newRender); newRender = undefined; }
