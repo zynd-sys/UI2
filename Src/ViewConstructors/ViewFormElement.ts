@@ -1,33 +1,12 @@
 import type { Color } from "./Modifiers/Colors/Colors"
-import type { ViewBuilder } from "./ViewBuilder"
-import type { ElementAttribute, ElementAttributeInterface } from "./Modifiers/Attributes"
-import type { Listeners } from "./Modifiers/Listeners/Listeners"
 import { DefaultColor } from "./Modifiers/Colors/DefaultColors"
-import { SubElementsListeners, SubElementsStyles, ViewSubElements } from "./ViewSubElements"
-import { Styles } from "./Modifiers/Styles"
+import { SubElementsListeners, ViewSubElements } from "./ViewSubElements"
+import { SpanView } from "../Elements/Form/Span"
 
 
 
 
 
-
-
-
-
-
-
-
-
-export class SpanView extends ViewSubElements<HTMLSpanElement> {
-	protected styles: Styles<SubElementsStyles> = new Styles
-	protected listeners?: Listeners<SubElementsListeners<any>>
-	protected HTMLElement?: HTMLSpanElement
-	protected attribute?: ElementAttribute<ElementAttributeInterface>
-
-	protected generateHTMLElement(): HTMLSpanElement { return document.createElement('span') }
-	protected merge?(): void
-}
-export function Span(...elements: (ViewBuilder | undefined)[]): SpanView { return new SpanView(elements) }
 
 
 
