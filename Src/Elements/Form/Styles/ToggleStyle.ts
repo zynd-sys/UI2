@@ -7,7 +7,7 @@ import { Units } from "../../../ViewConstructors/Enum/Units";
 import { DefaultColor } from "../../../ViewConstructors/Modifiers/Colors/DefaultColors";
 import { hex } from "../../../ViewConstructors/Modifiers/Colors/HEXColor";
 import { Picture } from "../../Picture";
-import { Span, SpanView } from "../../../ViewConstructors/ViewFormElement";
+import { SpanView, Span } from "../Span";
 
 
 
