@@ -1,8 +1,9 @@
 import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder";
 import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Modifiers/Attributes";
+import type { SubElementsStyles } from "../../ViewConstructors/Modifiers/CSS/Types/SubElementsStyles";
 import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners";
-import { Styles } from "../../ViewConstructors/Modifiers/Styles";
-import { SubElementsListeners, SubElementsStyles, ViewSubElements } from "../../ViewConstructors/ViewSubElements";
+import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles";
+import { SubElementsListeners, ViewSubElements } from "../../ViewConstructors/ViewSubElements";
 
 
 

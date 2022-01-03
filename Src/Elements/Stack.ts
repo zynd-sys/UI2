@@ -1,9 +1,10 @@
 import type { ViewBuilder } from "../ViewConstructors/ViewBuilder"
 import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners"
+import type { SubElementsStyles } from "../ViewConstructors/Modifiers/CSS/Types/SubElementsStyles"
 import { Direction } from "../ViewConstructors/Enum/Direction"
-import { Styles } from "../ViewConstructors/Modifiers/Styles"
-import { ViewSubElements, SubElementsStyles, SubElementsListeners } from "../ViewConstructors/ViewSubElements"
+import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
+import { ViewSubElements, SubElementsListeners } from "../ViewConstructors/ViewSubElements"
 
 
 // type TagName = Omit<HTMLElementTagNameMap, 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'iframe' | 'a' | 'button' | 'hr' | 'picture' | 'img' | 'source' | 'input' | 'head' | 'body' | 'html' | 'meta' | 'link' | 'srcipt' | 'style'>

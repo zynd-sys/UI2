@@ -2,8 +2,9 @@ import type { MediaFit } from "../ViewConstructors/Enum/MediaFit";
 import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Modifiers/Attributes";
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners";
 import type { MediaInterface } from "./Picture";
+import type { ViedeoStyleInterface } from "../ViewConstructors/Modifiers/CSS/Types/ViedeoStyleInterface";
 import { Units } from "../ViewConstructors/Enum/Units";
-import { Styles, StylesInterface } from "../ViewConstructors/Modifiers/Styles";
+import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles";
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers";
 import { FitPositionStyle } from "../ViewConstructors/Modifiers/CollectableStyles/FitPosition";
 import { Direction } from "../ViewConstructors/Enum/Direction";
@@ -16,10 +17,7 @@ import { Direction } from "../ViewConstructors/Enum/Direction";
 
 
 
-export interface ViedeoStyleInterface extends StylesInterface {
-	'object-fit'?: MediaFit
-	'object-position'?: FitPositionStyle
-}
+
 
 
 

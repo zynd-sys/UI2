@@ -2,7 +2,8 @@ import type { Align } from "./Enum/Align"
 import type { ContentAlign } from "./Enum/ContentAlign"
 import type { TimingFunction } from "./Enum/TimingFunction"
 import type { CubicBezier } from "./Modifiers/Animation/CubicBezier"
-import type { cursorType, Styles, StylesInterface } from "./Modifiers/Styles"
+import type { MinimalStylesInterface, cursorType } from "./Modifiers/CSS/Types/MinimalStylesType"
+import type { Styles } from "./Modifiers/CSS/Styles"
 import type { View } from "../Elements/View"
 import type { UIAnimationClass } from "./Modifiers/Animation/UIAnimation"
 import type { CompositingCoords } from "./Modifiers/Compositing"
@@ -45,7 +46,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 	protected abstract HTMLElement?: E
 
-	protected abstract styles: Styles<StylesInterface>
+	protected abstract styles: Styles<MinimalStylesInterface>
 	/** event listeners for html element */
 	protected abstract listeners?: Listeners<ListenersInterface<any>>
 	// @ts-ignore
@@ -183,8 +184,6 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	// public title(value?: string): this { if (value) this.ti = value; return this }
 	public popover<V extends new (...p: any[]) => View>(isPresented: boolean, view: V, ...data: ConstructorParameters<V>): this { if (isPresented) this.popoverData = new PopoverData(view, data); return this }
 	public backgroundColor(value?: Color): this { if (value) this.styles.set('background-color', value); return this }
-	/** @deprecated */
-	public id(value: string): this { this.safeAttribute.set('id', value); return this }
 	/** @param value defualt true */
 	public userSelect(value: boolean = true): this { if (value) this.styles.set('-webkit-user-select', 'auto').set('user-select', 'auto'); return this }
 	/** @param value defualt "auto" */

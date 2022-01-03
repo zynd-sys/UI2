@@ -1,9 +1,10 @@
 import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder"
 import type { SpanView } from "./Span"
+import type { MinimalStylesInterface } from "../../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType"
 import { FormElementListeners, ViewFormElement } from "../../ViewConstructors/ViewFormElement"
 import { ElementAttributeInterface, ElementAttribute } from "../../ViewConstructors/Modifiers/Attributes"
 import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners"
-import { Styles, StylesInterface } from "../../ViewConstructors/Modifiers/Styles"
+import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles"
 
 
 
@@ -28,7 +29,7 @@ export class FileFieldView extends ViewFormElement<{ parent: HTMLLabelElement, i
 	}
 	protected HTMLElement?: { parent: HTMLLabelElement, input: HTMLInputElement }
 
-	protected styles: Styles<StylesInterface> = new Styles
+	protected styles: Styles<MinimalStylesInterface> = new Styles
 	protected listeners: Listeners<FormElementListeners<HTMLLabelElement>> = new Listeners
 	protected attribute: ElementAttribute<FileFielAttributes> = new ElementAttribute
 

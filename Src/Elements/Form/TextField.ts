@@ -1,8 +1,9 @@
 import type { Autocapitalize } from "../../ViewConstructors/Enum/Autocapitalize";
 import type { FormElementListeners } from "../../ViewConstructors/ViewFormElement";
+import type { MinimalStylesInterface } from "../../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType";
 import { ElementAttributeInterface, ElementAttribute } from "../../ViewConstructors/Modifiers/Attributes";
 import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners";
-import { Styles, StylesInterface } from "../../ViewConstructors/Modifiers/Styles";
+import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles";
 import { ViewTextModifiers } from "../../ViewConstructors/ViewTextModifiers";
 import { Binding as BindingObserve, isObserved } from "../../Data/Observed";
 
@@ -85,7 +86,7 @@ type TextAutocomplete = 'off' | 'on'
 export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLTextAreaElement> {
 	protected HTMLElement?: HTMLInputElement | HTMLTextAreaElement
 
-	protected styles: Styles<StylesInterface> = new Styles
+	protected styles: Styles<MinimalStylesInterface> = new Styles
 	protected listeners: Listeners<FormElementListeners<HTMLInputElement | HTMLTextAreaElement>> = new Listeners
 	protected attribute: ElementAttribute<TextFieldAttributes> = new ElementAttribute
 	protected isWrap: boolean = false

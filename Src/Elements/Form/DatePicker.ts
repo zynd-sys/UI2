@@ -1,7 +1,8 @@
 import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Modifiers/Attributes";
 import type { FormElementListeners } from "../../ViewConstructors/ViewFormElement";
+import type { MinimalStylesInterface } from "../../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType";
 import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners";
-import { Styles, StylesInterface } from "../../ViewConstructors/Modifiers/Styles";
+import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles";
 import { ViewTextModifiers } from "../../ViewConstructors/ViewTextModifiers";
 
 
@@ -33,7 +34,7 @@ export interface DatePickerAttribute extends ElementAttributeInterface {
 export class DatePickerView extends ViewTextModifiers<HTMLInputElement> {
 	protected HTMLElement?: HTMLInputElement
 
-	protected styles: Styles<StylesInterface> = new Styles
+	protected styles: Styles<MinimalStylesInterface> = new Styles
 	protected listeners: Listeners<FormElementListeners<HTMLInputElement>> = new Listeners
 	protected attribute?: ElementAttribute<DatePickerAttribute>
 

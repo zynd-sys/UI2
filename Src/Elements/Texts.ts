@@ -1,8 +1,9 @@
 import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
-import { Styles } from "../ViewConstructors/Modifiers/Styles"
-import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
-import { TextStyles, ViewTextModifiers } from "../ViewConstructors/ViewTextModifiers"
+import type { TextStyles } from "../ViewConstructors/Modifiers/CSS/Types/TextStyles"
+import { Units } from "../ViewConstructors/Enum/Units"
+import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
+import { ViewTextModifiers } from "../ViewConstructors/ViewTextModifiers"
 
 
 
@@ -32,7 +33,7 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 	/**
 	* import: styles, listeners, content, HTMLTagName
 	*/
-	protected override importProperty(view: TextsView): ReturnType<ViewModifiers<any>['importProperty']> {
+	protected override importProperty(view: TextsView): void {
 		this.HTMLTagName = view.HTMLTagName;
 		this.scaling = view.scaling;
 		super.importProperty(view);

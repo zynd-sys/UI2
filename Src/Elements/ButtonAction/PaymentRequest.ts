@@ -1,5 +1,6 @@
-import type { Styles } from "../../ViewConstructors/Modifiers/Styles"
-import type { ButtonActionInterface, ButtonActionStyles } from "../Button"
+import type { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles"
+import type { ButtonActionInterface } from "../Button"
+import type { ButtonActionStyles } from "../../ViewConstructors/Modifiers/CSS/Types/ButtonActionStyles";
 import { TimingFunction } from "../../ViewConstructors/Enum/TimingFunction";
 
 

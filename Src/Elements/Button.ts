@@ -1,17 +1,14 @@
 import type { ViewBuilder } from "../ViewConstructors/ViewBuilder";
 import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes";
+import type { SubElementsStyles } from "../ViewConstructors/Modifiers/CSS/Types/SubElementsStyles";
+import type { ButtonActionStyles } from "../ViewConstructors/Modifiers/CSS/Types/ButtonActionStyles";
 import { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners";
-import { Styles } from "../ViewConstructors/Modifiers/Styles";
-import { ViewSubElements, SubElementsStyles, SubElementsListeners } from "../ViewConstructors/ViewSubElements";
+import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles";
+import { ViewSubElements, SubElementsListeners } from "../ViewConstructors/ViewSubElements";
 
 
 
-export interface ButtonActionStyles extends SubElementsStyles {
-	'appearance'?: '-apple-pay-button'
-	'-webkit-appearance'?: '-apple-pay-button'
 
-	'background-image'?: string
-}
 
 export interface ButtonActionInterface {
 	onClick(): void

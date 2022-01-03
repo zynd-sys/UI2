@@ -1,7 +1,8 @@
 import type { ContentAlign } from "./Enum/ContentAlign";
 import type { ScrollSnapType } from "./Enum/ScrollSnapType";
 import type { ListenersInterface, Listeners } from "./Modifiers/Listeners/Listeners";
-import type { StylesInterface, Styles } from "./Modifiers/Styles";
+import type { Styles } from "./Modifiers/CSS/Styles";
+import type { SubElementsStyles } from "./Modifiers/CSS/Types/SubElementsStyles";
 import type { ViewBuilder } from "./ViewBuilder";
 import type { GridTrackClass } from "./Modifiers/GridTrack";
 import type { GridTrackRepeat } from "./Enum/GridTrackRepeat";
@@ -16,29 +17,7 @@ import { Scroll } from "./Enum/Scroll";
 
 
 
-export interface SubElementsStyles extends StylesInterface {
-	'row-gap'?: string
-	'column-gap'?: string
-	'align-items'?: ContentAlign
-	'justify-items'?: ContentAlign
-	'align-content'?: ContentAlign
-	'justify-content'?: ContentAlign
 
-	'scroll-snap-type'?: string
-	'scroll-padding-block-start'?: string
-	'scroll-padding-inline-start'?: string
-	'scroll-padding-block-end'?: string
-	'scroll-padding-inline-end'?: string
-
-	'grid-template-columns'?: string
-	'grid-template-rows'?: string
-	'grid-auto-columns'?: string
-	'grid-auto-rows'?: string
-	'grid-auto-flow'?: `${Direction.horizontal | Direction.vertical} dense`;
-
-	'flex-wrap'?: 'nowrap' | 'wrap'
-	'flex-direction'?: Direction | `${Direction}-reverse`
-}
 export interface SubElementsListeners<E extends HTMLElement> extends ListenersInterface<E> {
 	'scroll'?: (element: E, event: MouseEvent) => any
 	'dragover'?: (element: E, event: DragEvent) => any

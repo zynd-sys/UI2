@@ -1,6 +1,7 @@
+import type { MinimalStylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType"
 import { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Modifiers/Attributes"
 import { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
-import { Styles, StylesInterface } from "../ViewConstructors/Modifiers/Styles"
+import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 
 
@@ -9,7 +10,7 @@ import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 export class IframeView extends ViewModifiers<HTMLIFrameElement> {
 
 	protected HTMLElement?: HTMLIFrameElement
-	protected styles: Styles<StylesInterface> = new Styles
+	protected styles: Styles<MinimalStylesInterface> = new Styles
 	protected listeners?: Listeners<ListenersInterface<HTMLIFrameElement>>
 	protected attribute?: ElementAttribute<ElementAttributeInterface>
 

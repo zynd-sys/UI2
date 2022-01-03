@@ -2,11 +2,12 @@ import type { ImageMimeType } from "../ViewConstructors/Enum/ImageMimeType"
 import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { MediaFit } from "../ViewConstructors/Enum/MediaFit"
+import type { MinimalStylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType"
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 import { Units } from "../ViewConstructors/Enum/Units"
 import { Direction } from "../ViewConstructors/Enum/Direction"
 import { FitPositionStyle } from "../ViewConstructors/Modifiers/CollectableStyles/FitPosition"
-import { StylesInterface, Styles } from "../ViewConstructors/Modifiers/Styles"
+import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 
 
 
@@ -14,7 +15,7 @@ import { StylesInterface, Styles } from "../ViewConstructors/Modifiers/Styles"
 
 
 
-export interface PictureStyleInterface extends StylesInterface {
+export interface PictureStyleInterface extends MinimalStylesInterface {
 	'--overlay-color'?: string
 	'--object-fit'?: MediaFit
 	'--object-position'?: FitPositionStyle

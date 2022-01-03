@@ -78,7 +78,7 @@ export * from './ViewConstructors/Modifiers/Compositing'
 export * from './ViewConstructors/Modifiers/GridTrack'
 export * from './ViewConstructors/Modifiers/Popover'
 export * from './ViewConstructors/Modifiers/ScrollObserver'
-export * from './ViewConstructors/Modifiers/Styles'
+export * from './ViewConstructors/Modifiers/CSS/Styles'
 
 
 // navigation

@@ -1,8 +1,9 @@
 import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
-import { Styles } from "../ViewConstructors/Modifiers/Styles"
+import type { TextStyles } from "../ViewConstructors/Modifiers/CSS/Types/TextStyles"
+import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
-import { TextStyles, ViewTextModifiers } from "../ViewConstructors/ViewTextModifiers"
+import { ViewTextModifiers } from "../ViewConstructors/ViewTextModifiers"
 import { ViewBuilder } from "../ViewConstructors/ViewBuilder"
 import { ViewsList } from "../ViewConstructors/Modifiers/ListView"
 
