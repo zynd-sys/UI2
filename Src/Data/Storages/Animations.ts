@@ -23,14 +23,14 @@ class AnimationStorageClass {
 
 		promise.then(() => this.mainHandler(element))
 	}
-	public addAnimationCompletionHandler(object: object, handler: () => void): void {
-		if (this.storage.size == 0) return handler();
-		this.completionStorage.set(object, handler)
+	public addAnimationCompletionHandler(object: object): Promise<void>
+	public addAnimationCompletionHandler(object: object, handler: () => void): void
+	public addAnimationCompletionHandler(object: object, handler?: () => void): void | Promise<void> {
+		if (this.storage.size == 0) return handler ? handler() : Promise.resolve();
+
+		if (handler) this.completionStorage.set(object, handler)
+		else new Promise<void>(resolve => this.completionStorage.set(object, () => this.completionStorage.set(object, resolve)))
 	}
-	// public addAnimationCompletionPromise(object: object): Promise<void> {
-	// 	if (this.storage.size == 0) return new Promise(resolve => resolve())
-	// 	return new Promise(resolve => this.completionStorage.set(object, () => resolve()))
-	// }
 
 
 	public checkOutAnimation(element: Element): boolean { return this.storage.has(element) }
