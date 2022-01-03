@@ -1,7 +1,6 @@
 import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { TextStyles } from "../ViewConstructors/Modifiers/CSS/Types/TextStyles"
-import { Units } from "../ViewConstructors/Enum/Units"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 import { ViewTextModifiers } from "../ViewConstructors/ViewTextModifiers"
 
