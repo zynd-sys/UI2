@@ -183,12 +183,14 @@ const ProxyHandler = new class ProxyHandlerClass implements ProxyHandler<Objects
 
 export class Binding<T extends (string | number | boolean | undefined)> implements ObserverInterface {
 	[StorageKey]: handlersStorage = new handlersStorage
+	protected beforeChangeHandler?: (value: T, notify: (value: boolean) => void) => T
 
 	private _value: T
 	public get value() { return this._value }
 	public set value(value: T) {
-		this._value = value;
-		this[StorageKey].userAction('value', false);
+		let notify: boolean = true;
+		this._value = this.beforeChangeHandler ? this.beforeChangeHandler(value, n => notify = n) : value;
+		if (notify) this[StorageKey].userAction('value', false);
 	}
 
 
@@ -196,6 +198,7 @@ export class Binding<T extends (string | number | boolean | undefined)> implemen
 	public removeHandler(value: handlerType): void { return this[StorageKey].removeHandler(value) }
 	public addBeacon(value: beaconType): () => void { return this[StorageKey].addBeacon(value) }
 	public removeBeacon(value: beaconType): void { return this[StorageKey].removeBeacon(value) }
+	public beforeChange(value: (value: T, notify: (value: boolean) => void) => T): this { this.beforeChangeHandler = value; return this }
 
 	public toString(): string { return String(this._value) }
 	public toJSON(): any { return this._value }
