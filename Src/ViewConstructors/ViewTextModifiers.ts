@@ -37,9 +37,9 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 
 	
 	public columnMaxCount(value: number): this { this.styles.set('column-count', value); return this }
-	public columnWidth(value: number, unit: Units = Units.px): this { this.styles.set('column-width', String(value) + unit); return this }
-	public columnGap(value: number, unit: Units = Units.px): this { this.styles.set('column-gap', String(value) + unit); return this }
-	public columnDridwerWidth(value: number, unit: Units = Units.px): this { this.styles.set('column-rule-width', String(value) + unit); return this }
+	public columnWidth(value: number, unit: Units = Units.px): this { this.styles.set('column-width', `${value}${unit}`); return this }
+	public columnGap(value: number, unit: Units = Units.px): this { this.styles.set('column-gap', `${value}${unit}`); return this }
+	public columnDridwerWidth(value: number, unit: Units = Units.px): this { this.styles.set('column-rule-width', `${value}${unit}`); return this }
 	public columnDridwerStyle(value: BorderStyle): this { this.styles.set('column-rule-style', value); return this }
 	public columnDridwerColor(value: Color): this { this.styles.set('column-rule-color', value); return this }
 	public columnInsideBreak(value: ColumnInsideBreak): this { this.styles.set('break-inside', value); return this }
@@ -54,12 +54,12 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 	// public textAligntLastLine(value: Align): this { this.styles.set('text-align-last', value); return this }
 	public textTabSize(value: number): this { this.styles.set('tab-size', value); return this }
 	// public textTransform()
-	public textIndent(value: number, unit: Units = Units.px): this { this.styles.set('text-indent', String(value) + unit); return this }
+	public textIndent(value: number, unit: Units = Units.px): this { this.styles.set('text-indent', `${value}${unit}`); return this }
 	public textColor(value?: Color): this { if (value) this.styles.set('color', value); return this }
 	public textFontFamily(value: string): this { this.styles.set('font-family', value); return this }
-	public textSize(value: number, unit: Units = Units.px): this { this.styles.set('font-size', String(value) + unit); return this }
-	public textLetterSpacing(value: number, unit: Units = Units.em): this { this.styles.set('letter-spacing', String(value) + unit); return this }
-	public textLineHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('line-height', String(value) + unit); return this }
+	public textSize(value: number, unit: Units = Units.px): this { this.styles.set('font-size', `${value}${unit}`); return this }
+	public textLetterSpacing(value: number, unit: Units = Units.em): this { this.styles.set('letter-spacing', `${value}${unit}`); return this }
+	public textLineHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('line-height', `${value}${unit}`); return this }
 	public textWeight(value: TextWeight): this { this.styles.set('font-weight', value); return this }
 	public textTransform(value: TextTransform): this { this.styles.set('text-transform', value); return this }
 	public textSpacingStyle(value: TextSpacing): this { this.styles.set('white-space', value); return this }
@@ -70,7 +70,7 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 	 */
 	public lineLimit(value?: number): this {
 		if (value) this.styles
-			.set('dispaly', '-webkit-box')
+			.set('display', '-webkit-box')
 			.set('-webkit-box-orient', 'vertical')
 			.set('-webkit-line-clamp', value);
 		return this

@@ -47,7 +47,7 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 
 		const size = Math.floor(element.offsetWidth / (element.scrollWidth / parseInt(window.getComputedStyle(element).fontSize)))
 		element.style.setProperty('font-size', size + 'px');
-		this.styles.set('font-size', size + 'px');
+		this.styles.set('font-size', `${size}px`);
 	}
 
 	protected override renderModifiers(element: HTMLElement, newRender?: TextsView, withAnimation?: boolean): void {

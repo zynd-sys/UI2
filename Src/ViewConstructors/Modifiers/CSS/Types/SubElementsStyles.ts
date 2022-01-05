@@ -1,30 +1,31 @@
 import type { ContentAlign } from "../../../Enum/ContentAlign";
 import type { Direction } from "../../../Enum/Direction";
-import type { MinimalStylesInterface } from "./MinimalStylesType";
+import type { ScrollSnapType } from "../../../Enum/ScrollSnapType";
+import type { CSSLength, MinimalStylesInterface } from "./MinimalStylesType";
 
 
 
 
 export interface SubElementsStyles extends MinimalStylesInterface {
-	'row-gap'?: string
-	'column-gap'?: string
+	'row-gap'?: CSSLength
+	'column-gap'?: CSSLength
 	'align-items'?: ContentAlign
 	'justify-items'?: ContentAlign
 	'align-content'?: ContentAlign
 	'justify-content'?: ContentAlign
 
-	'scroll-snap-type'?: string
-	'scroll-padding-block-start'?: string
-	'scroll-padding-inline-start'?: string
-	'scroll-padding-block-end'?: string
-	'scroll-padding-inline-end'?: string
+	'scroll-snap-type'?: 'block' | 'inline' | 'both' | `${'block' | 'inline' | 'both'} ${ScrollSnapType}`
+	'scroll-padding-block-start'?: CSSLength
+	'scroll-padding-inline-start'?: CSSLength
+	'scroll-padding-block-end'?: CSSLength
+	'scroll-padding-inline-end'?: CSSLength
 
-	'grid-template-columns'?: string
-	'grid-template-rows'?: string
+	'grid-template-columns'?: `repeat(${number},${string})` | string
+	'grid-template-rows'?: `repeat(${number},${string})` | string
 	'grid-auto-columns'?: string
 	'grid-auto-rows'?: string
-	'grid-auto-flow'?: `${Direction.horizontal | Direction.vertical} dense`;
+	'grid-auto-flow'?: `${Direction.horizontal | Direction.vertical}${' dense' | ''}`;
 
 	'flex-wrap'?: 'nowrap' | 'wrap'
-	'flex-direction'?: Direction | `${Direction}-reverse`
+	'flex-direction'?: `${Direction}${'-reverse' | ''}`
 }

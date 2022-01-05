@@ -50,8 +50,7 @@ export class ButttonView extends ViewSubElements<HTMLButtonElement> {
 		let actionElements = action.elements ? action.elements() : undefined;
 		if (actionElements) this.content.replace(actionElements);
 		this.listeners.set('click', () => action.onClick());
-		if (action.styles) action.styles(this.styles);
-
+		if (action.styles) action.styles(this.styles as Styles<ButtonActionStyles>);
 	}
 }
 

@@ -5,7 +5,7 @@ import type { TextSpacing } from "../../../Enum/TextSpacing";
 import type { TextTransform } from "../../../Enum/TextTransform";
 import type { TextWeight } from "../../../Enum/TextWeight";
 import type { Color } from "../../Colors/Colors";
-import type { MinimalStylesInterface } from "./MinimalStylesType";
+import type { CSSLength, MinimalStylesInterface } from "./MinimalStylesType";
 
 
 
@@ -13,26 +13,26 @@ import type { MinimalStylesInterface } from "./MinimalStylesType";
 
 export interface TextStyles extends MinimalStylesInterface {
 	'text-align'?: Align
-	'tab-size'?: number
+	'tab-size'?: number | CSSLength
 	// 'text-transform':
-	'text-indent'?: string
+	'text-indent'?: CSSLength
 	'text-align-last'?: Align
 	'font-family'?: string
-	'color'?: Color
-	'font-size'?: string
+	'color'?: Color | 'inherit'
+	'font-size'?: CSSLength
 	'text-decoration'?: 'line-through' | 'underline'
 	'font-weight'?: TextWeight
 	'font-style'?: 'italic' | 'normal'
 	'white-space'?: TextSpacing
-	'letter-spacing'?: string
+	'letter-spacing'?: CSSLength
 	'text-transform'?: TextTransform
-	'line-height'?: string
+	'line-height'?: number | CSSLength
 	'column-count'?: number
-	'column-width'?: string
-	'column-rule-width'?: string
+	'column-width'?: CSSLength
+	'column-rule-width'?: CSSLength
 	'column-rule-style'?: BorderStyle
 	'column-rule-color'?: Color
-	'column-gap'?: string
+	'column-gap'?: CSSLength
 	'column-fill'?: 'auto' | 'balance'
 	'break-inside'?: ColumnInsideBreak
 	// 'word-break'?: 'normal' | 'break-all' | 'keep-all'
@@ -41,6 +41,7 @@ export interface TextStyles extends MinimalStylesInterface {
 	'hyphens'?: 'none' | 'manual' | 'auto'
 	'-webkit-hyphens'?: 'none' | 'manual' | 'auto'
 	'-webkit-line-clamp'?: number
-	'dispaly'?: '-webkit-box'
+	'display'?: '-webkit-box' | string
+	'vertical-align'?: 'baseline' | 'sub' | 'super' | 'text-top' | 'text-bottom' | 'middle' | 'top' | 'bottom' | CSSLength
 	'-webkit-box-orient'?: 'vertical'
 }

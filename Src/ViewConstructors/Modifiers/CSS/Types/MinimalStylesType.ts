@@ -5,9 +5,10 @@ import type { Scroll } from "../../../Enum/Scroll";
 import type { TimingFunction } from "../../../Enum/TimingFunction";
 import type { CubicBezier } from "../../Animation/CubicBezier";
 import type { FiltersStyle } from "../../CollectableStyles/FiltersStyle";
-import type { InnerShadowStyle } from "../../CollectableStyles/ShadowStyle";
+import type { DropShadowStyle, InnerShadowStyle } from "../../CollectableStyles/ShadowStyle";
 import type { TransformsStyle } from "../../CollectableStyles/TransformsStyle";
 import type { Color } from "../../Colors/Colors";
+import type { Units } from "../../../Enum/Units";
 
 
 
@@ -49,37 +50,38 @@ export type cursorType = 'auto' |
 	'zoom-out';
 
 
-
+export type CSSTime = `${number}${'s' | 'ms'}`
+export type CSSLength = 0 | `${number}${Units}`
 
 export interface MinimalStylesInterface {
 
-	'inline-size'?: string
-	'max-inline-size'?: string
-	'min-inline-size'?: string
+	'inline-size'?: CSSLength
+	'max-inline-size'?: CSSLength
+	'min-inline-size'?: CSSLength
 
-	'block-size'?: string
-	'max-block-size'?: string
-	'min-block-size'?: string
+	'block-size'?: CSSLength
+	'max-block-size'?: CSSLength
+	'min-block-size'?: CSSLength
 
-	'padding-block-start'?: string
-	'padding-inline-start'?: string
-	'padding-block-end'?: string
-	'padding-inline-end'?: string
+	'padding-block-start'?: CSSLength
+	'padding-inline-start'?: CSSLength
+	'padding-block-end'?: CSSLength
+	'padding-inline-end'?: CSSLength
 
-	'margin-block-start'?: string
-	'margin-inline-start'?: string
-	'margin-block-end'?: string
-	'margin-inline-end'?: string
+	'margin-block-start'?: CSSLength
+	'margin-inline-start'?: CSSLength
+	'margin-block-end'?: CSSLength
+	'margin-inline-end'?: CSSLength
 
-	'outline-width'?: string
-	'outline-offset'?: string
+	'outline-width'?: CSSLength
+	'outline-offset'?: CSSLength
 	'outline-color'?: Color
 	'outline-style'?: BorderStyle
 
-	'border-block-start-width'?: string
-	'border-inline-start-width'?: string
-	'border-block-end-width'?: string
-	'border-inline-end-width'?: string
+	'border-block-start-width'?: CSSLength
+	'border-inline-start-width'?: CSSLength
+	'border-block-end-width'?: CSSLength
+	'border-inline-end-width'?: CSSLength
 	'border-block-start-color'?: Color
 	'border-inline-start-color'?: Color
 	'border-block-end-color'?: Color
@@ -89,16 +91,16 @@ export interface MinimalStylesInterface {
 	'border-block-end-style'?: BorderStyle
 	'border-inline-end-style'?: BorderStyle
 
-	'border-start-start-radius'?: string
-	'border-start-end-radius'?: string
-	'border-end-end-radius'?: string
-	'border-end-start-radius'?: string
+	'border-start-start-radius'?: CSSLength
+	'border-start-end-radius'?: CSSLength
+	'border-end-end-radius'?: CSSLength
+	'border-end-start-radius'?: CSSLength
 
 
-	'grid-column-start'?: string | number
-	'grid-column-end'?: string | number
-	'grid-row-start'?: string | number
-	'grid-row-end'?: string | number
+	'grid-column-start'?: number | `span ${number}`
+	'grid-column-end'?: number | `span ${number}`
+	'grid-row-start'?: number | `span ${number}`
+	'grid-row-end'?: number | `span ${number}`
 
 	'justify-self'?: ContentAlign
 	'align-self'?: ContentAlign
@@ -108,11 +110,11 @@ export interface MinimalStylesInterface {
 	'overflow-y'?: Scroll
 	'overflow-x'?: Scroll
 
-	'position'?: 'sticky' | 'relative' | 'static'
-	'inset-block-start'?: string
-	'inset-inline-start'?: string
-	'inset-block-end'?: string
-	'inset-inline-end'?: string
+	'position'?: 'sticky' | 'relative' | 'static' | 'absolute'
+	'inset-block-start'?: CSSLength
+	'inset-inline-start'?: CSSLength
+	'inset-block-end'?: CSSLength
+	'inset-inline-end'?: CSSLength
 
 
 	'opacity'?: number
@@ -123,7 +125,7 @@ export interface MinimalStylesInterface {
 	'backdrop-filter'?: FiltersStyle
 	'-webkit-backdrop-filter'?: FiltersStyle
 
-	'box-shadow'?: InnerShadowStyle
+	'box-shadow'?: InnerShadowStyle | DropShadowStyle
 
 	'scroll-snap-align'?: Align
 	'scroll-behavior'?: 'auto' | 'smooth'
@@ -131,17 +133,20 @@ export interface MinimalStylesInterface {
 
 
 
-	'user-select'?: 'none' | 'auto'
-	'-webkit-user-select'?: 'none' | 'auto'
+	'user-select'?: 'none' | 'auto' | 'inherit'
+	'-webkit-user-select'?: 'none' | 'auto' | 'inherit'
 	'touch-action'?: 'auto' | 'none' | 'manipulation' | 'pan-x' | 'pan-left' | 'pan-right' | 'pan-y' | 'pan-up' | 'pan-down' | 'pinch-zoom'
 
 
-	'transition-property'?: 'all'
-	'transition-duration'?: string
-	'transition-delay'?: string
+	'transition-property'?: 'all' | string
+	'transition-duration'?: CSSTime
+	'transition-delay'?: CSSTime
 	'transition-timing-function'?: TimingFunction | CubicBezier
 
 
+	'appearance'?: '-apple-pay-button' | 'none'
+	'-moz-appearance'?: 'none'
+	'-webkit-appearance'?: '-apple-pay-button' | 'none'
 
 	'cursor'?: cursorType
 

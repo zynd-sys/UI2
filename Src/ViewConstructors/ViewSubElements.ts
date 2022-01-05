@@ -133,8 +133,8 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 	/** ⚠️ check browser compatibility https://caniuse.com/?search=gap */
 	public gap(direction: Direction.horizontal | Direction.vertical, value: number, unit: Units = Units.px): this {
 		switch (direction) {
-			case Direction.horizontal: this.styles.set('row-gap', value.toString() + unit); break;
-			case Direction.vertical: this.styles.set('column-gap', value.toString() + unit); break;
+			case Direction.horizontal: this.styles.set('row-gap', `${value}${unit}`); break;
+			case Direction.vertical: this.styles.set('column-gap', `${value}${unit}`); break;
 		}
 		return this
 	}
@@ -176,8 +176,8 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 	}
 	/** only one */
 	public scrollSnap(horizontal?: ScrollSnapType, vertical?: ScrollSnapType): this {
-		if (horizontal) this.styles.set('scroll-snap-type', 'x ' + horizontal);
-		if (vertical) this.styles.set('scroll-snap-type', 'y ' + vertical);
+		if (horizontal) this.styles.set('scroll-snap-type', `block ${horizontal}`);
+		if (vertical) this.styles.set('scroll-snap-type', `inline ${vertical}`);
 		return this
 	}
 	public scrollSnapPadding(side: Side, value: number, unit: Units = Units.px) { this.setSideStyles('scroll-padding', side, String(value) + unit); return this }

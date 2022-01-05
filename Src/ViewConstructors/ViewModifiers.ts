@@ -201,18 +201,18 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 	// Size
-	public width(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('inline-size', String(value) + unit); return this }
-	public maxWidth(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('max-inline-size', String(value) + unit); return this }
-	public minWidth(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('min-inline-size', String(value) + unit); return this }
+	public width(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('inline-size', `${value}${unit}`); return this }
+	public maxWidth(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('max-inline-size', `${value}${unit}`); return this }
+	public minWidth(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('min-inline-size', `${value}${unit}`); return this }
 
-	public height(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('block-size', String(value) + unit); return this }
-	public maxHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('max-block-size', String(value) + unit); return this }
-	public minHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('min-block-size', String(value) + unit); return this }
+	public height(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('block-size', `${value}${unit}`); return this }
+	public maxHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('max-block-size', `${value}${unit}`); return this }
+	public minHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('min-block-size', `${value}${unit}`); return this }
 
 	public growSelf(value?: number): this { if (value) this.styles.set('flex-grow', value); return this }
 
-	public padding(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('padding', side, String(value) + unit); return this }
-	public margin(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('margin', side, String(value) + unit); return this }
+	public padding(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('padding', side, `${value}${unit}`); return this }
+	public margin(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('margin', side, `${value}${unit}`); return this }
 
 
 
@@ -220,19 +220,19 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 
-	public outlineWidth(value: number, unit: Units = Units.px): this { this.styles.set('outline-width', String(value) + unit); return this }
-	public outlineOffset(value: number, unit: Units = Units.px): this { this.styles.set('outline-offset', String(value) + unit); return this }
+	public outlineWidth(value: number, unit: Units = Units.px): this { this.styles.set('outline-width', `${value}${unit}`); return this }
+	public outlineOffset(value: number, unit: Units = Units.px): this { this.styles.set('outline-offset', `${value}${unit}`); return this }
 	/** @param value defualt BorderStyle.solid */
 	public outlineStyle(value: BorderStyle = BorderStyle.solid): this { this.styles.set('outline-style', value); return this }
 	/** @param value defualt black(#000) */
 	public outlineColor(value: Color = DefaultColor.black): this { this.styles.set('outline-color', value); return this }
-	public borderWidth(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('border', side, String(value) + unit, '-width'); return this }
+	public borderWidth(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('border', side, `${value}${unit}`, '-width'); return this }
 	/** @param value defualt BorderStyle.solid */
 	public borderStyle(value: BorderStyle = BorderStyle.solid, side: Side = Side.all): this { this.setSideStyles('border', side, value, '-style'); return this }
 	/** @param value defualt black(#000) */
 	public borderColor(value: Color = DefaultColor.black, side: Side = Side.all): this { this.setSideStyles('border', side, value.toString(), '-color'); return this }
 	public borderRadius(side: SideBorderRadius, value: number, unit: Units = Units.px): this {
-		let v = String(value) + unit;
+		let v = `${value}${unit}` as `${number}${Units}`;
 		switch (side) {
 			case SideBorderRadius.all:
 				this.styles.set('border-start-start-radius', v);
@@ -275,7 +275,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	// position
 	/** @param value default true */
 	public positionSticky(value: boolean = true, ZIndex: number = 100): this { if (value) { this.styles.set('position', 'sticky'); this.styles.set('z-index', ZIndex) }; return this }
-	public position(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('inset', side, String(value) + unit); return this }
+	public position(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('inset', side, `${value}${unit}`); return this }
 	public orderSelf(value?: number): this { if (value) this.styles.set('order', value); return this }
 	public alignSelf(value?: ContentAlign): this { if (value) this.styles.set('align-self', value); return this }
 	public justifySelf(value?: ContentAlign): this { if (value) this.styles.set('justify-self', value); return this }
@@ -283,13 +283,13 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	/** ↕︎ */
 	public VGridLines(start?: number, end?: number, endSpan?: boolean): this {
 		if (start) this.styles.set('grid-row-start', start);
-		if (end) this.styles.set('grid-row-end', endSpan ? 'span ' + end : end);
+		if (end) this.styles.set('grid-row-end', endSpan ? `span ${end}` : end);
 		return this
 	}
 	/** ↔︎ */
 	public HGridLines(start?: number, end?: number, endSpan?: boolean): this {
 		if (start) this.styles.set('grid-column-start', start);
-		if (end) this.styles.set('grid-column-end', endSpan ? 'span ' + end : end);
+		if (end) this.styles.set('grid-column-end', endSpan ? `span ${end}` : end);
 		return this
 	}
 
@@ -316,8 +316,8 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		if (PageData.reducedAnimation) return this
 		this.styles
 			.set('transition-property', 'all')
-			.set('transition-duration', duration.toString() + 'ms');
-		if (delay) this.styles.set('transition-delay', delay.toString() + 'ms');
+			.set('transition-duration', `${duration}ms`);
+		if (delay) this.styles.set('transition-delay', `${delay}ms`);
 		if (timingFunction) this.styles.set('transition-timing-function', timingFunction);
 		return this
 	}
