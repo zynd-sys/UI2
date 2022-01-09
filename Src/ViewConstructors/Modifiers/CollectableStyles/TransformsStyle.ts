@@ -1,16 +1,17 @@
+import type { CSSAngle, CSSLength } from "../CSS/Types/MinimalStylesType";
 
 export interface TransformStyleInterface {
-	'rotateX'?: string
-	'rotateY'?: string
-	'rotateZ'?: string
+	'rotateX'?: CSSAngle
+	'rotateY'?: CSSAngle
+	'rotateZ'?: CSSAngle
 	'scaleX'?: number
 	'scaleY'?: number
 	'scaleZ'?: number
-	'skewX'?: string
-	'skewY'?: string
-	'translateX'?: string
-	'translateY'?: string
-	'translateZ'?: string
+	'skewX'?: CSSAngle
+	'skewY'?: CSSAngle
+	'translateX'?: CSSLength
+	'translateY'?: CSSLength
+	'translateZ'?: CSSLength
 }
 
 

@@ -1,14 +1,22 @@
 import type { Color } from "../Colors/Colors"
+import type { CSSLength } from "../CSS/Types/MinimalStylesType"
 import { DefaultColor } from "../Colors/DefaultColors"
 
 
 
 export class DropShadowStyle {
-	public 'offset-x': string = '0'
-	public 'offset-y': string = '0'
-	public 'blur-radius': string = '1rem'
-	public 'color': Color = DefaultColor.black
+	public 'offset-x': CSSLength
+	public 'offset-y': CSSLength
+	public 'blur-radius': CSSLength
+	public 'color': Color
 	public toString(): string { return `${this['offset-x']} ${this['offset-y']} ${this['blur-radius']} ${this.color}` }
+
+	constructor(offsetX: CSSLength = 0, offsetY: CSSLength = 0, blurRadius: CSSLength = '1rem', color: Color = DefaultColor.black) {
+		this['offset-y'] = offsetX;
+		this['offset-y'] = offsetY;
+		this['blur-radius'] = blurRadius;
+		this.color = color;
+	}
 }
 
 export class InnerShadowStyle extends DropShadowStyle {

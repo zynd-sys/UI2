@@ -20,7 +20,7 @@ export interface TextStyles extends MinimalStylesInterface {
 	'font-family'?: string
 	'color'?: Color | 'inherit'
 	'font-size'?: CSSLength
-	'text-decoration'?: 'line-through' | 'underline'
+	'text-decoration'?: 'line-through' | 'underline' | 'none'
 	'font-weight'?: TextWeight
 	'font-style'?: 'italic' | 'normal'
 	'white-space'?: TextSpacing

@@ -1,15 +1,20 @@
 import type { DropShadowStyle } from "./ShadowStyle";
+import type { CSSAngle, CSSLength } from "../CSS/Types/MinimalStylesType";
+import type { Units } from "../../Enum/Units";
+
+
+
 
 export interface FilterStyleInterface {
-	'blur'?: string
-	'brightness'?: number
-	'contrast'?: number
-	'grayscale'?: number
-	'hueRotate'?: string
-	'invert'?: number
-	'opacity'?: number
-	'saturate'?: number
-	'sepia'?: number
+	'blur'?: CSSLength
+	'brightness'?: number | `${number}${Units.absolute}`
+	'contrast'?: number | `${number}${Units.absolute}`
+	'grayscale'?: number | `${number}${Units.absolute}`
+	'hueRotate'?: CSSAngle
+	'invert'?: number | `${number}${Units.absolute}`
+	'opacity'?: number | `${number}${Units.absolute}`
+	'saturate'?: number | `${number}${Units.absolute}`
+	'sepia'?: number | `${number}${Units.absolute}`
 	'drop-shadow'?: DropShadowStyle
 }
 

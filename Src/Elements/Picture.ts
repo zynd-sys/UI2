@@ -1,8 +1,10 @@
 import type { ImageMimeType } from "../ViewConstructors/Enum/ImageMimeType"
 import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
-import type { MediaFit } from "../ViewConstructors/Enum/MediaFit"
 import type { MinimalStylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType"
+import type { Color } from "../ViewConstructors/Modifiers/Colors/Colors"
+import type { MediaInterface } from "../ViewConstructors/Modifiers/CSS/Types/MediaStyle"
+import { MediaFit } from "../ViewConstructors/Enum/MediaFit"
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 import { Units } from "../ViewConstructors/Enum/Units"
 import { Direction } from "../ViewConstructors/Enum/Direction"
@@ -16,15 +18,18 @@ import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 
 
 export interface PictureStyleInterface extends MinimalStylesInterface {
-	'--overlay-color'?: string
+	'--overlay-color'?: Color
 	'--object-fit'?: MediaFit
 	'--object-position'?: FitPositionStyle
 }
 
-export interface MediaInterface {
-	mediaFit(value: MediaFit): this
-	mediaPosition(direction: Direction.horizontal | Direction.vertical, value: number, unit?: Units): this
-}
+
+
+
+
+
+
+
 
 
 
@@ -135,11 +140,11 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 	// float
 	// shape-outside
 	// clip-path
-	public overlayColor(value: string): this { this.styles.set('--overlay-color', value); return this }
+	public overlayColor(value: string): this { this.styles.set('--overlay-color', value as unknown as Color); return this }
 	public mediaFit(value: MediaFit): this { this.styles.set('--object-fit', value); return this }
 	public mediaPosition(direction: Direction.horizontal | Direction.vertical, value: number, unit: Units = Units.absolute): this {
-		if (direction == Direction.horizontal) this.styles.getCollectableStyles('--object-position', FitPositionStyle).x = value + unit;
-		else this.styles.getCollectableStyles('--object-position', FitPositionStyle).y = value + unit;
+		if (direction == Direction.horizontal) this.styles.getCollectableStyles('--object-position', FitPositionStyle).x = `${value}${unit}`;
+		else this.styles.getCollectableStyles('--object-position', FitPositionStyle).y = `${value}${unit}`;
 		return this
 	}
 	public imageSources(imageMimeType: ImageMimeType): (...elements: { src: string | URL, size?: number }[]) => this {

@@ -330,13 +330,13 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 	// shadow
-	public dropShadowOffsetX(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['offset-x'] = value + unit; return this }
-	public dropShadowOffsetY(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['offset-y'] = value + unit; return this }
-	public dropShadowBlurRadius(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['blur-radius'] = value + unit; return this }
+	public dropShadowOffsetX(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['offset-x'] = `${value}${unit}`; return this }
+	public dropShadowOffsetY(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['offset-y'] = `${value}${unit}`; return this }
+	public dropShadowBlurRadius(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['blur-radius'] = `${value}${unit}`; return this }
 	public dropShadowColor(value: Color): this { this.styles.getCollectableStyles('filter', FiltersStyle).getCollectableStyles('drop-shadow', DropShadowStyle)['color'] = value; return this }
-	public innerShadowOffsetX(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['offset-x'] = value + unit; return this }
-	public innerShadowOffsetY(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['offset-y'] = value + unit; return this }
-	public innerShadowBlurRadius(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['blur-radius'] = value + unit; return this }
+	public innerShadowOffsetX(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['offset-x'] = `${value}${unit}`; return this }
+	public innerShadowOffsetY(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['offset-y'] = `${value}${unit}`; return this }
+	public innerShadowBlurRadius(value: number, unit: Units = Units.px): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['blur-radius'] = `${value}${unit}`; return this }
 	public innerShadowColor(value: Color): this { this.styles.getCollectableStyles('box-shadow', InnerShadowStyle)['color'] = value; return this }
 
 
@@ -345,7 +345,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 
-	protected setFilterPrefix(property: keyof FilterStyleInterface, backdrop: boolean, value: string | number): this {
+	protected setFilterPrefix(property: keyof FilterStyleInterface, backdrop: boolean, value: any): this {
 		this.styles.getCollectableStyles(backdrop ? 'backdrop-filter' : 'filter', FiltersStyle).set(property, value);
 		if (backdrop) this.styles.getCollectableStyles('-webkit-backdrop-filter', FiltersStyle).set(property, value);
 		return this
@@ -361,24 +361,24 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	public brightnessEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('brightness', backdrop, value) }
 	public contrastEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('contrast', backdrop, value) }
 	public grayscaleEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('grayscale', backdrop, value) }
-	public hueRotateEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('hueRotate', backdrop, value.toString() + 'deg') }
+	public hueRotateEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('hueRotate', backdrop, `${value}deg`) }
 	public invertEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('invert', backdrop, value) }
 	public saturateEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('saturate', backdrop, value) }
 	public sepiaEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('sepia', backdrop, value) }
 	/** @param value 0.0...1.0 */
 	public opacityEffect(value: number, backdrop: boolean = false): this { if (backdrop) this.setFilterPrefix('opacity', backdrop, value); else this.styles.set('opacity', value); return this }
 	// matrix | matrix3d
-	/**   */ public rotateXEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('rotateX', value.toString() + 'deg'); return this }
-	/**   */ public rotateYEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('rotateY', value.toString() + 'deg'); return this }
-	/**   */ public rotateZEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('rotateZ', value.toString() + 'deg'); return this }
+	/**   */ public rotateXEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('rotateX', `${value}deg`); return this }
+	/**   */ public rotateYEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('rotateY', `${value}deg`); return this }
+	/**   */ public rotateZEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('rotateZ', `${value}deg`); return this }
 	/** ↔︎ */ public scaleXEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('scaleX', value); return this }
 	/** ↕︎ */ public scaleYEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('scaleY', value); return this }
 	/** ↘︎ */ public scaleZEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('scaleZ', value); return this }
-	/**   */ public skewXEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('skewX', value.toString() + 'deg'); return this }
-	/**   */ public skewYEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('skewY', value.toString() + 'deg'); return this }
-	/** ↔︎ */ public translateXEffect(value: number, unit = Units.absolute): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('translateX', value + unit); return this }
-	/** ↕︎ */ public translateYEffect(value: number, unit = Units.absolute): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('translateY', value + unit); return this }
-	/** ↘︎ */ public translateZEffect(value: number, unit = Units.px): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('translateZ', value + unit); return this }
+	/**   */ public skewXEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('skewX', `${value}deg`); return this }
+	/**   */ public skewYEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('skewY', `${value}deg`); return this }
+	/** ↔︎ */ public translateXEffect(value: number, unit = Units.absolute): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('translateX', `${value}${unit}`); return this }
+	/** ↕︎ */ public translateYEffect(value: number, unit = Units.absolute): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('translateY', `${value}${unit}`); return this }
+	/** ↘︎ */ public translateZEffect(value: number, unit = Units.px): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('translateZ', `${value}${unit}`); return this }
 
 
 

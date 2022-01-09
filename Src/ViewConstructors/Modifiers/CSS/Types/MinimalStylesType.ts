@@ -52,6 +52,7 @@ export type cursorType = 'auto' |
 
 export type CSSTime = `${number}${'s' | 'ms'}`
 export type CSSLength = 0 | `${number}${Units}`
+export type CSSAngle = 0 | `${number}${'deg' | 'grad' | 'rad' | 'turn'}`
 
 export interface MinimalStylesInterface {
 
@@ -110,7 +111,7 @@ export interface MinimalStylesInterface {
 	'overflow-y'?: Scroll
 	'overflow-x'?: Scroll
 
-	'position'?: 'sticky' | 'relative' | 'static' | 'absolute'
+	'position'?: 'sticky' | 'relative' | 'static' | 'absolute' | 'fixed'
 	'inset-block-start'?: CSSLength
 	'inset-inline-start'?: CSSLength
 	'inset-block-end'?: CSSLength
@@ -125,7 +126,7 @@ export interface MinimalStylesInterface {
 	'backdrop-filter'?: FiltersStyle
 	'-webkit-backdrop-filter'?: FiltersStyle
 
-	'box-shadow'?: InnerShadowStyle | DropShadowStyle
+	'box-shadow'?: InnerShadowStyle | DropShadowStyle | 'none'
 
 	'scroll-snap-align'?: Align
 	'scroll-behavior'?: 'auto' | 'smooth'

@@ -1,8 +1,7 @@
-import type { MediaFit } from "../ViewConstructors/Enum/MediaFit";
 import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Modifiers/Attributes";
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners";
-import type { MediaInterface } from "./Picture";
-import type { ViedeoStyleInterface } from "../ViewConstructors/Modifiers/CSS/Types/ViedeoStyleInterface";
+import type { MediaInterface, MediaStyleInterface } from "../ViewConstructors/Modifiers/CSS/Types/MediaStyle";
+import { MediaFit } from "../ViewConstructors/Enum/MediaFit";
 import { Units } from "../ViewConstructors/Enum/Units";
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles";
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers";
@@ -33,7 +32,7 @@ import { Direction } from "../ViewConstructors/Enum/Direction";
 export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> implements MediaInterface {
 
 	protected HTMLElement?: HTMLVideoElement
-	protected styles: Styles<ViedeoStyleInterface> = new Styles
+	protected styles: Styles<MediaStyleInterface> = new Styles
 	protected listeners?: Listeners<ListenersInterface<any>>
 	protected attribute?: ElementAttribute<ElementAttributeInterface>
 
@@ -138,8 +137,8 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 	}
 	public mediaFit(value: MediaFit): this { this.styles.set('object-fit', value); return this }
 	public mediaPosition(direction: Direction.horizontal | Direction.vertical, value: number, unit: Units = Units.absolute): this {
-		if (direction == Direction.horizontal) this.styles.getCollectableStyles('object-position', FitPositionStyle).x = value + unit;
-		else this.styles.getCollectableStyles('object-position', FitPositionStyle).y = value + unit;
+		if (direction == Direction.horizontal) this.styles.getCollectableStyles('object-position', FitPositionStyle).x = `${value}${unit}`;
+		else this.styles.getCollectableStyles('object-position', FitPositionStyle).y = `${value}${unit}`;
 		return this
 	}
 
