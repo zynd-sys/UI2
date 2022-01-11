@@ -2,6 +2,7 @@ import type { ImageMimeType } from "../ViewConstructors/Enum/ImageMimeType"
 import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { MinimalStylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType"
+import type { StylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/StylesInterface"
 import type { Color } from "../ViewConstructors/Modifiers/Colors/Colors"
 import type { MediaInterface } from "../ViewConstructors/Modifiers/CSS/Types/MediaStyle"
 import { MediaFit } from "../ViewConstructors/Enum/MediaFit"
@@ -10,6 +11,9 @@ import { Units } from "../ViewConstructors/Enum/Units"
 import { Direction } from "../ViewConstructors/Enum/Direction"
 import { FitPositionStyle } from "../ViewConstructors/Modifiers/CollectableStyles/FitPosition"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
+import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet"
+import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore"
+import { DefaultColor } from "../ViewConstructors/Modifiers/Colors/DefaultColors"
 
 
 
@@ -24,6 +28,11 @@ export interface PictureStyleInterface extends MinimalStylesInterface {
 }
 
 
+// @ts-ignore
+interface PictureSelectoreStyle extends StylesInterface {
+	'object-fit': 'var(--object-fit)',
+	'object-position': 'var(--object-position)'
+}
 
 
 
@@ -31,7 +40,42 @@ export interface PictureStyleInterface extends MinimalStylesInterface {
 
 
 
+MainStyleSheet.add(
+	new CSSSelectore('picture', {
+		'display': 'block',
+		'overflow': 'hidden',
+		'user-select': 'none',
+		'-webkit-user-select': 'none',
+		'max-inline-size': '100%',
+		'inline-size': '100%',
+		/* max-block-size: 100%;
+		block-size: 100%; */
+		'position': 'relative'
+	}),
+	new CSSSelectore('picture::after, picture img', {
+		'display': 'block',
+		'position': 'absolute',
+		'inset': 0,
+		'block-size': '100%',
+		'max-inline-size': '100%',
+		'inline-size': '100%'
+	}),
+	new CSSSelectore<PictureStyleInterface>('picture', {
+		'--object-fit': MediaFit.cover,
+		'--object-position': new FitPositionStyle('50%', '50%'),
+		'--overlay-color': DefaultColor.transparent
+	}),
+	// @ts-ignore
+	new CSSSelectore<PictureSelectoreStyle>('picture img', {
+		'object-fit': 'var(--object-fit)',
+		'object-position': 'var(--object-position)'
+	}),
 
+	new CSSSelectore('picture::after', {
+		'content': '""',
+		'background': 'var(--overlay-color)'
+	})
+)
 
 
 

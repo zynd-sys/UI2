@@ -6,6 +6,10 @@ import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners"
 import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles";
 import { ViewTextModifiers } from "../../ViewConstructors/ViewTextModifiers";
 import { Binding as BindingObserve, isObserved } from "../../Data/Observed";
+import { MainStyleSheet } from "../../ViewConstructors/Modifiers/CSS/MainStyleSheet";
+import { CSSSelectore } from "../../ViewConstructors/Modifiers/CSS/CSSSelectore";
+import { InnerShadowStyle } from "../../ViewConstructors/Modifiers/CollectableStyles/ShadowStyle";
+import { DefaultColor } from "../../ViewConstructors/Modifiers/Colors/DefaultColors";
 
 
 
@@ -77,7 +81,26 @@ type TextAutocomplete = 'off' | 'on'
 
 
 
-
+MainStyleSheet.add(
+	new CSSSelectore('input,textarea', {
+		'border-radius': 0,
+		'outline': 'none',
+		'box-shadow': 'none',
+		'background-color': DefaultColor.transparent
+	}),
+	new CSSSelectore('textarea', {
+		'resize': 'none',
+		'max-inline-size': '100%',
+	}),
+	new CSSSelectore('input.text-conteainer,textarea.text-conteainer', {
+		'user-select': 'auto',
+		'-webkit-user-select': 'auto',
+	}),
+	new CSSSelectore(':-webkit-autofill', {
+		'box-shadow': new InnerShadowStyle(0, 0, '100px', DefaultColor.backgroundColor),
+		'-webkit-text-fill-color': 'currentColor',
+	})
+)
 
 
 

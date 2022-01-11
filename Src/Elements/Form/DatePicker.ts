@@ -4,6 +4,8 @@ import type { MinimalStylesInterface } from "../../ViewConstructors/Modifiers/CS
 import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners";
 import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles";
 import { ViewTextModifiers } from "../../ViewConstructors/ViewTextModifiers";
+import { MainStyleSheet } from "../../ViewConstructors/Modifiers/CSS/MainStyleSheet";
+import { CSSSelectore } from "../../ViewConstructors/Modifiers/CSS/CSSSelectore";
 
 
 
@@ -25,6 +27,8 @@ export interface DatePickerAttribute extends ElementAttributeInterface {
 	'type'?: DatePickerType
 }
 
+
+MainStyleSheet.add(new CSSSelectore('input[type=date]', { 'min-block-size': '54px' }))
 
 
 

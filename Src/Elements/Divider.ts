@@ -3,9 +3,32 @@ import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstru
 import type { MinimalStylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
+import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet"
+import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore"
+import { ContentAlign } from "../ViewConstructors/Enum/ContentAlign"
+import { DefaultColor } from "../ViewConstructors/Modifiers/Colors/DefaultColors"
 
 
 
+
+
+
+MainStyleSheet.add(
+	new CSSSelectore('hr', {
+		'display': 'block',
+		'min-inline-size': '1px',
+		'min-block-size': '1px',
+		'justify-self': ContentAlign.stretch,
+		'align-self': ContentAlign.stretch,
+		'background-color': DefaultColor.textColor,
+	}),
+	new CSSSelectore('hr.spacer', {
+		'flex-grow': 1,
+		'min-inline-size': 0,
+		'min-block-size': 0,
+		'background-color': DefaultColor.transparent,
+	})
+)
 
 
 

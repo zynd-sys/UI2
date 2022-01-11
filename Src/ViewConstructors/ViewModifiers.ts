@@ -1,6 +1,5 @@
 import type { Align } from "./Enum/Align"
 import type { ContentAlign } from "./Enum/ContentAlign"
-import type { TimingFunction } from "./Enum/TimingFunction"
 import type { CubicBezier } from "./Modifiers/Animation/CubicBezier"
 import type { MinimalStylesInterface, cursorType } from "./Modifiers/CSS/Types/MinimalStylesType"
 import type { Styles } from "./Modifiers/CSS/Styles"
@@ -26,6 +25,9 @@ import { DefaultColor } from "./Modifiers/Colors/DefaultColors"
 import { ScrollIntoSelf } from "./Modifiers/ScrollIntoSelf"
 import { Binding as BindingObserve, isObserved } from "../Data/Observed"
 import { PageData } from "../Data/PageData/PageData"
+import { CSSSelectore } from "./Modifiers/CSS/CSSSelectore";
+import { MainStyleSheet } from "./Modifiers/CSS/MainStyleSheet";
+import { TimingFunction } from "./Enum/TimingFunction"
 
 
 
@@ -36,8 +38,18 @@ import { PageData } from "../Data/PageData/PageData"
 
 
 
-
-
+MainStyleSheet.add(
+	new CSSSelectore('*', {
+		'margin': 0,
+		'padding': 0,
+		'border-width': 0,
+		'box-sizing': 'border-box',
+		'transition-property': 'background-color, border-color',
+		'transition-duration': '.6s',
+		'transition-timing-function': TimingFunction.easeInOut
+	}),
+	new CSSSelectore(':focus', { 'outline': 'none' })
+)
 
 
 

@@ -9,6 +9,8 @@ import { TextWeight } from "./Enum/TextWeight";
 import { TextSpacing } from "./Enum/TextSpacing";
 import { Units } from "./Enum/Units";
 import { ViewModifiers } from "./ViewModifiers";
+import { MainStyleSheet } from "./Modifiers/CSS/MainStyleSheet";
+import { CSSSelectore } from "./Modifiers/CSS/CSSSelectore";
 
 
 
@@ -16,6 +18,32 @@ import { ViewModifiers } from "./ViewModifiers";
 
 
 
+
+
+
+MainStyleSheet.add(
+	new CSSSelectore('.text-conteainer', {
+		'display': 'block',
+		'max-inline-size': '100%',
+		'overflow': 'hidden',
+	
+		'transition-property': 'background-color, border-color, color',
+	
+		'user-select': 'none',
+		'-webkit-user-select': 'none',
+	
+		'font-size': '1rem',
+		'font-family': `-apple-system, BlinkMacSystemFont, Roboto, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`,
+		'color': 'inherit',
+		'-moz-osx-font-smoothing': 'grayscale',
+		/* text-transform: inherit; */
+	
+		'overflow-wrap': 'break-word',
+		/* -webkit-hyphens: auto;
+		hyphens: auto; */
+		'text-overflow': 'ellipsis'
+	})
+)
 
 
 

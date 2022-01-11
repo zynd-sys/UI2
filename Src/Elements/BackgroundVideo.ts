@@ -7,6 +7,8 @@ import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles";
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers";
 import { FitPositionStyle } from "../ViewConstructors/Modifiers/CollectableStyles/FitPosition";
 import { Direction } from "../ViewConstructors/Enum/Direction";
+import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet";
+import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore";
 
 
 
@@ -22,7 +24,17 @@ import { Direction } from "../ViewConstructors/Enum/Direction";
 
 
 
-
+MainStyleSheet.add(
+	new CSSSelectore('video.background-video', {
+		'display': 'block',
+		'overflow': 'hidden',
+		'user-select': 'none',
+		'-webkit-user-select': 'none',
+		'max-inline-size': '100%',
+		'inline-size': '100%',
+		'object-fit': MediaFit.cover
+	})
+)
 
 
 
@@ -112,6 +124,7 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 	}
 	protected generateHTMLElement(): HTMLVideoElement {
 		let e = this.HTMLElement = document.createElement('video');
+		e.classList.add('background-video');
 		e.src = this.content.toString();
 		if (this.loop) e.loop = true;
 		if (this.poster) e.poster = this.poster.toString();

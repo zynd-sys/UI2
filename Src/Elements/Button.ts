@@ -5,6 +5,10 @@ import type { ButtonActionStyles } from "../ViewConstructors/Modifiers/CSS/Types
 import { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners";
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles";
 import { ViewSubElements, SubElementsListeners } from "../ViewConstructors/ViewSubElements";
+import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet";
+import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore";
+import { Direction } from "../ViewConstructors/Enum/Direction";
+import { DefaultColor } from "../ViewConstructors/Modifiers/Colors/DefaultColors";
 
 
 
@@ -16,6 +20,21 @@ export interface ButtonActionInterface {
 	styles?(styles: Styles<ButtonActionStyles>): void
 }
 
+
+
+MainStyleSheet.add(
+	new CSSSelectore('button.container', {
+		'border-radius': 0,
+		'font': 'inherit',
+		'outline': 'none',
+		'box-shadow': 'none',
+		'background-color': DefaultColor.transparent,
+		'flex-direction': Direction.horizontal,
+		'max-inline-size': '100%',
+		'inline-size': 'max-content',
+		'cursor': 'pointer'
+	})
+)
 
 
 
@@ -38,6 +57,7 @@ export class ButttonView extends ViewSubElements<HTMLButtonElement> {
 	protected generateHTMLElement(): HTMLButtonElement { return document.createElement('button') }
 
 	public override elements(...value: (ViewBuilder | undefined)[]): this { if (!this.actionInterface) this.content.replace(value); return this }
+	public override onClink(): this { return this }
 
 	constructor(action: (() => void) | ButtonActionInterface | undefined, elements: (ViewBuilder | undefined)[]) {
 		super(elements);

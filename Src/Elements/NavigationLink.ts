@@ -8,35 +8,46 @@ import { ViewSubElements, SubElementsListeners } from "../ViewConstructors/ViewS
 import { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 import { App } from "../Navigation/App"
+import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet"
+import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore"
+import { Direction } from "../ViewConstructors/Enum/Direction"
 
 
 
 
 
 
-
+MainStyleSheet.add(
+	new CSSSelectore('a.container', {
+		'color': 'inherit',
+		'text-decoration': 'none',
+		'flex-direction': Direction.horizontal,
+		'max-inline-size': '100%',
+		'inline-size': 'max-content'
+	})
+)
 
 
 
 
 export class NavigationLinkView<V extends (new (...args: any) => View)> extends ViewSubElements<HTMLAnchorElement> {
-	
+
 	protected HTMLElement?: HTMLAnchorElement
-	
+
 	protected styles: Styles<SubElementsStyles> = new Styles
 	protected listeners: Listeners<SubElementsListeners<HTMLAnchorElement>> = new Listeners
 	protected attribute?: ElementAttribute<LinkAttribute>
-	
+
 	protected destination: string
 	protected disablePopover?: boolean
-	
+
 	protected merge(newRender: NavigationLinkView<any>, element: HTMLAnchorElement): void { if (this.destination != newRender.destination) element.href = this.destination = newRender.destination; }
 	protected generateHTMLElement(): HTMLAnchorElement {
 		let element = document.createElement('a');
 		element.href = this.destination;
 		return element
 	}
-	
+
 
 
 	public disableAnyPopover(): this { this.disablePopover = true; return this }

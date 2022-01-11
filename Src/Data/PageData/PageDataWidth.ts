@@ -1,14 +1,28 @@
+import type { StylesInterface } from "../../ViewConstructors/Modifiers/CSS/Types/StylesInterface";
+import type { CSSLength } from "../../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType";
 import { LightObserver } from "../Observed";
+import { CSSSelectore } from "../../ViewConstructors/Modifiers/CSS/CSSSelectore";
+import { MainStyleSheet } from "../../ViewConstructors/Modifiers/CSS/MainStyleSheet";
 
 
 
+type CSSEnvFunction = `env(safe-area-inset-${'top' | 'bottom' | 'left' | 'right'})` | `env(safe-area-inset-${'top' | 'bottom' | 'left' | 'right'},${CSSLength})`
+
+interface PageDataStyles extends StylesInterface {
+	'--safe-area-inset-top'?: CSSEnvFunction,
+	'--safe-area-inset-right'?: CSSEnvFunction,
+	'--safe-area-inset-bottom'?: CSSEnvFunction,
+	'--safe-area-inset-left'?: CSSEnvFunction
+}
 
 
 
-
-
-
-
+MainStyleSheet.add(new CSSSelectore<PageDataStyles>('body', {
+	'--safe-area-inset-top': 'env(safe-area-inset-top,0)',
+	'--safe-area-inset-right': 'env(safe-area-inset-right,0)',
+	'--safe-area-inset-bottom': 'env(safe-area-inset-bottom,0)',
+	'--safe-area-inset-left': 'env(safe-area-inset-left,0)'
+}))
 
 
 
@@ -16,6 +30,9 @@ export class PageDataWidthClass extends LightObserver {
 	protected timeoutID?: number
 	protected isViewportCover: boolean = false
 	protected viewportCoverRegexp: RegExp = /viewport-fit\s*=\s*cover/
+
+	protected computedStyles?: CSSStyleDeclaration
+	protected get computedStylesSafe(): CSSStyleDeclaration { return this.computedStyles ? this.computedStyles : this.computedStyles = window.getComputedStyle(document.body) }
 
 	public value: number = window.innerWidth
 
@@ -28,7 +45,7 @@ export class PageDataWidthClass extends LightObserver {
 
 
 	public setViewportCover(): void {
-		if(this.isViewportCover) return
+		if (this.isViewportCover) return
 		let element = this.getMetaViewportElement();
 		element.content += ' ,viewport-fit=cover';
 		this.isViewportCover = true;
@@ -49,11 +66,10 @@ export class PageDataWidthClass extends LightObserver {
 
 
 	protected setSafeArea(): void {
-		const styles = window.getComputedStyle(document.body);
-		this.safeAreaInsetTop = parseInt(styles.getPropertyValue('--safe-area-inset-top'));
-		this.safeAreaInsetRight = parseInt(styles.getPropertyValue('--safe-area-inset-right'));
-		this.safeAreaInsetBottom = parseInt(styles.getPropertyValue('--safe-area-inset-bottom'));
-		this.safeAreaInsetLeft = parseInt(styles.getPropertyValue('--safe-area-inset-left'));
+		this.safeAreaInsetTop = parseInt(this.computedStylesSafe.getPropertyValue('--safe-area-inset-top'));
+		this.safeAreaInsetRight = parseInt(this.computedStylesSafe.getPropertyValue('--safe-area-inset-right'));
+		this.safeAreaInsetBottom = parseInt(this.computedStylesSafe.getPropertyValue('--safe-area-inset-bottom'));
+		this.safeAreaInsetLeft = parseInt(this.computedStylesSafe.getPropertyValue('--safe-area-inset-left'));
 	}
 
 

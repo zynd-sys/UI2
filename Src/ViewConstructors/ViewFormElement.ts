@@ -2,6 +2,9 @@ import type { Color } from "./Modifiers/Colors/Colors"
 import { DefaultColor } from "./Modifiers/Colors/DefaultColors"
 import { SubElementsListeners, ViewSubElements } from "./ViewSubElements"
 import { SpanView } from "../Elements/Form/Span"
+import { MainStyleSheet } from "./Modifiers/CSS/MainStyleSheet"
+import { CSSSelectore } from "./Modifiers/CSS/CSSSelectore"
+import { Direction } from "./Enum/Direction"
 
 
 
@@ -35,7 +38,24 @@ export interface FormElementListeners<E extends HTMLElement> extends SubElements
 
 
 
-
+MainStyleSheet.add(
+	new CSSSelectore('.hiddenElement', {
+		'position': 'absolute',
+		'-webkit-appearance': 'none',
+		'-moz-appearance': 'none',
+		'appearance': 'none',
+		'inline-size': '1px',
+		'block-size': '1px',
+		'overflow': 'hidden',
+		'clip': 'rect(0 0 0 0)'
+	}),
+	new CSSSelectore('label.container', {
+		'cursor': 'pointer',
+		'flex-direction': Direction.horizontal,
+		'max-inline-size': '100%',
+		'inline-size': 'max-content'
+	})
+)
 
 
 export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, input: HTMLInputElement | HTMLProgressElement | HTMLSelectElement }> extends ViewSubElements<E> {

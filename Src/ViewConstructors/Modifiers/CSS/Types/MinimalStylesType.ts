@@ -32,35 +32,21 @@ export type cursorType = 'auto' |
 	'grab' |
 	'grabbing' |
 	'all-scroll' |
-	'col-resize' |
-	'row-resize' |
-	'n-resize' |
-	'e-resize' |
-	's-resize' |
-	'w-resize' |
-	'ne-resize' |
-	'nw-resize' |
-	'se-resize' |
-	'sw-resize' |
-	'ew-resize' |
-	'ns-resize' |
-	'nesw-resize' |
-	'nwse-resize' |
-	'zoom-in' |
-	'zoom-out';
+	`${'col' | 'row' | 'n' | 'e' | 's' | 'w' | 'ne' | 'nw' | 'se' | 'sw' | 'ew' | 'ns' | 'nesw' | 'nwse'}-resize` |
+	`zoom-${'in' | 'out'}`;
 
 
-export type CSSTime = `${number}${'s' | 'ms'}`
+export type CSSTime = 0 | `${number}${'s' | 'ms'}`
 export type CSSLength = 0 | `${number}${Units}`
 export type CSSAngle = 0 | `${number}${'deg' | 'grad' | 'rad' | 'turn'}`
 
 export interface MinimalStylesInterface {
 
-	'inline-size'?: CSSLength
+	'inline-size'?: CSSLength | `${'max' | 'min' | 'fit'}-content`
 	'max-inline-size'?: CSSLength
 	'min-inline-size'?: CSSLength
 
-	'block-size'?: CSSLength
+	'block-size'?: CSSLength | `${'max' | 'min' | 'fit'}-content`
 	'max-block-size'?: CSSLength
 	'min-block-size'?: CSSLength
 

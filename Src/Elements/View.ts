@@ -3,6 +3,8 @@ import { ObserverInterface, isObserved } from "../Data/Observed";
 import { AnimationStorage } from "../Data/Storages/Animations";
 import { ViewsList } from "../ViewConstructors/Modifiers/ListView";
 import { ViewBuilder } from "../ViewConstructors/ViewBuilder";
+import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet";
+import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore";
 
 
 
@@ -11,6 +13,9 @@ import { ViewBuilder } from "../ViewConstructors/ViewBuilder";
 
 class ViewHTMLElement extends HTMLElement { };
 customElements.define('ui-view', ViewHTMLElement);
+MainStyleSheet.add(new CSSSelectore('ui-view', { 'display': 'contents' }))
+
+
 
 
 

@@ -6,6 +6,8 @@ import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 import { ViewTextModifiers } from "../ViewConstructors/ViewTextModifiers"
 import { ViewBuilder } from "../ViewConstructors/ViewBuilder"
 import { ViewsList } from "../ViewConstructors/Modifiers/ListView"
+import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet"
+import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore"
 
 
 
@@ -47,6 +49,24 @@ class TextItem extends ViewBuilder {
 
 	constructor(value: string) { super(); this.content = value }
 }
+
+
+
+
+
+MainStyleSheet.add(
+	new CSSSelectore('.text-conteainer.stack > *', {
+		'vertical-align': 'text-bottom',
+		'-webkit-user-select': 'inherit',
+		'user-select': 'inherit',
+		'color': 'inherit',
+		'font': 'inherit',
+	}),
+
+	new CSSSelectore('.text-conteainer.stack > .text-conteainer', { 'display': 'inline-block' }),
+	new CSSSelectore('.text-conteainer.stack > .container', { 'display': 'inline-flex' }),
+	new CSSSelectore('.text-conteainer.stack > .container.grid', { 'display': 'inline-grid' })
+)
 
 
 

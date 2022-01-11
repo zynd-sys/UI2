@@ -1,4 +1,3 @@
-import type { ContentAlign } from "./Enum/ContentAlign";
 import type { ScrollSnapType } from "./Enum/ScrollSnapType";
 import type { ListenersInterface, Listeners } from "./Modifiers/Listeners/Listeners";
 import type { Styles } from "./Modifiers/CSS/Styles";
@@ -13,6 +12,9 @@ import { Direction } from "./Enum/Direction";
 import { Units } from "./Enum/Units";
 import { ViewModifiers } from "./ViewModifiers";
 import { Scroll } from "./Enum/Scroll";
+import { ContentAlign } from "./Enum/ContentAlign";
+import { MainStyleSheet } from "./Modifiers/CSS/MainStyleSheet";
+import { CSSSelectore } from "./Modifiers/CSS/CSSSelectore";
 
 
 
@@ -31,7 +33,28 @@ export interface SubElementsListeners<E extends HTMLElement> extends ListenersIn
 
 
 
+MainStyleSheet.add(
+	new CSSSelectore('.container', {
+		'display': 'flex',
+		'inline-size': '100%',
+		'flex-flow': 'column wrap',
+		'justify-content': ContentAlign.center,
+		'align-items': ContentAlign.center,
+		'align-content': ContentAlign.center,
+		'overscroll-behavior': 'none'
+	}),
+	new CSSSelectore('.grid', {
+		'display': 'grid',
+		'grid-auto-flow': Direction.vertical,
+	}),
+	new CSSSelectore('.scroll', { 'flex-wrap': 'nowrap' }),
+	new CSSSelectore('.scroll > *', { 'flex-shrink': 0 }),
 
+
+	new CSSSelectore('.depth', { 'position': 'relative' }),
+	new CSSSelectore('.depth > *', { 'position': 'absolute', 'inset': 0 }),
+	new CSSSelectore('.depth > *:last-child', { 'inset': 'auto' })
+)
 
 
 
