@@ -1,6 +1,5 @@
 import type { CompositingCoords } from "../ViewConstructors/Modifiers/Compositing";
 import { ObserverInterface, isObserved } from "../Data/Observed";
-import { AnimationStorage } from "../Data/Storages/Animations";
 import { ViewsList } from "../ViewConstructors/Modifiers/ListView";
 import { ViewBuilder } from "../ViewConstructors/ViewBuilder";
 import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet";
@@ -23,8 +22,9 @@ const ViewStorageKey = Symbol('ViewStorage');
 
 
 class ViewStorage {
+	public timeout?: boolean
 	public HTMLElement?: ViewHTMLElement
-	public renderingContent?: ViewsList
+	public renderingContent: ViewsList = new ViewsList([])
 
 	public cancelHandlerStorage: Map<ObserverInterface, () => void> = new Map
 	public isObserved: boolean = false
@@ -76,7 +76,7 @@ export abstract class View extends ViewBuilder {
 
 	private setObservedProperty(observedProperty: Map<string | number | symbol, any>): void {
 		const storage = this[ViewStorageKey];
-		const MainHandler = () => this.render();
+		const MainHandler = () => this.update();
 
 		observedProperty.forEach((_, propertyName) => {
 			if (typeof propertyName == 'symbol') return
@@ -112,24 +112,32 @@ export abstract class View extends ViewBuilder {
 
 
 
-
-
-	public render(newRender?: View, withAnimation?: boolean): ViewHTMLElement {
+	public update(): void {
 		const storage = this[ViewStorageKey];
 
-		if (newRender) { newRender.destroy(withAnimation as any); newRender = undefined; }
-		if (!storage.HTMLElement) storage.HTMLElement = new ViewHTMLElement;
+		if (!storage.HTMLElement) return
+		// if (newRender) { newRender.destroy(withAnimation as any); newRender = undefined; }
 
-		// timeout
-		if (AnimationStorage.isAnimated) {
-			AnimationStorage.addAnimationCompletionHandler(this, () => this.render(newRender, withAnimation));
-			return storage.HTMLElement
+		if (!storage.timeout) {
+			window.setTimeout(() => { 
+				if (storage.HTMLElement) storage.renderingContent.render(storage.HTMLElement, undefined, new ViewsList([this.content()]));
+				storage.timeout = false;
+			})
+			storage.timeout = true;
 		}
+	}
+
+	public render(withAnimation: boolean = false): ViewHTMLElement {
+		const storage = this[ViewStorageKey];
+
+		if (storage.HTMLElement) return storage.HTMLElement
+
+
+		storage.HTMLElement = new ViewHTMLElement;
 
 		if (storage.isObserved == false && (this.constructor as typeof View).observedProperty) this.setObservedProperty((this.constructor as typeof View).observedProperty!);
 
-		if (storage.renderingContent) storage.renderingContent.render(storage.HTMLElement, withAnimation, new ViewsList([this.content()]))
-		else { storage.renderingContent = new ViewsList([this.content()]); storage.renderingContent.render(storage.HTMLElement, withAnimation) }
+		storage.renderingContent.render(storage.HTMLElement, withAnimation, new ViewsList([this.content()]));
 
 		return storage.HTMLElement
 	}
@@ -156,14 +164,14 @@ export abstract class View extends ViewBuilder {
 			else HTMLElement?.remove()
 
 			storage.HTMLElement = undefined;
-			storage.renderingContent = undefined;
+			storage.renderingContent.clear();
 			return result
 		}
 
 		storage.renderingContent?.destroy();
 		storage.HTMLElement?.remove();
 
-		storage.renderingContent = undefined;
+		storage.renderingContent.clear();
 		storage.HTMLElement = undefined;
 	}
 

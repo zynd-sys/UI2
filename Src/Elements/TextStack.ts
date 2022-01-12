@@ -21,22 +21,15 @@ class TextItem extends ViewBuilder {
 
 	protected content: string
 
-	public render(newRender?: TextItem): HTMLElement {
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.content = newRender.content; newRender = undefined; }
-			this.HTMLElement = document.createTextNode(this.content);
-			return this.HTMLElement as unknown as HTMLElement
-		}
+	public update(newRender: TextItem): void {
+		if (!this.HTMLElement) { this.content = newRender.content; return }
 
-		// not update
-		if (!newRender) {
-			if (this.content != this.HTMLElement.textContent) this.HTMLElement.textContent = this.content;
-			return this.HTMLElement as unknown as HTMLElement
-		}
-
-		// update
 		if (newRender.content != this.HTMLElement.textContent) this.HTMLElement.textContent = this.content = newRender.content;
+	}
+	public render(): HTMLElement {
+		if (this.HTMLElement) return this.HTMLElement as unknown as HTMLElement
+
+		this.HTMLElement = document.createTextNode(this.content);
 		return this.HTMLElement as unknown as HTMLElement
 	}
 	public destroy(): void {

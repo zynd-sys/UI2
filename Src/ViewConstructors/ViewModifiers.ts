@@ -128,7 +128,6 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		return
 	}
 
-	protected update(element: E): void { this.renderModifiers(element instanceof HTMLElement ? element : element.parent) }
 	protected abstract generateHTMLElement(): E
 	protected abstract merge?(newRender: ViewModifiers<any>, HTMLElement: E): void
 
@@ -513,30 +512,25 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 
-
-
-
-	public render(newRender?: ViewModifiers<any>, withAnimation?: boolean): HTMLElement {
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined; }
-			this.HTMLElement = this.generateHTMLElement();
-			let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
-			this.renderModifiers(element, undefined, withAnimation);
-			return element
-		}
+	public update(newRender: ViewModifiers<any>): void {
+		if (!this.HTMLElement) { this.importProperty(newRender); return }
 
 		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
-		// not update
-		if (!newRender) { this.update(this.HTMLElement); return element }
 
-		// update
-		if (this.merge) this.merge(newRender, this.HTMLElement);
-		this.renderModifiers(element, newRender, withAnimation);
-		return element;
+		this.merge?.(newRender, this.HTMLElement);
+		this.renderModifiers(element, newRender);
 	}
 
-	public destroy(withAnimation?: boolean): Promise<void> | void {
+	public render(withAnimation: boolean = false): HTMLElement {
+		if (this.HTMLElement) return this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent
+
+		this.HTMLElement = this.generateHTMLElement();
+		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+		this.renderModifiers(element, undefined, withAnimation);
+		return element
+	}
+
+	public destroy(withAnimation: boolean = false): Promise<void> | void {
 		if (!this.HTMLElement) return
 		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
 

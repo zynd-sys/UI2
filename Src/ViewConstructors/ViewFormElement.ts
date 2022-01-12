@@ -79,12 +79,7 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 			parent: labelElement
 		} as E
 	}
-	protected override update(parent: E) {
-		if (!this.generateAlternativeElement) return super.update(parent)
-		let element = this.content.get(0);
-		if (element && element instanceof SpanView) element.render(this.generateAlternativeElement(this.accentColorValue))
-		return super.update(parent)
-	}
+
 
 	protected abstract generateHiddenElement(): E['input']
 	protected abstract generateAlternativeElement?(accentColorValue: Color): SpanView
@@ -92,7 +87,12 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 	protected safeUpdate(action: () => void) {
 		this.isUpdating = false;
 		action();
-		if (this.HTMLElement && !this.isUpdating) this.render();
+		if (!this.HTMLElement && this.isUpdating) return
+
+		if (!this.generateAlternativeElement) return
+		let element = this.content.get(0);
+		if (element && element instanceof SpanView) element.update(this.generateAlternativeElement(this.accentColorValue))
+		return
 	}
 
 
@@ -101,32 +101,28 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 
 
 
+	public override update(newRender: ViewFormElement<any>): void {
+		if (!this.HTMLElement) { this.importProperty(newRender); return }
 
-
-	public override render(newRender?: ViewFormElement<any>, withAnimation?: boolean): HTMLElement {
 		this.isUpdating = true;
 
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined; }
-			let e = this.HTMLElement = this.generateHTMLElement();
+		let e = this.HTMLElement;
 
-			if (this.generateAlternativeElement) this.content.unshift(this.generateAlternativeElement(this.accentColorValue))
-			this.content.render(e.parent, withAnimation || this.animations.withChild, undefined, [e.input]);
-			this.renderModifiers(e.parent, undefined, withAnimation);
-
-			return e.parent
-		}
-
-		let e = this.HTMLElement
-		// not change
-		if (!newRender) { this.update(this.HTMLElement); return e.parent }
-
-		// changes
 		if (this.merge) this.merge(newRender, this.HTMLElement);
 		if (this.generateAlternativeElement) newRender.content.unshift(this.generateAlternativeElement(this.accentColorValue))
 		this.content.render(e.parent, true, newRender.content, [e.input])
-		this.renderModifiers(e.parent, newRender, withAnimation);
-		return e.parent;
+		this.renderModifiers(e.parent, newRender);
+	}
+
+	public override render(withAnimation: boolean = false): HTMLElement {
+		if (this.HTMLElement) return this.HTMLElement.parent
+
+		let e = this.HTMLElement = this.generateHTMLElement();
+
+		if (this.generateAlternativeElement) this.content.unshift(this.generateAlternativeElement(this.accentColorValue))
+		this.content.render(e.parent, withAnimation || this.animations.withChild, undefined, [e.input]);
+		this.renderModifiers(e.parent, undefined, withAnimation);
+
+		return e.parent
 	}
 }

@@ -26,18 +26,18 @@ MainStyleSheet.add(
 		'display': 'block',
 		'max-inline-size': '100%',
 		'overflow': 'hidden',
-	
+
 		'transition-property': 'background-color, border-color, color',
-	
+
 		'user-select': 'none',
 		'-webkit-user-select': 'none',
-	
+
 		'font-size': '1rem',
 		'font-family': `-apple-system, BlinkMacSystemFont, Roboto, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`,
 		'color': 'inherit',
 		'-moz-osx-font-smoothing': 'grayscale',
 		/* text-transform: inherit; */
-	
+
 		'overflow-wrap': 'break-word',
 		/* -webkit-hyphens: auto;
 		hyphens: auto; */
@@ -63,7 +63,7 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 	// background-clip
 	// Text.Case
 
-	
+
 	public columnMaxCount(value: number): this { this.styles.set('column-count', value); return this }
 	public columnWidth(value: number, unit: Units = Units.px): this { this.styles.set('column-width', `${value}${unit}`); return this }
 	public columnGap(value: number, unit: Units = Units.px): this { this.styles.set('column-gap', `${value}${unit}`); return this }
@@ -126,26 +126,21 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 
 
 
-
-
-	public override render(newRender?: ViewModifiers<any>, withAnimation?: boolean): HTMLElement {
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined; }
-			this.HTMLElement = this.generateHTMLElement();
-			let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
-			element.classList.add('text-conteainer')
-			this.renderModifiers(element, undefined, withAnimation);
-			return element
-		}
-
+	public override update(newRender: ViewTextModifiers<any>): void {
+		if (!this.HTMLElement) { this.importProperty(newRender); return }
 		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
-		// not update
-		if (!newRender) { this.update(this.HTMLElement); return element }
 
-		// update
 		if (this.merge) this.merge(newRender, this.HTMLElement);
-		this.renderModifiers(element, newRender, withAnimation);
-		return element;
+		this.renderModifiers(element, newRender);
+	}
+
+	public override render(withAnimation?: boolean): HTMLElement {
+		if (this.HTMLElement) return this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent
+
+		this.HTMLElement = this.generateHTMLElement();
+		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+		element.classList.add('text-conteainer')
+		this.renderModifiers(element, undefined, withAnimation);
+		return element
 	}
 }

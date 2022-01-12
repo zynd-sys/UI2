@@ -58,7 +58,7 @@ export class ViewsList {
 		let HTMLElementList: (Node | Promise<void>)[] = [];
 
 		if (!contentNew) {
-			this.forEach(view => { if (view) HTMLElementList.push(view.render(undefined, animation)) });
+			this.forEach(view => { if (view) HTMLElementList.push(view.render(animation)) });
 			return HTMLElementList
 		}
 
@@ -77,7 +77,7 @@ export class ViewsList {
 			// not now item  (create new view)
 			if (!itemNow) {
 				this.data[i] = itemNew;
-				HTMLElementList.push(itemNew.render(undefined, animation));
+				HTMLElementList.push(itemNew.render(animation));
 				continue
 			}
 
@@ -90,8 +90,8 @@ export class ViewsList {
 				}
 				itemNow = itemNew;
 				itemNew = undefined;
-			}
-			HTMLElementList.push(itemNow.render(itemNew));
+			} else itemNow.update(itemNew)
+			HTMLElementList.push(itemNow.render(animation));
 		}
 
 		if (this.data.length > contentNew.data.length) {

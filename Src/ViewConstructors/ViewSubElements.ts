@@ -265,38 +265,33 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 
 
-
-
-	public override render(newRender?: ViewSubElements<any>, withAnimation?: boolean): HTMLElement {
-		// first render
-		if (!this.HTMLElement) {
-			if (newRender) { this.importProperty(newRender); newRender = undefined; }
-			this.HTMLElement = this.generateHTMLElement();
-			let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
-			element.classList.add('container');
-
-			this.content.render(element, this.animations.withChild);
-			this.renderModifiers(element, undefined, withAnimation);
-
-			return element
-		}
-
+	public override update(newRender: ViewSubElements<any>): void {
+		if (!this.HTMLElement) { this.importProperty(newRender); return }
 		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
-		// not change
-		if (!newRender) { this.update(this.HTMLElement); return element }
 
-		// changes
 		if (this.merge) this.merge(newRender, this.HTMLElement);
 		this.content.render(element, true, newRender.content);
-		this.renderModifiers(element, newRender, withAnimation);
-		return element;
+		this.renderModifiers(element, newRender);
+	}
+
+	public override render(withAnimation: boolean = false): HTMLElement {
+		if (this.HTMLElement) return this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+
+		this.HTMLElement = this.generateHTMLElement();
+		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+		element.classList.add('container');
+
+		this.content.render(element, this.animations.withChild);
+		this.renderModifiers(element, undefined, withAnimation);
+
+		return element
 	}
 
 
 
 
 
-	public override destroy(withAnimation?: boolean): Promise<void> | void {
+	public override destroy(withAnimation: boolean = false): Promise<void> | void {
 		if (withAnimation && this.HTMLElement) {
 			if (this.animations.withChild) {
 				let animations = this.content.map(v => v?.destroy(true));

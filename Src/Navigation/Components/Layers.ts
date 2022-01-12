@@ -50,7 +50,8 @@ export class AppLayersClass {
 		if (!layer) { console.error('not found', layerName); return }
 		// layer.element.textContent = null;
 
-		let result = view.render(layer.view, withAnimation);
+		if (layer.view?.constructor == view.constructor) view.update();
+		let result = view.render(withAnimation);
 
 		let firstElement = layer.element.firstElementChild;
 		if (firstElement) { if (firstElement != result) firstElement.replaceWith(result) }
@@ -97,8 +98,8 @@ export class AppLayersClass {
 		this.storage.set(AppLayerName.popover, { element: popoverElement, view: undefined });
 
 
-		PageDataColorMode.addBeacon(() => this.storage.forEach(v => v.view?.render()))
-		PageDataWidth.addBeacon(() => this.storage.forEach(v => v.view?.render()))
+		PageDataColorMode.addBeacon(() => this.storage.forEach(v => v.view?.update()))
+		PageDataWidth.addBeacon(() => this.storage.forEach(v => v.view?.update()))
 	}
 
 	constructor() {
