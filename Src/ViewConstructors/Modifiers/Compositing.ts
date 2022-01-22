@@ -43,11 +43,13 @@ class CompositingClass {
 					.animate(element[0])
 
 			}
+			this.rendering = false;
 		})
 	}
+	public isRendering(): boolean { return this.rendering }
 
 }
 
-const Compositing = new CompositingClass;
+export const Compositing = new CompositingClass;
 
 export function withAnimation(animation?: UIAnimationClass) { Compositing.render(animation); }
