@@ -1,6 +1,5 @@
 import { PageData } from "../../../Data/PageData/PageData"
-import { AnimationStorage } from "../../../Data/Storages/Animations"
-import { UIAnimation, UIAnimationClass } from "./UIAnimation"
+import { AnimationStorage, UIAnimation, UIAnimationClass } from "./UIAnimation"
 
 
 
@@ -25,7 +24,7 @@ export class UIAnimationObject {
 
 	public animateCreation(element: HTMLElement): Promise<void> | void {
 		if (!this.created || PageData.reducedAnimation) return
-		
+
 		let func = this.created;
 		if (element.isConnected) return func(() => element.getBoundingClientRect()).animate(element)
 
