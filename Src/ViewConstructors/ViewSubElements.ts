@@ -101,7 +101,6 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 		}
 
 
-		// list.add('container');
 		if (this.isGrid) list.add('grid');
 
 		if (this.directionToken)
@@ -293,15 +292,15 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 	public override destroy(withAnimation: boolean = false): Promise<void> | void {
 		if (withAnimation && this.HTMLElement) {
+			let parenAnimations = super.destroy(true); 
+
 			if (this.animations.withChild) {
-				let animations = this.content.map(v => v?.destroy(true));
-				animations.push(
-					this.animations.animateDestruction(this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent)
-						?.then(() => super.destroy())
-				)
-				return Promise.all(animations).then(() => { if (this.HTMLElement) super.destroy() });
+				let animations: (Promise<void> | void)[] = this.content.map(v => v?.destroy(true));
+				animations.push(parenAnimations);
+
+				return Promise.all(animations).then();
 			}
-			return super.destroy(withAnimation)?.then(() => void this.content.forEach(element => element?.destroy()))
+			return parenAnimations?.then(() => void this.content.forEach(element => element?.destroy()))
 		}
 
 		this.content.forEach(element => element?.destroy());

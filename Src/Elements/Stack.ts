@@ -7,7 +7,6 @@ import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 import { ViewSubElements, SubElementsListeners } from "../ViewConstructors/ViewSubElements"
 
 
-// type TagName = Omit<HTMLElementTagNameMap, 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'iframe' | 'a' | 'button' | 'hr' | 'picture' | 'img' | 'source' | 'input' | 'head' | 'body' | 'html' | 'meta' | 'link' | 'srcipt' | 'style'>
 type TagName = 'section' | 'main' | 'footer' | 'header' | 'aside' | 'nav' | 'article' | 'div' | 'ul' | 'ol' | 'li'
 
 

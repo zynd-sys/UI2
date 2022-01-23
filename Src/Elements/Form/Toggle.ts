@@ -92,7 +92,7 @@ export class ToggleView extends ViewFormElement<{ input: HTMLInputElement, paren
 		this.state = value.value;
 		this.direction(undefined, true);
 		this.userHandler = isObserved(value)
-			? (v: boolean) => value.value = v
+			? v => value.value = v
 			: value.onChange;
 	}
 }
