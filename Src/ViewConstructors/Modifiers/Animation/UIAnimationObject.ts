@@ -1,4 +1,5 @@
 import { PageData } from "../../../Data/PageData/PageData"
+import { Compositing } from "../Compositing"
 import { AnimationStorage, UIAnimation, UIAnimationClass } from "./UIAnimation"
 
 
@@ -29,7 +30,7 @@ export class UIAnimationObject {
 		if (element.isConnected) return func(() => element.getBoundingClientRect()).animate(element)
 
 		let promise = new Promise<void>(resolve =>
-			window.requestAnimationFrame(() => resolve(func(() => element.getBoundingClientRect()).animate(element, false)))
+			Compositing.requestAnimationFrame(1, () => resolve(func(() => element.getBoundingClientRect()).animate(element, false)))
 		)
 		AnimationStorage.addAnimation(element, promise);
 		return promise

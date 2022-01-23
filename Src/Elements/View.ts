@@ -1,4 +1,4 @@
-import type { CompositingCoords } from "../ViewConstructors/Modifiers/Compositing";
+import { Compositing, CompositingCoords } from "../ViewConstructors/Modifiers/Compositing";
 import { ObserverInterface, isObserved } from "../Data/Observed";
 import { ViewsList } from "../ViewConstructors/Modifiers/ListView";
 import { ViewBuilder } from "../ViewConstructors/ViewBuilder";
@@ -119,7 +119,7 @@ export abstract class View extends ViewBuilder {
 		// if (newRender) { newRender.destroy(withAnimation as any); newRender = undefined; }
 
 		if (!storage.timeout) {
-			window.setTimeout(() => { 
+			Compositing.requestAnimationFrame(0, () => {
 				if (storage.HTMLElement) storage.renderingContent.render(storage.HTMLElement, undefined, new ViewsList([this.content()]));
 				storage.timeout = false;
 			})
