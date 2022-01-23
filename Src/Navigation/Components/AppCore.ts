@@ -61,47 +61,63 @@ export class AppCoreClass {
 	protected getManifestItem(view: (new (...p: any[]) => View) | LinkPathClass<any>): undefined | ManifestItem<string, new (...p: any[]) => View> {
 		if (!this.manifest) { console.error('navigate without app manifest'); return }
 
-		if (view instanceof LinkPathClass) { for (let item of this.manifest) if (item.path == view.path) return item; return }
+		if (view instanceof LinkPathClass) {
+			for (let item of this.manifest) if (item.path == view.path) return item;
+			return
+		}
+
 		for (let item of this.manifest) if (item.checkView(view)) return item;
 	}
 	protected promiseWithAnimation<V>(promise: Promise<V> | V): Promise<V> {
-		if (!this.animationPromise) this.animationPromise = new Promise(resolve => AnimationStorage.addAnimationCompletionHandler(this, () => resolve()))
+		if (!this.animationPromise) this.animationPromise = AnimationStorage.addAnimationCompletionHandler(this)
 		return Promise.all([this.animationPromise, promise]).then(v => v[1]);
 	}
 
 	public async navigate<V extends new (...p: any[]) => View>(view: V | LinkPathClass<V>, viewParametrs: ConstructorParameters<V>): Promise<void> {
 		try {
+			if (this.popoverMod) {
+				if (!(view instanceof LinkPathClass)) {
+					this.layers.setLayer(AppLayerName.popover, new view(...viewParametrs), true);
+					return
+				}
+
+				let manifestItem = this.getManifestItem(view);
+				let v = (manifestItem ? manifestItem : view).getView();
+				if (v instanceof Promise) v = await v;
+
+				this.layers.setLayer(AppLayerName.popover, new v(...viewParametrs), true)
+				return
+			}
+
+
 
 			let manifestItem = this.getManifestItem(view);
+			let partPath: string | undefined;
 			let viewv: new (...p: any[]) => View;
+			this.promiseInitializer = view;
 
 			if (manifestItem) {
-				this.promiseInitializer = view
-				viewv = await this.promiseWithAnimation(manifestItem.view);
+				let promise = AnimationStorage.isAnimated ? this.promiseWithAnimation(manifestItem.getView()) : manifestItem.getView();
+				if (promise instanceof Promise) promise = await promise;
 
-				if (!this.popoverMod) {
-					let partPath: string = manifestItem.path;
-					if (manifestItem.pathType == PathType.generic && typeof viewParametrs[0] == 'string') partPath += '~' + viewParametrs[0];
-					this.history.navigate(partPath);
-				}
+				partPath = manifestItem.path;
+				if (manifestItem.pathType == PathType.generic && typeof viewParametrs[0] == 'string') partPath += '~' + viewParametrs[0];
+				viewv = promise;
 			} else {
-				if (!this.popoverMod) console.error('not found manifest for ', view.constructor.name, view)
-				this.promiseInitializer = view;
+				console.error('not found manifest for ', view.constructor.name, view)
 
-				if (view instanceof LinkPathClass) {
-					if (view.previewValue) this.layers.setLayer(this.popoverMod ? AppLayerName.popover : AppLayerName.app, new view.previewValue, this.popoverMod);
-					viewv = await this.promiseWithAnimation(view.getView());
-				}
-				else viewv = await this.promiseWithAnimation(view);
+				let promise = view instanceof LinkPathClass ? view.getView() : view;
+				if (AnimationStorage.isAnimated) promise = await this.promiseWithAnimation(promise);
+				if (promise instanceof Promise) promise = await promise;
+				viewv = promise;
 			}
 
 			if (this.promiseInitializer != view) return
 			this.promiseInitializer = undefined;
 
-			if (this.popoverMod) { this.layers.setLayer(AppLayerName.popover, new viewv(...viewParametrs), true); return }
-
 
 			this.setAppLayers(viewv, viewParametrs, manifestItem?.colorModeValue);
+			if (typeof partPath == 'string') this.history.navigate(partPath);
 			this.urlNow = window.location.pathname;
 
 		} catch (error: any) { this.setErrorView(error) }
@@ -125,7 +141,7 @@ export class AppCoreClass {
 
 
 
-	public getRectElements(storage: Map<HTMLElement,CompositingCoords>): void { this.layers.getRectElements(storage) }
+	public getRectElements(storage: Map<HTMLElement, CompositingCoords>): void { this.layers.getRectElements(storage) }
 
 	public addErrorPath(view: new (error: Error) => View): void { this.errorView = view }
 	public addNotFoundPath(view: new () => View): void { this.notFoundView = view }
@@ -171,10 +187,10 @@ export class AppCoreClass {
 
 
 
-	public setPopover(view: new (...p: any[]) => View, scroll: boolean = false): void {
+	public setPopover(view: new (...p: any[]) => View, scrolling: boolean = false): void {
 		if (this.popoverMod) { console.warn('popover is set'); return }
 
-		if (scroll) window.addEventListener('scroll', () => {
+		if (scrolling) window.addEventListener('scroll', () => {
 			this.layers.clearLayer(AppLayerName.popover, true);
 			this.popoverMod = false;
 		}, { passive: true, once: true });
@@ -220,7 +236,8 @@ export class AppCoreClass {
 			let generateURL = undefined;
 			if (checkURL) generateURL = checkURL[2]
 
-			this.setAppLayers(await data.view, [generateURL], data.colorModeValue, false);
+			let view = data.getView();
+			this.setAppLayers(view instanceof Promise ? await view : view, [generateURL], data.colorModeValue, false);
 
 
 		} catch (error: any) {
