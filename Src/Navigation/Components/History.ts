@@ -14,59 +14,37 @@ export class NotFoundError extends Error {
 
 
 export class AppHistoryClass {
-	protected url: [string, string, ...string[]]
-	protected readonly rootPaths: Map<string, [string, string, ...string[]]> = new Map()
+	protected url: string = ''
+	protected readonly rootPaths: Set<string> = new Set
 
 	protected setPage(url: string): void { window.history.pushState(undefined, '', url); }
 
-	public addRootPath(path: string): void { this.rootPaths.set(path, ['', path]) }
+	public addRootPath(path: string): void { this.rootPaths.add(path) }
 
 
 	public generateURL(partPath: string): string {
-		// go to root path
-		if (partPath == this.url[1]) return '/' + partPath
-
-		// go to previous path
-		if (partPath == this.url[this.url.length - 1]) return this.url.slice(0, -1).join('/')
 
 		// switch to root path
-		let path = this.rootPaths.get(partPath);
-		if (path) return path.join('/')
+		if (this.rootPaths.has(partPath)) return '/' + partPath
 
 		// push path
-		return this.url.join('/') + '/' + partPath
+		return this.url + '/' + partPath
 	}
 
 
 
 	public navigate(partPath: string): void {
-		let firstPart = this.url[1];
-
-		// go to root start path 
-		if (partPath == firstPart) {
-			this.setPage('/' + firstPart);
-			this.url.length = 0;
-			this.url.push(partPath);
-			return
-		}
-
-		// go to previous path
-		let previousPart = this.url[this.url.length - 1];
-		if (partPath == previousPart) { this.url.pop(); this.setPage(this.url.join('/')); return }
 
 		// switch to root path
-		let path = this.rootPaths.get(partPath);
-		if (path) {
-			this.rootPaths.set(firstPart, this.url);
-			this.url = path;
-
-			this.setPage(this.url.join('/'))
+		if (this.rootPaths.has(partPath)) {
+			this.url = '/' + partPath;
+			this.setPage(this.url)
 			return
 		}
 
 		// push path
-		this.url.push(partPath);
-		this.setPage(this.url.join('/'))
+		this.url = this.url + '/' + partPath;
+		this.setPage(this.url)
 		return
 	}
 
@@ -110,7 +88,8 @@ export class AppHistoryClass {
 
 		if (manifestItem) {
 			let newURL = newPath.join('/')
-			if (newURL != pathSplit.join('/')) window.history.replaceState(undefined, '', newURL)
+			if (newURL != pathSplit.join('/')) window.history.replaceState(undefined, '', newURL);
+			this.url = newURL;
 			return manifestItem
 		}
 		throw new NotFoundError('not found manifest item')
@@ -119,13 +98,5 @@ export class AppHistoryClass {
 
 
 
-	constructor() {
-		this.rootPaths.set('', this.url = ['', ''])
-
-		let url = window.location.pathname.split('/') as [string, string, ...string[]];
-
-		let firstPart = url[1];
-		if (!this.rootPaths.has(firstPart)) firstPart = '';
-		this.rootPaths.set(firstPart, this.url = url)
-	}
+	constructor() { this.rootPaths.add('') }
 }
