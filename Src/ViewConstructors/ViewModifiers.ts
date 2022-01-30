@@ -437,7 +437,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		}
 		return this
 	}
-	public popoverOnClink<V extends new (...p: any) => View>(view: V, value: (dismiss: () => void, coordinates: () => DOMRect) => [...ConstructorParameters<V>]): this {
+	public popoverOnCliсk<V extends new (...p: any) => View>(view: V, value: (dismiss: () => void, coordinates: () => DOMRect) => [...ConstructorParameters<V>]): this {
 		this.safeListeners.set('click', (element: HTMLElement) => {
 			let popover = new PopoverData(view);
 			popover.data = value(() => popover.destroy(), () => element.getBoundingClientRect());
@@ -445,7 +445,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		})
 		return this
 	}
-	public onClink(value: (coordinates: () => DOMRect) => void): this { this.safeListeners.set('click', (element: HTMLElement) => value(() => element.getBoundingClientRect())); return this }
+	public onClick(value: (coordinates: () => DOMRect) => void): this { this.safeListeners.set('click', (element: HTMLElement) => value(() => element.getBoundingClientRect())); return this }
 	public onHover(value: BindingObserve<boolean> | ((value: boolean) => void)): this {
 		this.safeListeners.set('mouseenter', isObserved(value)
 			? () => value.value = true

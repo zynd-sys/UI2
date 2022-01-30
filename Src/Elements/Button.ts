@@ -57,7 +57,7 @@ export class ButttonView extends ViewSubElements<HTMLButtonElement> {
 	protected generateHTMLElement(): HTMLButtonElement { return document.createElement('button') }
 
 	public override elements(...value: (ViewBuilder | undefined)[]): this { if (!this.actionInterface) this.content.replace(value); return this }
-	public override onClink(): this { return this }
+	public override onClick(): this { return this }
 
 	constructor(action: (() => void) | ButtonActionInterface | undefined, elements: (ViewBuilder | undefined)[]) {
 		super(elements);
