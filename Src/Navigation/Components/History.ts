@@ -1,5 +1,5 @@
 import type { View } from "../../Elements/View";
-import { ManifestItem, PathType } from "./ManifestItem";
+import { ManifestItem, URLSegment } from "./ManifestItem";
 
 
 
@@ -61,27 +61,27 @@ export class AppHistoryClass {
 
 		let manifestItem: ManifestItem<string, new (...p: any[]) => View> | undefined;
 		if (pathSplit.length == 1) {
-			for (let item of manifest) if (item.pathType == PathType.root && item.path == '') { manifestItem = item; break }
+			for (let item of manifest) if (item.segmentType == URLSegment.root && item.segment == '') { manifestItem = item; break }
 			if (manifestItem) return manifestItem
 			throw new NotFoundError('not found start page manifest')
 		}
 
 		for (let i = 1; i < pathSplit.length; i++) {
-			let partPath: string = pathSplit[i]!;
+			let segment: string = pathSplit[i]!;
 
-			let checkGeneric = partPath.match(/(.+)~(.+)/);
+			let checkGeneric = segment.match(/(.+)~(.+)/);
 			let genericValue: string | undefined;
-			if (checkGeneric) { partPath = checkGeneric[1]!; genericValue = checkGeneric[2] };
+			if (checkGeneric) { segment = checkGeneric[1]!; genericValue = checkGeneric[2] };
 
 			let addPath: string | undefined
 			for (let item of manifest)
-				if (item.path == partPath || (item.redirectsValue && item.redirectsValue.includes(partPath))) {
+				if (item.segment == segment || (item.redirectsValue && item.redirectsValue.includes(segment))) {
 					manifestItem = item;
-					addPath = item.pathType == PathType.generic && genericValue ? item.path + '~' + genericValue : item.path;
+					addPath = item.segmentType == URLSegment.generic && genericValue ? item.segment + '~' + genericValue : item.segment;
 					break
 				}
 
-			if (manifestItem && manifestItem.pathType == PathType.root && i != 1) throw new NotFoundError(`manifestItem("${manifestItem.path}") is root path type`)
+			if (manifestItem && manifestItem.segmentType == URLSegment.root && i != 1) throw new NotFoundError(`manifestItem("${manifestItem.segment}") is root path type`)
 			if (addPath) newPath.push(addPath);
 			else throw new NotFoundError(`not found path: ${url}`)
 		}

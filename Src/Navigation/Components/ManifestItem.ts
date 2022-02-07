@@ -3,7 +3,7 @@ import { View } from "../../Elements/View"
 import { LinkPathClass } from "./LinkPath"
 
 
-export enum PathType {
+export enum URLSegment {
 	part,
 	root,
 	generic
@@ -15,7 +15,7 @@ export enum PathType {
 
 export class ManifestItem<P extends string, V extends new (...p: any[]) => View> extends LinkPathClass<V> {
 
-	public readonly pathType: PathType
+	public readonly segmentType: URLSegment
 	public redirectsValue?: string[]
 	public colorModeValue?: ColorMode
 
@@ -24,8 +24,8 @@ export class ManifestItem<P extends string, V extends new (...p: any[]) => View>
 	public redirects(...value: string[]): this { this.redirectsValue = value; return this }
 	public colorMode(value: ColorMode): this { this.colorModeValue = value; return this }
 
-	constructor(pathType: PathType, path: P, view: V | (() => Promise<V>)) {
+	constructor(pathType: URLSegment, path: P, view: V | (() => Promise<V>)) {
 		super(path, view)
-		this.pathType = pathType;
+		this.segmentType = pathType;
 	}
 }

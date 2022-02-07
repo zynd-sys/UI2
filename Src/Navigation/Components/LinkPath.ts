@@ -6,7 +6,7 @@ import { LightObserver } from "../../Data/Observed";
 
 export class LinkPathClass<V extends new (...p: any[]) => View> extends LightObserver {
 	protected view: V | (() => Promise<V>) | Promise<V>
-	public readonly path: string
+	public readonly segment: string
 	public loaded: boolean
 
 	protected isView(v: V | (() => Promise<V>)): v is V { return v.prototype instanceof View }
@@ -25,7 +25,7 @@ export class LinkPathClass<V extends new (...p: any[]) => View> extends LightObs
 
 	constructor(path: string, view: (() => Promise<V>) | V) {
 		super()
-		this.path = path;
+		this.segment = path;
 		this.view = view;
 		this.loaded = this.isView(view)
 	}

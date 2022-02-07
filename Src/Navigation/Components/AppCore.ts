@@ -6,7 +6,7 @@ import { AppLayerName, AppLayersClass } from "./Layers"
 import { AppHistoryClass, NotFoundError } from "./History";
 import { MetaDescription } from "../MetaDescription";
 import { LinkPathClass } from "./LinkPath";
-import { ManifestItem, PathType } from "./ManifestItem";
+import { ManifestItem, URLSegment } from "./ManifestItem";
 
 
 
@@ -62,7 +62,7 @@ export class AppCoreClass {
 		if (!this.manifest) { console.error('navigate without app manifest'); return }
 
 		if (view instanceof LinkPathClass) {
-			for (let item of this.manifest) if (item.path == view.path) return item;
+			for (let item of this.manifest) if (item.segment == view.segment) return item;
 			return
 		}
 
@@ -100,8 +100,8 @@ export class AppCoreClass {
 				let promise = AnimationStorage.isAnimated ? this.promiseWithAnimation(manifestItem.getView()) : manifestItem.getView();
 				if (promise instanceof Promise) promise = await promise;
 
-				partPath = manifestItem.path;
-				if (manifestItem.pathType == PathType.generic && typeof viewParametrs[0] == 'string') partPath += '~' + viewParametrs[0];
+				partPath = manifestItem.segment;
+				if (manifestItem.segmentType == URLSegment.generic && typeof viewParametrs[0] == 'string') partPath += '~' + viewParametrs[0];
 				viewv = promise;
 			} else {
 				console.error('not found manifest for ', view.constructor.name, view)
@@ -147,7 +147,7 @@ export class AppCoreClass {
 	public addNotFoundPath(view: new () => View): void { this.notFoundView = view }
 	public addManifest(value: ManifestItem<any, any>[]): void {
 		if (this.manifest.size != 0) throw new Error('error replace manifest')
-		value.forEach(v => { this.manifest.add(v); if (v.pathType == PathType.root) this.history.addRootPath(v.path) });
+		value.forEach(v => { this.manifest.add(v); if (v.segmentType == URLSegment.root) this.history.addRootPath(v.segment) });
 	}
 
 
@@ -168,10 +168,10 @@ export class AppCoreClass {
 	public generateURL<V extends new (...p: any) => View>(view: V | LinkPathClass<V>, id?: string): string {
 		const manifestItem = this.getManifestItem(view);
 		if (!manifestItem) {
-			console.warn('not found part path for ', view instanceof LinkPathClass ? view.path : view.constructor.name, view);
+			console.warn('not found part path for ', view instanceof LinkPathClass ? view.segment : view.constructor.name, view);
 			return window.location.pathname
 		}
-		return this.history.generateURL(id ? manifestItem.path + '~' + id : manifestItem.path)
+		return this.history.generateURL(id ? manifestItem.segment + '~' + id : manifestItem.segment)
 	}
 
 
