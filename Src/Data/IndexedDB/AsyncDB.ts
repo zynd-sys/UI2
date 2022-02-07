@@ -10,7 +10,8 @@ import { TransactionMode, AsyncDBTransaction, AsyncDBVersionChange } from "./Asy
 
 
 export abstract class AsyncDB<I extends { [key: string]: any }> {
-	protected db: Promise<IDBDatabase>
+	private db?: Promise<IDBDatabase>
+
 
 	protected abstract upgrade(db: AsyncDBVersionChange<I, any>, oldVersion: number, newVersion: number | null): void
 	protected abstract versionChange(): void
@@ -19,8 +20,25 @@ export abstract class AsyncDB<I extends { [key: string]: any }> {
 
 
 
-	public async transaction<T extends TransactionMode>(type: T, ...objectStores: (keyof I)[]): Promise<AsyncDBTransaction<T, I>> {
-		return new AsyncDBTransaction(await this.db, type, objectStores as string[])
+	private openDB(name: string, version: number): Promise<IDBDatabase> {
+		return new Promise<IDBDatabase>((resolve, reject) => {
+			let openDBRequest = indexedDB.open(name, version);
+
+			openDBRequest.addEventListener('success', () => {
+				openDBRequest.result.addEventListener('versionchange', () => this.versionChange())
+				resolve(openDBRequest.result)
+			})
+			openDBRequest.addEventListener('error', () => reject(openDBRequest.error))
+			openDBRequest.addEventListener('blocked', this.blocked);
+			openDBRequest.addEventListener('upgradeneeded', event => { this.upgrade(new AsyncDBVersionChange(openDBRequest.result), event.oldVersion, event.newVersion) });
+		})
+	}
+
+
+
+	public transaction<T extends TransactionMode>(type: T, ...objectStores: (keyof I)[]): Promise<AsyncDBTransaction<T, I>> {
+		if (this.db) return this.db.then(db => new AsyncDBTransaction(db, type, objectStores as string[]))
+		throw new Error('open database not found')
 	}
 
 
@@ -44,16 +62,13 @@ export abstract class AsyncDB<I extends { [key: string]: any }> {
 
 
 	constructor(name: string, version: number) {
-		this.db = new Promise<IDBDatabase>((resolve, reject) => {
-			let openDBRequest = indexedDB.open(name, version);
+		this.db = this.openDB(name, version);
+		console.log('constructor')
 
-			openDBRequest.addEventListener('success', () => {
-				openDBRequest.result.addEventListener('versionchange', () => this.versionChange())
-				resolve(openDBRequest.result)
-			})
-			openDBRequest.addEventListener('error', () => reject(openDBRequest.error))
-			openDBRequest.addEventListener('blocked', this.blocked);
-			openDBRequest.addEventListener('upgradeneeded', event => { this.upgrade(new AsyncDBVersionChange(openDBRequest.result), event.oldVersion, event.newVersion) });
+		window.addEventListener('pagehide', () => {
+			this.db?.then(db => db.close());
+			this.db = undefined;
 		})
+		window.addEventListener('pageshow', () => { if (!this.db) this.db = this.openDB(name, version) })
 	}
 }

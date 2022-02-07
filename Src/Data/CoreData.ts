@@ -9,29 +9,30 @@ interface dbInterface {
 	data: CoreData
 }
 
-class DB extends AsyncDB<dbInterface> {
-
-	protected upgrade(db: AsyncDBVersionChange<dbInterface, any>): void { db.createObjectStore('data', { keyPath: 'id' }) }
-	protected versionChange(): void { window.location.reload() }
-	protected blocked(): void { console.error('UILibrary/CoreDataDB has blocked') }
-
-	constructor() { super('UILibrary/CoreDataDB', 1) }
-}
-
-
-
-
-
-
-
 const LocalStorageKey: 'CoreDataID' = 'CoreDataID';
+
+
+
+
+
+
+
+
 
 
 class CoreDataDBClass {
 	/** @default 604_800_000 ms or 1 week */
 	public maxAgeObject = 604_800_000
 
-	protected readonly db: DB = new DB
+	protected readonly db = new class DB extends AsyncDB<dbInterface> {
+
+		protected upgrade(db: AsyncDBVersionChange<dbInterface, any>): void { db.createObjectStore('data', { keyPath: 'id' }) }
+		protected versionChange(): void { window.location.reload() }
+		protected blocked(): void { console.error('UILibrary/CoreDataDB has blocked') }
+
+		constructor() { super('UILibrary/CoreDataDB', 1) }
+	}
+
 	protected readonly coreDataStorage: Set<CoreData> = new Set
 	protected readonly changesObjects: Set<CoreData> = new Set
 	protected localStorageLastUpdate: string | undefined = undefined
@@ -77,8 +78,7 @@ class CoreDataDBClass {
 
 	protected checkRegCoreData(object: CoreData): boolean {
 		if (this.coreDataStorage.has(object)) return true
-		const id = object.id;
-		for (let coreData of this.coreDataStorage) if (coreData.id == id) return true
+		for (let coreData of this.coreDataStorage) if (coreData.id == object.id) return true
 		return false
 	}
 
