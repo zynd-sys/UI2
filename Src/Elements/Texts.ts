@@ -96,13 +96,11 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 
 
 
-	constructor(content: string) {
+	constructor(content: string | number | Date | bigint, locales?: string | string[], options?: Intl.NumberFormatOptions | Intl.DateTimeFormatOptions) {
 		super();
-		this.content = content;
+		this.content = typeof content == 'string' ? content : content.toLocaleString(locales, options);
 	}
 }
 
-/**
- * use document.font
- */
-export function Texts(content: string): TextsView { return new TextsView(content) }
+
+export function Texts(content: string | number | Date | bigint, locales?: string | string[], options?: Intl.NumberFormatOptions | Intl.DateTimeFormatOptions): TextsView { return new TextsView(content, locales, options) }
