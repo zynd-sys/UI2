@@ -1,4 +1,4 @@
-name: Node.js Package
+name: Release package
 
 on:
   workflow_dispatch:
@@ -22,9 +22,9 @@ jobs:
         run: npm ci
 
       - name: set package version
-        run: npm version ${{ github.event.inputs.version }} --git-tag-version false
+        run: npm version ${{ github.event.inputs.version }} --allow-same-version true --git-tag-version false
 
-      - name: gihub release
+      - name: github release
         run: gh release create ${{ github.event.inputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
