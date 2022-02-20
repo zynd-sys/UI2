@@ -1,11 +1,13 @@
 import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Modifiers/Attributes";
 import type { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners";
 import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder";
-import type { SubElementsStyles } from "../../ViewConstructors/Modifiers/CSS/Types/SubElementsStyles";
+import type { ElementsContainerStyles } from "../../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles";
 import { StackView } from "../Stack";
 import { TextsView } from "../Texts";
 import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles";
-import { SubElementsListeners, ViewSubElements } from "../../ViewConstructors/ViewSubElements";
+import { ElementsContainerListeners, ViewElementsContainer } from "../../ViewConstructors/ViewElementsContainer";
+import { MainStyleSheet } from "../../ViewConstructors/Modifiers/CSS/MainStyleSheet";
+import { CSSSelectore } from "../../ViewConstructors/Modifiers/CSS/CSSSelectore";
 
 
 
@@ -14,11 +16,18 @@ import { SubElementsListeners, ViewSubElements } from "../../ViewConstructors/Vi
 
 
 
-export class SectionFormView extends ViewSubElements<HTMLFieldSetElement> {
+MainStyleSheet.add(
+	new CSSSelectore('fieldset,legend', { 'padding': 0 })
+)
+
+
+
+
+export class SectionFormView extends ViewElementsContainer<HTMLFieldSetElement> {
 	protected HTMLElement?: HTMLFieldSetElement
 
-	protected styles: Styles<SubElementsStyles> = new Styles
-	protected listeners?: Listeners<SubElementsListeners<any>>
+	protected styles: Styles<ElementsContainerStyles> = new Styles
+	protected listeners?: Listeners<ElementsContainerListeners<any>>
 	protected attribute?: ElementAttribute<ElementAttributeInterface>
 
 	protected headerContent?: boolean

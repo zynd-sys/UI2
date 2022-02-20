@@ -1,19 +1,19 @@
 import type { ViewBuilder } from "../ViewConstructors/ViewBuilder"
 import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners"
-import type { SubElementsStyles } from "../ViewConstructors/Modifiers/CSS/Types/SubElementsStyles"
+import type { ElementsContainerStyles } from "../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles"
 import { Direction } from "../ViewConstructors/Enum/Direction"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
-import { ViewSubElements, SubElementsListeners } from "../ViewConstructors/ViewSubElements"
+import { ViewElementsContainer, ElementsContainerListeners } from "../ViewConstructors/ViewElementsContainer"
 
 
 type TagName = 'section' | 'main' | 'footer' | 'header' | 'aside' | 'nav' | 'article' | 'div' | 'ul' | 'ol' | 'li'
 
 
-export class StackView extends ViewSubElements<HTMLElement> {
+export class StackView extends ViewElementsContainer<HTMLElement> {
 	protected HTMLElement?: HTMLElement
-	protected styles: Styles<SubElementsStyles> = new Styles
-	protected listeners?: Listeners<SubElementsListeners<HTMLElement>>
+	protected styles: Styles<ElementsContainerStyles> = new Styles
+	protected listeners?: Listeners<ElementsContainerListeners<HTMLElement>>
 	protected attribute?: ElementAttribute<any>
 	
 	protected HTMLTagName: TagName = 'div'

@@ -1,7 +1,7 @@
 import type { ScrollSnapType } from "./Enum/ScrollSnapType";
 import type { ListenersInterface, Listeners } from "./Modifiers/Listeners/Listeners";
 import type { Styles } from "./Modifiers/CSS/Styles";
-import type { SubElementsStyles } from "./Modifiers/CSS/Types/SubElementsStyles";
+import type { ElementsContainerStyles } from "./Modifiers/CSS/Types/ElementsContainerStyles";
 import type { ViewBuilder } from "./ViewBuilder";
 import type { GridTrackClass } from "./Modifiers/GridTrack";
 import type { GridTrackRepeat } from "./Enum/GridTrackRepeat";
@@ -20,7 +20,7 @@ import { CSSSelectore } from "./Modifiers/CSS/CSSSelectore";
 
 
 
-export interface SubElementsListeners<E extends HTMLElement> extends ListenersInterface<E> {
+export interface ElementsContainerListeners<E extends HTMLElement> extends ListenersInterface<E> {
 	'scroll'?: (element: E, event: MouseEvent) => any
 	'dragover'?: (element: E, event: DragEvent) => any
 	'drop'?: (element: E, event: DragEvent) => any
@@ -58,10 +58,10 @@ MainStyleSheet.add(
 
 
 
-export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElement }> extends ViewModifiers<E> {
+export abstract class ViewElementsContainer<E extends HTMLElement | { parent: HTMLElement }> extends ViewModifiers<E> {
 
-	protected abstract override styles: Styles<SubElementsStyles>
-	protected abstract override listeners?: Listeners<SubElementsListeners<any>>
+	protected abstract override styles: Styles<ElementsContainerStyles>
+	protected abstract override listeners?: Listeners<ElementsContainerListeners<any>>
 	protected content: ViewsList
 	protected isScroll?: boolean
 	protected isGrid?: boolean
@@ -73,7 +73,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 
 
-	protected override renderModifiers(element: HTMLElement, newRender?: ViewSubElements<any>, withAnimation?: boolean): ReturnType<ViewModifiers<any>['renderModifiers']> {
+	protected override renderModifiers(element: HTMLElement, newRender?: ViewElementsContainer<any>, withAnimation?: boolean): ReturnType<ViewModifiers<any>['renderModifiers']> {
 		const list = element.classList;
 
 		if (newRender) {
@@ -115,7 +115,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 	}
 
 
-	protected override importProperty(view: ViewSubElements<any>): void {
+	protected override importProperty(view: ViewElementsContainer<any>): void {
 		if (view.isScroll) this.isScroll = view.isScroll;
 		if (view.isGrid) this.isGrid = view.isGrid;
 		if (view.directionToken) this.directionToken = view.directionToken;
@@ -125,7 +125,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 
 
-	protected abstract override merge?(newRender: ViewSubElements<any>, HTMLElement: E): void
+	protected abstract override merge?(newRender: ViewElementsContainer<any>, HTMLElement: E): void
 
 
 
@@ -264,7 +264,7 @@ export abstract class ViewSubElements<E extends HTMLElement | { parent: HTMLElem
 
 
 
-	public override update(newRender: ViewSubElements<any>): void {
+	public override update(newRender: ViewElementsContainer<any>): void {
 		if (!this.HTMLElement) { this.importProperty(newRender); return }
 		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
 

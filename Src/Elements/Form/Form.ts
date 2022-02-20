@@ -1,9 +1,9 @@
 import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder";
 import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Modifiers/Attributes";
-import type { SubElementsStyles } from "../../ViewConstructors/Modifiers/CSS/Types/SubElementsStyles";
+import type { ElementsContainerStyles } from "../../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles";
 import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners";
 import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles";
-import { SubElementsListeners, ViewSubElements } from "../../ViewConstructors/ViewSubElements";
+import { ElementsContainerListeners, ViewElementsContainer } from "../../ViewConstructors/ViewElementsContainer";
 
 
 
@@ -11,7 +11,7 @@ import { SubElementsListeners, ViewSubElements } from "../../ViewConstructors/Vi
 
 
 
-export interface FormListeners extends SubElementsListeners<HTMLFormElement> {
+export interface FormListeners extends ElementsContainerListeners<HTMLFormElement> {
 	'submit'?: (element: HTMLFormElement, event: Event) => any
 }
 export interface FormAttribute extends ElementAttributeInterface {
@@ -26,12 +26,12 @@ export interface FormAttribute extends ElementAttributeInterface {
 
 
 
-export class FormView extends ViewSubElements<HTMLFormElement> {
+export class FormView extends ViewElementsContainer<HTMLFormElement> {
 	protected merge?(): void
 	protected generateHTMLElement(): HTMLFormElement { return document.createElement('form') }
 	protected HTMLElement?: HTMLFormElement
 
-	protected styles: Styles<SubElementsStyles> = new Styles
+	protected styles: Styles<ElementsContainerStyles> = new Styles
 	protected listeners: Listeners<FormListeners> = new Listeners
 	protected attribute?: ElementAttribute<FormAttribute>
 

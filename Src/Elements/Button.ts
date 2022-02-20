@@ -1,10 +1,10 @@
 import type { ViewBuilder } from "../ViewConstructors/ViewBuilder";
 import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes";
-import type { SubElementsStyles } from "../ViewConstructors/Modifiers/CSS/Types/SubElementsStyles";
+import type { ElementsContainerStyles } from "../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles";
 import type { ButtonActionStyles } from "../ViewConstructors/Modifiers/CSS/Types/ButtonActionStyles";
 import { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners";
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles";
-import { ViewSubElements, SubElementsListeners } from "../ViewConstructors/ViewSubElements";
+import { ViewElementsContainer, ElementsContainerListeners } from "../ViewConstructors/ViewElementsContainer";
 import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet";
 import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore";
 import { Direction } from "../ViewConstructors/Enum/Direction";
@@ -34,17 +34,18 @@ MainStyleSheet.add(
 		'inline-size': 'max-content',
 		'cursor': 'pointer'
 	})
-)
+);
 
 
 
 
 
-export class ButttonView extends ViewSubElements<HTMLButtonElement> {
+
+export class ButttonView extends ViewElementsContainer<HTMLButtonElement> {
 	protected HTMLElement?: HTMLButtonElement
 
-	protected styles: Styles<SubElementsStyles> = new Styles
-	protected listeners: Listeners<SubElementsListeners<HTMLButtonElement>> = new Listeners
+	protected styles: Styles<ElementsContainerStyles> = new Styles
+	protected listeners: Listeners<ElementsContainerListeners<HTMLButtonElement>> = new Listeners
 	protected attribute?: ElementAttribute<any>
 	protected actionInterface?: true
 

@@ -1,9 +1,9 @@
 import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Modifiers/Attributes"
 import type { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder"
-import type { SubElementsListeners } from "../../ViewConstructors/ViewSubElements"
+import type { ElementsContainerListeners } from "../../ViewConstructors/ViewElementsContainer"
 import type { SpanView } from "./Span"
-import type { SubElementsStyles } from "../../ViewConstructors/Modifiers/CSS/Types/SubElementsStyles"
+import type { ElementsContainerStyles } from "../../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles"
 import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles"
 import { ToggleStyle, ToggleStyleInterface } from "./Styles/ToggleStyle"
 import { ViewFormElement } from "../../ViewConstructors/ViewFormElement"
@@ -40,8 +40,8 @@ export class ToggleView extends ViewFormElement<{ input: HTMLInputElement, paren
 
 	protected HTMLElement?: { input: HTMLInputElement, parent: HTMLLabelElement }
 
-	protected styles: Styles<SubElementsStyles> = new Styles
-	protected listeners?: Listeners<SubElementsListeners<any>>
+	protected styles: Styles<ElementsContainerStyles> = new Styles
+	protected listeners?: Listeners<ElementsContainerListeners<any>>
 	protected attribute?: ElementAttribute<ElementAttributeInterface>
 
 	protected state: boolean

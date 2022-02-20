@@ -3,8 +3,8 @@ import type { LinkAttribute } from "./Link"
 import type { View } from "./View"
 import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import type { LinkPathClass } from "../Navigation/Components/LinkPath"
-import type { SubElementsStyles } from "../ViewConstructors/Modifiers/CSS/Types/SubElementsStyles"
-import { ViewSubElements, SubElementsListeners } from "../ViewConstructors/ViewSubElements"
+import type { ElementsContainerStyles } from "../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles"
+import { ViewElementsContainer, ElementsContainerListeners } from "../ViewConstructors/ViewElementsContainer"
 import { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 import { App } from "../Navigation/App"
@@ -30,12 +30,12 @@ MainStyleSheet.add(
 
 
 
-export class NavigationLinkView<V extends (new (...args: any) => View)> extends ViewSubElements<HTMLAnchorElement> {
+export class NavigationLinkView<V extends (new (...args: any) => View)> extends ViewElementsContainer<HTMLAnchorElement> {
 
 	protected HTMLElement?: HTMLAnchorElement
 
-	protected styles: Styles<SubElementsStyles> = new Styles
-	protected listeners: Listeners<SubElementsListeners<HTMLAnchorElement>> = new Listeners
+	protected styles: Styles<ElementsContainerStyles> = new Styles
+	protected listeners: Listeners<ElementsContainerListeners<HTMLAnchorElement>> = new Listeners
 	protected attribute?: ElementAttribute<LinkAttribute>
 
 	protected destination: string

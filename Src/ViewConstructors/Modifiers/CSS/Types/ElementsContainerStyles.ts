@@ -6,7 +6,7 @@ import type { CSSLength, MinimalStylesInterface } from "./MinimalStylesType";
 
 
 
-export interface SubElementsStyles extends MinimalStylesInterface {
+export interface ElementsContainerStyles extends MinimalStylesInterface {
 	'row-gap'?: CSSLength
 	'column-gap'?: CSSLength
 	'align-items'?: ContentAlign

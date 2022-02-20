@@ -1,9 +1,9 @@
 import type { ViewBuilder } from "../ViewConstructors/ViewBuilder"
-import type { SubElementsStyles } from "../ViewConstructors/Modifiers/CSS/Types/SubElementsStyles"
+import type { ElementsContainerStyles } from "../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles"
 import { ElementAttributeInterface, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
-import { ViewSubElements, SubElementsListeners } from "../ViewConstructors/ViewSubElements"
+import { ViewElementsContainer, ElementsContainerListeners } from "../ViewConstructors/ViewElementsContainer"
 
 
 
@@ -41,11 +41,11 @@ export interface LinkAttribute extends ElementAttributeInterface {
 
 
 
-export class LinkView extends ViewSubElements<HTMLAnchorElement> {
+export class LinkView extends ViewElementsContainer<HTMLAnchorElement> {
 	protected HTMLElement?: HTMLAnchorElement
 
-	protected styles: Styles<SubElementsStyles> = new Styles
-	protected listeners: Listeners<SubElementsListeners<HTMLAnchorElement>> = new Listeners
+	protected styles: Styles<ElementsContainerStyles> = new Styles
+	protected listeners: Listeners<ElementsContainerListeners<HTMLAnchorElement>> = new Listeners
 	protected attribute: ElementAttribute<LinkAttribute> = new ElementAttribute
 
 	// protected destination: string
@@ -70,7 +70,7 @@ export class LinkView extends ViewSubElements<HTMLAnchorElement> {
 	public pathLang(value: string): this { this.attribute.set('hreflang', value); return this }
 	public target(value: LinkTarget): this { this.attribute.set('target', value); return this }
 	public download(value: boolean | string = true): this { if (value == true || typeof value == 'string') this.attribute.set('download', value); return this }
-
+	public override onClick(): this { return this }
 
 
 

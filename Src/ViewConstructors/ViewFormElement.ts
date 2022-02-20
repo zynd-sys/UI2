@@ -1,6 +1,6 @@
 import type { Color } from "./Modifiers/Colors/Colors"
 import { DefaultColor } from "./Modifiers/Colors/DefaultColors"
-import { SubElementsListeners, ViewSubElements } from "./ViewSubElements"
+import { ElementsContainerListeners, ViewElementsContainer } from "./ViewElementsContainer"
 import { SpanView } from "../Elements/Form/Span"
 import { MainStyleSheet } from "./Modifiers/CSS/MainStyleSheet"
 import { CSSSelectore } from "./Modifiers/CSS/CSSSelectore"
@@ -24,7 +24,7 @@ import { Direction } from "./Enum/Direction"
 
 
 
-export interface FormElementListeners<E extends HTMLElement> extends SubElementsListeners<E> {
+export interface FormElementListeners<E extends HTMLElement> extends ElementsContainerListeners<E> {
 	'change'?: (element: E, event: Event) => void
 	'input'?: (element: E, event: Event) => void
 	'invalid'?: (element: E, event: Event) => void
@@ -58,7 +58,7 @@ MainStyleSheet.add(
 )
 
 
-export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, input: HTMLInputElement | HTMLProgressElement | HTMLSelectElement }> extends ViewSubElements<E> {
+export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, input: HTMLInputElement | HTMLProgressElement | HTMLSelectElement }> extends ViewElementsContainer<E> {
 
 	protected accentColorValue: Color = DefaultColor.blue
 	protected isUpdating: boolean = false

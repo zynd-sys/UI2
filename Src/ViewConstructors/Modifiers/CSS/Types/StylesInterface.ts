@@ -1,4 +1,4 @@
-import type { SubElementsStyles } from "./SubElementsStyles";
+import type { ElementsContainerStyles } from "./ElementsContainerStyles";
 import type { TextStyles } from "./TextStyles";
 import type { MediaStyleInterface } from "./MediaStyle";
 import type { CSSLength } from "./MinimalStylesType";
@@ -7,12 +7,13 @@ import type { CSSLength } from "./MinimalStylesType";
 
 
 
-export interface StylesInterface extends SubElementsStyles, TextStyles, MediaStyleInterface {
+export interface StylesInterface extends ElementsContainerStyles, TextStyles, MediaStyleInterface {
 	'content'?: `"${string}"`
 	'overscroll-behavior'?: 'auto' | 'contain' | 'none'
 	'resize'?: 'none' | 'both' | 'horizontal' | 'vertical' // | 'block' | 'inline'
 	'clip'?: string
 	'will-change'?: string
+	'text-size-adjust'?: 'none' | 'auto' | `${number}%`
 
 	'display'?: 'none' | 'contents' | 'inline' | `${'inline-' | ''}${'block' | 'flex' | 'grid'}`
 	'box-sizing'?: `${'border' | 'content'}-box`
@@ -31,4 +32,5 @@ export interface StylesInterface extends SubElementsStyles, TextStyles, MediaSty
 
 	'font'?: string
 	'-moz-osx-font-smoothing'?: string
+	'-webkit-text-size-adjust'?: 'none' | 'auto' | `${number}%`
 }

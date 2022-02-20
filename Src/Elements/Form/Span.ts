@@ -1,9 +1,9 @@
 import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Modifiers/Attributes"
 import type { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder"
-import type { SubElementsStyles } from "../../ViewConstructors/Modifiers/CSS/Types/SubElementsStyles"
+import type { ElementsContainerStyles } from "../../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles"
 import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles"
-import { SubElementsListeners, ViewSubElements } from "../../ViewConstructors/ViewSubElements"
+import { ElementsContainerListeners, ViewElementsContainer } from "../../ViewConstructors/ViewElementsContainer"
 import { MainStyleSheet } from "../../ViewConstructors/Modifiers/CSS/MainStyleSheet"
 import { CSSSelectore } from "../../ViewConstructors/Modifiers/CSS/CSSSelectore"
 import { Direction } from "../../ViewConstructors/Enum/Direction"
@@ -18,11 +18,11 @@ MainStyleSheet.add(new CSSSelectore('span.container', {
 }))
 
 
-export class SpanView extends ViewSubElements<HTMLSpanElement> {
+export class SpanView extends ViewElementsContainer<HTMLSpanElement> {
 	protected HTMLElement?: HTMLSpanElement
 
-	protected styles: Styles<SubElementsStyles> = new Styles
-	protected listeners?: Listeners<SubElementsListeners<any>>
+	protected styles: Styles<ElementsContainerStyles> = new Styles
+	protected listeners?: Listeners<ElementsContainerListeners<any>>
 	protected attribute?: ElementAttribute<ElementAttributeInterface>
 
 	protected generateHTMLElement(): HTMLSpanElement { return document.createElement('span') }

@@ -133,7 +133,7 @@ export interface MinimalStylesInterface {
 
 	'appearance'?: '-apple-pay-button' | 'none'
 	'-moz-appearance'?: 'none'
-	'-webkit-appearance'?: '-apple-pay-button' | 'none'
+	'-webkit-appearance'?: '-apple-pay-button' | 'none' | 'textfield'
 
 	'cursor'?: cursorType
 
