@@ -96,11 +96,22 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 
 
 
+	/**
+	 * Converts non-string formats to a string using .toLocaleString
+	 * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl
+	 */
 	constructor(content: string | number | bigint | Date | URL, locales?: string | string[], options?: Intl.NumberFormatOptions | Intl.DateTimeFormatOptions) {
 		super();
-		this.content = typeof content == 'string' ? content : content.toLocaleString(locales, options);
+		if (typeof content == 'string') this.content = content
+		else {
+			if (!locales && document.documentElement.lang) locales = document.documentElement.lang;
+			this.content = content.toLocaleString(locales, options);
+		}
 	}
 }
 
-
-export function Texts(content: string | number | bigint |Date | URL, locales?: string | string[], options?: Intl.NumberFormatOptions | Intl.DateTimeFormatOptions): TextsView { return new TextsView(content, locales, options) }
+/**
+ * Converts non-string formats to a string using .toLocaleString
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl
+ */
+export function Texts(content: string | number | bigint | Date | URL, locales?: string | string[], options?: Intl.NumberFormatOptions | Intl.DateTimeFormatOptions): TextsView { return new TextsView(content, locales, options) }
