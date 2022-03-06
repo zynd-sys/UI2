@@ -1,5 +1,4 @@
-import { AsyncDB } from "./IndexedDB/AsyncDB"
-import { AsyncDBVersionChange, TransactionMode } from "./IndexedDB/AsyncDBTransaction"
+import { AsyncDB, AsyncDBVersionChange, TransactionMode } from "./AsyncDB";
 import * as Observed from "./Observed"
 
 

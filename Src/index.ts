@@ -92,9 +92,7 @@ export * from './Navigation/MetaDescription'
 
 
 // data
-export * from './Data/IndexedDB/AsyncDB'
-export * from './Data/IndexedDB/AsyncDBObjectStore'
-export * from './Data/IndexedDB/AsyncDBTransaction'
+export * from './Data/AsyncDB'
 export * from './Data/PageData/PageData'
 export * from './Data/PageData/PageDataColorMode'
 export * from './Data/PageData/PageDataWidth'
