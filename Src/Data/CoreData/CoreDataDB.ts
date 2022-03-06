@@ -1,39 +1,53 @@
-import { AsyncDB, AsyncDBVersionChange, TransactionMode } from "./AsyncDB";
-import * as Observed from "./Observed"
+import type { CoreDataInteface } from "./CoreDataInteface"
+import { AsyncDB, AsyncDBVersionChange, TransactionMode } from "../AsyncDB"
+import { packageName } from "../../name"
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 interface dbInterface {
-	data: CoreData
+	data: CoreDataInteface
+}
+class DB extends AsyncDB<dbInterface> {
+
+	protected upgrade(db: AsyncDBVersionChange<dbInterface, any>): void { db.createObjectStore('data', { keyPath: 'id' }) }
+	protected versionChange(): void { window.location.reload() }
+	protected blocked(): void { console.error(`${packageName}/CoreDataDB has blocked`) }
+
+	constructor() { super(`${packageName}/CoreDataDB`, 1) }
 }
 
+
+
+
+
+
+
+
+
 const LocalStorageKey: 'CoreDataID' = 'CoreDataID';
-
-
-
-
-
-
-
-
-
+const oldValueKey: 'oldValue' = 'oldValue';
 
 class CoreDataDBClass {
 	/** @default 604_800_000 ms or 1 week */
 	public maxAgeObject = 604_800_000
 
-	protected readonly db = new class DB extends AsyncDB<dbInterface> {
+	protected readonly db = new DB
 
-		protected upgrade(db: AsyncDBVersionChange<dbInterface, any>): void { db.createObjectStore('data', { keyPath: 'id' }) }
-		protected versionChange(): void { window.location.reload() }
-		protected blocked(): void { console.error('UILibrary/CoreDataDB has blocked') }
-
-		constructor() { super('UILibrary/CoreDataDB', 1) }
-	}
-
-	protected readonly coreDataStorage: Set<CoreData> = new Set
-	protected readonly changesObjects: Set<CoreData> = new Set
+	protected readonly coreDataStorage: Set<CoreDataInteface> = new Set
+	protected readonly changesObjects: Set<CoreDataInteface> = new Set
 	protected localStorageLastUpdate: string | undefined = undefined
 
 
@@ -41,7 +55,7 @@ class CoreDataDBClass {
 
 
 
-	protected syncHandler(object: CoreData) {
+	protected syncHandler(object: CoreDataInteface) {
 		if (this.localStorageLastUpdate == object.id) {
 			this.localStorageLastUpdate = undefined;
 			return
@@ -64,7 +78,7 @@ class CoreDataDBClass {
 		}
 		await transaction.complete();
 
-		if (ids[0]) window.localStorage.setItem(LocalStorageKey, window.localStorage.getItem(LocalStorageKey) == ids[0] ? 'oldValue' : ids[0])
+		if (ids[0]) window.localStorage.setItem(LocalStorageKey, window.localStorage.getItem(LocalStorageKey) == ids[0] ? oldValueKey : ids[0])
 		for (let i = 1; i < ids.length; i++) {
 			let id = ids[i]!;
 			window.localStorage.setItem(LocalStorageKey, id);
@@ -75,13 +89,13 @@ class CoreDataDBClass {
 
 
 
-	protected checkRegCoreData(object: CoreData): boolean {
+	protected checkRegCoreData(object: CoreDataInteface): boolean {
 		if (this.coreDataStorage.has(object)) return true
 		for (let coreData of this.coreDataStorage) if (coreData.id == object.id) return true
 		return false
 	}
 
-	public regCoreDataClass(object: CoreData): Promise<CoreData | undefined> {
+	public regCoreDataClass(object: CoreDataInteface): Promise<CoreDataInteface | undefined> {
 		if (this.checkRegCoreData(object)) throw new Error(`${object.id} use twice`)
 
 		this.coreDataStorage.add(object);
@@ -105,7 +119,7 @@ class CoreDataDBClass {
 	}
 
 	protected async updateCoreData(id: string) {
-		let coreData: CoreData | undefined
+		let coreData: CoreDataInteface | undefined
 		for (let o of this.coreDataStorage) if (o.id == id) { coreData = o; break }
 
 		let newData = await this.db.get('data', id);
@@ -131,7 +145,7 @@ class CoreDataDBClass {
 		window.addEventListener('storage', event => {
 			if (event.storageArea !== window.localStorage || event.key != LocalStorageKey || event.newValue === null) return
 
-			if (event.newValue == 'oldValue') {
+			if (event.newValue == oldValueKey) {
 				if (event.oldValue) this.updateCoreData(event.oldValue);
 				return
 			}
@@ -139,56 +153,6 @@ class CoreDataDBClass {
 		})
 	}
 }
-const CoreDataDB = new CoreDataDBClass
 
 
-
-
-
-
-
-
-
-export abstract class CoreData extends Observed.Objects {
-	public readonly id: string
-	public lastOpen?: number
-
-	protected abstract init(data: Promise<CoreData | undefined>): Promise<void>
-
-	protected addedNewObject<T extends object>(value: T): T {
-		if (value.constructor == Object) return Object.assign(new class CoreDataSubObject extends Observed.Objects { }, value);
-		if (Array.isArray(value)) { return new Observed.Arrays(...value) as T }
-		if (value instanceof Map) { return new Observed.Maps(value) as T }
-		return value
-	}
-
-
-
-
-
-	public update(value: CoreData): void {
-		let elements: { [key: string]: any }[] = [this, value];
-		for (let i = 0; i < elements.length; i = i + 2) {
-			let d1 = elements[i]!;
-			let d2 = elements[i + 1]!;
-
-			for (let property in d2)
-				if (typeof d2[property] == 'object' && typeof d1[property] == 'object') elements.push(d1, d2);
-				else if (d1[property] != d2[property]) d1[property] = d2[property] instanceof Object ? this.addedNewObject(d2[property]) : d2[property];
-
-			for (let property in d1)
-				if (!(property in d2)) delete d1[property]
-		}
-	}
-
-	public setLastOpen(value: number): this { this.silentActions(() => this.lastOpen = value); return this }
-
-	constructor(id: string) {
-		super();
-		this.id = id
-		let data = CoreDataDB.regCoreDataClass(this);
-
-		this.silentActions(() => this.init(data).catch(error => console.error(error)))
-			?.finally(() => this.userAction())
-	}
-}
+export const CoreDataDB = new CoreDataDBClass
