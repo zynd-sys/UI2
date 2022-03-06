@@ -3,6 +3,15 @@ import { View } from "../../Elements/View"
 import { LinkPathClass } from "./LinkPath"
 
 
+
+export type Manifest = [
+	root: ManifestItem<'', any>,
+	...items: ManifestItem<any, any>[]
+]
+
+
+
+
 export enum URLSegment {
 	part,
 	root,

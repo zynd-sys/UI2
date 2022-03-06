@@ -6,7 +6,7 @@ import { AppLayerName, AppLayersClass } from "./Layers"
 import { AppHistoryClass, NotFoundError } from "./History";
 import { MetaDescription } from "../MetaDescription";
 import { LinkPathClass } from "./LinkPath";
-import { ManifestItem, URLSegment } from "./ManifestItem";
+import { Manifest, ManifestItem, URLSegment } from "./ManifestItem";
 
 
 
@@ -145,7 +145,7 @@ export class AppCoreClass {
 
 	public addErrorPath(view: new (error: Error) => View): void { this.errorView = view }
 	public addNotFoundPath(view: new () => View): void { this.notFoundView = view }
-	public addManifest(value: ManifestItem<any, any>[]): void {
+	public addManifest(value: Manifest): void {
 		if (this.manifest.size != 0) throw new Error('error replace manifest')
 		value.forEach(v => { this.manifest.add(v); if (v.segmentType == URLSegment.root) this.history.addRootPath(v.segment) });
 	}
