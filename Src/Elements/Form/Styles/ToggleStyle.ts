@@ -1,4 +1,4 @@
-import type { Color } from "../../../ViewConstructors/Modifiers/Colors/Colors";
+import type { Color } from "../../../ViewConstructors/Modifiers/Colors";
 import { ContentAlign } from "../../../ViewConstructors/Enum/ContentAlign";
 import { Side } from "../../../ViewConstructors/Enum/Side";
 import { SideBorderRadius } from "../../../ViewConstructors/Enum/SideBorderRadius";

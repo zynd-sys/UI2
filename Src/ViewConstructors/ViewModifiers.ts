@@ -6,7 +6,7 @@ import type { Styles } from "./Modifiers/CSS/Styles"
 import type { View } from "../Elements/View"
 import type { UIAnimationClass } from "./Modifiers/Animation/UIAnimation"
 import type { CompositingCoords } from "./Modifiers/Compositing"
-import type { Color } from "./Modifiers/Colors/Colors"
+import type { Color } from "./Modifiers/Colors"
 import type { GestureClass } from "./Modifiers/Listeners/Gesture/Gesture"
 import { ElementAttribute, ElementAttributeInterface } from "./Modifiers/Attributes"
 import { Listeners, ListenersInterface } from "./Modifiers/Listeners/Listeners"
@@ -362,7 +362,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		return this
 	}
 	// effects
-	/** 
+	/**
 	 * @param horizontal ↔︎ — % percentage
 	 * @param vertical ↕︎ — % percentage
 	 */

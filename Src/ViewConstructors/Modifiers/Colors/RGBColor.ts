@@ -1,9 +1,9 @@
-import { Color } from "./Colors";
+import { Color } from "./Color";
 
 
 
 /**
- * 
+ *
  * @param red range 0..255
  * @param green range 0..255
  * @param blue range 0..255
@@ -21,7 +21,7 @@ export class RGBColor extends Color {
 	}
 }
 /**
- * 
+ *
  * @param red range 0..255
  * @param green range 0..255
  * @param blue range 0..255

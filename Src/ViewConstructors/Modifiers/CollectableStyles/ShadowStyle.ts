@@ -1,4 +1,4 @@
-import type { Color } from "../Colors/Colors"
+import type { Color } from "../Colors"
 import type { CSSLength } from "../CSS/Types/MinimalStylesType"
 import { DefaultColor } from "../Colors/DefaultColors"
 

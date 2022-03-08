@@ -1,7 +1,7 @@
 import type { TimingFunction } from "../../Enum/TimingFunction";
 import type { CubicBezier } from "./CubicBezier";
 import type { FitPositionStyle } from "../CollectableStyles/FitPosition";
-import type { Color } from "../Colors/Colors";
+import type { Color } from "../Colors";
 import { Units } from "../../Enum/Units";
 import { AnimationResize } from "../../Enum/AnimationResize";
 import { FiltersStyle, FilterStyleInterface } from "../CollectableStyles/FiltersStyle";
@@ -169,7 +169,7 @@ export class UIAnimationClass {
 	public backgroundColor(...values: [from: Color, to: Color, ...otherValues: Color[]]): this { this.keyFrames.backgroundColor = values; return this }
 
 
-	/** 
+	/**
 	 * @param horizontal ↔︎ — % percentage
 	 * @param vertical ↕︎ — % percentage
 	 */

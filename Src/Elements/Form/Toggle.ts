@@ -7,7 +7,7 @@ import type { ElementsContainerStyles } from "../../ViewConstructors/Modifiers/C
 import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles"
 import { ToggleStyle, ToggleStyleInterface } from "./Styles/ToggleStyle"
 import { ViewFormElement } from "../../ViewConstructors/ViewFormElement"
-import { Color } from "../../ViewConstructors/Modifiers/Colors/Colors"
+import { Color } from "../../ViewConstructors/Modifiers/Colors"
 import { Binding as BindingObserve, isObserved } from "../../Data/Observed"
 
 

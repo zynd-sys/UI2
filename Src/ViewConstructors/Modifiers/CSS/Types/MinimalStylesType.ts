@@ -7,7 +7,7 @@ import type { CubicBezier } from "../../Animation/CubicBezier";
 import type { FiltersStyle } from "../../CollectableStyles/FiltersStyle";
 import type { DropShadowStyle, InnerShadowStyle } from "../../CollectableStyles/ShadowStyle";
 import type { TransformsStyle } from "../../CollectableStyles/TransformsStyle";
-import type { Color } from "../../Colors/Colors";
+import type { Color } from "../../Colors";
 import type { Units } from "../../../Enum/Units";
 
 

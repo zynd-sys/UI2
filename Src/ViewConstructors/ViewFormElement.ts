@@ -1,4 +1,4 @@
-import type { Color } from "./Modifiers/Colors/Colors"
+import type { Color } from "./Modifiers/Colors"
 import { DefaultColor } from "./Modifiers/Colors/DefaultColors"
 import { ElementsContainerListeners, ViewElementsContainer } from "./ViewElementsContainer"
 import { SpanView } from "../Elements/Form/Span"
