@@ -4,7 +4,7 @@ import type { ColumnInsideBreak } from "../../../Enum/ColumnInsideBreak";
 import type { TextSpacing } from "../../../Enum/TextSpacing";
 import type { TextTransform } from "../../../Enum/TextTransform";
 import type { TextWeight } from "../../../Enum/TextWeight";
-import type { Color } from "../../Colors/Colors";
+import type { Color } from "../../Colors";
 import type { CSSLength, MinimalStylesInterface } from "./MinimalStylesType";
 
 
