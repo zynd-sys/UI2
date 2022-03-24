@@ -93,6 +93,7 @@ export interface MinimalStylesInterface {
 	'align-self'?: ContentAlign
 	'order'?: number
 
+	'aspect-ratio'?: `${number}/${number}`
 	'flex-grow'?: number
 	'overflow-y'?: Scroll
 	'overflow-x'?: Scroll

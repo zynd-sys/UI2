@@ -221,6 +221,8 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	public minHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('min-block-size', `${value}${unit}`); return this }
 
 	public growSelf(value?: number): this { if (value) this.styles.set('flex-grow', value); return this }
+	/** ⚠️ check browser compatibility https://caniuse.com/?search=aspect-ratio */
+	public aspectRatio(horizontal: number, vertical: number): this { this.styles.set('aspect-ratio', `${horizontal}/${vertical}`); return this }
 
 	public padding(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('padding', side, `${value}${unit}`); return this }
 	public margin(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('margin', side, `${value}${unit}`); return this }
