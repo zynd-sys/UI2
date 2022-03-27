@@ -1,6 +1,6 @@
 import type { Align } from "./Enum/Align"
 import type { ContentAlign } from "./Enum/ContentAlign"
-import type { CubicBezier } from "./Modifiers/Animation/CubicBezier"
+import type { CSSCubicBezier } from "./Modifiers/CSS/CSSCubicBezier"
 import type { MinimalStylesInterface, cursorType } from "./Modifiers/CSS/Types/MinimalStylesType"
 import type { Styles } from "./Modifiers/CSS/Styles"
 import type { View } from "../Elements/View"
@@ -325,7 +325,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	 * @param {number} delay ms
 	 * @description 1000ms = 1s
 	 */
-	public transition(duration: number, timingFunction?: TimingFunction | CubicBezier, delay?: number): this {
+	public transition(duration: number, timingFunction?: TimingFunction | CSSCubicBezier, delay?: number): this {
 		if (PageData.reducedAnimation) return this
 		this.styles
 			.set('transition-property', 'all')

@@ -54,7 +54,7 @@ export * from './ViewConstructors/Enum/Units'
 
 
 // styles
-export * from './ViewConstructors/Modifiers/Animation/CubicBezier'
+export * from './ViewConstructors/Modifiers/CSS/CSSCubicBezier'
 export * from './ViewConstructors/Modifiers/Animation/UIAnimation'
 export * from './ViewConstructors/Modifiers/Animation/UIAnimationObject'
 export * from './ViewConstructors/Modifiers/CollectableStyles/FiltersStyle'

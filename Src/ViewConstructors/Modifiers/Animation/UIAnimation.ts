@@ -1,5 +1,5 @@
 import type { TimingFunction } from "../../Enum/TimingFunction";
-import type { CubicBezier } from "./CubicBezier";
+import type { CSSCubicBezier } from "../CSS/CSSCubicBezier";
 import type { FitPositionStyle } from "../CollectableStyles/FitPosition";
 import type { Color } from "../Colors";
 import { Units } from "../../Enum/Units";
@@ -191,7 +191,7 @@ export class UIAnimationClass {
 	public animationDelay(value: number): this { this.options.delay = value; return this }
 	/** @param value defualt true  */
 	public animationReverseDirectionEachCycle(value: boolean = true): this { this.options.direction = value ? 'alternate' : 'normal'; return this }
-	public animationTimingFunction(timingFunction: TimingFunction | CubicBezier): this { this.options.easing = timingFunction.toString(); return this }
+	public animationTimingFunction(timingFunction: TimingFunction | CSSCubicBezier): this { this.options.easing = timingFunction.toString(); return this }
 	// /** @param value number or Infinity */
 	// public animationIterations(value: number): this { this.options.iterations = value; return this }
 
