@@ -164,14 +164,15 @@ export class AppCoreClass {
 
 
 
-
-	public generateURL<V extends new (...p: any) => View>(view: V | LinkPathClass<V>, id?: string): string {
+	public generateURL<V extends new (...p: any) => View>(view: V | LinkPathClass<V>, id?: string): string | [destination: string, alternativedestination: string] {
 		const manifestItem = this.getManifestItem(view);
 		if (!manifestItem) {
 			console.warn('not found part path for ', view instanceof LinkPathClass ? view.segment : view.constructor.name, view);
-			return window.location.pathname
+			return this.history.getURL()
 		}
-		return this.history.generateURL(id ? manifestItem.segment + '~' + id : manifestItem.segment)
+
+		if (this.popoverMod) return [this.history.getURL(), this.history.generateURL(id ? manifestItem.segment + '~' + id : manifestItem.segment)]
+		else return this.history.generateURL(id ? manifestItem.segment + '~' + id : manifestItem.segment)
 	}
 
 

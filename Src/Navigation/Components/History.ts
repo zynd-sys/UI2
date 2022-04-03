@@ -22,6 +22,8 @@ export class AppHistoryClass {
 	public addRootPath(path: string): void { this.rootPaths.add(path) }
 
 
+	public getURL(): string { return this.url }
+
 	public generateURL(partPath: string): string {
 
 		// switch to root path

@@ -39,7 +39,14 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 	protected attribute?: ElementAttribute<LinkAttribute>
 
 	protected destination: string
+	protected alternativeDestination?: string
 	protected disablePopover?: boolean
+
+	protected override importProperty(view: NavigationLinkView<any>): void {
+		this.destination = view.destination;
+		this.disablePopover = view.disablePopover
+		super.importProperty(view);
+	}
 
 	protected merge(newRender: NavigationLinkView<any>, element: HTMLAnchorElement): void { if (this.destination != newRender.destination) element.href = this.destination = newRender.destination; }
 	protected generateHTMLElement(): HTMLAnchorElement {
@@ -50,23 +57,31 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 
 
 
-	public disableAnyPopover(): this { this.disablePopover = true; return this }
-
-
-
-
-	protected override importProperty(view: NavigationLinkView<any>): void {
-		this.destination = view.destination;
-		this.disablePopover = view.disablePopover
-		super.importProperty(view);
+	public disableAnyPopover(): this {
+		if (this.alternativeDestination) this.destination = this.alternativeDestination;
+		this.disablePopover = true;
+		return this
 	}
+
+	public override onClick(): this { return this }
+
+
+
+
+
 
 
 
 
 	constructor(view: V | LinkPathClass<V>, data: ConstructorParameters<V>, elements: (ViewBuilder | undefined)[]) {
 		super(elements);
-		this.destination = App.core.generateURL(view, data[0]);
+
+		const destination = App.core.generateURL(view, data[0]);
+		if (typeof destination == 'string') this.destination = destination;
+		else {
+			this.destination = destination[0];
+			this.alternativeDestination = destination[1];
+		}
 
 		this.listeners.set('click', (_, event) => {
 			try {
