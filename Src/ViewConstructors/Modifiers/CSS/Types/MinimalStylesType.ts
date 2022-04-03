@@ -9,6 +9,7 @@ import type { DropShadowStyle, InnerShadowStyle } from "../../CollectableStyles/
 import type { TransformsStyle } from "../../CollectableStyles/TransformsStyle";
 import type { Color } from "../../Colors";
 import type { Units } from "../../../Enum/Units";
+import type { BlendMode } from "../../../Enum/BlendMode";
 
 
 
@@ -93,6 +94,9 @@ export interface MinimalStylesInterface {
 	'align-self'?: ContentAlign
 	'order'?: number
 
+	'clip-path'?: string
+	'mix-blend-mode'?: BlendMode
+	'isolation'?: 'isolate' | 'auto'
 	'aspect-ratio'?: `${number}/${number}`
 	'flex-grow'?: number
 	'overflow-y'?: Scroll

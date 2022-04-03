@@ -2,6 +2,7 @@ import type { TimingFunction } from "../../Enum/TimingFunction";
 import type { CSSCubicBezier } from "../CSS/CSSCubicBezier";
 import type { FitPositionStyle } from "../CollectableStyles/FitPosition";
 import type { Color } from "../Colors";
+import type { Path } from "../../../Elements/Shapes/Path";
 import { Units } from "../../Enum/Units";
 import { AnimationResize } from "../../Enum/AnimationResize";
 import { FiltersStyle, FilterStyleInterface } from "../CollectableStyles/FiltersStyle";
@@ -20,6 +21,8 @@ interface AnimatedStyles {
 	'borderRadius'?: string[]
 	'borderColor'?: Color[]
 	'borderStyle'?: string[]
+
+	'clipPath'?: Path[]
 
 	'left'?: string[]
 	'top'?: string[]
@@ -122,6 +125,8 @@ export class UIAnimationClass {
 
 	}
 
+	public clipPath(...values: [from: Path, to: Path, ...otherValues: Path[]]): this { this.keyFrames.clipPath = values; return this }
+
 	public blurEffect(units: Units, ...values: [from: number, to: number, ...otherValues: number[]]): this { this.setCollectableStyles('filter', 'blur', values.map(v => v.toString() + units)); return this }
 	public brightnessEffect(...values: [from: number, to: number, ...otherValues: number[]]): this { this.setCollectableStyles('filter', 'brightness', values); return this }
 	public contrastEffect(...values: [from: number, to: number, ...otherValues: number[]]): this { this.setCollectableStyles('filter', 'contrast', values); return this }
@@ -182,7 +187,7 @@ export class UIAnimationClass {
 		return this
 	}
 
-	// // @ts-ignore
+
 	// public customStyleProperty<P extends keyof OmitAnimatedStyles>(styleName: P, ...values: [from: ValueStyle<P>, to: ValueStyle<P>, ...otherValues: ValueStyle<P>[]]): this { this.keyFrames[styleName] = values; return this }
 
 

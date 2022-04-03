@@ -8,6 +8,7 @@ import type { UIAnimationClass } from "./Modifiers/Animation/UIAnimation"
 import type { CompositingCoords } from "./Modifiers/Compositing"
 import type { Color } from "./Modifiers/Colors"
 import type { GestureClass } from "./Modifiers/Listeners/Gesture/Gesture"
+import type { BlendMode } from "./Enum/BlendMode"
 import { ElementAttribute, ElementAttributeInterface } from "./Modifiers/Attributes"
 import { Listeners, ListenersInterface } from "./Modifiers/Listeners/Listeners"
 import { BorderStyle } from "./Enum/BorderStyle"
@@ -28,6 +29,7 @@ import { PageData } from "../Data/PageData/PageData"
 import { CSSSelectore } from "./Modifiers/CSS/CSSSelectore";
 import { MainStyleSheet } from "./Modifiers/CSS/MainStyleSheet";
 import { TimingFunction } from "./Enum/TimingFunction"
+import { Path } from "../Elements/Shapes/Path"
 
 
 
@@ -183,7 +185,6 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 
-	// mix-blend-mode
 	// background-blend-mode
 
 
@@ -204,7 +205,10 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
 	 */
 	public tabindex(value: number = 0): this { this.safeAttribute.set('tabindex', value); return this }
-
+	public clipPath(value: Path): this { this.styles.set('clip-path', value.toCSSValue()); return this }
+	public mixBlendMode(value: BlendMode): this { this.styles.set('mix-blend-mode', value); return this }
+	/** @param value default true */
+	public isolateBlendMode(value: boolean = true): this { if (value) this.styles.set('isolation', 'isolate'); return this }
 
 
 
