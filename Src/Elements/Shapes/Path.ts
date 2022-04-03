@@ -118,7 +118,7 @@ export class Path {
 
 
 	public toCanvasPath(): Path2D { return new Path2D(this.value) }
-	public toCSSValue(): string { return 'path(' + this.value + ')' }
+	public toCSSValue(): string { return `path('${this.value}')` }
 	public toString(): string { return this.value }
 
 
