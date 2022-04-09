@@ -3,6 +3,7 @@ import type { CSSCubicBezier } from "../CSS/CSSCubicBezier";
 import type { FitPositionStyle } from "../CollectableStyles/FitPosition";
 import type { Color } from "../Colors";
 import type { Path } from "../../../Elements/Shapes/Path";
+import type { CSSStepTimingFunction } from "../CSS/CSSStepTimingFunction";
 import { Units } from "../../Enum/Units";
 import { AnimationResize } from "../../Enum/AnimationResize";
 import { FiltersStyle, FilterStyleInterface } from "../CollectableStyles/FiltersStyle";
@@ -196,7 +197,7 @@ export class UIAnimationClass {
 	public animationDelay(value: number): this { this.options.delay = value; return this }
 	/** @param value defualt true  */
 	public animationReverseDirectionEachCycle(value: boolean = true): this { this.options.direction = value ? 'alternate' : 'normal'; return this }
-	public animationTimingFunction(timingFunction: TimingFunction | CSSCubicBezier): this { this.options.easing = timingFunction.toString(); return this }
+	public animationTimingFunction(timingFunction: TimingFunction | CSSCubicBezier | CSSStepTimingFunction): this { this.options.easing = timingFunction.toString(); return this }
 	// /** @param value number or Infinity */
 	// public animationIterations(value: number): this { this.options.iterations = value; return this }
 
@@ -233,6 +234,14 @@ export class UIAnimationClass {
 		if (trackAnimation) AnimationStorage.addAnimation(element, p);
 		return p
 	}
+
+	// public animateInNoDocumentFlow(element: HTMLElement, trackAnimation: boolean = true): Promise<void> {
+	// 	this.keyFrames.position = ['absolute', 'absolute'];
+	// 	console.log(JSON.stringify(this.keyFrames,null,'\t'));
+	// 	let p = this.animate(element, trackAnimation);
+	// 	delete this.keyFrames.position;
+	// 	return p
+	// }
 
 
 

@@ -9,6 +9,7 @@ import type { CompositingCoords } from "./Modifiers/Compositing"
 import type { Color } from "./Modifiers/Colors"
 import type { GestureClass } from "./Modifiers/Listeners/Gesture/Gesture"
 import type { BlendMode } from "./Enum/BlendMode"
+import type { CSSStepTimingFunction } from "./Modifiers/CSS/CSSStepTimingFunction"
 import { ElementAttribute, ElementAttributeInterface } from "./Modifiers/Attributes"
 import { Listeners, ListenersInterface } from "./Modifiers/Listeners/Listeners"
 import { BorderStyle } from "./Enum/BorderStyle"
@@ -329,7 +330,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	 * @param {number} delay ms
 	 * @description 1000ms = 1s
 	 */
-	public transition(duration: number, timingFunction?: TimingFunction | CSSCubicBezier, delay?: number): this {
+	public transition(duration: number, timingFunction?: TimingFunction | CSSCubicBezier | CSSStepTimingFunction, delay?: number): this {
 		if (PageData.reducedAnimation) return this
 		this.styles
 			.set('transition-property', 'all')

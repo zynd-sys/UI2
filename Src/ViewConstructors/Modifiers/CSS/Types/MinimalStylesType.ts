@@ -3,13 +3,14 @@ import type { BorderStyle } from "../../../Enum/BorderStyle";
 import type { ContentAlign } from "../../../Enum/ContentAlign";
 import type { Scroll } from "../../../Enum/Scroll";
 import type { TimingFunction } from "../../../Enum/TimingFunction";
-import type { CSSCubicBezier } from "../CSSCubicBezier";
+import type { CSSCubicBezier, CSSCubicBezierType } from "../CSSCubicBezier";
 import type { FiltersStyle } from "../../CollectableStyles/FiltersStyle";
 import type { DropShadowStyle, InnerShadowStyle } from "../../CollectableStyles/ShadowStyle";
 import type { TransformsStyle } from "../../CollectableStyles/TransformsStyle";
 import type { Color } from "../../Colors";
 import type { Units } from "../../../Enum/Units";
 import type { BlendMode } from "../../../Enum/BlendMode";
+import type { CSSStepTimingFunction, CSSStepTimingFunctionType } from "../CSSStepTimingFunction";
 
 
 
@@ -133,7 +134,7 @@ export interface MinimalStylesInterface {
 	'transition-property'?: 'all' | string
 	'transition-duration'?: CSSTime
 	'transition-delay'?: CSSTime
-	'transition-timing-function'?: TimingFunction | CSSCubicBezier
+	'transition-timing-function'?: TimingFunction | CSSCubicBezierType | CSSStepTimingFunctionType | CSSCubicBezier | CSSStepTimingFunction
 
 
 	'appearance'?: '-apple-pay-button' | 'none'
