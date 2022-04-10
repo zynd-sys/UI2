@@ -1,9 +1,11 @@
 import type { ViewBuilder } from "../ViewConstructors/ViewBuilder"
 import type { ElementsContainerStyles } from "../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles"
-import { ElementAttributeInterface, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
+import type { LinkTarget } from "../ViewConstructors/Enum/LinkTarget"
 import { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 import { ViewElementsContainer, ElementsContainerListeners } from "../ViewConstructors/ViewElementsContainer"
+import { PhoneNumber, Email, URIBuilder } from "../Data/URI"
+
 
 
 
@@ -12,7 +14,7 @@ import { ViewElementsContainer, ElementsContainerListeners } from "../ViewConstr
  * Referrer Policy
  * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
  */
-export enum ReferrerPolicyOptions {
+ export enum ReferrerPolicyOptions {
 	/** meaning that the Referer: HTTP header will not be sent */
 	noReferrer = 'no-referrer',
 	/** meaning that the referrer will be the origin of the page, that is roughly the scheme, the host and the port */
@@ -21,12 +23,6 @@ export enum ReferrerPolicyOptions {
 	unsafeUrl = 'unsafe-url'
 }
 
-export enum LinkTarget {
-	sefl = '_self',
-	blank = '_blank',
-	parent = '_parent',
-	top = '_top'
-}
 
 export interface LinkAttribute extends ElementAttributeInterface {
 	referrerPolicy?: ReferrerPolicyOptions
@@ -41,6 +37,11 @@ export interface LinkAttribute extends ElementAttributeInterface {
 
 
 
+
+
+
+
+
 export class LinkView extends ViewElementsContainer<HTMLAnchorElement> {
 	protected HTMLElement?: HTMLAnchorElement
 
@@ -48,19 +49,11 @@ export class LinkView extends ViewElementsContainer<HTMLAnchorElement> {
 	protected listeners: Listeners<ElementsContainerListeners<HTMLAnchorElement>> = new Listeners
 	protected attribute: ElementAttribute<LinkAttribute> = new ElementAttribute
 
-	// protected destination: string
+
 
 	protected merge?(): void
-	// protected merge(newRender:LinkView,element:HTMLAnchorElement): void {
-	// 	if(newRender.destination != element.href) element.href = this.destination = newRender.destination;
-	// }
-	// protected importProperty(view:LinkView):void {
-	// 	this.destination = view.destination;
-	// 	return super.importProperty(view)
-	// }
 	protected generateHTMLElement(): HTMLAnchorElement {
 		let element = document.createElement('a');
-		// element.href = this.destination;
 		return element
 	}
 
@@ -74,16 +67,12 @@ export class LinkView extends ViewElementsContainer<HTMLAnchorElement> {
 
 
 
-	constructor(path: string | URL, elements: (ViewBuilder | undefined)[], action?: (event: Event) => void) {
+	constructor(path: string | URL | PhoneNumber | Email, elements: (ViewBuilder | undefined)[], action?: (event: Event) => void) {
 		super(elements);
-		this.attribute.set('href', path)
+		this.attribute.set('href', path instanceof URIBuilder ? path.toURI() : path)
 		if (action) this.listeners.set('click', (_, event) => action(event));
 	}
 }
 
 
 export function Link(href: string | URL, action?: (event: Event) => void): (...elements: (ViewBuilder | undefined)[]) => LinkView { return (...elements) => new LinkView(href, elements, action) }
-
-Link.Phone = (phone: string, action?: (event: Event) => void) => { return (...elements: (ViewBuilder | undefined)[]) => new LinkView(`tel:${phone}`, elements, action) }
-Link.Mail = (mail: string, action?: (event: Event) => void) => { return (...elements: (ViewBuilder | undefined)[]) => new LinkView(`mailto:${mail}`, elements, action) }
-Link.Download = (path: string | URL, fileName?: string, action?: (event: Event) => void) => { return (...elements: (ViewBuilder | undefined)[]) => new LinkView(path, elements, action).download(fileName ? fileName : true) }

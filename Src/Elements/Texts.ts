@@ -1,6 +1,7 @@
 import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { TextStyles } from "../ViewConstructors/Modifiers/CSS/Types/TextStyles"
+import type { PhoneNumber, Email } from "../Data/URI"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 import { ViewTextModifiers } from "../ViewConstructors/ViewTextModifiers"
 
@@ -100,7 +101,7 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 	 * Converts non-string formats to a string using .toLocaleString
 	 * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl
 	 */
-	constructor(content: string | number | bigint | Date | URL, locales?: string | string[], options?: Intl.NumberFormatOptions | Intl.DateTimeFormatOptions) {
+	constructor(content: string | number | bigint | Date | URL | PhoneNumber | Email, locales?: string | string[], options?: Intl.NumberFormatOptions | Intl.DateTimeFormatOptions) {
 		super();
 		if (typeof content == 'string') this.content = content
 		else {
