@@ -1,10 +1,12 @@
 import type { ImageMimeType } from "../ViewConstructors/Enum/ImageMimeType"
-import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
+import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { MinimalStylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType"
 import type { StylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/StylesInterface"
 import type { Color } from "../ViewConstructors/Modifiers/Colors"
 import type { MediaInterface } from "../ViewConstructors/Modifiers/CSS/Types/MediaStyle"
+import type { Crossorigin } from "../ViewConstructors/Enum/Crossorigin"
+import type { ReferrerPolicyOptions } from "../ViewConstructors/Enum/ReferrerPolicyOptions"
 import { MediaFit } from "../ViewConstructors/Enum/MediaFit"
 import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
 import { Units } from "../ViewConstructors/Enum/Units"
@@ -143,13 +145,13 @@ class PictureSourceView extends ViewBuilder {
 
 
 
-export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, image: HTMLImageElement }> implements MediaInterface {
+export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, image: HTMLImageElement }> implements MediaInterface, SecurityPolicyViewModifiers {
 
 	protected HTMLElement?: { parent: HTMLPictureElement, image: HTMLImageElement }
 
 	protected styles: Styles<PictureStyleInterface> = new Styles
 	protected listeners?: Listeners<ListenersInterface<HTMLPictureElement>>
-	protected attribute?: ElementAttribute<any>
+	protected attribute?: ElementAttribute<SecurityPolicyAttribute>
 
 	protected content: string | URL
 	protected description: string
@@ -214,8 +216,11 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 
 	// float
 	// shape-outside
+	public referrerPolicy(value: ReferrerPolicyOptions): this { this.safeAttribute.set('referrerpolicy', value); return this }
+	public crossorigin(value: Crossorigin): this { this.safeAttribute.set('crossorigin', value); return this }
 	public overlayColor(value: string): this { this.styles.set('--overlay-color', value as unknown as Color); return this }
 	public mediaFit(value: MediaFit): this { this.styles.set('--object-fit', value); return this }
+	/** @param unit default `Units.absolute` */
 	public mediaPosition(direction: Direction.horizontal | Direction.vertical, value: number, unit: Units = Units.absolute): this {
 		if (direction == Direction.horizontal) this.styles.getCollectableStyles('--object-position', FitPositionStyle).x = `${value}${unit}`;
 		else this.styles.getCollectableStyles('--object-position', FitPositionStyle).y = `${value}${unit}`;

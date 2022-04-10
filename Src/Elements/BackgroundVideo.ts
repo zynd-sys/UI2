@@ -1,6 +1,8 @@
-import type { ElementAttribute, ElementAttributeInterface } from "../ViewConstructors/Modifiers/Attributes";
+import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes";
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners";
 import type { MediaInterface, MediaStyleInterface } from "../ViewConstructors/Modifiers/CSS/Types/MediaStyle";
+import type { Crossorigin } from "../ViewConstructors/Enum/Crossorigin";
+import type { ReferrerPolicyOptions } from "../ViewConstructors/Enum/ReferrerPolicyOptions";
 import { MediaFit } from "../ViewConstructors/Enum/MediaFit";
 import { Units } from "../ViewConstructors/Enum/Units";
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles";
@@ -41,12 +43,12 @@ MainStyleSheet.add(
 
 
 
-export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> implements MediaInterface {
+export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> implements MediaInterface, SecurityPolicyViewModifiers {
 
 	protected HTMLElement?: HTMLVideoElement
 	protected styles: Styles<MediaStyleInterface> = new Styles
 	protected listeners?: Listeners<ListenersInterface<any>>
-	protected attribute?: ElementAttribute<ElementAttributeInterface>
+	protected attribute?: ElementAttribute<SecurityPolicyAttribute>
 
 	protected content: string | URL
 	protected loop: boolean = true
@@ -139,6 +141,9 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 	}
 
 
+
+	public referrerPolicy(value: ReferrerPolicyOptions): this { this.safeAttribute.set('referrerpolicy', value); return this }
+	public crossorigin(value: Crossorigin): this { this.safeAttribute.set('crossorigin', value); return this }
 	public unInfinity(value: boolean = true): this { this.loop = !value; return this }
 	public videoSource(...elements: { src: string, mimeType: string, mediaQuery?: string }[]): this {
 		let m: { elements?: HTMLSourceElement[], data: Map<string, { mimeType: string, mediaQuery?: string, element?: HTMLSourceElement }> } | undefined;
@@ -162,6 +167,7 @@ export class BackgroundVideoView extends ViewModifiers<HTMLVideoElement> impleme
 		this.content = src;
 		if (poster) this.poster = poster
 	}
+
 }
 
 

@@ -1,3 +1,5 @@
+import type { Crossorigin } from "../Enum/Crossorigin"
+import type { ReferrerPolicyOptions } from "../Enum/ReferrerPolicyOptions"
 
 
 export interface ElementAttributeInterface {
@@ -8,6 +10,20 @@ export interface ElementAttributeInterface {
 	'lang'?: string
 	'translate'?: 'no' | 'yes'
 }
+
+
+export interface SecurityPolicyAttribute extends ElementAttributeInterface {
+	'crossorigin'?: Crossorigin
+	'referrerpolicy'?: ReferrerPolicyOptions
+}
+
+export interface SecurityPolicyViewModifiers {
+	crossorigin(value: Crossorigin): this
+	referrerPolicy(value: ReferrerPolicyOptions): this
+}
+
+
+
 
 
 export class ElementAttribute<I extends ElementAttributeInterface> extends Map<keyof I, I[keyof I]> {

@@ -6,7 +6,7 @@ export class CSSStepTimingFunction {
 	protected jumpterm?: 'jump-start' | 'jump-end' | 'jump-none' | 'jump-both'
 	protected step: number
 
-	protected toString(): CSSStepTimingFunctionType { return this.jumpterm ? `steps(${this.step},${this.jumpterm})` : `steps(${this.step})` }
+	public toString(): CSSStepTimingFunctionType { return this.jumpterm ? `steps(${this.step},${this.jumpterm})` : `steps(${this.step})` }
 
 	public jumpStart(value: boolean): this { if (value) this.jumpterm = 'jump-start'; return this }
 	public jumpEnd(value: boolean): this { if (value) this.jumpterm = 'jump-end'; return this }

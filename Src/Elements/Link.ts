@@ -1,6 +1,9 @@
 import type { ViewBuilder } from "../ViewConstructors/ViewBuilder"
 import type { ElementsContainerStyles } from "../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles"
+import type { ReferrerPolicyOptions } from "../ViewConstructors/Enum/ReferrerPolicyOptions"
 import type { LinkTarget } from "../ViewConstructors/Enum/LinkTarget"
+import type { Crossorigin } from "../ViewConstructors/Enum/Crossorigin"
+import { ElementAttribute, SecurityPolicyAttribute, SecurityPolicyViewModifiers } from "../ViewConstructors/Modifiers/Attributes"
 import { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 import { ViewElementsContainer, ElementsContainerListeners } from "../ViewConstructors/ViewElementsContainer"
@@ -10,26 +13,19 @@ import { PhoneNumber, Email, URIBuilder } from "../Data/URI"
 
 
 
-/** 
- * Referrer Policy
- * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
- */
- export enum ReferrerPolicyOptions {
-	/** meaning that the Referer: HTTP header will not be sent */
-	noReferrer = 'no-referrer',
-	/** meaning that the referrer will be the origin of the page, that is roughly the scheme, the host and the port */
-	origin = 'origin',
-	/** meaning that the referrer will include the origin and the path (but not the fragment, password, or username). This case is unsafe as it can leak path information that has been concealed to third-party by using TLS. */
-	unsafeUrl = 'unsafe-url'
-}
 
 
-export interface LinkAttribute extends ElementAttributeInterface {
-	referrerPolicy?: ReferrerPolicyOptions
-	hreflang?: string
-	target?: LinkTarget
-	href?: string | URL
-	download?: boolean | string
+
+
+
+
+
+
+export interface LinkAttribute extends SecurityPolicyAttribute {
+	'hreflang'?: string
+	'target'?: LinkTarget
+	'href'?: string | URL
+	'download'?: boolean | string
 }
 
 
@@ -42,7 +38,14 @@ export interface LinkAttribute extends ElementAttributeInterface {
 
 
 
-export class LinkView extends ViewElementsContainer<HTMLAnchorElement> {
+
+
+
+
+
+
+
+export class LinkView extends ViewElementsContainer<HTMLAnchorElement> implements SecurityPolicyViewModifiers {
 	protected HTMLElement?: HTMLAnchorElement
 
 	protected styles: Styles<ElementsContainerStyles> = new Styles
@@ -59,7 +62,8 @@ export class LinkView extends ViewElementsContainer<HTMLAnchorElement> {
 
 
 
-	public referrerPolicy(value: ReferrerPolicyOptions): this { this.attribute.set('referrerPolicy', value); return this }
+	public crossorigin(value: Crossorigin): this { this.safeAttribute.set('crossorigin', value); return this }
+	public referrerPolicy(value: ReferrerPolicyOptions): this { this.attribute.set('referrerpolicy', value); return this }
 	public pathLang(value: string): this { this.attribute.set('hreflang', value); return this }
 	public target(value: LinkTarget): this { this.attribute.set('target', value); return this }
 	public download(value: boolean | string = true): this { if (value == true || typeof value == 'string') this.attribute.set('download', value); return this }
