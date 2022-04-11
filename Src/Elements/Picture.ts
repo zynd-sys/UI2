@@ -1,23 +1,17 @@
 import type { ImageMimeType } from "../ViewConstructors/Enum/ImageMimeType"
 import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
-import type { MinimalStylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType"
 import type { StylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/StylesInterface"
 import type { Color } from "../ViewConstructors/Modifiers/Colors"
-import type { MediaInterface } from "../ViewConstructors/Modifiers/CSS/Types/MediaStyle"
 import type { Crossorigin } from "../ViewConstructors/Enum/Crossorigin"
 import type { ReferrerPolicyOptions } from "../ViewConstructors/Enum/ReferrerPolicyOptions"
 import { MediaFit } from "../ViewConstructors/Enum/MediaFit"
-import { ViewModifiers } from "../ViewConstructors/ViewModifiers"
-import { Units } from "../ViewConstructors/Enum/Units"
-import { Direction } from "../ViewConstructors/Enum/Direction"
 import { FitPositionStyle } from "../ViewConstructors/Modifiers/CollectableStyles/FitPosition"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
 import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet"
 import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore"
 import { DefaultColor } from "../ViewConstructors/Modifiers/Colors/DefaultColors"
-import { ViewBuilder } from "../ViewConstructors/ViewBuilder"
-import { ViewsList } from "../ViewConstructors/Modifiers/ListView"
+import { MediaStyleInterface, ViewMediaElement } from "../ViewConstructors/ViewMediaElement"
 
 
 
@@ -25,7 +19,7 @@ import { ViewsList } from "../ViewConstructors/Modifiers/ListView"
 
 
 
-export interface PictureStyleInterface extends MinimalStylesInterface {
+export interface PictureStyleInterface extends MediaStyleInterface {
 	'--overlay-color'?: Color
 	'--object-fit'?: MediaFit
 	'--object-position'?: FitPositionStyle
@@ -84,56 +78,6 @@ MainStyleSheet.add(
 
 
 
-class PictureSourceView extends ViewBuilder {
-
-	protected HTMLElement?: HTMLSourceElement
-
-	protected content: ImageMimeType
-	protected urls: string
-
-	protected importProperty(newRender: PictureSourceView): void {
-		this.content = newRender.content;
-		this.urls = newRender.content;
-	}
-
-
-
-	public render(): HTMLSourceElement {
-		if (this.HTMLElement) return this.HTMLElement
-
-		let element = document.createElement('source');
-		element.type = this.content;
-		element.srcset = this.urls;
-
-		return element
-	}
-
-
-	public update(newRender: PictureSourceView): void {
-		if (!this.HTMLElement) { this.importProperty(newRender); return }
-
-		if (this.HTMLElement.type != newRender.content) this.HTMLElement.type = this.content = newRender.content;
-		if (this.HTMLElement.srcset != newRender.urls) this.HTMLElement.srcset = this.urls = newRender.urls;
-	}
-
-
-	public destroy(): void {
-		if (!this.HTMLElement) return
-		this.HTMLElement.remove();
-		this.HTMLElement = undefined;
-	}
-
-
-	public getRectElements(): void { }
-
-
-
-	constructor(type: ImageMimeType, urls: string) {
-		super();
-		this.content = type;
-		this.urls = urls;
-	}
-}
 
 
 
@@ -145,7 +89,7 @@ class PictureSourceView extends ViewBuilder {
 
 
 
-export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, image: HTMLImageElement }> implements MediaInterface, SecurityPolicyViewModifiers {
+export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, image: HTMLImageElement }, ImageMimeType> implements SecurityPolicyViewModifiers {
 
 	protected HTMLElement?: { parent: HTMLPictureElement, image: HTMLImageElement }
 
@@ -154,9 +98,11 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 	protected attribute?: ElementAttribute<SecurityPolicyAttribute>
 
 	protected content: string | URL
-	protected description: string
 
-	protected sourceList?: ViewsList
+	protected useCSSVariablesForMediaStyles: boolean = true
+	protected description: string
+	protected referrerPolicyValue?: ReferrerPolicyOptions
+	protected crossoriginValue?: Crossorigin
 
 
 
@@ -168,12 +114,15 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 	/**
 	 * import: styles, listeners, content, description, stylesImage, sourceArray
 	 */
-	protected override importProperty(view: PictureView): ReturnType<ViewModifiers<any>['importProperty']> {
+	protected override importProperty(view: PictureView): ReturnType<ViewMediaElement<any, any>['importProperty']> {
 		super.importProperty(view);
 		this.description = view.description;
 		this.sourceList = view.sourceList;
+		this.referrerPolicyValue = view.referrerPolicyValue;
+		this.crossoriginValue = view.crossoriginValue;
 	}
 	protected generateHTMLElement(): { parent: HTMLPictureElement, image: HTMLImageElement } {
+		if (this.HTMLElement) return this.HTMLElement
 		let pictureElement = document.createElement('picture');
 		let imageElement = pictureElement.appendChild(document.createElement('img'));
 		imageElement.alt = this.description;
@@ -181,16 +130,28 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 		imageElement.loading = 'lazy';
 		imageElement.decoding = 'async';
 
-		let element: { parent: HTMLPictureElement, image: HTMLImageElement } = { parent: pictureElement, image: imageElement }
-		if (this.sourceList) this.sourceList.render(pictureElement)
+		if (this.referrerPolicyValue) imageElement.referrerPolicy = this.referrerPolicyValue;
+		if (this.crossoriginValue) imageElement.crossOrigin = this.crossoriginValue;
+		if (this.sourceList) this.sourceList.render(pictureElement);
 
-		return element
+		return { parent: pictureElement, image: imageElement }
 	}
 	protected merge(newRender: PictureView, element: { parent: HTMLPictureElement, image: HTMLImageElement }): void {
 		if (this.description != newRender.description) { this.description = newRender.description; element.image.alt = this.description; }
 		if (this.content != newRender.content) { this.content = newRender.content; element.image.src = this.content.toString(); }
 
-		if (this.sourceList) this.sourceList.render(element.parent, false, newRender.sourceList)
+		if(newRender.referrerPolicyValue && element.image.referrerPolicy != newRender.referrerPolicyValue) {
+			element.image.referrerPolicy = this.referrerPolicyValue = newRender.referrerPolicyValue;
+		} else if(element.image.referrerPolicy) {
+			this.referrerPolicyValue = undefined;
+			element.image.referrerPolicy = ''
+		}
+		if(newRender.crossoriginValue && element.image.crossOrigin != newRender.crossoriginValue) {
+			element.image.crossOrigin = this.crossoriginValue = newRender.crossoriginValue;
+		} else if(element.image.crossOrigin) {
+			this.crossoriginValue = undefined;
+			element.image.crossOrigin = null;
+		}
 	}
 
 
@@ -216,24 +177,12 @@ export class PictureView extends ViewModifiers<{ parent: HTMLPictureElement, ima
 
 	// float
 	// shape-outside
-	public referrerPolicy(value: ReferrerPolicyOptions): this { this.safeAttribute.set('referrerpolicy', value); return this }
+	public referrerPolicy(value: ReferrerPolicyOptions): this { this.referrerPolicyValue = value; return this }
 	public crossorigin(value: Crossorigin): this { this.safeAttribute.set('crossorigin', value); return this }
 	public overlayColor(value: string): this { this.styles.set('--overlay-color', value as unknown as Color); return this }
-	public mediaFit(value: MediaFit): this { this.styles.set('--object-fit', value); return this }
-	/** @param unit default `Units.absolute` */
-	public mediaPosition(direction: Direction.horizontal | Direction.vertical, value: number, unit: Units = Units.absolute): this {
-		if (direction == Direction.horizontal) this.styles.getCollectableStyles('--object-position', FitPositionStyle).x = `${value}${unit}`;
-		else this.styles.getCollectableStyles('--object-position', FitPositionStyle).y = `${value}${unit}`;
-		return this
-	}
-	public imageSources(values: Map<ImageMimeType, { src: string | URL, size?: number }[]>): this {
-		let elements: PictureSourceView[] = []
-		values.forEach((item, type) => elements.push(new PictureSourceView(type, item.reduce((v1, v2) => `${v1},${v2.src} ${v2.size || ''}`, ''))));
 
-		if (this.sourceList) this.sourceList.replace(elements)
-		else this.sourceList = new ViewsList(elements);
-		return this
-	}
+
+
 
 
 	constructor(src: string | URL, description: string) {

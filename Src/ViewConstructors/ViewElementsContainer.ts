@@ -62,7 +62,9 @@ export abstract class ViewElementsContainer<E extends HTMLElement | { parent: HT
 
 	protected abstract override styles: Styles<ElementsContainerStyles>
 	protected abstract override listeners?: Listeners<ElementsContainerListeners<any>>
+
 	protected content: ViewsList
+
 	protected isScroll?: boolean
 	protected isGrid?: boolean
 	protected directionToken?: Direction
@@ -292,18 +294,18 @@ export abstract class ViewElementsContainer<E extends HTMLElement | { parent: HT
 
 	public override destroy(withAnimation: boolean = false): Promise<void> | void {
 		if (withAnimation && this.HTMLElement) {
-			let parenAnimations = super.destroy(true); 
+			let parenAnimations = super.destroy(true);
 
 			if (this.animations.withChild) {
-				let animations: (Promise<void> | void)[] = this.content.map(v => v?.destroy(true));
+				let animations: (Promise<void> | void)[] = this.content.destroy(true);
 				animations.push(parenAnimations);
 
 				return Promise.all(animations).then();
 			}
-			return parenAnimations?.then(() => void this.content.forEach(element => element?.destroy()))
+			return parenAnimations?.then(() => this.content.destroy())
 		}
 
-		this.content.forEach(element => element?.destroy());
+		this.content.destroy();
 		return super.destroy()
 	}
 
