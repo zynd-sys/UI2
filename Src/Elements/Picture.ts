@@ -1,6 +1,6 @@
 import type { ImageMimeType } from "../ViewConstructors/Enum/ImageMimeType"
 import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
-import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
+import type { Listeners, ListenersInterface, LoadingResourceModifiers } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { StylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/StylesInterface"
 import type { Color } from "../ViewConstructors/Modifiers/Colors"
 import type { Crossorigin } from "../ViewConstructors/Enum/Crossorigin"
