@@ -89,7 +89,7 @@ MainStyleSheet.add(
 
 
 
-export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, image: HTMLImageElement }, ImageMimeType> implements SecurityPolicyViewModifiers {
+export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, image: HTMLImageElement }, ImageMimeType> implements SecurityPolicyViewModifiers, LoadingResourceModifiers {
 
 	protected HTMLElement?: { parent: HTMLPictureElement, image: HTMLImageElement }
 
@@ -103,6 +103,8 @@ export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, 
 	protected description: string
 	protected referrerPolicyValue?: ReferrerPolicyOptions
 	protected crossoriginValue?: Crossorigin
+	protected loadUserHandler?: (naturalHeight: number, naturalWidth: number) => void
+	protected errorUserHandler?: (error: any) => void
 
 
 
@@ -129,6 +131,8 @@ export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, 
 		imageElement.src = this.content.toString();
 		imageElement.loading = 'lazy';
 		imageElement.decoding = 'async';
+		imageElement.addEventListener('load', () => this.loadUserHandler?.(imageElement.naturalHeight, imageElement.naturalWidth), { passive: true })
+		imageElement.addEventListener('error', event => this.errorUserHandler?.(event), { passive: true })
 
 		if (this.referrerPolicyValue) imageElement.referrerPolicy = this.referrerPolicyValue;
 		if (this.crossoriginValue) imageElement.crossOrigin = this.crossoriginValue;
@@ -140,15 +144,15 @@ export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, 
 		if (this.description != newRender.description) { this.description = newRender.description; element.image.alt = this.description; }
 		if (this.content != newRender.content) { this.content = newRender.content; element.image.src = this.content.toString(); }
 
-		if(newRender.referrerPolicyValue && element.image.referrerPolicy != newRender.referrerPolicyValue) {
+		if (newRender.referrerPolicyValue && element.image.referrerPolicy != newRender.referrerPolicyValue) {
 			element.image.referrerPolicy = this.referrerPolicyValue = newRender.referrerPolicyValue;
-		} else if(element.image.referrerPolicy) {
+		} else if (element.image.referrerPolicy) {
 			this.referrerPolicyValue = undefined;
 			element.image.referrerPolicy = ''
 		}
-		if(newRender.crossoriginValue && element.image.crossOrigin != newRender.crossoriginValue) {
+		if (newRender.crossoriginValue && element.image.crossOrigin != newRender.crossoriginValue) {
 			element.image.crossOrigin = this.crossoriginValue = newRender.crossoriginValue;
-		} else if(element.image.crossOrigin) {
+		} else if (element.image.crossOrigin) {
 			this.crossoriginValue = undefined;
 			element.image.crossOrigin = null;
 		}
@@ -183,6 +187,8 @@ export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, 
 
 
 
+	public onLoad(value: (naturalHeight: number, naturalWidth: number) => void): this { this.loadUserHandler = value; return this }
+	public onError(value: (error: any) => void): this { this.errorUserHandler = value; return this }
 
 
 	constructor(src: string | URL, description: string) {

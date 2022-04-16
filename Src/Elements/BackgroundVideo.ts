@@ -1,5 +1,5 @@
 import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes";
-import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners";
+import type { Listeners, LoadingResourceListeners, LoadingResourceModifiers } from "../ViewConstructors/Modifiers/Listeners/Listeners";
 import type { Crossorigin } from "../ViewConstructors/Enum/Crossorigin";
 import type { ReferrerPolicyOptions } from "../ViewConstructors/Enum/ReferrerPolicyOptions";
 import { MediaFit } from "../ViewConstructors/Enum/MediaFit";
@@ -40,11 +40,11 @@ MainStyleSheet.add(
 
 
 
-export class BackgroundVideoView extends ViewMediaElement<HTMLVideoElement, string> implements SecurityPolicyViewModifiers {
+export class BackgroundVideoView extends ViewMediaElement<HTMLVideoElement, string> implements SecurityPolicyViewModifiers, LoadingResourceModifiers {
 
 	protected HTMLElement?: HTMLVideoElement
 	protected styles: Styles<MediaStyleInterface> = new Styles
-	protected listeners?: Listeners<ListenersInterface<any>>
+	protected listeners?: Listeners<LoadingResourceListeners<HTMLVideoElement>>
 	protected attribute?: ElementAttribute<SecurityPolicyAttribute>
 
 	protected useCSSVariablesForMediaStyles?: boolean
@@ -96,6 +96,10 @@ export class BackgroundVideoView extends ViewMediaElement<HTMLVideoElement, stri
 	public referrerPolicy(value: ReferrerPolicyOptions): this { this.safeAttribute.set('referrerpolicy', value); return this }
 	public crossorigin(value: Crossorigin): this { this.safeAttribute.set('crossorigin', value); return this }
 	public unInfinity(value: boolean = true): this { this.loop = !value; return this }
+
+
+	public onLoad(value: () => void): this { this.safeListeners.set('load', () => value()); return this }
+	public onError(value: (error: any) => void): this { this.safeListeners.set('error', event => value(event.error)); return this }
 
 
 

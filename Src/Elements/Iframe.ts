@@ -1,6 +1,6 @@
 import type { MinimalStylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType"
 import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
-import type { Listeners, ListenersInterface } from "../ViewConstructors/Modifiers/Listeners/Listeners"
+import type { Listeners, LoadingResourceListeners, LoadingResourceModifiers } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { Crossorigin } from "../ViewConstructors/Enum/Crossorigin"
 import type { SandboxPermission } from "../ViewConstructors/Enum/SandboxPermission"
 import type { ReferrerPolicyOptions } from "../ViewConstructors/Enum/ReferrerPolicyOptions"
@@ -27,11 +27,11 @@ interface IframeAttributes extends SecurityPolicyAttribute {
 
 
 
-export class IframeView extends ViewModifiers<HTMLIFrameElement> implements SecurityPolicyViewModifiers {
+export class IframeView extends ViewModifiers<HTMLIFrameElement> implements SecurityPolicyViewModifiers, LoadingResourceModifiers {
 
 	protected HTMLElement?: HTMLIFrameElement
 	protected styles: Styles<MinimalStylesInterface> = new Styles
-	protected listeners?: Listeners<ListenersInterface<HTMLIFrameElement>>
+	protected listeners?: Listeners<LoadingResourceListeners<HTMLIFrameElement>>
 	protected attribute?: ElementAttribute<IframeAttributes>
 
 
@@ -61,6 +61,9 @@ export class IframeView extends ViewModifiers<HTMLIFrameElement> implements Secu
 	// public fetchpriority(value: 'high' | 'low' | 'auto'): this { }
 
 
+
+	public onLoad(value: () => void): this { this.safeListeners.set('load', () => value()); return this }
+	public onError(value: (error: any) => void): this { this.safeListeners.set('error', (_, event) => value(event.error)); return this }
 
 
 

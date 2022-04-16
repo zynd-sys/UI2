@@ -36,6 +36,17 @@ export interface ListenersInterface<E extends HTMLElement> {
 	dragend?: (element: E, event: DragEvent) => any
 }
 
+export interface LoadingResourceListeners<E extends HTMLElement> extends ListenersInterface<E> {
+	load?: (element: E, event: Event) => void
+	error?: (element: E, event: ErrorEvent) => void
+}
+
+export interface LoadingResourceModifiers {
+	onLoad(value: () => void): this
+	onError(value: (error: any) => void): this
+}
+
+
 
 
 
@@ -99,7 +110,7 @@ export class Listeners<I extends ListenersInterface<any>> extends Map<keyof I, I
 		let events = data.events;
 		let gestureListners = data.gestureListners;
 
-		
+
 		if (this.isHasGesture) {
 			if (!gesture) console.error('')
 			else if (!gestureListners) {
