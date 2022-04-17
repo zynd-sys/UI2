@@ -100,6 +100,7 @@ export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, 
 	protected content: string | URL
 
 	protected useCSSVariablesForMediaStyles: boolean = true
+	protected useSrcsetSource: boolean = true
 	protected description: string
 	protected referrerPolicyValue?: ReferrerPolicyOptions
 	protected crossoriginValue?: Crossorigin

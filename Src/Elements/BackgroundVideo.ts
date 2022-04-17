@@ -48,6 +48,7 @@ export class BackgroundVideoView extends ViewMediaElement<HTMLVideoElement, stri
 	protected attribute?: ElementAttribute<SecurityPolicyAttribute>
 
 	protected useCSSVariablesForMediaStyles?: boolean
+	protected useSrcsetSource?: boolean
 
 	protected content: string | URL
 	protected loop: boolean = true
