@@ -110,6 +110,8 @@ export abstract class ViewMediaElement<E extends HTMLElement | { parent: HTMLEle
 
 	protected override importProperty(view: ViewMediaElement<any, any>): ReturnType<ViewModifiers<any>['importProperty']> {
 		this.sourceList = view.sourceList;
+		this.useCSSVariablesForMediaStyles = view.useCSSVariablesForMediaStyles;
+		this.useSrcsetSource = view.useSrcsetSource;
 		return super.importProperty(view);
 	}
 

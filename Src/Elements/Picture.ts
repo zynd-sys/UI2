@@ -1,10 +1,10 @@
 import type { ImageMimeType } from "../ViewConstructors/Enum/ImageMimeType"
-import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import type { Listeners, ListenersInterface, LoadingResourceModifiers } from "../ViewConstructors/Modifiers/Listeners/Listeners"
 import type { StylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/StylesInterface"
 import type { Color } from "../ViewConstructors/Modifiers/Colors"
 import type { Crossorigin } from "../ViewConstructors/Enum/Crossorigin"
 import type { ReferrerPolicyOptions } from "../ViewConstructors/Enum/ReferrerPolicyOptions"
+import { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
 import { MediaFit } from "../ViewConstructors/Enum/MediaFit"
 import { FitPositionStyle } from "../ViewConstructors/Modifiers/CollectableStyles/FitPosition"
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
@@ -19,8 +19,8 @@ import { MediaStyleInterface, ViewMediaElement } from "../ViewConstructors/ViewM
 
 
 
-export interface PictureStyleInterface extends MediaStyleInterface {
-	'--overlay-color'?: Color
+interface PictureStyleInterface extends MediaStyleInterface {
+	'--overlay-color'?: Color | string
 	'--object-fit'?: MediaFit
 	'--object-position'?: FitPositionStyle
 }
@@ -30,6 +30,13 @@ export interface PictureStyleInterface extends MediaStyleInterface {
 interface PictureSelectoreStyle extends StylesInterface {
 	'object-fit': 'var(--object-fit)',
 	'object-position': 'var(--object-position)'
+}
+
+interface ImageAttribute extends SecurityPolicyAttribute {
+	'loading'?: 'lazy' | 'eager'
+	'decoding'?: 'async' | 'auto'
+	'src'?: string | URL
+	'alt'?: string
 }
 
 
@@ -97,13 +104,12 @@ export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, 
 	protected listeners?: Listeners<ListenersInterface<HTMLPictureElement>>
 	protected attribute?: ElementAttribute<SecurityPolicyAttribute>
 
-	protected content: string | URL
+	protected content: ElementAttribute<ImageAttribute> = new ElementAttribute<ImageAttribute>()
+		.set('loading', 'lazy')
+		.set('decoding', 'async')
 
 	protected useCSSVariablesForMediaStyles: boolean = true
 	protected useSrcsetSource: boolean = true
-	protected description: string
-	protected referrerPolicyValue?: ReferrerPolicyOptions
-	protected crossoriginValue?: Crossorigin
 	protected loadUserHandler?: (naturalHeight: number, naturalWidth: number) => void
 	protected errorUserHandler?: (error: any) => void
 
@@ -119,44 +125,24 @@ export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, 
 	 */
 	protected override importProperty(view: PictureView): ReturnType<ViewMediaElement<any, any>['importProperty']> {
 		super.importProperty(view);
-		this.description = view.description;
-		this.sourceList = view.sourceList;
-		this.referrerPolicyValue = view.referrerPolicyValue;
-		this.crossoriginValue = view.crossoriginValue;
+		this.disableDarkModeFogging = view.disableDarkModeFogging;
+		this.errorUserHandler = view.errorUserHandler;
+		this.loadUserHandler = view.loadUserHandler;
 	}
 	protected generateHTMLElement(): { parent: HTMLPictureElement, image: HTMLImageElement } {
 		if (this.HTMLElement) return this.HTMLElement
 		let pictureElement = document.createElement('picture');
 		let imageElement = pictureElement.appendChild(document.createElement('img'));
-		imageElement.alt = this.description;
-		imageElement.src = this.content.toString();
-		imageElement.loading = 'lazy';
-		imageElement.decoding = 'async';
+		this.content.render(imageElement);
+
 		imageElement.addEventListener('load', () => this.loadUserHandler?.(imageElement.naturalHeight, imageElement.naturalWidth), { passive: true })
 		imageElement.addEventListener('error', event => this.errorUserHandler?.(event), { passive: true })
-
-		if (this.referrerPolicyValue) imageElement.referrerPolicy = this.referrerPolicyValue;
-		if (this.crossoriginValue) imageElement.crossOrigin = this.crossoriginValue;
-		if (this.sourceList) this.sourceList.render(pictureElement);
 
 		return { parent: pictureElement, image: imageElement }
 	}
 	protected merge(newRender: PictureView, element: { parent: HTMLPictureElement, image: HTMLImageElement }): void {
-		if (this.description != newRender.description) { this.description = newRender.description; element.image.alt = this.description; }
-		if (this.content != newRender.content) { this.content = newRender.content; element.image.src = this.content.toString(); }
-
-		if (newRender.referrerPolicyValue && element.image.referrerPolicy != newRender.referrerPolicyValue) {
-			element.image.referrerPolicy = this.referrerPolicyValue = newRender.referrerPolicyValue;
-		} else if (element.image.referrerPolicy) {
-			this.referrerPolicyValue = undefined;
-			element.image.referrerPolicy = ''
-		}
-		if (newRender.crossoriginValue && element.image.crossOrigin != newRender.crossoriginValue) {
-			element.image.crossOrigin = this.crossoriginValue = newRender.crossoriginValue;
-		} else if (element.image.crossOrigin) {
-			this.crossoriginValue = undefined;
-			element.image.crossOrigin = null;
-		}
+		this.content = newRender.content;
+		this.content.render(element.image)
 	}
 
 
@@ -182,11 +168,12 @@ export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, 
 
 	// float
 	// shape-outside
-	public referrerPolicy(value: ReferrerPolicyOptions): this { this.referrerPolicyValue = value; return this }
-	public crossorigin(value: Crossorigin): this { this.safeAttribute.set('crossorigin', value); return this }
-	public overlayColor(value: string): this { this.styles.set('--overlay-color', value as unknown as Color); return this }
-
-
+	public referrerPolicy(value: ReferrerPolicyOptions): this { this.content.set('referrerpolicy', value); return this }
+	public crossorigin(value: Crossorigin): this { this.content.set('crossorigin', value); return this }
+	public overlayColor(value: string): this { this.styles.set('--overlay-color', value); return this }
+	/** @param value default `true` */
+	public noLazyLoading(value: boolean = true): this { if (value) this.content.set('loading', 'eager'); return this }
+	public noAsyncDecoding(value: boolean = true): this { if (value) this.content.set('decoding', 'auto'); return this }
 
 	public onLoad(value: (naturalHeight: number, naturalWidth: number) => void): this { this.loadUserHandler = value; return this }
 	public onError(value: (error: any) => void): this { this.errorUserHandler = value; return this }
@@ -194,8 +181,9 @@ export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, 
 
 	constructor(src: string | URL, description: string) {
 		super();
-		this.content = src;
-		this.description = description;
+		this.content
+			.set('src', src)
+			.set('alt', description);
 	}
 }
 
