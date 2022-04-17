@@ -4,10 +4,10 @@ import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder"
 import type { ElementsContainerListeners } from "../../ViewConstructors/ViewElementsContainer"
 import type { SpanView } from "./Span"
 import type { ElementsContainerStyles } from "../../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles"
+import type { Color } from "../../ViewConstructors/Modifiers/Colors"
 import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles"
 import { ToggleStyle, ToggleStyleInterface } from "./Styles/ToggleStyle"
 import { ViewFormElement } from "../../ViewConstructors/ViewFormElement"
-import { Color } from "../../ViewConstructors/Modifiers/Colors"
 import { Binding as BindingObserve, isObserved } from "../../Data/Observed"
 
 

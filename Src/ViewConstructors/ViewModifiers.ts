@@ -10,6 +10,7 @@ import type { Color } from "./Modifiers/Colors"
 import type { GestureClass } from "./Modifiers/Listeners/Gesture/Gesture"
 import type { BlendMode } from "./Enum/BlendMode"
 import type { CSSStepTimingFunction } from "./Modifiers/CSS/CSSStepTimingFunction"
+import type { Path } from "../Elements/Shapes/Path"
 import { ElementAttribute, ElementAttributeInterface } from "./Modifiers/Attributes"
 import { Listeners, ListenersInterface } from "./Modifiers/Listeners/Listeners"
 import { BorderStyle } from "./Enum/BorderStyle"
@@ -30,7 +31,6 @@ import { PageData } from "../Data/PageData/PageData"
 import { CSSSelectore } from "./Modifiers/CSS/CSSSelectore";
 import { MainStyleSheet } from "./Modifiers/CSS/MainStyleSheet";
 import { TimingFunction } from "./Enum/TimingFunction"
-import { Path } from "../Elements/Shapes/Path"
 
 
 

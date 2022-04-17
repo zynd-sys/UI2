@@ -1,5 +1,5 @@
 
-import { GestureClass } from "./Gesture/Gesture";
+import type { GestureClass } from "./Gesture/Gesture";
 import { GestureListners } from "./Gesture/GestureListners";
 import { ListenersStorage } from "./ListenersStorage";
 

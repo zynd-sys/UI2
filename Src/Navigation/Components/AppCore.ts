@@ -1,5 +1,6 @@
 import type { View } from "../../Elements/View"
 import type { CompositingCoords } from "../../ViewConstructors/Modifiers/Compositing";
+import type { ObserverInterface } from "../../Data/Observed";
 import { ColorMode, PageDataColorMode } from "../../Data/PageData/PageDataColorMode";
 import { AnimationStorage } from "../../ViewConstructors/Modifiers/Animation/UIAnimation";
 import { AppLayerName, AppLayersClass } from "./Layers"

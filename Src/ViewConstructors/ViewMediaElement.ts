@@ -1,10 +1,10 @@
+import type { ImageMimeType } from "./Enum/ImageMimeType";
+import type { MediaFit } from "./Enum/MediaFit";
+import type { MinimalStylesInterface } from "./Modifiers/CSS/Types/MinimalStylesType";
+import type { Styles } from "./Modifiers/CSS/Styles";
 import { Direction } from "./Enum/Direction";
-import { ImageMimeType } from "./Enum/ImageMimeType";
-import { MediaFit } from "./Enum/MediaFit";
 import { Units } from "./Enum/Units";
 import { FitPositionStyle } from "./Modifiers/CollectableStyles/FitPosition";
-import { Styles } from "./Modifiers/CSS/Styles";
-import { MinimalStylesInterface } from "./Modifiers/CSS/Types/MinimalStylesType";
 import { ViewsList } from "./Modifiers/ListView";
 import { ViewBuilder } from "./ViewBuilder";
 import { ViewModifiers } from "./ViewModifiers";

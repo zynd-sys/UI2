@@ -2,9 +2,9 @@ import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttri
 import type { Listeners, LoadingResourceListeners, LoadingResourceModifiers } from "../ViewConstructors/Modifiers/Listeners/Listeners";
 import type { Crossorigin } from "../ViewConstructors/Enum/Crossorigin";
 import type { ReferrerPolicyOptions } from "../ViewConstructors/Enum/ReferrerPolicyOptions";
+import type { ViewModifiers } from "../ViewConstructors/ViewModifiers";
 import { MediaFit } from "../ViewConstructors/Enum/MediaFit";
 import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles";
-import { ViewModifiers } from "../ViewConstructors/ViewModifiers";
 import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet";
 import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore";
 import { ViewMediaElement, MediaStyleInterface } from "../ViewConstructors/ViewMediaElement";
