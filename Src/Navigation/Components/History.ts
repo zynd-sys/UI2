@@ -1,4 +1,4 @@
-import type { View } from "../../Elements/View";
+import type { View } from "Elements/View";
 import { ManifestItem, URLSegment } from "./ManifestItem";
 
 

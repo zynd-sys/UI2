@@ -1,6 +1,6 @@
-import type { StrokeLinecap } from "../../../Enum/StrokeLinecap";
-import type { StrokeLinejoin } from "../../../Enum/StrokeLinejoin";
-import type { Color } from "../../Colors";
+import type { StrokeLinecap } from "Enum/StrokeLinecap";
+import type { StrokeLinejoin } from "Enum/StrokeLinejoin";
+import type { Color } from "Colors";
 import type { MinimalStylesInterface } from "./MinimalStylesType";
 
 

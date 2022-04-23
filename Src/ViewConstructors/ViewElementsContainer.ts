@@ -1,20 +1,20 @@
-import type { ScrollSnapType } from "./Enum/ScrollSnapType";
+import type { ScrollSnapType } from "Enum/ScrollSnapType";
 import type { ListenersInterface, Listeners } from "./Modifiers/Listeners/Listeners";
-import type { Styles } from "./Modifiers/CSS/Styles";
-import type { ElementsContainerStyles } from "./Modifiers/CSS/Types/ElementsContainerStyles";
+import type { Styles } from "CSS/Styles";
+import type { ElementsContainerStyles } from "CSS/Types/ElementsContainerStyles";
 import type { ViewBuilder } from "./ViewBuilder";
 import type { GridTrackClass } from "./Modifiers/GridTrack";
-import type { GridTrackRepeat } from "./Enum/GridTrackRepeat";
+import type { GridTrackRepeat } from "Enum/GridTrackRepeat";
 import type { CompositingCoords } from "./Modifiers/Compositing";
-import type { Side } from "./Enum/Side";
+import type { Side } from "Enum/Side";
 import { ViewsList } from "./Modifiers/ListView";
-import { Direction } from "./Enum/Direction";
-import { Units } from "./Enum/Units";
+import { Direction } from "Enum/Direction";
+import { Units } from "Enum/Units";
 import { ViewModifiers } from "./ViewModifiers";
-import { Scroll } from "./Enum/Scroll";
-import { ContentAlign } from "./Enum/ContentAlign";
-import { MainStyleSheet } from "./Modifiers/CSS/MainStyleSheet";
-import { CSSSelectore } from "./Modifiers/CSS/CSSSelectore";
+import { Scroll } from "Enum/Scroll";
+import { ContentAlign } from "Enum/ContentAlign";
+import { MainStyleSheet } from "CSS/MainStyleSheet";
+import { CSSSelectore } from "CSS/CSSSelectore";
 
 
 

@@ -1,4 +1,4 @@
-import type { Point } from "../../ViewConstructors/Modifiers/Listeners/Gesture/Point";
+import type { Point } from "ViewConstructors/Modifiers/Listeners/Gesture/Point";
 
 type SVGPathSeparator = `${' ' | ','}`
 type SVGPathCommandSeparator<T extends string> = `${T}${' ' | ''}`

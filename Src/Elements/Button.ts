@@ -1,14 +1,14 @@
-import type { ViewBuilder } from "../ViewConstructors/ViewBuilder";
-import type { ElementAttribute } from "../ViewConstructors/Modifiers/Attributes";
-import type { ElementsContainerStyles } from "../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles";
-import type { ButtonActionStyles } from "../ViewConstructors/Modifiers/CSS/Types/ButtonActionStyles";
-import { Listeners } from "../ViewConstructors/Modifiers/Listeners/Listeners";
-import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles";
-import { ViewElementsContainer, ElementsContainerListeners } from "../ViewConstructors/ViewElementsContainer";
-import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet";
-import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore";
-import { Direction } from "../ViewConstructors/Enum/Direction";
-import { DefaultColor } from "../ViewConstructors/Modifiers/Colors/DefaultColors";
+import type { ViewBuilder } from "ViewConstructors/ViewBuilder";
+import type { ElementAttribute } from "ViewConstructors/Modifiers/Attributes";
+import type { ElementsContainerStyles } from "CSS/Types/ElementsContainerStyles";
+import type { ButtonActionStyles } from "CSS/Types/ButtonActionStyles";
+import { Listeners } from "ViewConstructors/Modifiers/Listeners/Listeners";
+import { Styles } from "CSS/Styles";
+import { ViewElementsContainer, ElementsContainerListeners } from "ViewConstructors/ViewElementsContainer";
+import { MainStyleSheet } from "CSS/MainStyleSheet";
+import { CSSSelectore } from "CSS/CSSSelectore";
+import { Direction } from "Enum/Direction";
+import { DefaultColor } from "Colors/DefaultColors";
 
 
 

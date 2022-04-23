@@ -1,6 +1,6 @@
 import type { DropShadowStyle } from "./ShadowStyle";
-import type { CSSAngle, CSSLength } from "../CSS/Types/MinimalStylesType";
-import type { Units } from "../../Enum/Units";
+import type { CSSAngle, CSSLength } from "CSS/Types/MinimalStylesType";
+import type { Units } from "Enum/Units";
 
 
 

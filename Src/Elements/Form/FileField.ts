@@ -1,10 +1,10 @@
-import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder"
+import type { ViewBuilder } from "ViewConstructors/ViewBuilder"
 import type { SpanView } from "./Span"
-import type { MinimalStylesInterface } from "../../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType"
-import { FormElementListeners, ViewFormElement } from "../../ViewConstructors/ViewFormElement"
-import { ElementAttributeInterface, ElementAttribute } from "../../ViewConstructors/Modifiers/Attributes"
-import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners"
-import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles"
+import type { MinimalStylesInterface } from "CSS/Types/MinimalStylesType"
+import { FormElementListeners, ViewFormElement } from "ViewConstructors/ViewFormElement"
+import { ElementAttributeInterface, ElementAttribute } from "ViewConstructors/Modifiers/Attributes"
+import { Listeners } from "ViewConstructors/Modifiers/Listeners/Listeners"
+import { Styles } from "CSS/Styles"
 
 
 
@@ -37,7 +37,7 @@ export class FileFieldView extends ViewFormElement<{ parent: HTMLLabelElement, i
 
 	/** @param value defualt true */
 	public multipleFiles(value: boolean = true): this { this.attribute.set('multiple', value); return this }
-	/** 
+	/**
 	 * @param values MimeType or "audio/*", "video/*", "image/*"
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept
 	 */

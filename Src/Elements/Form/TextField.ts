@@ -1,15 +1,15 @@
-import type { Autocapitalize } from "../../ViewConstructors/Enum/Autocapitalize";
-import type { FormElementListeners } from "../../ViewConstructors/ViewFormElement";
-import type { MinimalStylesInterface } from "../../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType";
-import { ElementAttributeInterface, ElementAttribute } from "../../ViewConstructors/Modifiers/Attributes";
-import { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners";
-import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles";
-import { ViewTextModifiers } from "../../ViewConstructors/ViewTextModifiers";
-import { Binding as BindingObserve, isObserved } from "../../Data/Observed";
-import { MainStyleSheet } from "../../ViewConstructors/Modifiers/CSS/MainStyleSheet";
-import { CSSSelectore } from "../../ViewConstructors/Modifiers/CSS/CSSSelectore";
-import { InnerShadowStyle } from "../../ViewConstructors/Modifiers/CollectableStyles/ShadowStyle";
-import { DefaultColor } from "../../ViewConstructors/Modifiers/Colors/DefaultColors";
+import type { Autocapitalize } from "Enum/Autocapitalize";
+import type { FormElementListeners } from "ViewConstructors/ViewFormElement";
+import type { MinimalStylesInterface } from "CSS/Types/MinimalStylesType";
+import { ElementAttributeInterface, ElementAttribute } from "ViewConstructors/Modifiers/Attributes";
+import { Listeners } from "ViewConstructors/Modifiers/Listeners/Listeners";
+import { Styles } from "CSS/Styles";
+import { ViewTextModifiers } from "ViewConstructors/ViewTextModifiers";
+import { Binding as BindingObserve, isObserved } from "Data/Observed";
+import { MainStyleSheet } from "CSS/MainStyleSheet";
+import { CSSSelectore } from "CSS/CSSSelectore";
+import { InnerShadowStyle } from "ViewConstructors/Modifiers/CollectableStyles/ShadowStyle";
+import { DefaultColor } from "Colors/DefaultColors";
 
 
 
@@ -44,7 +44,7 @@ export enum KeyboardStyle {
 	text = 'text'
 }
 
-/** 
+/**
  * The HTML autocomplete attribute
  * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 */

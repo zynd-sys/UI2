@@ -1,12 +1,12 @@
-import type { ElementAttribute, ElementAttributeInterface } from "../../ViewConstructors/Modifiers/Attributes"
-import type { Listeners } from "../../ViewConstructors/Modifiers/Listeners/Listeners"
-import type { ViewBuilder } from "../../ViewConstructors/ViewBuilder"
-import type { ElementsContainerStyles } from "../../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles"
-import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles"
-import { ElementsContainerListeners, ViewElementsContainer } from "../../ViewConstructors/ViewElementsContainer"
-import { MainStyleSheet } from "../../ViewConstructors/Modifiers/CSS/MainStyleSheet"
-import { CSSSelectore } from "../../ViewConstructors/Modifiers/CSS/CSSSelectore"
-import { Direction } from "../../ViewConstructors/Enum/Direction"
+import type { ElementAttribute, ElementAttributeInterface } from "ViewConstructors/Modifiers/Attributes"
+import type { Listeners } from "ViewConstructors/Modifiers/Listeners/Listeners"
+import type { ViewBuilder } from "ViewConstructors/ViewBuilder"
+import type { ElementsContainerStyles } from "CSS/Types/ElementsContainerStyles"
+import { Styles } from "CSS/Styles"
+import { ElementsContainerListeners, ViewElementsContainer } from "ViewConstructors/ViewElementsContainer"
+import { MainStyleSheet } from "CSS/MainStyleSheet"
+import { CSSSelectore } from "CSS/CSSSelectore"
+import { Direction } from "Enum/Direction"
 
 
 

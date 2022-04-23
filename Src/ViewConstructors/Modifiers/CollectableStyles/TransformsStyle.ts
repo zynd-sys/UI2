@@ -1,4 +1,4 @@
-import type { CSSAngle, CSSLength } from "../CSS/Types/MinimalStylesType";
+import type { CSSAngle, CSSLength } from "CSS/Types/MinimalStylesType";
 
 export interface TransformStyleInterface {
 	'rotateX'?: CSSAngle

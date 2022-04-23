@@ -1,11 +1,9 @@
-import type { Color } from "../../../ViewConstructors/Modifiers/Colors";
-import { ContentAlign } from "../../../ViewConstructors/Enum/ContentAlign";
-import { Side } from "../../../ViewConstructors/Enum/Side";
-import { SideBorderRadius } from "../../../ViewConstructors/Enum/SideBorderRadius";
-import { TimingFunction } from "../../../ViewConstructors/Enum/TimingFunction";
-import { Units } from "../../../ViewConstructors/Enum/Units";
-import { DefaultColor } from "../../../ViewConstructors/Modifiers/Colors/DefaultColors";
-import { hex } from "../../../ViewConstructors/Modifiers/Colors/HEXColor";
+import { Color, DefaultColor, hex } from "Colors";
+import { ContentAlign } from "Enum/ContentAlign";
+import { Side } from "Enum/Side";
+import { SideBorderRadius } from "Enum/SideBorderRadius";
+import { TimingFunction } from "Enum/TimingFunction";
+import { Units } from "Enum/Units";
 import { Picture } from "../../Picture";
 import { SpanView, Span } from "../Span";
 

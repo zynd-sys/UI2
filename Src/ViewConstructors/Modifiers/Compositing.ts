@@ -1,6 +1,6 @@
 import { UIAnimationClass } from "./Animation/UIAnimation"
-import { App } from "../../Navigation/App"
-import { Units } from "../Enum/Units"
+import { App } from "Navigation/App"
+import { Units } from "Enum/Units"
 
 
 export interface CompositingCoords {

@@ -1,17 +1,16 @@
-import type { ImageMimeType } from "../ViewConstructors/Enum/ImageMimeType"
-import type { Listeners, ListenersInterface, LoadingResourceModifiers } from "../ViewConstructors/Modifiers/Listeners/Listeners"
-import type { StylesInterface } from "../ViewConstructors/Modifiers/CSS/Types/StylesInterface"
-import type { Color } from "../ViewConstructors/Modifiers/Colors"
-import type { Crossorigin } from "../ViewConstructors/Enum/Crossorigin"
-import type { ReferrerPolicyOptions } from "../ViewConstructors/Enum/ReferrerPolicyOptions"
-import { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes"
-import { MediaFit } from "../ViewConstructors/Enum/MediaFit"
-import { FitPositionStyle } from "../ViewConstructors/Modifiers/CollectableStyles/FitPosition"
-import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles"
-import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet"
-import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore"
-import { DefaultColor } from "../ViewConstructors/Modifiers/Colors/DefaultColors"
-import { MediaStyleInterface, ViewMediaElement } from "../ViewConstructors/ViewMediaElement"
+import type { ImageMimeType } from "Enum/ImageMimeType"
+import type { Listeners, ListenersInterface, LoadingResourceModifiers } from "ViewConstructors/Modifiers/Listeners/Listeners"
+import type { StylesInterface } from "CSS/Types/StylesInterface"
+import type { Crossorigin } from "Enum/Crossorigin"
+import type { ReferrerPolicyOptions } from "Enum/ReferrerPolicyOptions"
+import { Color, DefaultColor } from "Colors"
+import { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "ViewConstructors/Modifiers/Attributes"
+import { MediaFit } from "Enum/MediaFit"
+import { FitPositionStyle } from "ViewConstructors/Modifiers/CollectableStyles/FitPosition"
+import { Styles } from "CSS/Styles"
+import { MainStyleSheet } from "CSS/MainStyleSheet"
+import { CSSSelectore } from "CSS/CSSSelectore"
+import { MediaStyleInterface, ViewMediaElement } from "ViewConstructors/ViewMediaElement"
 
 
 
@@ -125,7 +124,6 @@ export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, 
 	 */
 	protected override importProperty(view: PictureView): ReturnType<ViewMediaElement<any, any>['importProperty']> {
 		super.importProperty(view);
-		this.disableDarkModeFogging = view.disableDarkModeFogging;
 		this.errorUserHandler = view.errorUserHandler;
 		this.loadUserHandler = view.loadUserHandler;
 	}

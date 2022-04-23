@@ -1,8 +1,8 @@
-import type { ShapeStyles, ShapeSVGElementStyles } from "../../ViewConstructors/Modifiers/CSS/Types/ShapeStyles";
-import { CSSSelectore } from "../../ViewConstructors/Modifiers/CSS/CSSSelectore";
-import { MainStyleSheet } from "../../ViewConstructors/Modifiers/CSS/MainStyleSheet";
-import { Styles } from "../../ViewConstructors/Modifiers/CSS/Styles";
-import { ViewShapeElement } from "../../ViewConstructors/ViewShapes";
+import type { ShapeStyles, ShapeSVGElementStyles } from "CSS/Types/ShapeStyles";
+import { CSSSelectore } from "CSS/CSSSelectore";
+import { MainStyleSheet } from "CSS/MainStyleSheet";
+import { Styles } from "CSS/Styles";
+import { ViewShapeElement } from "ViewConstructors/ViewShapes";
 
 
 

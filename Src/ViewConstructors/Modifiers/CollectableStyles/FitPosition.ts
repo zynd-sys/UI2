@@ -1,4 +1,4 @@
-import type { CSSLength } from "../CSS/Types/MinimalStylesType";
+import type { CSSLength } from "CSS/Types/MinimalStylesType";
 
 
 export class FitPositionStyle {

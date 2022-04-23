@@ -1,13 +1,13 @@
-import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "../ViewConstructors/Modifiers/Attributes";
-import type { Listeners, LoadingResourceListeners, LoadingResourceModifiers } from "../ViewConstructors/Modifiers/Listeners/Listeners";
-import type { Crossorigin } from "../ViewConstructors/Enum/Crossorigin";
-import type { ReferrerPolicyOptions } from "../ViewConstructors/Enum/ReferrerPolicyOptions";
-import type { ViewModifiers } from "../ViewConstructors/ViewModifiers";
-import { MediaFit } from "../ViewConstructors/Enum/MediaFit";
-import { Styles } from "../ViewConstructors/Modifiers/CSS/Styles";
-import { MainStyleSheet } from "../ViewConstructors/Modifiers/CSS/MainStyleSheet";
-import { CSSSelectore } from "../ViewConstructors/Modifiers/CSS/CSSSelectore";
-import { ViewMediaElement, MediaStyleInterface } from "../ViewConstructors/ViewMediaElement";
+import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "ViewConstructors/Modifiers/Attributes";
+import type { Listeners, LoadingResourceListeners, LoadingResourceModifiers } from "ViewConstructors/Modifiers/Listeners/Listeners";
+import type { Crossorigin } from "Enum/Crossorigin";
+import type { ReferrerPolicyOptions } from "Enum/ReferrerPolicyOptions";
+import type { ViewModifiers } from "ViewConstructors/ViewModifiers";
+import { MediaFit } from "Enum/MediaFit";
+import { Styles } from "CSS/Styles";
+import { MainStyleSheet } from "CSS/MainStyleSheet";
+import { CSSSelectore } from "CSS/CSSSelectore";
+import { ViewMediaElement, MediaStyleInterface } from "ViewConstructors/ViewMediaElement";
 
 
 
