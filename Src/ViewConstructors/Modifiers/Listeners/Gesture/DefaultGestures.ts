@@ -1,6 +1,6 @@
-import type { ui2Event } from "./ui2Event";
-import { GestureClass } from "./Gesture";
-import { Point } from "./Point";
+import type { ui2Event } from './ui2Event';
+import { GestureClass } from './Gesture';
+import { Point } from './Point';
 
 
 

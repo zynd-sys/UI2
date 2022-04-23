@@ -1,4 +1,4 @@
-import type { Objects } from "../Observed"
+import type { Objects } from '../Observed'
 
 
 export interface CoreDataInteface extends Objects {

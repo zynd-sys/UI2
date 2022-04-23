@@ -1,14 +1,14 @@
-import type { ElementAttribute, ElementAttributeInterface } from "ViewConstructors/Modifiers/Attributes"
-import type { Listeners } from "ViewConstructors/Modifiers/Listeners/Listeners"
-import type { ViewBuilder } from "ViewConstructors/ViewBuilder"
-import type { ElementsContainerListeners } from "ViewConstructors/ViewElementsContainer"
-import type { SpanView } from "./Span"
-import type { ElementsContainerStyles } from "CSS/Types/ElementsContainerStyles"
-import type { Color } from "Colors"
-import { Styles } from "CSS/Styles"
-import { ToggleStyle, ToggleStyleInterface } from "./Styles/ToggleStyle"
-import { ViewFormElement } from "ViewConstructors/ViewFormElement"
-import { Binding as BindingObserve, isObserved } from "Data/Observed"
+import type { ElementAttribute, ElementAttributeInterface } from 'ViewConstructors/Modifiers/Attributes'
+import type { Listeners } from 'ViewConstructors/Modifiers/Listeners/Listeners'
+import type { ViewBuilder } from 'ViewConstructors/ViewBuilder'
+import type { ElementsContainerListeners } from 'ViewConstructors/ViewElementsContainer'
+import type { SpanView } from './Span'
+import type { ElementsContainerStyles } from 'CSS/Types/ElementsContainerStyles'
+import type { Color } from 'Colors'
+import { Styles } from 'CSS/Styles'
+import { ToggleStyle, ToggleStyleInterface } from './Styles/ToggleStyle'
+import { ViewFormElement } from 'ViewConstructors/ViewFormElement'
+import { Binding as BindingObserve, isObserved } from 'Data/Observed'
 
 
 

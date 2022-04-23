@@ -1,5 +1,5 @@
-import { GestureActionType, GestureClass } from "./Gesture";
-import { ui2Event } from "./ui2Event";
+import { GestureActionType, GestureClass } from './Gesture';
+import { ui2Event } from './ui2Event';
 
 
 

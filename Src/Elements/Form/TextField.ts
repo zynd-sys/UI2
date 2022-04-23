@@ -1,15 +1,15 @@
-import type { Autocapitalize } from "Enum/Autocapitalize";
-import type { FormElementListeners } from "ViewConstructors/ViewFormElement";
-import type { MinimalStylesInterface } from "CSS/Types/MinimalStylesType";
-import { ElementAttributeInterface, ElementAttribute } from "ViewConstructors/Modifiers/Attributes";
-import { Listeners } from "ViewConstructors/Modifiers/Listeners/Listeners";
-import { Styles } from "CSS/Styles";
-import { ViewTextModifiers } from "ViewConstructors/ViewTextModifiers";
-import { Binding as BindingObserve, isObserved } from "Data/Observed";
-import { MainStyleSheet } from "CSS/MainStyleSheet";
-import { CSSSelectore } from "CSS/CSSSelectore";
-import { InnerShadowStyle } from "ViewConstructors/Modifiers/CollectableStyles/ShadowStyle";
-import { DefaultColor } from "Colors/DefaultColors";
+import type { Autocapitalize } from 'Enum/Autocapitalize';
+import type { FormElementListeners } from 'ViewConstructors/ViewFormElement';
+import type { MinimalStylesInterface } from 'CSS/Types/MinimalStylesType';
+import { ElementAttributeInterface, ElementAttribute } from 'ViewConstructors/Modifiers/Attributes';
+import { Listeners } from 'ViewConstructors/Modifiers/Listeners/Listeners';
+import { Styles } from 'CSS/Styles';
+import { ViewTextModifiers } from 'ViewConstructors/ViewTextModifiers';
+import { Binding as BindingObserve, isObserved } from 'Data/Observed';
+import { MainStyleSheet } from 'CSS/MainStyleSheet';
+import { CSSSelectore } from 'CSS/CSSSelectore';
+import { InnerShadowStyle } from 'ViewConstructors/Modifiers/CollectableStyles/ShadowStyle';
+import { DefaultColor } from 'Colors/DefaultColors';
 
 
 

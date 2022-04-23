@@ -1,4 +1,4 @@
-import { AsyncDBObjectStoreReadOnly, AsyncDBObjectStoreReadWrite } from "./AsyncDBObjectStore"
+import { AsyncDBObjectStoreReadOnly, AsyncDBObjectStoreReadWrite } from './AsyncDBObjectStore'
 
 export enum TransactionMode {
 	readonly = 'readonly',

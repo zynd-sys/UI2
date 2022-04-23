@@ -1,6 +1,6 @@
-import type { CoreDataInteface } from "./CoreDataInteface";
-import { CoreDataDB } from "./CoreDataDB";
-import * as Observed from "../Observed"
+import type { CoreDataInteface } from './CoreDataInteface';
+import { CoreDataDB } from './CoreDataDB';
+import * as Observed from '../Observed'
 
 
 

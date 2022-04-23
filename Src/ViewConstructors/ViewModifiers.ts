@@ -1,35 +1,35 @@
-import type { Align } from "Enum/Align"
-import type { BlendMode } from "Enum/BlendMode"
-import type { ContentAlign } from "Enum/ContentAlign"
-import type { Styles } from "CSS/Styles"
-import type { CSSCubicBezier } from "CSS/CSSCubicBezier"
-import type { CSSStepTimingFunction } from "CSS/CSSStepTimingFunction"
-import type { MinimalStylesInterface, cursorType } from "CSS/Types/MinimalStylesType"
-import type { View } from "Elements/View"
-import type { UIAnimationClass } from "./Modifiers/Animation/UIAnimation"
-import type { CompositingCoords } from "./Modifiers/Compositing"
-import type { GestureClass } from "./Modifiers/Listeners/Gesture/Gesture"
-import type { Path } from "Elements/Shapes/Path"
-import { Side } from "Enum/Side"
-import { Units } from "Enum/Units"
-import { TimingFunction } from "Enum/TimingFunction"
-import { Color, DefaultColor } from "Colors"
-import { CSSSelectore } from "CSS/CSSSelectore";
-import { MainStyleSheet } from "CSS/MainStyleSheet";
-import { Binding as BindingObserve, isObserved } from "Data/Observed"
-import { PageData } from "Data/PageData/PageData"
-import { ElementAttribute, ElementAttributeInterface } from "./Modifiers/Attributes"
-import { Listeners, ListenersInterface } from "./Modifiers/Listeners/Listeners"
-import { BorderStyle } from "Enum/BorderStyle"
-import { FiltersStyle, FilterStyleInterface } from "./Modifiers/CollectableStyles/FiltersStyle"
-import { InnerShadowStyle, DropShadowStyle } from "./Modifiers/CollectableStyles/ShadowStyle"
-import { TransformsStyle } from "./Modifiers/CollectableStyles/TransformsStyle"
-import { PopoverData } from "./Modifiers/Popover"
-import { ViewBuilder } from "./ViewBuilder"
-import { SideBorderRadius } from "Enum/SideBorderRadius"
-import { UIAnimationObject } from "./Modifiers/Animation/UIAnimationObject"
-import { ScrollObserver } from "./Modifiers/ScrollObserver"
-import { ScrollIntoSelf } from "./Modifiers/ScrollIntoSelf"
+import type { Align } from 'Enum/Align'
+import type { BlendMode } from 'Enum/BlendMode'
+import type { ContentAlign } from 'Enum/ContentAlign'
+import type { Styles } from 'CSS/Styles'
+import type { CSSCubicBezier } from 'CSS/CSSCubicBezier'
+import type { CSSStepTimingFunction } from 'CSS/CSSStepTimingFunction'
+import type { MinimalStylesInterface, cursorType } from 'CSS/Types/MinimalStylesType'
+import type { View } from 'Elements/View'
+import type { UIAnimationClass } from './Modifiers/Animation/UIAnimation'
+import type { CompositingCoords } from './Modifiers/Compositing'
+import type { GestureClass } from './Modifiers/Listeners/Gesture/Gesture'
+import type { Path } from 'Elements/Shapes/Path'
+import { Side } from 'Enum/Side'
+import { Units } from 'Enum/Units'
+import { TimingFunction } from 'Enum/TimingFunction'
+import { Color, DefaultColor } from 'Colors'
+import { CSSSelectore } from 'CSS/CSSSelectore';
+import { MainStyleSheet } from 'CSS/MainStyleSheet';
+import { Binding as BindingObserve, isObserved } from 'Data/Observed'
+import { PageData } from 'Data/PageData/PageData'
+import { ElementAttribute, ElementAttributeInterface } from './Modifiers/Attributes'
+import { Listeners, ListenersInterface } from './Modifiers/Listeners/Listeners'
+import { BorderStyle } from 'Enum/BorderStyle'
+import { FiltersStyle, FilterStyleInterface } from './Modifiers/CollectableStyles/FiltersStyle'
+import { InnerShadowStyle, DropShadowStyle } from './Modifiers/CollectableStyles/ShadowStyle'
+import { TransformsStyle } from './Modifiers/CollectableStyles/TransformsStyle'
+import { PopoverData } from './Modifiers/Popover'
+import { ViewBuilder } from './ViewBuilder'
+import { SideBorderRadius } from 'Enum/SideBorderRadius'
+import { UIAnimationObject } from './Modifiers/Animation/UIAnimationObject'
+import { ScrollObserver } from './Modifiers/ScrollObserver'
+import { ScrollIntoSelf } from './Modifiers/ScrollIntoSelf'
 
 
 
@@ -198,7 +198,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	public backgroundColor(value?: Color): this { if (value) this.styles.set('background-color', value); return this }
 	/** @param value defualt true */
 	public userSelect(value: boolean = true): this { if (value) this.styles.set('-webkit-user-select', 'auto').set('user-select', 'auto'); return this }
-	/** @param value defualt "auto" */
+	/** @param value defualt 'auto' */
 	public cursor(value: cursorType = 'auto'): this { this.styles.set('cursor', value); return this }
 	/**
 	 * @param value default true

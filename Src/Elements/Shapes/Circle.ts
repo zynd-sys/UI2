@@ -1,6 +1,6 @@
-import type { ShapeStyles } from "CSS/Types/ShapeStyles";
-import { Styles } from "CSS/Styles";
-import { ViewShapeElement } from "ViewConstructors/ViewShapes";
+import type { ShapeStyles } from 'CSS/Types/ShapeStyles';
+import { Styles } from 'CSS/Styles';
+import { ViewShapeElement } from 'ViewConstructors/ViewShapes';
 
 
 

@@ -1,12 +1,12 @@
-import type { View } from "Elements/View"
-import type { CompositingCoords } from "ViewConstructors/Modifiers/Compositing";
-import { ColorMode, PageDataColorMode } from "Data/PageData/PageDataColorMode";
-import { AnimationStorage } from "ViewConstructors/Modifiers/Animation/UIAnimation";
-import { AppLayerName, AppLayersClass } from "./Layers"
-import { AppHistoryClass, NotFoundError } from "./History";
-import { MetaDescription } from "../MetaDescription";
-import { LinkPathClass } from "./LinkPath";
-import { Manifest, ManifestItem, URLSegment } from "./ManifestItem";
+import type { View } from 'Elements/View'
+import type { CompositingCoords } from 'ViewConstructors/Modifiers/Compositing';
+import { ColorMode, PageDataColorMode } from 'Data/PageData/PageDataColorMode';
+import { AnimationStorage } from 'ViewConstructors/Modifiers/Animation/UIAnimation';
+import { AppLayerName, AppLayersClass } from './Layers'
+import { AppHistoryClass, NotFoundError } from './History';
+import { MetaDescription } from '../MetaDescription';
+import { LinkPathClass } from './LinkPath';
+import { Manifest, ManifestItem, URLSegment } from './ManifestItem';
 
 
 

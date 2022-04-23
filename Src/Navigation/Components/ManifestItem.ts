@@ -1,6 +1,6 @@
-import type { ColorMode } from "Data/PageData/PageDataColorMode"
-import { View } from "Elements/View"
-import { LinkPathClass } from "./LinkPath"
+import type { ColorMode } from 'Data/PageData/PageDataColorMode'
+import { View } from 'Elements/View'
+import { LinkPathClass } from './LinkPath'
 
 
 

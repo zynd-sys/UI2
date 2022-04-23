@@ -1,4 +1,4 @@
-import type { StylesInterface } from "./Types/StylesInterface";
+import type { StylesInterface } from './Types/StylesInterface';
 
 
 

@@ -1,4 +1,4 @@
-import type { ui2Event } from "./ui2Event";
+import type { ui2Event } from './ui2Event';
 
 
 

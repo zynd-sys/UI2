@@ -1,16 +1,16 @@
-import type { Align } from "Enum/Align";
-import type { BorderStyle } from "Enum/BorderStyle";
-import type { ContentAlign } from "Enum/ContentAlign";
-import type { Scroll } from "Enum/Scroll";
-import type { TimingFunction } from "Enum/TimingFunction";
-import type { CSSCubicBezier, CSSCubicBezierType } from "../CSSCubicBezier";
-import type { FiltersStyle } from "../../CollectableStyles/FiltersStyle";
-import type { DropShadowStyle, InnerShadowStyle } from "../../CollectableStyles/ShadowStyle";
-import type { TransformsStyle } from "../../CollectableStyles/TransformsStyle";
-import type { Color } from "Colors";
-import type { Units } from "Enum/Units";
-import type { BlendMode } from "Enum/BlendMode";
-import type { CSSStepTimingFunction, CSSStepTimingFunctionType } from "../CSSStepTimingFunction";
+import type { Align } from 'Enum/Align';
+import type { BorderStyle } from 'Enum/BorderStyle';
+import type { ContentAlign } from 'Enum/ContentAlign';
+import type { Scroll } from 'Enum/Scroll';
+import type { TimingFunction } from 'Enum/TimingFunction';
+import type { CSSCubicBezier, CSSCubicBezierType } from '../CSSCubicBezier';
+import type { FiltersStyle } from '../../CollectableStyles/FiltersStyle';
+import type { DropShadowStyle, InnerShadowStyle } from '../../CollectableStyles/ShadowStyle';
+import type { TransformsStyle } from '../../CollectableStyles/TransformsStyle';
+import type { Color } from 'Colors';
+import type { Units } from 'Enum/Units';
+import type { BlendMode } from 'Enum/BlendMode';
+import type { CSSStepTimingFunction, CSSStepTimingFunctionType } from '../CSSStepTimingFunction';
 
 
 

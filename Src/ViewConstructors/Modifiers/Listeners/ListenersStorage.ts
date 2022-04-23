@@ -1,5 +1,5 @@
-import type { GestureListners } from "./Gesture/GestureListners";
-import type { ListenersInterface } from "./Listeners";
+import type { GestureListners } from './Gesture/GestureListners';
+import type { ListenersInterface } from './Listeners';
 
 
 

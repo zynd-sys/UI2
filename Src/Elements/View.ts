@@ -1,9 +1,9 @@
-import { Compositing, CompositingCoords } from "ViewConstructors/Modifiers/Compositing";
-import { ObserverInterface, isObserved } from "Data/Observed";
-import { ViewsList } from "ViewConstructors/Modifiers/ListView";
-import { ViewBuilder } from "ViewConstructors/ViewBuilder";
-import { MainStyleSheet } from "CSS/MainStyleSheet";
-import { CSSSelectore } from "CSS/CSSSelectore";
+import { Compositing, CompositingCoords } from 'ViewConstructors/Modifiers/Compositing';
+import { ObserverInterface, isObserved } from 'Data/Observed';
+import { ViewsList } from 'ViewConstructors/Modifiers/ListView';
+import { ViewBuilder } from 'ViewConstructors/ViewBuilder';
+import { MainStyleSheet } from 'CSS/MainStyleSheet';
+import { CSSSelectore } from 'CSS/CSSSelectore';
 
 
 

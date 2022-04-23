@@ -1,5 +1,5 @@
-import type { View } from "Elements/View";
-import { ManifestItem, URLSegment } from "./ManifestItem";
+import type { View } from 'Elements/View';
+import { ManifestItem, URLSegment } from './ManifestItem';
 
 
 
@@ -83,7 +83,7 @@ export class AppHistoryClass {
 					break
 				}
 
-			if (manifestItem && manifestItem.segmentType == URLSegment.root && i != 1) throw new NotFoundError(`manifestItem("${manifestItem.segment}") is root path type`)
+			if (manifestItem && manifestItem.segmentType == URLSegment.root && i != 1) throw new NotFoundError(`manifestItem('${manifestItem.segment}') is root path type`)
 			if (addPath) newPath.push(addPath);
 			else throw new NotFoundError(`not found path: ${url}`)
 		}

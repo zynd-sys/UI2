@@ -1,6 +1,6 @@
-import type { ButtonActionInterface } from "../Button";
-import { Units } from "Enum/Units";
-import { Picture } from "../Picture";
+import type { ButtonActionInterface } from '../Button';
+import { Units } from 'Enum/Units';
+import { Picture } from '../Picture';
 
 
 

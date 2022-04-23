@@ -1,6 +1,6 @@
-import { PageData } from "Data/PageData/PageData"
-import { Compositing } from "../Compositing"
-import { AnimationStorage, UIAnimation, UIAnimationClass } from "./UIAnimation"
+import { PageData } from 'Data/PageData/PageData'
+import { Compositing } from '../Compositing'
+import { AnimationStorage, UIAnimation, UIAnimationClass } from './UIAnimation'
 
 
 

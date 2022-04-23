@@ -1,16 +1,16 @@
-import type { ImageMimeType } from "Enum/ImageMimeType"
-import type { Listeners, ListenersInterface, LoadingResourceModifiers } from "ViewConstructors/Modifiers/Listeners/Listeners"
-import type { StylesInterface } from "CSS/Types/StylesInterface"
-import type { Crossorigin } from "Enum/Crossorigin"
-import type { ReferrerPolicyOptions } from "Enum/ReferrerPolicyOptions"
-import { Color, DefaultColor } from "Colors"
-import { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from "ViewConstructors/Modifiers/Attributes"
-import { MediaFit } from "Enum/MediaFit"
-import { FitPositionStyle } from "ViewConstructors/Modifiers/CollectableStyles/FitPosition"
-import { Styles } from "CSS/Styles"
-import { MainStyleSheet } from "CSS/MainStyleSheet"
-import { CSSSelectore } from "CSS/CSSSelectore"
-import { MediaStyleInterface, ViewMediaElement } from "ViewConstructors/ViewMediaElement"
+import type { ImageMimeType } from 'Enum/ImageMimeType'
+import type { Listeners, ListenersInterface, LoadingResourceModifiers } from 'ViewConstructors/Modifiers/Listeners/Listeners'
+import type { StylesInterface } from 'CSS/Types/StylesInterface'
+import type { Crossorigin } from 'Enum/Crossorigin'
+import type { ReferrerPolicyOptions } from 'Enum/ReferrerPolicyOptions'
+import { Color, DefaultColor } from 'Colors'
+import { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from 'ViewConstructors/Modifiers/Attributes'
+import { MediaFit } from 'Enum/MediaFit'
+import { FitPositionStyle } from 'ViewConstructors/Modifiers/CollectableStyles/FitPosition'
+import { Styles } from 'CSS/Styles'
+import { MainStyleSheet } from 'CSS/MainStyleSheet'
+import { CSSSelectore } from 'CSS/CSSSelectore'
+import { MediaStyleInterface, ViewMediaElement } from 'ViewConstructors/ViewMediaElement'
 
 
 

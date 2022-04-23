@@ -1,4 +1,4 @@
-import { URIBuilder } from "./URIBuilder"
+import { URIBuilder } from './URIBuilder'
 
 
 

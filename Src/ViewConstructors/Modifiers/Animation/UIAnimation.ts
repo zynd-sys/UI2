@@ -1,13 +1,13 @@
-import type { TimingFunction } from "Enum/TimingFunction";
-import type { CSSCubicBezier } from "CSS/CSSCubicBezier";
-import type { FitPositionStyle } from "../CollectableStyles/FitPosition";
-import type { Color } from "Colors";
-import type { Path } from "Elements/Shapes/Path";
-import type { CSSStepTimingFunction } from "CSS/CSSStepTimingFunction";
-import { Units } from "Enum/Units";
-import { AnimationResize } from "Enum/AnimationResize";
-import { FiltersStyle, FilterStyleInterface } from "../CollectableStyles/FiltersStyle";
-import { TransformsStyle, TransformStyleInterface } from "../CollectableStyles/TransformsStyle";
+import type { TimingFunction } from 'Enum/TimingFunction';
+import type { CSSCubicBezier } from 'CSS/CSSCubicBezier';
+import type { FitPositionStyle } from '../CollectableStyles/FitPosition';
+import type { Color } from 'Colors';
+import type { Path } from 'Elements/Shapes/Path';
+import type { CSSStepTimingFunction } from 'CSS/CSSStepTimingFunction';
+import { Units } from 'Enum/Units';
+import { AnimationResize } from 'Enum/AnimationResize';
+import { FiltersStyle, FilterStyleInterface } from '../CollectableStyles/FiltersStyle';
+import { TransformsStyle, TransformStyleInterface } from '../CollectableStyles/TransformsStyle';
 
 
 

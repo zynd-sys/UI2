@@ -1,9 +1,9 @@
-import type { ElementAttribute, ElementAttributeInterface } from "ViewConstructors/Modifiers/Attributes"
-import type { Listeners, ListenersInterface } from "ViewConstructors/Modifiers/Listeners/Listeners"
-import type { TextStyles } from "CSS/Types/TextStyles"
-import type { PhoneNumber, Email } from "Data/URI"
-import { Styles } from "CSS/Styles"
-import { ViewTextModifiers } from "ViewConstructors/ViewTextModifiers"
+import type { ElementAttribute, ElementAttributeInterface } from 'ViewConstructors/Modifiers/Attributes'
+import type { Listeners, ListenersInterface } from 'ViewConstructors/Modifiers/Listeners/Listeners'
+import type { TextStyles } from 'CSS/Types/TextStyles'
+import type { PhoneNumber, Email } from 'Data/URI'
+import { Styles } from 'CSS/Styles'
+import { ViewTextModifiers } from 'ViewConstructors/ViewTextModifiers'
 
 
 
@@ -81,7 +81,7 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 
 
 
-	/** @param value defualt "p" */
+	/** @param value defualt 'p' */
 	public tagName(value: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span'): this { this.HTMLTagName = value; return this }
 	/** @param value default true */
 	public textScaleToFill(value: boolean = true): this { if (value) { this.unwrapWord(); this.scaling = value; }; return this }

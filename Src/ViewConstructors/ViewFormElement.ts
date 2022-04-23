@@ -1,9 +1,9 @@
-import { Color, DefaultColor } from "Colors"
-import { ElementsContainerListeners, ViewElementsContainer } from "./ViewElementsContainer"
-import { SpanView } from "Elements/Form/Span"
-import { MainStyleSheet } from "CSS/MainStyleSheet"
-import { CSSSelectore } from "CSS/CSSSelectore"
-import { Direction } from "Enum/Direction"
+import { Color, DefaultColor } from 'Colors'
+import { ElementsContainerListeners, ViewElementsContainer } from './ViewElementsContainer'
+import { SpanView } from 'Elements/Form/Span'
+import { MainStyleSheet } from 'CSS/MainStyleSheet'
+import { CSSSelectore } from 'CSS/CSSSelectore'
+import { Direction } from 'Enum/Direction'
 
 
 

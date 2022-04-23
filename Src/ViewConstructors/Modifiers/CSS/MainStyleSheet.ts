@@ -1,4 +1,4 @@
-import { StyleSheetCustom } from "./StyleShete";
+import { StyleSheetCustom } from './StyleShete';
 
 
 

@@ -1,5 +1,5 @@
-// import type { Color } from "../../ViewConstructors/Styles/Colors/Colors";
-import { LightObserver } from "../Observed";
+// import type { Color } from '../../ViewConstructors/Styles/Colors/Colors';
+import { LightObserver } from '../Observed';
 
 
 

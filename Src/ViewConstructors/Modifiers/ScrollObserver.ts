@@ -1,4 +1,4 @@
-import { SideStyle } from "./CollectableStyles/SideStyle";
+import { SideStyle } from './CollectableStyles/SideStyle';
 
 
 

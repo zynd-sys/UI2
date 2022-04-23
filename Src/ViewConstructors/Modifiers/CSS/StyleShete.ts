@@ -1,4 +1,4 @@
-import type { CSSSelectore } from "./CSSSelectore";
+import type { CSSSelectore } from './CSSSelectore';
 
 
 

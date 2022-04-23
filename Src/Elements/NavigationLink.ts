@@ -1,16 +1,16 @@
-import type { ViewBuilder } from "ViewConstructors/ViewBuilder"
-import type { LinkAttribute } from "./Link"
-import type { View } from "./View"
-import type { ElementAttribute } from "ViewConstructors/Modifiers/Attributes"
-import type { LinkPathClass } from "Navigation/Components/LinkPath"
-import type { ElementsContainerStyles } from "CSS/Types/ElementsContainerStyles"
-import { ViewElementsContainer, ElementsContainerListeners } from "ViewConstructors/ViewElementsContainer"
-import { Listeners } from "ViewConstructors/Modifiers/Listeners/Listeners"
-import { Styles } from "CSS/Styles"
-import { App } from "Navigation/App"
-import { MainStyleSheet } from "CSS/MainStyleSheet"
-import { CSSSelectore } from "CSS/CSSSelectore"
-import { Direction } from "Enum/Direction"
+import type { ViewBuilder } from 'ViewConstructors/ViewBuilder'
+import type { LinkAttribute } from './Link'
+import type { View } from './View'
+import type { ElementAttribute } from 'ViewConstructors/Modifiers/Attributes'
+import type { LinkPathClass } from 'Navigation/Components/LinkPath'
+import type { ElementsContainerStyles } from 'CSS/Types/ElementsContainerStyles'
+import { ViewElementsContainer, ElementsContainerListeners } from 'ViewConstructors/ViewElementsContainer'
+import { Listeners } from 'ViewConstructors/Modifiers/Listeners/Listeners'
+import { Styles } from 'CSS/Styles'
+import { App } from 'Navigation/App'
+import { MainStyleSheet } from 'CSS/MainStyleSheet'
+import { CSSSelectore } from 'CSS/CSSSelectore'
+import { Direction } from 'Enum/Direction'
 
 
 

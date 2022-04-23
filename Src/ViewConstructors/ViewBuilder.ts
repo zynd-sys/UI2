@@ -1,4 +1,4 @@
-import type { CompositingCoords } from "./Modifiers/Compositing";
+import type { CompositingCoords } from './Modifiers/Compositing';
 
 
 

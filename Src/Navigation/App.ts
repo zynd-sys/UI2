@@ -1,7 +1,7 @@
-import type { View } from "Elements/View";
-import type { ColorMode } from "Data/PageData/PageDataColorMode";
-import type { Manifest } from "./Components/ManifestItem";
-import { AppCoreClass } from "./Components/AppCore";
+import type { View } from 'Elements/View';
+import type { ColorMode } from 'Data/PageData/PageDataColorMode';
+import type { Manifest } from './Components/ManifestItem';
+import { AppCoreClass } from './Components/AppCore';
 
 
 

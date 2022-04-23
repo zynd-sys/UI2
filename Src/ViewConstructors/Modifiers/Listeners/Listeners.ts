@@ -1,7 +1,7 @@
 
-import type { GestureClass } from "./Gesture/Gesture";
-import { GestureListners } from "./Gesture/GestureListners";
-import { ListenersStorage } from "./ListenersStorage";
+import type { GestureClass } from './Gesture/Gesture';
+import { GestureListners } from './Gesture/GestureListners';
+import { ListenersStorage } from './ListenersStorage';
 
 
 export interface ListenersInterface<E extends HTMLElement> {

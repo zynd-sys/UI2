@@ -1,12 +1,12 @@
-import type { Listeners, ListenersInterface } from "ViewConstructors/Modifiers/Listeners/Listeners"
-import type { ElementAttribute, ElementAttributeInterface } from "ViewConstructors/Modifiers/Attributes"
-import type { MinimalStylesInterface } from "CSS/Types/MinimalStylesType"
-import { Styles } from "CSS/Styles"
-import { ViewModifiers } from "ViewConstructors/ViewModifiers"
-import { MainStyleSheet } from "CSS/MainStyleSheet"
-import { CSSSelectore } from "CSS/CSSSelectore"
-import { ContentAlign } from "Enum/ContentAlign"
-import { DefaultColor } from "Colors/DefaultColors"
+import type { Listeners, ListenersInterface } from 'ViewConstructors/Modifiers/Listeners/Listeners'
+import type { ElementAttribute, ElementAttributeInterface } from 'ViewConstructors/Modifiers/Attributes'
+import type { MinimalStylesInterface } from 'CSS/Types/MinimalStylesType'
+import { Styles } from 'CSS/Styles'
+import { ViewModifiers } from 'ViewConstructors/ViewModifiers'
+import { MainStyleSheet } from 'CSS/MainStyleSheet'
+import { CSSSelectore } from 'CSS/CSSSelectore'
+import { ContentAlign } from 'Enum/ContentAlign'
+import { DefaultColor } from 'Colors/DefaultColors'
 
 
 

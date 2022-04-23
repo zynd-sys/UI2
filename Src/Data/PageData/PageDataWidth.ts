@@ -1,8 +1,8 @@
-import type { StylesInterface } from "CSS/Types/StylesInterface";
-import type { CSSLength } from "CSS/Types/MinimalStylesType";
-import { LightObserver } from "../Observed";
-import { CSSSelectore } from "CSS/CSSSelectore";
-import { MainStyleSheet } from "CSS/MainStyleSheet";
+import type { StylesInterface } from 'CSS/Types/StylesInterface';
+import type { CSSLength } from 'CSS/Types/MinimalStylesType';
+import { LightObserver } from '../Observed';
+import { CSSSelectore } from 'CSS/CSSSelectore';
+import { MainStyleSheet } from 'CSS/MainStyleSheet';
 
 
 

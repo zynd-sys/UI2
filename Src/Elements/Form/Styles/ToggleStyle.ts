@@ -1,11 +1,11 @@
-import { Color, DefaultColor, hex } from "Colors";
-import { ContentAlign } from "Enum/ContentAlign";
-import { Side } from "Enum/Side";
-import { SideBorderRadius } from "Enum/SideBorderRadius";
-import { TimingFunction } from "Enum/TimingFunction";
-import { Units } from "Enum/Units";
-import { Picture } from "../../Picture";
-import { SpanView, Span } from "../Span";
+import { Color, DefaultColor, hex } from 'Colors';
+import { ContentAlign } from 'Enum/ContentAlign';
+import { Side } from 'Enum/Side';
+import { SideBorderRadius } from 'Enum/SideBorderRadius';
+import { TimingFunction } from 'Enum/TimingFunction';
+import { Units } from 'Enum/Units';
+import { Picture } from '../../Picture';
+import { SpanView, Span } from '../Span';
 
 
 

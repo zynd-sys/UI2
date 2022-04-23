@@ -1,7 +1,7 @@
-import type { ElementsContainerStyles } from "./ElementsContainerStyles";
-import type { TextStyles } from "./TextStyles";
-import type { MediaStyleInterface } from "./MediaStyle";
-import type { CSSLength } from "./MinimalStylesType";
+import type { ElementsContainerStyles } from './ElementsContainerStyles';
+import type { TextStyles } from './TextStyles';
+import type { MediaStyleInterface } from './MediaStyle';
+import type { CSSLength } from './MinimalStylesType';
 
 
 

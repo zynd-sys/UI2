@@ -1,4 +1,4 @@
-import { ColorMode, PageDataColorMode } from "Data/PageData/PageDataColorMode";
+import { ColorMode, PageDataColorMode } from 'Data/PageData/PageDataColorMode';
 
 export abstract class Color {
 	public abstract readonly colorLight: string

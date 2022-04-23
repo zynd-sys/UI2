@@ -1,5 +1,5 @@
-import type { ImageMimeType } from "Enum/ImageMimeType";
-import type { Color } from "Colors";
+import type { ImageMimeType } from 'Enum/ImageMimeType';
+import type { Color } from 'Colors';
 
 
 
@@ -59,7 +59,7 @@ export class MetaDescriptionClass {
 
 
 	protected getHTMLMetaElement(name: string, value: string): HTMLMetaElement {
-		let MetaElement = document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
+		let MetaElement = document.querySelector<HTMLMetaElement>(`meta[name='${name}']`);
 		if (MetaElement) return MetaElement;
 
 		let e = document.createElement('meta');
@@ -73,7 +73,7 @@ export class MetaDescriptionClass {
 		this.keywordsElement = this.getHTMLMetaElement('keywords', this.keywordsElement.content)
 		this.themeColorElement = this.getHTMLMetaElement('theme-color', this.themeColorElement.content)
 
-		let scriptJSONLD = document.querySelector('script[type="application/ld+json"]') as HTMLScriptElement | null;
+		let scriptJSONLD = document.querySelector(`script[type='application/ld+json']`) as HTMLScriptElement | null;
 		if (!scriptJSONLD) {
 			scriptJSONLD = document.createElement('script');
 			scriptJSONLD.type = 'application/ld+json';
@@ -82,7 +82,7 @@ export class MetaDescriptionClass {
 		scriptJSONLD.textContent = this.jsonLDElement.textContent;
 		this.jsonLDElement = scriptJSONLD;
 
-		let linkIcon = document.querySelector('link[rel="icon"]') as HTMLLinkElement | null;
+		let linkIcon = document.querySelector(`link[rel='icon']`) as HTMLLinkElement | null;
 		if (!linkIcon) {
 			linkIcon = document.createElement('link');
 			linkIcon.rel = 'icon';

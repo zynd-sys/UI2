@@ -1,13 +1,13 @@
-import type { ElementAttribute, ElementAttributeInterface } from "ViewConstructors/Modifiers/Attributes"
-import type { Listeners, ListenersInterface } from "ViewConstructors/Modifiers/Listeners/Listeners"
-import type { TextStyles } from "CSS/Types/TextStyles"
-import type { ViewModifiers } from "ViewConstructors/ViewModifiers"
-import { Styles } from "CSS/Styles"
-import { ViewTextModifiers } from "ViewConstructors/ViewTextModifiers"
-import { ViewBuilder } from "ViewConstructors/ViewBuilder"
-import { ViewsList } from "ViewConstructors/Modifiers/ListView"
-import { MainStyleSheet } from "CSS/MainStyleSheet"
-import { CSSSelectore } from "CSS/CSSSelectore"
+import type { ElementAttribute, ElementAttributeInterface } from 'ViewConstructors/Modifiers/Attributes'
+import type { Listeners, ListenersInterface } from 'ViewConstructors/Modifiers/Listeners/Listeners'
+import type { TextStyles } from 'CSS/Types/TextStyles'
+import type { ViewModifiers } from 'ViewConstructors/ViewModifiers'
+import { Styles } from 'CSS/Styles'
+import { ViewTextModifiers } from 'ViewConstructors/ViewTextModifiers'
+import { ViewBuilder } from 'ViewConstructors/ViewBuilder'
+import { ViewsList } from 'ViewConstructors/Modifiers/ListView'
+import { MainStyleSheet } from 'CSS/MainStyleSheet'
+import { CSSSelectore } from 'CSS/CSSSelectore'
 
 
 
@@ -105,7 +105,7 @@ export class TextStackView extends ViewTextModifiers<HTMLParagraphElement | HTML
 
 
 
-	/** @param value defualt "p" */
+	/** @param value defualt 'p' */
 	public tagName(value: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p'): this { this.HTMLTagName = value; return this }
 
 

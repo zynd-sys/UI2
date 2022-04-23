@@ -1,4 +1,4 @@
-import { LightObserver } from "../Observed"
+import { LightObserver } from '../Observed'
 
 
 

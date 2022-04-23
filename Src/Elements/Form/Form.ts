@@ -1,9 +1,9 @@
-import type { ViewBuilder } from "ViewConstructors/ViewBuilder";
-import type { ElementAttribute, ElementAttributeInterface } from "ViewConstructors/Modifiers/Attributes";
-import type { ElementsContainerStyles } from "CSS/Types/ElementsContainerStyles";
-import { Listeners } from "ViewConstructors/Modifiers/Listeners/Listeners";
-import { Styles } from "CSS/Styles";
-import { ElementsContainerListeners, ViewElementsContainer } from "ViewConstructors/ViewElementsContainer";
+import type { ViewBuilder } from 'ViewConstructors/ViewBuilder';
+import type { ElementAttribute, ElementAttributeInterface } from 'ViewConstructors/Modifiers/Attributes';
+import type { ElementsContainerStyles } from 'CSS/Types/ElementsContainerStyles';
+import { Listeners } from 'ViewConstructors/Modifiers/Listeners/Listeners';
+import { Styles } from 'CSS/Styles';
+import { ElementsContainerListeners, ViewElementsContainer } from 'ViewConstructors/ViewElementsContainer';
 
 
 

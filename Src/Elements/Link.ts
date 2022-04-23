@@ -1,13 +1,13 @@
-import type { ViewBuilder } from "ViewConstructors/ViewBuilder"
-import type { ElementsContainerStyles } from "CSS/Types/ElementsContainerStyles"
-import type { ReferrerPolicyOptions } from "Enum/ReferrerPolicyOptions"
-import type { LinkTarget } from "Enum/LinkTarget"
-import type { Crossorigin } from "Enum/Crossorigin"
-import { ElementAttribute, SecurityPolicyAttribute, SecurityPolicyViewModifiers } from "ViewConstructors/Modifiers/Attributes"
-import { Listeners } from "ViewConstructors/Modifiers/Listeners/Listeners"
-import { Styles } from "CSS/Styles"
-import { ViewElementsContainer, ElementsContainerListeners } from "ViewConstructors/ViewElementsContainer"
-import { PhoneNumber, Email, URIBuilder } from "Data/URI"
+import type { ViewBuilder } from 'ViewConstructors/ViewBuilder'
+import type { ElementsContainerStyles } from 'CSS/Types/ElementsContainerStyles'
+import type { ReferrerPolicyOptions } from 'Enum/ReferrerPolicyOptions'
+import type { LinkTarget } from 'Enum/LinkTarget'
+import type { Crossorigin } from 'Enum/Crossorigin'
+import { ElementAttribute, SecurityPolicyAttribute, SecurityPolicyViewModifiers } from 'ViewConstructors/Modifiers/Attributes'
+import { Listeners } from 'ViewConstructors/Modifiers/Listeners/Listeners'
+import { Styles } from 'CSS/Styles'
+import { ViewElementsContainer, ElementsContainerListeners } from 'ViewConstructors/ViewElementsContainer'
+import { PhoneNumber, Email, URIBuilder } from 'Data/URI'
 
 
 

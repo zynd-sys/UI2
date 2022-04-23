@@ -1,10 +1,10 @@
-import type { View } from "Elements/View";
-import type { CompositingCoords } from "ViewConstructors/Modifiers/Compositing";
-import { PageDataColorMode } from "Data/PageData/PageDataColorMode";
-import { PageDataWidth } from "Data/PageData/PageDataWidth";
-import { MainStyleSheet } from "CSS/MainStyleSheet";
-import { CSSSelectore } from "CSS/CSSSelectore";
-import { ContentAlign } from "Enum/ContentAlign";
+import type { View } from 'Elements/View';
+import type { CompositingCoords } from 'ViewConstructors/Modifiers/Compositing';
+import { PageDataColorMode } from 'Data/PageData/PageDataColorMode';
+import { PageDataWidth } from 'Data/PageData/PageDataWidth';
+import { MainStyleSheet } from 'CSS/MainStyleSheet';
+import { CSSSelectore } from 'CSS/CSSSelectore';
+import { ContentAlign } from 'Enum/ContentAlign';
 
 
 
@@ -23,13 +23,13 @@ customElements.define('ui-layer', LayerHTMLElement);
 
 MainStyleSheet.add(
 	new CSSSelectore('ui-layer', { 'display': 'contents' }),
-	new CSSSelectore('ui-layer[layer="popover"] > ui-view > *', {
+	new CSSSelectore(`ui-layer[layer='popover'] > ui-view > *`, {
 		'will-change': 'transform, filter, height, width, margin, padding',
 		'z-index': 101,
 		'position': 'fixed',
 		'inset': 0
 	}),
-	new CSSSelectore('ui-layer[layer="app"] > ui-view > *', {
+	new CSSSelectore(`ui-layer[layer='app'] > ui-view > *`, {
 		'min-block-size': '100vh',
 		'justify-content': ContentAlign.start,
 	})

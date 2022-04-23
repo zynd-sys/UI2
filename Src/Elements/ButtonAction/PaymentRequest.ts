@@ -1,7 +1,7 @@
-import type { Styles } from "CSS/Styles"
-import type { ButtonActionInterface } from "../Button"
-import type { ButtonActionStyles } from "CSS/Types/ButtonActionStyles";
-import { TimingFunction } from "Enum/TimingFunction";
+import type { Styles } from 'CSS/Styles'
+import type { ButtonActionInterface } from '../Button'
+import type { ButtonActionStyles } from 'CSS/Types/ButtonActionStyles';
+import { TimingFunction } from 'Enum/TimingFunction';
 
 
 /** @see https://www.w3.org/Payments/card-network-ids */
@@ -214,7 +214,7 @@ class PaymentDataClass {
 
 
 
-	constructor(currency: string, cardNetworks: (CardNetwork[] | typeof CardNetwork), onData: (data: PaymentResponse, complete: boolean) => Promise<void | "fail" | PaymentValidationErrors>) {
+	constructor(currency: string, cardNetworks: (CardNetwork[] | typeof CardNetwork), onData: (data: PaymentResponse, complete: boolean) => Promise<void | 'fail' | PaymentValidationErrors>) {
 		this.currency = currency;
 		this.requestValidate = onData;
 		this.cardNetworks = new Set(Array.isArray(cardNetworks) ? cardNetworks : AllCardNetworks);
