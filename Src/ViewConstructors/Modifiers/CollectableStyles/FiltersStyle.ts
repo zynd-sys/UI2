@@ -1,19 +1,19 @@
 import type { DropShadowStyle } from './ShadowStyle';
-import type { CSSAngle, CSSLength } from 'CSS/Types/MinimalStylesType';
+import type { CSSAngle, CSSLength, CSSVariable } from 'CSS/Types/MinimalStylesType';
 import type { Units } from 'Enum/Units';
 
 
 
 
 export interface FilterStyleInterface {
-	'blur'?: CSSLength
-	'brightness'?: number | `${number}${Units.absolute}`
-	'contrast'?: number | `${number}${Units.absolute}`
-	'grayscale'?: number | `${number}${Units.absolute}`
-	'hueRotate'?: CSSAngle
-	'invert'?: number | `${number}${Units.absolute}`
-	'opacity'?: number | `${number}${Units.absolute}`
-	'saturate'?: number | `${number}${Units.absolute}`
+	'blur'?: CSSLength | CSSVariable<CSSLength>
+	'brightness'?: number | `${number}${Units.absolute}` | CSSVariable<number>
+	'contrast'?: number | `${number}${Units.absolute}` | CSSVariable<number>
+	'grayscale'?: number | `${number}${Units.absolute}` | CSSVariable<number>
+	'hueRotate'?: CSSAngle | CSSVariable<number>
+	'invert'?: number | `${number}${Units.absolute}` | CSSVariable<number>
+	'opacity'?: number | `${number}${Units.absolute}` | CSSVariable<number>
+	'saturate'?: number | `${number}${Units.absolute}` | CSSVariable<number>
 	'sepia'?: number | `${number}${Units.absolute}`
 	'drop-shadow'?: DropShadowStyle
 }

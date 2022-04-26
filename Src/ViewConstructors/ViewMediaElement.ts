@@ -2,6 +2,10 @@ import type { ImageMimeType } from 'Enum/ImageMimeType';
 import type { MediaFit } from 'Enum/MediaFit';
 import type { MinimalStylesInterface } from 'CSS/Types/MinimalStylesType';
 import type { Styles } from 'CSS/Styles';
+import type { Listeners, LoadingResourceListeners, LoadingResourceModifiers } from './Modifiers/Listeners/Listeners';
+import type { ElementAttribute, SecurityPolicyAttribute, SecurityPolicyViewModifiers } from './Modifiers/Attributes';
+import type { ReferrerPolicyOptions } from 'Enum/ReferrerPolicyOptions';
+import type { Crossorigin } from 'Enum/Crossorigin';
 import { Direction } from 'Enum/Direction';
 import { Units } from 'Enum/Units';
 import { FitPositionStyle } from './Modifiers/CollectableStyles/FitPosition';
@@ -99,13 +103,15 @@ export interface MediaStyleInterface extends MinimalStylesInterface {
 
 
 
-export abstract class ViewMediaElement<E extends HTMLElement | { parent: HTMLElement; image: HTMLElement }, S extends ImageMimeType | string> extends ViewModifiers<E> {
+export abstract class ViewMediaElement<E extends HTMLElement | { parent: HTMLElement; image: HTMLElement }, S extends ImageMimeType | string> extends ViewModifiers<E> implements SecurityPolicyViewModifiers, LoadingResourceModifiers {
 
 	protected abstract override styles: Styles<MediaStyleInterface>
+	protected abstract override listeners?: Listeners<LoadingResourceListeners<any>>
+	protected abstract override attribute?: ElementAttribute<SecurityPolicyAttribute>
 
-	protected sourceList?: ViewsList
 	protected abstract useCSSVariablesForMediaStyles?: boolean
 	protected abstract useSrcsetSource?: boolean
+	protected abstract sourceList?: ViewsList
 
 
 	protected override importProperty(view: ViewMediaElement<any, any>): ReturnType<ViewModifiers<any>['importProperty']> {
@@ -119,6 +125,11 @@ export abstract class ViewMediaElement<E extends HTMLElement | { parent: HTMLEle
 
 
 
+
+
+
+	public referrerPolicy(value: ReferrerPolicyOptions): this { this.safeAttribute.set('referrerpolicy', value); return this }
+	public crossorigin(value: Crossorigin): this { this.safeAttribute.set('crossorigin', value); return this }
 	public mediaFit(value: MediaFit): this { this.styles.set(this.useCSSVariablesForMediaStyles ? '--object-fit' : 'object-fit', value); return this }
 	/** @param unit default `Units.absolute` */
 	public mediaPosition(direction: Direction.horizontal | Direction.vertical, value: number, unit: Units = Units.absolute): this {
@@ -136,52 +147,6 @@ export abstract class ViewMediaElement<E extends HTMLElement | { parent: HTMLEle
 	}
 
 
-
-
-
-
-
-
-	public override update(newRender: ViewMediaElement<any, any>): void {
-		if (this.HTMLElement) {
-			let element: HTMLElement;
-			let altElement: undefined | HTMLElement;
-			if (this.HTMLElement instanceof HTMLElement) element = this.HTMLElement
-			else {
-				element = this.HTMLElement.parent;
-				altElement = this.HTMLElement.image;
-			}
-
-			if (newRender.sourceList) {
-				if (this.sourceList) this.sourceList.render(element, false, newRender.sourceList, altElement ? [altElement] : undefined)
-				else { this.sourceList = newRender.sourceList; this.sourceList.render(element, false, undefined, altElement ? [altElement] : undefined) }
-			} else if (this.sourceList) {
-				this.sourceList.destroy();
-				this.sourceList = undefined;
-			}
-		}
-		return super.update(newRender)
-	}
-
-	public override render(withAnimation: boolean = false): HTMLElement {
-		if (this.HTMLElement) return this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent
-
-		this.HTMLElement = this.generateHTMLElement();
-		let element: HTMLElement;
-		let altElement: undefined | HTMLElement;
-		if (this.HTMLElement instanceof HTMLElement) element = this.HTMLElement
-		else {
-			element = this.HTMLElement.parent;
-			altElement = this.HTMLElement.image;
-		}
-
-		this.renderModifiers(element, undefined, withAnimation);
-		this.sourceList?.render(element, false, undefined, altElement ? [altElement] : undefined);
-		return element
-	}
-
-	public override destroy(withAnimation: boolean = false): Promise<void> | void {
-		if (this.sourceList) { this.sourceList.destroy(); this.sourceList = undefined }
-		return super.destroy(withAnimation)
-	}
+	public onLoad(value: () => void): this { this.safeListeners.set('load', () => value()); return this }
+	public onError(value: (error: any) => void): this { this.safeListeners.set('error', (_, event) => value(event.error)); return this }
 }

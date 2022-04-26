@@ -38,9 +38,12 @@ export type cursorType = 'auto' |
 	`zoom-${'in' | 'out'}`;
 
 
+export type CSSVariable<V extends string | number | boolean> = `var(--${string})` | `var(--${string},${V})`
 export type CSSTime = 0 | `${number}${'s' | 'ms'}`
 export type CSSLength = 0 | `${number}${Units}`
 export type CSSAngle = 0 | `${number}${'deg' | 'grad' | 'rad' | 'turn'}`
+
+
 
 export interface MinimalStylesInterface {
 

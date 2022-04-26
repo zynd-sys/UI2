@@ -103,10 +103,12 @@ export class ViewsList {
 
 
 
-	public render(parent: HTMLElement, animation: boolean = false, newListView?: ViewsList, beforeElements?: HTMLElement[]): void {
+	public render(parent: HTMLElement, animation: boolean = false, newListView?: ViewsList, insertElements?: HTMLElement[], insertAfter: boolean = false): void {
 
 		let content = this.generateElements(newListView, animation);
-		if (beforeElements) content.unshift(...beforeElements)
+		if (insertElements)
+			if (insertAfter) content.push(...insertElements);
+			else content.unshift(...insertElements);
 
 		let elements = this.useNodeCollection ? parent.childNodes : parent.children;
 		if (elements.length == 0) {

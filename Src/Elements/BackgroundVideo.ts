@@ -1,13 +1,12 @@
-import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from 'ViewConstructors/Modifiers/Attributes';
-import type { Listeners, LoadingResourceListeners, LoadingResourceModifiers } from 'ViewConstructors/Modifiers/Listeners/Listeners';
-import type { Crossorigin } from 'Enum/Crossorigin';
-import type { ReferrerPolicyOptions } from 'Enum/ReferrerPolicyOptions';
+import type { SecurityPolicyAttribute, ElementAttribute } from 'ViewConstructors/Modifiers/Attributes';
+import type { Listeners, LoadingResourceListeners } from 'ViewConstructors/Modifiers/Listeners/Listeners';
 import type { ViewModifiers } from 'ViewConstructors/ViewModifiers';
 import { MediaFit } from 'Enum/MediaFit';
 import { Styles } from 'CSS/Styles';
 import { MainStyleSheet } from 'CSS/MainStyleSheet';
 import { CSSSelectore } from 'CSS/CSSSelectore';
 import { ViewMediaElement, MediaStyleInterface } from 'ViewConstructors/ViewMediaElement';
+import type { ViewsList } from 'ViewConstructors/Modifiers/ListView';
 
 
 
@@ -40,12 +39,13 @@ MainStyleSheet.add(
 
 
 
-export class BackgroundVideoView extends ViewMediaElement<HTMLVideoElement, string> implements SecurityPolicyViewModifiers, LoadingResourceModifiers {
+export class BackgroundVideoView extends ViewMediaElement<HTMLVideoElement, string>  {
 
 	protected HTMLElement?: HTMLVideoElement
 	protected styles: Styles<MediaStyleInterface> = new Styles
 	protected listeners?: Listeners<LoadingResourceListeners<HTMLVideoElement>>
 	protected attribute?: ElementAttribute<SecurityPolicyAttribute>
+	protected sourceList?: ViewsList
 
 	protected useCSSVariablesForMediaStyles?: boolean
 	protected useSrcsetSource?: boolean
@@ -75,6 +75,15 @@ export class BackgroundVideoView extends ViewMediaElement<HTMLVideoElement, stri
 		if (this.content.toString() != newRender.content.toString()) { this.content = newRender.content; element.src = this.content.toString(); }
 		this.loop = newRender.loop;
 		if (this.loop) element.loop = true;
+
+		if (newRender.sourceList) {
+			let newSourceList: ViewsList | undefined = newRender.sourceList;
+			if (!this.sourceList) { this.sourceList = newRender.sourceList; newSourceList = undefined; }
+			this.sourceList.render(element, false, newSourceList);
+		} else if (this.sourceList) {
+			this.sourceList.destroy();
+			this.sourceList = undefined;
+		}
 	}
 	protected generateHTMLElement(): HTMLVideoElement {
 		let e = this.HTMLElement = document.createElement('video');
@@ -88,19 +97,18 @@ export class BackgroundVideoView extends ViewMediaElement<HTMLVideoElement, stri
 		e.playsInline = true
 		e.disablePictureInPicture = true;
 		e.disableRemotePlayback = true;
+		this.sourceList?.render(e)
 
 		return e
 	}
 
 
 
-	public referrerPolicy(value: ReferrerPolicyOptions): this { this.safeAttribute.set('referrerpolicy', value); return this }
-	public crossorigin(value: Crossorigin): this { this.safeAttribute.set('crossorigin', value); return this }
+
 	public unInfinity(value: boolean = true): this { this.loop = !value; return this }
 
 
-	public onLoad(value: () => void): this { this.safeListeners.set('load', () => value()); return this }
-	public onError(value: (error: any) => void): this { this.safeListeners.set('error', event => value(event.error)); return this }
+
 
 
 
