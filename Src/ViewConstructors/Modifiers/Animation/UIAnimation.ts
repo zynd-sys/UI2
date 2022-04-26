@@ -179,7 +179,6 @@ export class UIAnimationClass {
 	 * @param horizontal ↔︎ — % percentage
 	 * @param vertical ↕︎ — % percentage
 	 */
-	// public transformOrigin(horizontal: number, vertical: number): this { let frame = `${horizontal}% ${vertical}%`; this.keyFrames.transformOrigin = [frame, frame]; return this }
 	public transformOrigin(horizontal: number, vertical: number): this {
 		this.keyFrames.transformOriginX = [horizontal + '%', horizontal + '%'];
 		this.keyFrames.transformOriginY = [vertical + '%', vertical + '%'];
@@ -217,11 +216,6 @@ export class UIAnimationClass {
 
 
 
-	protected setHandlers(animation: Animation, endHandler: () => void): void {
-		const handler = () => { animation.oncancel = null; animation.onfinish = null; endHandler(); };
-		animation.oncancel = handler;
-		animation.onfinish = handler;
-	}
 
 
 
@@ -229,19 +223,11 @@ export class UIAnimationClass {
 
 	public animate(element: HTMLElement, trackAnimation: boolean = true): Promise<void> {
 		let animation = element.animate(this.keyFrames as unknown as PropertyIndexedKeyframes, this.options);
-		let p = new Promise<void>(resolve => this.setHandlers(animation, resolve));
+		let p = animation.finished.then<void>();
 
 		if (trackAnimation) AnimationStorage.addAnimation(element, p);
 		return p
 	}
-
-	// public animateInNoDocumentFlow(element: HTMLElement, trackAnimation: boolean = true): Promise<void> {
-	// 	this.keyFrames.position = ['absolute', 'absolute'];
-	// 	console.log(JSON.stringify(this.keyFrames,null,'\t'));
-	// 	let p = this.animate(element, trackAnimation);
-	// 	delete this.keyFrames.position;
-	// 	return p
-	// }
 
 
 
