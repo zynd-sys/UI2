@@ -36,7 +36,7 @@ import { Binding as BindingObserve, isObserved } from 'Data/Observed'
 
 
 
-export class ToggleView extends ViewFormElement<{ input: HTMLInputElement, parent: HTMLLabelElement }> {
+export class ToggleView extends ViewFormElement<HTMLInputElement> {
 
 	protected HTMLElement?: { input: HTMLInputElement, parent: HTMLLabelElement }
 

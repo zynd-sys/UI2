@@ -19,7 +19,16 @@ export interface FileFielAttributes extends ElementAttributeInterface {
 
 
 
-export class FileFieldView extends ViewFormElement<{ parent: HTMLLabelElement, input: HTMLInputElement }> {
+export class FileFieldView extends ViewFormElement<HTMLInputElement> {
+
+	protected HTMLElement?: { parent: HTMLLabelElement, input: HTMLInputElement }
+
+	protected styles: Styles<MinimalStylesInterface> = new Styles
+	protected listeners: Listeners<FormElementListeners<HTMLLabelElement>> = new Listeners
+	protected attribute: ElementAttribute<FileFielAttributes> = new ElementAttribute
+
+
+
 	protected merge?(): void
 	protected generateAlternativeElement?(): SpanView
 	protected generateHiddenElement(): HTMLInputElement {
@@ -27,11 +36,7 @@ export class FileFieldView extends ViewFormElement<{ parent: HTMLLabelElement, i
 		element.type = 'file';
 		return element
 	}
-	protected HTMLElement?: { parent: HTMLLabelElement, input: HTMLInputElement }
 
-	protected styles: Styles<MinimalStylesInterface> = new Styles
-	protected listeners: Listeners<FormElementListeners<HTMLLabelElement>> = new Listeners
-	protected attribute: ElementAttribute<FileFielAttributes> = new ElementAttribute
 
 
 

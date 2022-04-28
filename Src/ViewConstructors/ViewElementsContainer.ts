@@ -37,6 +37,7 @@ MainStyleSheet.add(
 	new CSSSelectore('.container', {
 		'display': 'flex',
 		'inline-size': '100%',
+		'min-inline-size': 0,
 		'flex-flow': 'column wrap',
 		'justify-content': ContentAlign.center,
 		'align-items': ContentAlign.center,

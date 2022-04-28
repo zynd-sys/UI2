@@ -85,7 +85,12 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 	public textIndent(value: number, unit: Units = Units.px): this { this.styles.set('text-indent', `${value}${unit}`); return this }
 	public textColor(value?: Color): this { if (value) this.styles.set('color', value); return this }
 	public textFontFamily(value: string): this { this.styles.set('font-family', value); return this }
-	public textSize(value: number, unit: Units = Units.px): this { this.styles.set('font-size', `${value}${unit}`); return this }
+	/**
+	 * @param value is a css `rem`
+	 *
+	 * defualt `1rem` = `16px`
+	 */
+	public textSize(value: number): this { this.styles.set('font-size', `${value}rem`); return this }
 	public textLetterSpacing(value: number, unit: Units = Units.em): this { this.styles.set('letter-spacing', `${value}${unit}`); return this }
 	public textLineHeight(value?: number, unit: Units = Units.px): this { if (value) this.styles.set('line-height', `${value}${unit}`); return this }
 	public textWeight(value: TextWeight): this { this.styles.set('font-weight', value); return this }

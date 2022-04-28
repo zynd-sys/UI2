@@ -57,7 +57,7 @@ MainStyleSheet.add(
 )
 
 
-export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, input: HTMLInputElement | HTMLProgressElement | HTMLSelectElement }> extends ViewElementsContainer<E> {
+export abstract class ViewFormElement<E extends HTMLInputElement | HTMLProgressElement | HTMLSelectElement> extends ViewElementsContainer<{ parent: HTMLLabelElement, input: E }> {
 
 	protected accentColorValue: Color = DefaultColor.blue
 	protected isUpdating: boolean = false
@@ -68,7 +68,7 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 		this.accentColorValue = view.accentColorValue;
 		return super.importProperty(view)
 	}
-	protected generateHTMLElement(): E {
+	protected generateHTMLElement(): { parent: HTMLLabelElement, input: E } {
 		let labelElement = document.createElement('label');
 		labelElement.classList.add('container');
 		let inputElement = this.generateHiddenElement();
@@ -76,11 +76,11 @@ export abstract class ViewFormElement<E extends { parent: HTMLLabelElement, inpu
 		return {
 			input: inputElement,
 			parent: labelElement
-		} as E
+		}
 	}
 
 
-	protected abstract generateHiddenElement(): E['input']
+	protected abstract generateHiddenElement(): E
 	protected abstract generateAlternativeElement?(accentColorValue: Color): SpanView
 
 	protected safeUpdate(action: () => void) {
