@@ -1,5 +1,5 @@
-import { View } from 'Elements/View';
-import { LightObserver } from 'Data/Observed';
+import { View } from '../../Elements/View';
+import { LightObserver } from '../../Data/Observed';
 
 
 

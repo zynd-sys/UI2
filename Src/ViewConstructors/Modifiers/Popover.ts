@@ -1,5 +1,5 @@
-import type { View } from 'Elements/View'
-import { App } from 'Navigation/App';
+import type { View } from '../../Elements/View'
+import { App } from '../../Navigation/App';
 
 
 

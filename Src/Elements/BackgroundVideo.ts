@@ -1,12 +1,12 @@
-import type { SecurityPolicyAttribute, ElementAttribute } from 'ViewConstructors/Modifiers/Attributes';
-import type { Listeners, LoadingResourceListeners } from 'ViewConstructors/Modifiers/Listeners/Listeners';
-import type { ViewModifiers } from 'ViewConstructors/ViewModifiers';
-import { MediaFit } from 'Enum/MediaFit';
-import { Styles } from 'CSS/Styles';
-import { MainStyleSheet } from 'CSS/MainStyleSheet';
-import { CSSSelectore } from 'CSS/CSSSelectore';
-import { ViewMediaElement, MediaStyleInterface } from 'ViewConstructors/ViewMediaElement';
-import type { ViewsList } from 'ViewConstructors/Modifiers/ListView';
+import type { SecurityPolicyAttribute, ElementAttribute } from '../ViewConstructors/Modifiers/Attributes';
+import type { Listeners, LoadingResourceListeners } from '../ViewConstructors/Modifiers/Listeners/Listeners';
+import type { ViewModifiers } from '../ViewConstructors/ViewModifiers';
+import { MediaFit } from '../ViewConstructors/Enum/MediaFit';
+import { Styles } from '../ViewConstructors/Modifiers/CSS/Styles';
+import { MainStyleSheet } from '../ViewConstructors/Modifiers/CSS/MainStyleSheet';
+import { CSSSelectore } from '../ViewConstructors/Modifiers/CSS/CSSSelectore';
+import { ViewMediaElement, MediaStyleInterface } from '../ViewConstructors/ViewMediaElement';
+import type { ViewsList } from '../ViewConstructors/Modifiers/ListView';
 
 
 

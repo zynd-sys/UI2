@@ -1,6 +1,6 @@
 import type { CoreDataInteface } from './CoreDataInteface'
 import { AsyncDB, AsyncDBVersionChange, TransactionMode } from '../AsyncDB'
-import { packageName } from 'name'
+import { packageName } from '../../name'
 
 
 

@@ -1,10 +1,10 @@
-import type { ViewBuilder } from 'ViewConstructors/ViewBuilder'
-import type { ElementAttribute } from 'ViewConstructors/Modifiers/Attributes'
-import type { Listeners } from 'ViewConstructors/Modifiers/Listeners/Listeners'
-import type { ElementsContainerStyles } from 'CSS/Types/ElementsContainerStyles'
-import { Direction } from 'Enum/Direction'
-import { Styles } from 'CSS/Styles'
-import { ViewElementsContainer, ElementsContainerListeners } from 'ViewConstructors/ViewElementsContainer'
+import type { ViewBuilder } from '../ViewConstructors/ViewBuilder'
+import type { ElementAttribute } from '../ViewConstructors/Modifiers/Attributes'
+import type { Listeners } from '../ViewConstructors/Modifiers/Listeners/Listeners'
+import type { ElementsContainerStyles } from '../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles'
+import { Direction } from '../ViewConstructors/Enum/Direction'
+import { Styles } from '../ViewConstructors/Modifiers/CSS/Styles'
+import { ViewElementsContainer, ElementsContainerListeners } from '../ViewConstructors/ViewElementsContainer'
 
 
 type TagName = 'section' | 'main' | 'footer' | 'header' | 'aside' | 'nav' | 'article' | 'div' | 'ul' | 'ol' | 'li'

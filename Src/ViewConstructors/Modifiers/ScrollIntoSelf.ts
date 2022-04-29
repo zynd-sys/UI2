@@ -1,4 +1,4 @@
-import type { Align } from 'Enum/Align';
+import type { Align } from '../Enum/Align';
 
 
 

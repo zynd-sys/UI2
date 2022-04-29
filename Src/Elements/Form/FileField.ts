@@ -1,10 +1,10 @@
-import type { ViewBuilder } from 'ViewConstructors/ViewBuilder'
+import type { ViewBuilder } from '../../ViewConstructors/ViewBuilder'
 import type { SpanView } from './Span'
-import type { MinimalStylesInterface } from 'CSS/Types/MinimalStylesType'
-import { FormElementListeners, ViewFormElement } from 'ViewConstructors/ViewFormElement'
-import { ElementAttributeInterface, ElementAttribute } from 'ViewConstructors/Modifiers/Attributes'
-import { Listeners } from 'ViewConstructors/Modifiers/Listeners/Listeners'
-import { Styles } from 'CSS/Styles'
+import type { MinimalStylesInterface } from '../../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType'
+import { FormElementListeners, ViewFormElement } from '../../ViewConstructors/ViewFormElement'
+import { ElementAttributeInterface, ElementAttribute } from '../../ViewConstructors/Modifiers/Attributes'
+import { Listeners } from '../../ViewConstructors/Modifiers/Listeners/Listeners'
+import { Styles } from '../../ViewConstructors/Modifiers/CSS/Styles'
 
 
 

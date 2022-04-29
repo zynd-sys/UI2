@@ -1,11 +1,11 @@
-import type { ElementAttribute, ElementAttributeInterface } from 'ViewConstructors/Modifiers/Attributes';
-import type { FormElementListeners } from 'ViewConstructors/ViewFormElement';
-import type { MinimalStylesInterface } from 'CSS/Types/MinimalStylesType';
-import { Listeners } from 'ViewConstructors/Modifiers/Listeners/Listeners';
-import { Styles } from 'CSS/Styles';
-import { ViewTextModifiers } from 'ViewConstructors/ViewTextModifiers';
-import { MainStyleSheet } from 'CSS/MainStyleSheet';
-import { CSSSelectore } from 'CSS/CSSSelectore';
+import type { ElementAttribute, ElementAttributeInterface } from '../../ViewConstructors/Modifiers/Attributes';
+import type { FormElementListeners } from '../../ViewConstructors/ViewFormElement';
+import type { MinimalStylesInterface } from '../../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType';
+import { Listeners } from '../../ViewConstructors/Modifiers/Listeners/Listeners';
+import { Styles } from '../../ViewConstructors/Modifiers/CSS/Styles';
+import { ViewTextModifiers } from '../../ViewConstructors/ViewTextModifiers';
+import { MainStyleSheet } from '../../ViewConstructors/Modifiers/CSS/MainStyleSheet';
+import { CSSSelectore } from '../../ViewConstructors/Modifiers/CSS/CSSSelectore';
 
 
 

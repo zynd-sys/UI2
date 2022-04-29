@@ -1,9 +1,10 @@
-import { Color, DefaultColor } from 'Colors'
+import type { Color } from './Modifiers/Colors'
+import { DefaultColor } from './Modifiers/Colors/DefaultColors'
 import { ElementsContainerListeners, ViewElementsContainer } from './ViewElementsContainer'
-import { SpanView } from 'Elements/Form/Span'
-import { MainStyleSheet } from 'CSS/MainStyleSheet'
-import { CSSSelectore } from 'CSS/CSSSelectore'
-import { Direction } from 'Enum/Direction'
+import { SpanView } from '../Elements/Form/Span'
+import { MainStyleSheet } from './Modifiers/CSS/MainStyleSheet'
+import { CSSSelectore } from './Modifiers/CSS/CSSSelectore'
+import { Direction } from './Enum/Direction'
 
 
 

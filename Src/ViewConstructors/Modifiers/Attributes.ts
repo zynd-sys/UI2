@@ -1,5 +1,5 @@
-import type { Crossorigin } from 'Enum/Crossorigin'
-import type { ReferrerPolicyOptions } from 'Enum/ReferrerPolicyOptions'
+import type { Crossorigin } from '../Enum/Crossorigin'
+import type { ReferrerPolicyOptions } from '../Enum/ReferrerPolicyOptions'
 
 
 export interface ElementAttributeInterface {
