@@ -1,6 +1,3 @@
-
-import type { GestureClass } from './Gesture/Gesture';
-import { GestureListners } from './Gesture/GestureListners';
 import { ListenersStorage } from './ListenersStorage';
 
 
@@ -27,10 +24,6 @@ export interface ListenersInterface<E extends HTMLElement> {
 	pointerover?: (element: E, event: PointerEvent) => void
 	pointerenter?: (element: E, event: PointerEvent) => void
 	pointerleave?: (element: E, event: PointerEvent) => void
-	// pointercancel?: (element: E, event: PointerEvent) => void
-	// pointermove?: (element: E, event: PointerEvent) => void
-	// pointerdown?: (element: E, event: PointerEvent) => void
-	// pointerup?: (element: E, event: PointerEvent) => void
 
 	dragstart?: (element: E, event: DragEvent) => any
 	dragend?: (element: E, event: DragEvent) => any
@@ -54,8 +47,6 @@ export interface LoadingResourceModifiers {
 
 export class Listeners<I extends ListenersInterface<any>> extends Map<keyof I, I[keyof I]> {
 
-	protected isHasGesture?: true
-
 	protected setHandler(element: HTMLElement, eventName: string, handler: (element: HTMLElement, event: Event) => void) {
 		let o = {
 			userHandler: handler,
@@ -67,18 +58,6 @@ export class Listeners<I extends ListenersInterface<any>> extends Map<keyof I, I
 		element.addEventListener(eventName as string, o);
 		return o
 	}
-	protected setGesuteListners(element: HTMLElement, gesture: GestureListners): void {
-		element.addEventListener('pointercancel', gesture.pointerup);
-		element.addEventListener('pointerdown', gesture.pointerdown);
-		element.addEventListener('pointermove', gesture.pointermove);
-		element.addEventListener('pointerup', gesture.pointerup);
-	}
-	protected removeGestureListners(element: HTMLElement, gesture: GestureListners): void {
-		element.removeEventListener('pointercancel', gesture.pointerup);
-		element.removeEventListener('pointerdown', gesture.pointerdown);
-		element.removeEventListener('pointermove', gesture.pointermove);
-		element.removeEventListener('pointerup', gesture.pointerup);
-	}
 
 
 
@@ -86,57 +65,31 @@ export class Listeners<I extends ListenersInterface<any>> extends Map<keyof I, I
 
 
 
-	public gesture(): void { this.isHasGesture = true }
 
 
 	public destroy(element: HTMLElement) {
-		let data = ListenersStorage.getData<I>(element);
-
-		let gestureListners = data.gestureListners;
-		if (gestureListners) this.removeGestureListners(element, gestureListners)
-
-		let events = data.events;
-		if (events) {
-			events.forEach((handler, eventName) => { element.removeEventListener(eventName as keyof HTMLElementEventMap, handler) })
-			events.clear()
-		}
+		let events = ListenersStorage.getHandlers<I>(element);
+		events.forEach((handler, eventName) => { element.removeEventListener(eventName as string, handler) })
+		events.clear()
 	}
 
 
 
 
-	public render(element: HTMLElement, gesture?: GestureClass<any>): this {
-		let data = ListenersStorage.getData<I>(element);
-		let events = data.events;
-		let gestureListners = data.gestureListners;
-
-
-		if (this.isHasGesture) {
-			if (!gesture) console.error('')
-			else if (!gestureListners) {
-				data.gestureListners = gestureListners = new GestureListners(gesture);
-				this.setGesuteListners(element, gestureListners)
-			} else gestureListners.context = gesture;
-		}
-		else if (gestureListners) {
-			this.removeGestureListners(element, gestureListners)
-			data.gestureListners = gestureListners = undefined;
-		}
-
-
+	public render(element: HTMLElement): this {
+		let events = ListenersStorage.getHandlers<I>(element);
 
 		if (!events) {
-			events = data.events = new Map;
 			this.forEach((handler, eventName) => {
 				let object = this.setHandler(element, eventName as string, handler as unknown as (element: HTMLElement, event: Event) => void);
-				events!.set(eventName, object as unknown as { userHandler: I[keyof I], handleEvent: (event: Event) => void })
+				events.set(eventName, object as unknown as { userHandler: I[keyof I], handleEvent: (event: Event) => void })
 			});
 			return this
 		}
 
 		// remove unused listeners
 		events.forEach((handler, eventName) => {
-			if (!this.has(eventName)) {
+			if (!this.has(eventName as keyof I)) {
 				element.removeEventListener(eventName as keyof HTMLElementEventMap, handler);
 				events!.delete(eventName);
 			}
@@ -148,7 +101,7 @@ export class Listeners<I extends ListenersInterface<any>> extends Map<keyof I, I
 			if (targetHandler) targetHandler.userHandler = handler
 			else {
 				let object = this.setHandler(element, eventName as string, handler as unknown as (element: HTMLElement, event: Event) => void)
-				events!.set(eventName, object as unknown as { userHandler: I[keyof I], handleEvent: (event: Event) => void })
+				events.set(eventName, object as unknown as { userHandler: I[keyof I], handleEvent: (event: Event) => void })
 			}
 		})
 

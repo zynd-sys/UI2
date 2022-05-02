@@ -11,6 +11,7 @@ import type { GestureClass } from './Modifiers/Listeners/Gesture/Gesture'
 import type { BlendMode } from './Enum/BlendMode'
 import type { CSSStepTimingFunction } from './Modifiers/CSS/CSSStepTimingFunction'
 import type { Path } from '../Elements/Shapes/Path'
+import type { TransformsStylesRef } from './Modifiers/TransformsStylesRef'
 import { ElementAttribute, ElementAttributeInterface } from './Modifiers/Attributes'
 import { Listeners, ListenersInterface } from './Modifiers/Listeners/Listeners'
 import { BorderStyle } from './Enum/BorderStyle'
@@ -31,6 +32,7 @@ import { PageData } from '../Data/PageData/PageData'
 import { CSSSelectore } from './Modifiers/CSS/CSSSelectore';
 import { MainStyleSheet } from './Modifiers/CSS/MainStyleSheet';
 import { TimingFunction } from './Enum/TimingFunction'
+import { GestureStorage } from './Modifiers/Listeners/Gesture/GestureStorage'
 
 
 
@@ -50,8 +52,7 @@ MainStyleSheet.add(
 		'transition-property': 'background-color, border-color',
 		'transition-duration': '.6s',
 		'transition-timing-function': TimingFunction.easeInOut
-	}),
-	new CSSSelectore(':focus', { 'outline': 'none' })
+	})
 )
 
 
@@ -74,7 +75,8 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	/**  */
 	protected popoverData?: PopoverData
 	protected scrollSelf?: ScrollIntoSelf
-	protected gestureState?: GestureClass<any>
+	protected gestureHandler?: GestureClass<any>[]
+	protected transformsRef?: TransformsStylesRef
 
 	protected animations: UIAnimationObject = new UIAnimationObject
 
@@ -102,11 +104,16 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 			}
 
 			this.styles = newRender.styles.render(element);
-			if (newRender.gestureState) {
-				if (this.gestureState) if (this.gestureState.constructor != newRender.gestureState.constructor) console.error('different gesture')
-				else this.gestureState = newRender.gestureState;
-			} else if (this.gestureState) this.gestureState = undefined
-			if (newRender.listeners) this.listeners = newRender.listeners.render(element, this.gestureState);
+			if (newRender.transformsRef) {
+				if (this.transformsRef !== newRender.transformsRef) {
+					this.transformsRef?.destroy()
+					this.transformsRef = newRender.transformsRef;
+					this.transformsRef.render(element);
+				}
+			} else if (this.transformsRef) { this.transformsRef.destroy(); this.transformsRef = undefined }
+			if (newRender.gestureHandler) { this.gestureHandler = newRender.gestureHandler; GestureStorage.render(element, this.gestureHandler) }
+			else if (this.gestureHandler) { GestureStorage.destroy(element); this.gestureHandler = undefined }
+			if (newRender.listeners) this.listeners = newRender.listeners.render(element);
 			else if (this.listeners) { this.listeners.destroy(element); this.listeners = undefined }
 			if (newRender.attribute) this.attribute = newRender.attribute.render(element)
 			else if (this.attribute) { this.attribute.destroy(element); this.attribute = undefined }
@@ -121,9 +128,11 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		this.styles.render(element);
 		if (!element.isConnected) {
 			if (withAnimation) this.animations.animateCreation(element)
+			if (this.gestureHandler) GestureStorage.render(element, this.gestureHandler)
 			this.popoverData?.render();
+			this.transformsRef?.render(element);
 			this.scrollObserver?.render(element);
-			this.listeners?.render(element, this.gestureState);
+			this.listeners?.render(element);
 			this.attribute?.render(element);
 			this.scrollSelf?.render(element);
 		}
@@ -195,7 +204,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 	// public title(value?: string): this { if (value) this.ti = value; return this }
-	public popover<V extends new (...p: any[]) => View>(isPresented: boolean, view: V, ...data: ConstructorParameters<V>): this { if (isPresented) this.popoverData = new PopoverData(view, data); return this }
+	public popover<V extends new (...p: any[]) => View>(isPresented: BindingObserve<boolean>, view: V, ...data: ConstructorParameters<V>): this { if (isPresented.value) this.popoverData = new PopoverData(view, data); return this }
 	public backgroundColor(value?: Color): this { if (value) this.styles.set('background-color', value); return this }
 	/** @param value defualt true */
 	public userSelect(value: boolean = true): this { if (value) this.styles.set('-webkit-user-select', 'auto').set('user-select', 'auto'); return this }
@@ -385,7 +394,6 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	public sepiaEffect(value: number, backdrop: boolean = false): this { return this.setFilterPrefix('sepia', backdrop, value) }
 	/** @param value 0.0...1.0 */
 	public opacityEffect(value: number, backdrop: boolean = false): this { if (backdrop) this.setFilterPrefix('opacity', backdrop, value); else this.styles.set('opacity', value); return this }
-	// matrix | matrix3d
 	/**   */ public rotateXEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('rotateX', `${value}deg`); return this }
 	/**   */ public rotateYEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('rotateY', `${value}deg`); return this }
 	/**   */ public rotateZEffect(value: number): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('rotateZ', `${value}deg`); return this }
@@ -397,7 +405,12 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	/** ↔︎ */ public translateXEffect(value: number, unit = Units.absolute): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('translateX', `${value}${unit}`); return this }
 	/** ↕︎ */ public translateYEffect(value: number, unit = Units.absolute): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('translateY', `${value}${unit}`); return this }
 	/** ↘︎ */ public translateZEffect(value: number, unit = Units.px): this { this.styles.getCollectableStyles('transform', TransformsStyle).set('translateZ', `${value}${unit}`); return this }
-
+	public transformEffects(value: TransformsStylesRef): this {
+		const transformsStyles = this.styles.getCollectableStyles('transform', TransformsStyle);
+		value.forEach((value, key) => transformsStyles.set(key, value));
+		this.transformsRef = value;
+		return this
+	}
 
 
 
@@ -491,13 +504,30 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		return this
 	}
 	public onTranstionEnd(value: () => void): this { this.safeListeners.set('transitionend', () => value()); return this }
-	public gesture(value: () => GestureClass<any>): this {
+	/**
+	 * for best performance use `TransformsStylesRef`
+	 *
+	 * @example
+	 * const transformsRef = new TransformsStylesRef
+	 * const gesture = new DragGesture().onChange(state => {
+	 * 	transformsRef.set('translateX', state.translate.x)
+	 * 	transformsRef.set('translateY', state.translate.y)
+	 * })
+	 * ...
+	 *
+	 * Element
+	 * 	.transformEffects(transformsRef)
+	 * 	.gesture(gesture)
+	 *
+	 * ...
+	 *
+	 */
+	public gesture(...value: GestureClass<any>[]): this {
 		this.styles
 			.set('touch-action', 'none')
 			.set('-webkit-user-select', 'none')
 			.set('user-select', 'none');
-		this.gestureState = value();
-		this.safeListeners.gesture();
+		this.gestureHandler = value;
 		return this
 	}
 	// public onDoubleClick(value?: Listeners['doubleClick']): this { this.listeners.doubleClick = value; return this }
@@ -540,8 +570,10 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	public destroy(withAnimation: boolean = false): Promise<void> | void {
 		if (!this.HTMLElement) return
 		let element = this.HTMLElement instanceof HTMLElement ? this.HTMLElement : this.HTMLElement.parent;
+		this.transformsRef?.destroy();
 
 		if (withAnimation) return this.animations.animateDestruction(element)?.then(() => { element.remove(); this.HTMLElement = undefined })
+
 		element.remove();
 		this.HTMLElement = undefined
 		return

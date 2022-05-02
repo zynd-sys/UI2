@@ -1,22 +1,19 @@
-import type { GestureListners } from './Gesture/GestureListners';
 import type { ListenersInterface } from './Listeners';
 
 
 
-interface HTMLElementData<I extends ListenersInterface<any>> {
-	events?: Map<keyof I, { userHandler: I[keyof I], handleEvent: (event: Event) => void }>
-	gestureListners?: GestureListners
-}
 
+type ListenersStorageData<I extends ListenersInterface<any>> = Map<string | number | symbol, { userHandler: I[keyof I], handleEvent: (event: Event) => void }>
 
 class ListenersStorageClass {
-	protected storage: WeakMap<HTMLElement, HTMLElementData<any>> = new WeakMap()
+	protected storage: WeakMap<HTMLElement, ListenersStorageData<any>> = new WeakMap()
 
-	public getData<I extends ListenersInterface<any>>(element: HTMLElement): HTMLElementData<I> {
+	public getHandlers<I extends ListenersInterface<any>>(element: HTMLElement): ListenersStorageData<I> {
 		let object = this.storage.get(element);
-		if (typeof object == 'object') return object
+		if (object) return object
 
-		this.storage.set(element, object = {});
+		object = new Map;
+		this.storage.set(element, object);
 		return object
 	}
 }
