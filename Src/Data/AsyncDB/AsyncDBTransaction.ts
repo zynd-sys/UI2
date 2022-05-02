@@ -6,12 +6,14 @@ export enum TransactionMode {
 }
 
 
-type ReturnObjectStore<T extends TransactionMode, D> = { readonly: AsyncDBObjectStoreReadOnly<D>, readwrite: AsyncDBObjectStoreReadWrite<D> }[T]
+type ReturnObjectStore<T extends TransactionMode, D> = T extends TransactionMode.readonly
+	? AsyncDBObjectStoreReadOnly<D>
+	: AsyncDBObjectStoreReadWrite<D>
 
 
 export class AsyncDBTransaction<T extends TransactionMode, I extends { [key: string]: any }> {
 	protected readonly transition: IDBTransaction
-	public objectStores: { [key in keyof I]:  ReturnObjectStore<T, I[key]> }
+	public objectStores: { [key in keyof I]: ReturnObjectStore<T, I[key]> }
 
 	public complete(commit: boolean = true): Promise<void> {
 		if (commit) this.transition.commit();
