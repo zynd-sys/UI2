@@ -1,15 +1,13 @@
 import type { Autocapitalize } from '../../ViewConstructors/Enum/Autocapitalize';
 import type { FormElementListeners } from '../../ViewConstructors/ViewFormElement';
-import type { MinimalStylesInterface } from '../../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType';
+import type { MinimalStylesInterface } from '../../Styles/CSS/Types';
 import { ElementAttributeInterface, ElementAttribute } from '../../ViewConstructors/Modifiers/Attributes';
 import { Listeners } from '../../ViewConstructors/Modifiers/Listeners/Listeners';
-import { Styles } from '../../ViewConstructors/Modifiers/CSS/Styles';
 import { ViewTextModifiers } from '../../ViewConstructors/ViewTextModifiers';
 import { Binding as BindingObserve, isObserved } from '../../Data/Observed';
-import { MainStyleSheet } from '../../ViewConstructors/Modifiers/CSS/MainStyleSheet';
-import { CSSSelectore } from '../../ViewConstructors/Modifiers/CSS/CSSSelectore';
-import { InnerShadowStyle } from '../../ViewConstructors/Modifiers/CollectableStyles/ShadowStyle';
-import { DefaultColor } from '../../ViewConstructors/Modifiers/Colors/DefaultColors';
+import { Styles } from '../../ViewConstructors/Modifiers/Styles';
+import { DefaultColor } from '../../Styles/Colors';
+import { MainStyleSheet, CSSSelectore, InnerShadowStyle } from '../../Styles/CSS';
 
 
 

@@ -1,10 +1,10 @@
-import type { Align } from '../../../Enum/Align';
-import type { BorderStyle } from '../../../Enum/BorderStyle';
-import type { ColumnInsideBreak } from '../../../Enum/ColumnInsideBreak';
-import type { TextSpacing } from '../../../Enum/TextSpacing';
-import type { TextTransform } from '../../../Enum/TextTransform';
-import type { TextWeight } from '../../../Enum/TextWeight';
 import type { Color } from '../../Colors';
+import type { Align } from '../Enums/Align';
+import type { BorderStyle } from '../Enums/BorderStyle';
+import type { ColumnInsideBreak } from '../Enums/ColumnInsideBreak';
+import type { TextSpacing } from '../Enums/TextSpacing';
+import type { TextTransform } from '../Enums/TextTransform';
+import type { TextWeight } from '../Enums/TextWeight';
 import type { CSSLength, MinimalStylesInterface } from './MinimalStylesType';
 
 

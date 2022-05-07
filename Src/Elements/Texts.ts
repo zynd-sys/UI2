@@ -1,9 +1,9 @@
 import type { ElementAttribute, ElementAttributeInterface } from '../ViewConstructors/Modifiers/Attributes'
 import type { Listeners, ListenersInterface } from '../ViewConstructors/Modifiers/Listeners/Listeners'
-import type { TextStyles } from '../ViewConstructors/Modifiers/CSS/Types/TextStyles'
 import type { PhoneNumber, Email } from '../Data/URI'
-import { Styles } from '../ViewConstructors/Modifiers/CSS/Styles'
+import type { TextStyles } from '../Styles/CSS/Types'
 import { ViewTextModifiers } from '../ViewConstructors/ViewTextModifiers'
+import { Styles } from '../ViewConstructors/Modifiers/Styles'
 
 
 

@@ -1,6 +1,6 @@
-import type { Color } from '../Colors'
-import type { CSSLength } from '../CSS/Types/MinimalStylesType'
-import { DefaultColor } from '../Colors/DefaultColors'
+import type { Color } from '../../Colors'
+import type { CSSLength } from '../Types/MinimalStylesType'
+import { DefaultColor } from '../../Colors/DefaultColors'
 
 
 

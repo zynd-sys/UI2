@@ -1,4 +1,4 @@
-import { TransformsStyle, TransformStyleInterface } from "./CollectableStyles/TransformsStyle";
+import { TransformsStyle, TransformStyleInterface } from "../../Styles/CSS/CollectableStyles/TransformsStyle";
 
 
 

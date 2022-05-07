@@ -1,16 +1,12 @@
 import type { ImageMimeType } from '../ViewConstructors/Enum/ImageMimeType'
 import type { Listeners, ListenersInterface } from '../ViewConstructors/Modifiers/Listeners/Listeners'
-import type { StylesInterface } from '../ViewConstructors/Modifiers/CSS/Types/StylesInterface'
-import type { Color } from '../ViewConstructors/Modifiers/Colors'
+import type { Color } from '../Styles/Colors'
 import type { ViewsList } from '../ViewConstructors/Modifiers/ListView'
+import type { MediaStyleInterface, StylesInterface } from '../Styles/CSS/Types'
 import { SecurityPolicyAttribute, ElementAttribute } from '../ViewConstructors/Modifiers/Attributes'
-import { MediaFit } from '../ViewConstructors/Enum/MediaFit'
-import { FitPositionStyle } from '../ViewConstructors/Modifiers/CollectableStyles/FitPosition'
-import { Styles } from '../ViewConstructors/Modifiers/CSS/Styles'
-import { MainStyleSheet } from '../ViewConstructors/Modifiers/CSS/MainStyleSheet'
-import { CSSSelectore } from '../ViewConstructors/Modifiers/CSS/CSSSelectore'
-import { DefaultColor } from '../ViewConstructors/Modifiers/Colors/DefaultColors'
-import { MediaStyleInterface, ViewMediaElement } from '../ViewConstructors/ViewMediaElement'
+import { ViewMediaElement } from '../ViewConstructors/ViewMediaElement'
+import { Styles } from '../ViewConstructors/Modifiers/Styles'
+import { MainStyleSheet, CSSSelectore, MediaFit, FitPositionStyle } from '../Styles/CSS'
 
 
 
@@ -20,8 +16,6 @@ import { MediaStyleInterface, ViewMediaElement } from '../ViewConstructors/ViewM
 
 interface PictureStyleInterface extends MediaStyleInterface {
 	'--overlay-color'?: Color | string
-	'--object-fit'?: MediaFit
-	'--object-position'?: FitPositionStyle
 }
 
 
@@ -66,7 +60,7 @@ MainStyleSheet.add(
 	new CSSSelectore<PictureStyleInterface>('picture', {
 		'--object-fit': MediaFit.cover,
 		'--object-position': new FitPositionStyle('50%', '50%'),
-		'--overlay-color': DefaultColor.transparent
+		'--overlay-color': 'transparent'
 	}),
 	new CSSSelectore<PictureSelectoreStyle>('picture img', {
 		'object-fit': 'var(--object-fit)',

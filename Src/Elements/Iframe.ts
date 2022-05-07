@@ -1,11 +1,11 @@
-import type { MinimalStylesInterface } from '../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType'
 import type { SecurityPolicyAttribute, SecurityPolicyViewModifiers, ElementAttribute } from '../ViewConstructors/Modifiers/Attributes'
 import type { Listeners, LoadingResourceListeners, LoadingResourceModifiers } from '../ViewConstructors/Modifiers/Listeners/Listeners'
 import type { Crossorigin } from '../ViewConstructors/Enum/Crossorigin'
 import type { SandboxPermission } from '../ViewConstructors/Enum/SandboxPermission'
 import type { ReferrerPolicyOptions } from '../ViewConstructors/Enum/ReferrerPolicyOptions'
-import { Styles } from '../ViewConstructors/Modifiers/CSS/Styles'
+import type { MinimalStylesInterface } from '../Styles/CSS/Types'
 import { ViewModifiers } from '../ViewConstructors/ViewModifiers'
+import { Styles } from '../ViewConstructors/Modifiers/Styles'
 
 
 declare global {

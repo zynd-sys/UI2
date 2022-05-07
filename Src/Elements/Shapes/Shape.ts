@@ -1,10 +1,9 @@
-import type { StrokeLinecap } from '../../ViewConstructors/Enum/StrokeLinecap';
+import type { StrokeLinecap } from '../../Styles/CSS/Enums/StrokeLinecap';
 import type { Path } from './Path'
-import type { ShapeStyles, ShapeSVGElementStyles } from '../../ViewConstructors/Modifiers/CSS/Types/ShapeStyles';
-import { MainStyleSheet } from '../../ViewConstructors/Modifiers/CSS/MainStyleSheet';
+import type { ShapeSVGElementStyles, ShapeStyles } from '../../Styles/CSS/Types';
 import { ViewShapeElement } from '../../ViewConstructors/ViewShapes'
-import { CSSSelectore } from '../../ViewConstructors/Modifiers/CSS/CSSSelectore';
-import { Styles } from '../../ViewConstructors/Modifiers/CSS/Styles';
+import { MainStyleSheet, CSSSelectore } from '../../Styles/CSS';
+import { Styles } from '../../ViewConstructors/Modifiers/Styles';
 
 
 

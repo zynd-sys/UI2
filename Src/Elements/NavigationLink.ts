@@ -3,14 +3,13 @@ import type { LinkAttribute } from './Link'
 import type { View } from './View'
 import type { ElementAttribute } from '../ViewConstructors/Modifiers/Attributes'
 import type { LinkPathClass } from '../Navigation/Components/LinkPath'
-import type { ElementsContainerStyles } from '../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles'
+import type { ElementsContainerStyles } from '../Styles/CSS/Types'
 import { ViewElementsContainer, ElementsContainerListeners } from '../ViewConstructors/ViewElementsContainer'
 import { Listeners } from '../ViewConstructors/Modifiers/Listeners/Listeners'
-import { Styles } from '../ViewConstructors/Modifiers/CSS/Styles'
 import { App } from '../Navigation/App'
-import { MainStyleSheet } from '../ViewConstructors/Modifiers/CSS/MainStyleSheet'
-import { CSSSelectore } from '../ViewConstructors/Modifiers/CSS/CSSSelectore'
-import { Direction } from '../ViewConstructors/Enum/Direction'
+import { Direction } from '../Styles/CSS/Enums/Direction'
+import { Styles } from '../ViewConstructors/Modifiers/Styles'
+import { MainStyleSheet, CSSSelectore } from '../Styles/CSS'
 
 
 

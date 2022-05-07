@@ -1,14 +1,11 @@
 import type { ViewBuilder } from '../ViewConstructors/ViewBuilder';
 import type { ElementAttribute } from '../ViewConstructors/Modifiers/Attributes';
-import type { ElementsContainerStyles } from '../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles';
-import type { ButtonActionStyles } from '../ViewConstructors/Modifiers/CSS/Types/ButtonActionStyles';
+import type { ButtonActionStyles, ElementsContainerStyles } from '../Styles/CSS/Types';
 import { Listeners } from '../ViewConstructors/Modifiers/Listeners/Listeners';
-import { Styles } from '../ViewConstructors/Modifiers/CSS/Styles';
 import { ViewElementsContainer, ElementsContainerListeners } from '../ViewConstructors/ViewElementsContainer';
-import { MainStyleSheet } from '../ViewConstructors/Modifiers/CSS/MainStyleSheet';
-import { CSSSelectore } from '../ViewConstructors/Modifiers/CSS/CSSSelectore';
-import { Direction } from '../ViewConstructors/Enum/Direction';
-import { DefaultColor } from '../ViewConstructors/Modifiers/Colors/DefaultColors';
+import { DefaultColor } from '../Styles/Colors';
+import { MainStyleSheet, CSSSelectore, Direction } from '../Styles/CSS';
+import { Styles } from '../ViewConstructors/Modifiers/Styles';
 
 
 

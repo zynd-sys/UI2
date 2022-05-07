@@ -1,7 +1,10 @@
-import type { Styles } from '../../ViewConstructors/Modifiers/CSS/Styles'
 import type { ButtonActionInterface } from '../Button'
-import type { ButtonActionStyles } from '../../ViewConstructors/Modifiers/CSS/Types/ButtonActionStyles';
-import { TimingFunction } from '../../ViewConstructors/Enum/TimingFunction';
+import type { Styles } from '../../ViewConstructors/Modifiers/Styles';
+import type { ButtonActionStyles } from '../../Styles/CSS/Types';
+import { TimingFunction } from '../../Styles/CSS';
+
+
+
 
 
 /** @see https://www.w3.org/Payments/card-network-ids */

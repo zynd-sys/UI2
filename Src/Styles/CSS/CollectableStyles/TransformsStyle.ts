@@ -1,4 +1,8 @@
-import type { CSSAngle, CSSLength } from '../CSS/Types/MinimalStylesType';
+import type { CSSAngle, CSSLength } from "../Types/MinimalStylesType"
+
+
+
+
 
 export interface TransformStyleInterface {
 	'rotateX'?: CSSAngle
@@ -13,6 +17,7 @@ export interface TransformStyleInterface {
 	'translateY'?: CSSLength
 	'translateZ'?: CSSLength
 }
+
 
 
 export class TransformsStyle extends Map<keyof TransformStyleInterface, TransformStyleInterface[keyof TransformStyleInterface]> {

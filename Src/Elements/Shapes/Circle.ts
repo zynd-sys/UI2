@@ -1,5 +1,5 @@
-import type { ShapeStyles } from '../../ViewConstructors/Modifiers/CSS/Types/ShapeStyles';
-import { Styles } from '../../ViewConstructors/Modifiers/CSS/Styles';
+import type { ShapeStyles } from '../../Styles/CSS/Types';
+import { Styles } from '../../ViewConstructors/Modifiers/Styles';
 import { ViewShapeElement } from '../../ViewConstructors/ViewShapes';
 
 

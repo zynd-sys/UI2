@@ -1,20 +1,20 @@
-import type { ScrollSnapType } from './Enum/ScrollSnapType';
+import type { ScrollSnapType } from '../Styles/CSS/Enums/ScrollSnapType';
 import type { ListenersInterface, Listeners } from './Modifiers/Listeners/Listeners';
-import type { Styles } from './Modifiers/CSS/Styles';
-import type { ElementsContainerStyles } from './Modifiers/CSS/Types/ElementsContainerStyles';
 import type { ViewBuilder } from './ViewBuilder';
 import type { GridTrackClass } from './Modifiers/GridTrack';
 import type { GridTrackRepeat } from './Enum/GridTrackRepeat';
 import type { CompositingCoords } from './Modifiers/Compositing';
 import type { Side } from './Enum/Side';
+import type { Styles } from './Modifiers/Styles';
+import type { ElementsContainerStyles } from '../Styles/CSS/Types';
 import { ViewsList } from './Modifiers/ListView';
-import { Direction } from './Enum/Direction';
-import { Units } from './Enum/Units';
+import { Direction } from '../Styles/CSS/Enums/Direction';
+import { Units } from '../Styles/CSS/Enums/Units';
 import { ViewModifiers } from './ViewModifiers';
-import { Scroll } from './Enum/Scroll';
-import { ContentAlign } from './Enum/ContentAlign';
-import { MainStyleSheet } from './Modifiers/CSS/MainStyleSheet';
-import { CSSSelectore } from './Modifiers/CSS/CSSSelectore';
+import { Scroll } from '../Styles/CSS/Enums/Scroll';
+import { ContentAlign } from '../Styles/CSS/Enums/ContentAlign';
+import { MainStyleSheet, CSSSelectore } from '../Styles/CSS';
+
 
 
 

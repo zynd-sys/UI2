@@ -1,12 +1,10 @@
 import type { Listeners, ListenersInterface } from '../ViewConstructors/Modifiers/Listeners/Listeners'
 import type { ElementAttribute, ElementAttributeInterface } from '../ViewConstructors/Modifiers/Attributes'
-import type { MinimalStylesInterface } from '../ViewConstructors/Modifiers/CSS/Types/MinimalStylesType'
-import { Styles } from '../ViewConstructors/Modifiers/CSS/Styles'
+import type { MinimalStylesInterface } from '../Styles/CSS/Types'
 import { ViewModifiers } from '../ViewConstructors/ViewModifiers'
-import { MainStyleSheet } from '../ViewConstructors/Modifiers/CSS/MainStyleSheet'
-import { CSSSelectore } from '../ViewConstructors/Modifiers/CSS/CSSSelectore'
-import { ContentAlign } from '../ViewConstructors/Enum/ContentAlign'
-import { DefaultColor } from '../ViewConstructors/Modifiers/Colors/DefaultColors'
+import { Styles } from '../ViewConstructors/Modifiers/Styles'
+import { DefaultColor } from '../Styles/Colors'
+import { MainStyleSheet, CSSSelectore, ContentAlign } from '../Styles/CSS'
 
 
 

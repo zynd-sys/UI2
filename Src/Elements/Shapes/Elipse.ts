@@ -1,8 +1,7 @@
-import type { ShapeStyles, ShapeSVGElementStyles } from '../../ViewConstructors/Modifiers/CSS/Types/ShapeStyles';
+import type { ShapeSVGElementStyles, ShapeStyles } from '../../Styles/CSS/Types';
 import type { Point } from '../../ViewConstructors/Modifiers/Listeners/Gesture/Point';
-import { CSSSelectore } from '../../ViewConstructors/Modifiers/CSS/CSSSelectore';
-import { MainStyleSheet } from '../../ViewConstructors/Modifiers/CSS/MainStyleSheet';
-import { Styles } from '../../ViewConstructors/Modifiers/CSS/Styles';
+import { MainStyleSheet, CSSSelectore } from '../../Styles/CSS';
+import { Styles } from '../../ViewConstructors/Modifiers/Styles';
 import { ViewShapeElement } from '../../ViewConstructors/ViewShapes';
 
 

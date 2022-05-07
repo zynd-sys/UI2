@@ -1,5 +1,5 @@
 import type { ImageMimeType } from '../ViewConstructors/Enum/ImageMimeType';
-import type { Color } from '../ViewConstructors/Modifiers/Colors';
+import type { Color } from '../Styles/Colors';
 
 
 

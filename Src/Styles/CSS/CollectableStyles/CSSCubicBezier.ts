@@ -1,5 +1,10 @@
 
+
+
+
+
 export type CSSCubicBezierType = `cubic-bezier(${number},${number},${number},${number})`
+
 
 export class CSSCubicBezier {
 	public readonly p1: number

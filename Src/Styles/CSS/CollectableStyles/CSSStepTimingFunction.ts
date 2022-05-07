@@ -1,10 +1,16 @@
 
 
+
+
+
+
 export type CSSStepTimingFunctionType = `steps(${number})` | `steps(${number},${'jump-start' | 'jump-end' | 'jump-none' | 'jump-both'})`
+
+
 
 export class CSSStepTimingFunction {
 	protected jumpterm?: 'jump-start' | 'jump-end' | 'jump-none' | 'jump-both'
-	protected step: number
+	public step: number
 
 	public toString(): CSSStepTimingFunctionType { return this.jumpterm ? `steps(${this.step},${this.jumpterm})` : `steps(${this.step})` }
 

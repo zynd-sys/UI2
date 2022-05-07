@@ -1,12 +1,10 @@
-import type { StrokeLinejoin } from './Enum/StrokeLinejoin';
-import type { Color } from './Modifiers/Colors';
+import type { Color } from '../Styles/Colors';
 import type { ElementAttribute, ElementAttributeInterface } from './Modifiers/Attributes';
-import type { ShapeStyles, ShapeSVGElementStyles } from './Modifiers/CSS/Types/ShapeStyles';
 import type { Listeners, ListenersInterface } from './Modifiers/Listeners/Listeners';
-import type { Styles } from './Modifiers/CSS/Styles';
+import type { Styles } from './Modifiers/Styles';
+import type { ShapeSVGElementStyles, ShapeStyles } from '../Styles/CSS/Types';
+import { MainStyleSheet, CSSSelectore, type StrokeLinejoin } from '../Styles/CSS';
 import { ViewModifiers } from './ViewModifiers';
-import { MainStyleSheet } from './Modifiers/CSS/MainStyleSheet';
-import { CSSSelectore } from './Modifiers/CSS/CSSSelectore';
 
 
 

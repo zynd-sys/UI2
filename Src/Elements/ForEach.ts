@@ -1,9 +1,8 @@
-import { CSSSelectore } from '../ViewConstructors/Modifiers/CSS/CSSSelectore'
-import { MainStyleSheet } from '../ViewConstructors/Modifiers/CSS/MainStyleSheet'
 import { Compositing, CompositingCoords } from '../ViewConstructors/Modifiers/Compositing'
 import { ViewBuilder } from '../ViewConstructors/ViewBuilder'
-import { Units } from '../ViewConstructors/Enum/Units'
+import { Units } from '../Styles/CSS/Enums/Units'
 import { UIAnimationClass } from '../ViewConstructors/Modifiers/Animation/UIAnimation'
+import { MainStyleSheet, CSSSelectore } from '../Styles/CSS'
 
 
 

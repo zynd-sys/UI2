@@ -2,8 +2,8 @@ import { Compositing, CompositingCoords } from '../ViewConstructors/Modifiers/Co
 import { ObserverInterface, isObserved } from '../Data/Observed';
 import { ViewsList } from '../ViewConstructors/Modifiers/ListView';
 import { ViewBuilder } from '../ViewConstructors/ViewBuilder';
-import { MainStyleSheet } from '../ViewConstructors/Modifiers/CSS/MainStyleSheet';
-import { CSSSelectore } from '../ViewConstructors/Modifiers/CSS/CSSSelectore';
+import { MainStyleSheet, CSSSelectore } from '../Styles/CSS';
+
 
 
 

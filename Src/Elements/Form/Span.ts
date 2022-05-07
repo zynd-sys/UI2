@@ -1,12 +1,10 @@
 import type { ElementAttribute, ElementAttributeInterface } from '../../ViewConstructors/Modifiers/Attributes'
 import type { Listeners } from '../../ViewConstructors/Modifiers/Listeners/Listeners'
 import type { ViewBuilder } from '../../ViewConstructors/ViewBuilder'
-import type { ElementsContainerStyles } from '../../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles'
-import { Styles } from '../../ViewConstructors/Modifiers/CSS/Styles'
+import type { ElementsContainerStyles } from '../../Styles/CSS/Types'
 import { ElementsContainerListeners, ViewElementsContainer } from '../../ViewConstructors/ViewElementsContainer'
-import { MainStyleSheet } from '../../ViewConstructors/Modifiers/CSS/MainStyleSheet'
-import { CSSSelectore } from '../../ViewConstructors/Modifiers/CSS/CSSSelectore'
-import { Direction } from '../../ViewConstructors/Enum/Direction'
+import { Styles } from '../../ViewConstructors/Modifiers/Styles'
+import { MainStyleSheet, CSSSelectore, Direction } from '../../Styles/CSS'
 
 
 

@@ -1,6 +1,6 @@
-import type { ContentAlign } from '../../../Enum/ContentAlign';
-import type { Direction } from '../../../Enum/Direction';
-import type { ScrollSnapType } from '../../../Enum/ScrollSnapType';
+import type { ContentAlign } from '../Enums/ContentAlign';
+import type { Direction } from '../Enums/Direction';
+import type { ScrollSnapType } from '../Enums/ScrollSnapType';
 import type { CSSLength, MinimalStylesInterface } from './MinimalStylesType';
 
 

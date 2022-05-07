@@ -1,16 +1,8 @@
-import type { Align } from './Enum/Align';
-import type { TextTransform } from './Enum/TextTransform';
-import type { TextStyles } from './Modifiers/CSS/Types/TextStyles';
-import type { Styles } from './Modifiers/CSS/Styles';
-import type { Color } from './Modifiers/Colors';
-import type { ColumnInsideBreak } from './Enum/ColumnInsideBreak';
-import type { BorderStyle } from './Enum/BorderStyle';
-import { TextWeight } from './Enum/TextWeight';
-import { TextSpacing } from './Enum/TextSpacing';
-import { Units } from './Enum/Units';
+import type { Color } from '../Styles/Colors';
+import type { Styles } from './Modifiers/Styles';
+import type { TextStyles } from '../Styles/CSS/Types';
+import { MainStyleSheet, CSSSelectore, Units, type BorderStyle, type ColumnInsideBreak, type Align, TextWeight, type TextTransform, TextSpacing } from '../Styles/CSS';
 import { ViewModifiers } from './ViewModifiers';
-import { MainStyleSheet } from './Modifiers/CSS/MainStyleSheet';
-import { CSSSelectore } from './Modifiers/CSS/CSSSelectore';
 
 
 

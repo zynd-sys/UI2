@@ -1,13 +1,13 @@
 import type { ViewBuilder } from '../ViewConstructors/ViewBuilder'
-import type { ElementsContainerStyles } from '../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles'
 import type { ReferrerPolicyOptions } from '../ViewConstructors/Enum/ReferrerPolicyOptions'
 import type { LinkTarget } from '../ViewConstructors/Enum/LinkTarget'
 import type { Crossorigin } from '../ViewConstructors/Enum/Crossorigin'
+import type { ElementsContainerStyles } from '../Styles/CSS/Types'
 import { ElementAttribute, SecurityPolicyAttribute, SecurityPolicyViewModifiers } from '../ViewConstructors/Modifiers/Attributes'
 import { Listeners } from '../ViewConstructors/Modifiers/Listeners/Listeners'
-import { Styles } from '../ViewConstructors/Modifiers/CSS/Styles'
 import { ViewElementsContainer, ElementsContainerListeners } from '../ViewConstructors/ViewElementsContainer'
 import { PhoneNumber, Email, URIBuilder } from '../Data/URI'
+import { Styles } from '../ViewConstructors/Modifiers/Styles'
 
 
 

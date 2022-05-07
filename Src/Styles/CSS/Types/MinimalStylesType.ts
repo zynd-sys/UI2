@@ -1,16 +1,16 @@
-import type { Align } from '../../../Enum/Align';
-import type { BorderStyle } from '../../../Enum/BorderStyle';
-import type { ContentAlign } from '../../../Enum/ContentAlign';
-import type { Scroll } from '../../../Enum/Scroll';
-import type { TimingFunction } from '../../../Enum/TimingFunction';
-import type { CSSCubicBezier, CSSCubicBezierType } from '../CSSCubicBezier';
-import type { FiltersStyle } from '../../CollectableStyles/FiltersStyle';
-import type { DropShadowStyle, InnerShadowStyle } from '../../CollectableStyles/ShadowStyle';
-import type { TransformsStyle } from '../../CollectableStyles/TransformsStyle';
 import type { Color } from '../../Colors';
-import type { Units } from '../../../Enum/Units';
-import type { BlendMode } from '../../../Enum/BlendMode';
-import type { CSSStepTimingFunction, CSSStepTimingFunctionType } from '../CSSStepTimingFunction';
+import type { Units } from '../Enums/Units';
+import type { BorderStyle } from '../Enums/BorderStyle';
+import type { ContentAlign } from '../Enums/ContentAlign';
+import type { BlendMode } from '../Enums/BlendMode';
+import type { Scroll } from '../Enums/Scroll';
+import type { TransformsStyle } from '../CollectableStyles/TransformsStyle';
+import type { FiltersStyle } from '../CollectableStyles/FiltersStyle';
+import type { DropShadowStyle, InnerShadowStyle } from '../CollectableStyles/ShadowStyle';
+import type { Align } from '../Enums/Align';
+import type { TimingFunction } from '../Enums/TimingFunction';
+import type { CSSStepTimingFunction, CSSStepTimingFunctionType } from '../CollectableStyles/CSSStepTimingFunction';
+import type { CSSCubicBezier, CSSCubicBezierType } from '../CollectableStyles/CSSCubicBezier';
 
 
 
@@ -36,6 +36,10 @@ export type cursorType = 'auto' |
 	'all-scroll' |
 	`${'col' | 'row' | 'n' | 'e' | 's' | 'w' | 'ne' | 'nw' | 'se' | 'sw' | 'ew' | 'ns' | 'nesw' | 'nwse'}-resize` |
 	`zoom-${'in' | 'out'}`;
+
+
+
+
 
 
 export type CSSVariable<V extends string | number | boolean> = `var(--${string})` | `var(--${string},${V})`

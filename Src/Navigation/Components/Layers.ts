@@ -2,9 +2,8 @@ import type { View } from '../../Elements/View';
 import type { CompositingCoords } from '../../ViewConstructors/Modifiers/Compositing';
 import { PageDataColorMode } from '../../Data/PageData/PageDataColorMode';
 import { PageDataWidth } from '../../Data/PageData/PageDataWidth';
-import { MainStyleSheet } from '../../ViewConstructors/Modifiers/CSS/MainStyleSheet';
-import { CSSSelectore } from '../../ViewConstructors/Modifiers/CSS/CSSSelectore';
-import { ContentAlign } from '../../ViewConstructors/Enum/ContentAlign';
+import { ContentAlign } from '../../Styles/CSS/Enums/ContentAlign';
+import { MainStyleSheet, CSSSelectore } from '../../Styles/CSS';
 
 
 

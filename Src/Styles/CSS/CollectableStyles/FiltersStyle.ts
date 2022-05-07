@@ -1,6 +1,6 @@
+import type { CSSAngle, CSSLength, CSSVariable } from '../Types/MinimalStylesType';
 import type { DropShadowStyle } from './ShadowStyle';
-import type { CSSAngle, CSSLength, CSSVariable } from '../CSS/Types/MinimalStylesType';
-import type { Units } from '../../Enum/Units';
+import type { Units } from '../Enums/Units';
 
 
 
@@ -17,6 +17,8 @@ export interface FilterStyleInterface {
 	'sepia'?: number | `${number}${Units.absolute}`
 	'drop-shadow'?: DropShadowStyle
 }
+
+
 
 export class FiltersStyle extends Map<keyof FilterStyleInterface, FilterStyleInterface[keyof FilterStyleInterface]> {
 	public getCollectableStyles(key: 'drop-shadow', constructor: new (...p: any[]) => NonNullable<FilterStyleInterface['drop-shadow']>, ...constructorParameters: any[]): NonNullable<FilterStyleInterface['drop-shadow']> {

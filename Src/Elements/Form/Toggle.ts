@@ -3,24 +3,12 @@ import type { Listeners } from '../../ViewConstructors/Modifiers/Listeners/Liste
 import type { ViewBuilder } from '../../ViewConstructors/ViewBuilder'
 import type { ElementsContainerListeners } from '../../ViewConstructors/ViewElementsContainer'
 import type { SpanView } from './Span'
-import type { ElementsContainerStyles } from '../../ViewConstructors/Modifiers/CSS/Types/ElementsContainerStyles'
-import type { Color } from '../../ViewConstructors/Modifiers/Colors'
-import { Styles } from '../../ViewConstructors/Modifiers/CSS/Styles'
+import type { Color } from '../../Styles/Colors'
+import type { ElementsContainerStyles } from '../../Styles/CSS/Types'
 import { ToggleStyle, ToggleStyleInterface } from './Styles/ToggleStyle'
 import { ViewFormElement } from '../../ViewConstructors/ViewFormElement'
 import { Binding as BindingObserve, isObserved } from '../../Data/Observed'
-
-
-
-
-
-
-
-
-
-
-
-
+import { Styles } from '../../ViewConstructors/Modifiers/Styles'
 
 
 

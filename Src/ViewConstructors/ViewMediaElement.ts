@@ -1,17 +1,14 @@
 import type { ImageMimeType } from './Enum/ImageMimeType';
-import type { MediaFit } from './Enum/MediaFit';
-import type { MinimalStylesInterface } from './Modifiers/CSS/Types/MinimalStylesType';
-import type { Styles } from './Modifiers/CSS/Styles';
 import type { Listeners, LoadingResourceListeners, LoadingResourceModifiers } from './Modifiers/Listeners/Listeners';
 import type { ElementAttribute, SecurityPolicyAttribute, SecurityPolicyViewModifiers } from './Modifiers/Attributes';
 import type { ReferrerPolicyOptions } from './Enum/ReferrerPolicyOptions';
 import type { Crossorigin } from './Enum/Crossorigin';
-import { Direction } from './Enum/Direction';
-import { Units } from './Enum/Units';
-import { FitPositionStyle } from './Modifiers/CollectableStyles/FitPosition';
+import type { Styles } from './Modifiers/Styles';
+import type { MediaStyleInterface } from '../Styles/CSS/Types';
 import { ViewsList } from './Modifiers/ListView';
 import { ViewBuilder } from './ViewBuilder';
 import { ViewModifiers } from './ViewModifiers';
+import { Direction, FitPositionStyle, MediaFit, Units } from '../Styles/CSS';
 
 
 
@@ -91,13 +88,6 @@ class MediaSourceView extends ViewBuilder {
 
 
 
-
-export interface MediaStyleInterface extends MinimalStylesInterface {
-	'--object-fit'?: MediaFit
-	'--object-position'?: FitPositionStyle
-	'object-fit'?: MediaFit
-	'object-position'?: FitPositionStyle
-}
 
 
 
