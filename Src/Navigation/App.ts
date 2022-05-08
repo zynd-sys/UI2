@@ -1,6 +1,6 @@
 import type { View } from '../Elements/View';
-import type { ColorMode } from '../Data/PageData/PageDataColorMode';
 import type { Manifest } from './Components/ManifestItem';
+import type { ColorScheme } from '../Styles/Colors/PrefersColorSchemeCSSMedia';
 import { AppCoreClass } from './Components/AppCore';
 
 
@@ -33,6 +33,8 @@ export const App = new class AppClass {
 
 	/**
 	 * * priorety 2
+	 *
+	 * for disabled global color mode set `undefined`
 	 */
-	public setGlobalColorMode(value: ColorMode): void { this.core.globalColorMode = value; }
+	public setGlobalColorMode(value?: ColorScheme): void { this.core.globalColorMode = value; }
 }

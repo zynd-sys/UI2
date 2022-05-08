@@ -1,3 +1,4 @@
+import { PrefersReducedMotionCSSMedia, PrefersReducedMotionValue } from '../../ViewConstructors/Modifiers/Animation/PrefersReducedMotionCSSMedia'
 import { LightObserver } from '../Observed'
 
 
@@ -18,10 +19,8 @@ export class PageDataClass extends LightObserver {
 		this.isTouch = !mediaQHover.matches;
 		mediaQHover.addEventListener('change', event => this.action('isTouch', !event.matches));
 
-		let mediaQreducedAnimation = window.matchMedia('(prefers-reduced-motion: reduce)');
-		this.reducedAnimation = mediaQreducedAnimation.matches;
-		mediaQreducedAnimation.addEventListener('change', event => this.action('reducedAnimation', event.matches));
-
+		this.reducedAnimation = PrefersReducedMotionValue;
+		PrefersReducedMotionCSSMedia.addEventListener('change', event => this.action('reducedAnimation', event.matches))
 	}
 }
 export const PageData: PageDataClass = new PageDataClass;

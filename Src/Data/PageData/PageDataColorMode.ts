@@ -1,42 +1,40 @@
 // import type { Color } from '../../ViewConstructors/Styles/Colors/Colors';
+import {  ColorScheme, PrefersColorSchemeCSSMedia, PrefersColorSchemeValue, setPrefersPriorityColorScheme } from '../../Styles/Colors/PrefersColorSchemeCSSMedia';
 import { LightObserver } from '../Observed';
 
 
 
 
-export enum ColorMode {
-	light,
-	dark
-}
+
 
 
 
 
 
 export class PageDataColorModeClass extends LightObserver {
-	protected matchMedia = window.matchMedia('(prefers-color-scheme: light)')
-	protected mode?: ColorMode
+	protected mode?: ColorScheme
 	// protected textColorValue?: Color
 	// protected backgroundColorValue?: Color
 
-	public value: ColorMode = this.matchMedia.matches ? ColorMode.light : ColorMode.dark
+	public value: ColorScheme
 
 	protected mainHandler() {
 		if (typeof this.mode == 'number') {
 			if (this.mode == this.value) return;
+			document.body.style.setProperty('color', this.value == ColorScheme.light ? '#000' : '#fff')
+			document.body.style.setProperty('--background-color', this.value == ColorScheme.light ? '#fff' : '#000')
+
 			this.action('value', this.mode);
-			document.body.style.setProperty('color', this.value == ColorMode.light ? '#000' : '#fff')
-			document.body.style.setProperty('--background-color', this.value == ColorMode.light ? '#fff' : '#000')
 			// if (this.textColorValue) document.body.style.setProperty('color', this.textColorValue.toString());
 			// if (this.backgroundColorValue) document.body.style.setProperty('--background-color', this.backgroundColorValue.toString());
 			return
 		}
-
-		this.action('value', this.matchMedia.matches ? ColorMode.light : ColorMode.dark)
 		// if (this.textColorValue) document.body.style.setProperty('color', this.textColorValue.toString());
 		// if (this.backgroundColorValue) document.body.style.setProperty('--background-color', this.backgroundColorValue.toString());
-		document.body.style.setProperty('color', this.value == ColorMode.light ? '#000' : '#fff')
-		document.body.style.setProperty('--background-color', this.value == ColorMode.light ? '#fff' : '#000')
+		document.body.style.setProperty('color', this.value == ColorScheme.light ? '#000' : '#fff')
+		document.body.style.setProperty('--background-color', this.value == ColorScheme.light ? '#fff' : '#000')
+
+		this.action('value', PrefersColorSchemeValue)
 	}
 
 
@@ -60,10 +58,11 @@ export class PageDataColorModeClass extends LightObserver {
 
 
 
-	public useOnlyColorMode(value?: ColorMode): this { this.mode = value; this.mainHandler(); return this }
+	public useOnlyColorMode(value?: ColorScheme): this { setPrefersPriorityColorScheme(value); this.mode = value; this.mainHandler(); return this }
 	constructor() {
 		super();
-		this.matchMedia.addEventListener('change', () => this.mainHandler())
+		this.value = PrefersColorSchemeValue;
+		PrefersColorSchemeCSSMedia.addEventListener('change',()=>this.mainHandler())
 	}
 }
 

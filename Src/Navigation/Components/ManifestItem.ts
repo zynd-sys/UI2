@@ -1,4 +1,4 @@
-import type { ColorMode } from '../../Data/PageData/PageDataColorMode'
+import type { ColorScheme } from '../../Styles/Colors/PrefersColorSchemeCSSMedia'
 import { View } from '../../Elements/View'
 import { LinkPathClass } from './LinkPath'
 
@@ -26,12 +26,12 @@ export class ManifestItem<P extends string, V extends new (...p: any[]) => View>
 
 	public readonly segmentType: URLSegment
 	public redirectsValue?: string[]
-	public colorModeValue?: ColorMode
+	public colorModeValue?: ColorScheme
 
 	public checkView(value: new (...p: any[]) => View): boolean { return typeof this.view == 'function' && this.view.prototype instanceof View && this.view == value }
 
 	public redirects(...value: string[]): this { this.redirectsValue = value; return this }
-	public colorMode(value: ColorMode): this { this.colorModeValue = value; return this }
+	public colorMode(value: ColorScheme): this { this.colorModeValue = value; return this }
 
 	constructor(pathType: URLSegment, path: P, view: V | (() => Promise<V>)) {
 		super(path, view)

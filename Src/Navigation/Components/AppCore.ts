@@ -1,6 +1,7 @@
 import type { View } from '../../Elements/View'
 import type { CompositingCoords } from '../../ViewConstructors/Modifiers/Compositing';
-import { ColorMode, PageDataColorMode } from '../../Data/PageData/PageDataColorMode';
+import type { ColorScheme } from '../../Styles/Colors/PrefersColorSchemeCSSMedia';
+import { PageDataColorMode } from '../../Data/PageData/PageDataColorMode';
 import { AnimationStorage } from '../../ViewConstructors/Modifiers/Animation/UIAnimation';
 import { AppLayerName, AppLayersClass } from './Layers'
 import { AppHistoryClass, NotFoundError } from './History';
@@ -27,7 +28,7 @@ export class AppCoreClass {
 	protected errorView?: new (error: Error) => View
 	protected notFoundView?: new () => View
 
-	public globalColorMode?: ColorMode
+	public globalColorMode?: ColorScheme
 
 
 
@@ -39,7 +40,7 @@ export class AppCoreClass {
 		this.layers.clearLayer('all');
 		if (this.errorView) this.layers.setLayer(AppLayerName.app, new this.errorView(error));
 	}
-	protected setAppLayers(view: new (...p: any[]) => View, viewParametrs: any[], colorMode?: ColorMode, topScroll: boolean = true): void {
+	protected setAppLayers(view: new (...p: any[]) => View, viewParametrs: any[], colorMode?: ColorScheme, topScroll: boolean = true): void {
 		PageDataColorMode.useOnlyColorMode(colorMode ? colorMode : this.globalColorMode);
 		this.layers.setLayer(AppLayerName.app, new view(...viewParametrs));
 		if (topScroll) window.scrollTo({ top: 0, left: 0 });

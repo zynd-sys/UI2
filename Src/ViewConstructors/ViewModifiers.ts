@@ -28,7 +28,7 @@ import { ScrollObserver } from './Modifiers/ScrollObserver'
 import { DefaultColor } from '../Styles/Colors/DefaultColors'
 import { ScrollIntoSelf } from './Modifiers/ScrollIntoSelf'
 import { Binding as BindingObserve, isObserved } from '../Data/Observed'
-import { PageData } from '../Data/PageData/PageData'
+import { PrefersReducedMotionValue } from './Modifiers/Animation/PrefersReducedMotionCSSMedia'
 import { TimingFunction } from '../Styles/CSS/Enums/TimingFunction'
 import { GestureStorage } from './Modifiers/Listeners/Gesture/GestureStorage'
 import { MainStyleSheet, CSSSelectore } from '../Styles/CSS'
@@ -339,7 +339,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	 * @description 1000ms = 1s
 	 */
 	public transition(duration: number, timingFunction?: TimingFunction | CSSCubicBezier | CSSStepTimingFunction, delay?: number): this {
-		if (PageData.reducedAnimation) return this
+		if (PrefersReducedMotionValue) return this
 		this.styles
 			.set('transition-property', 'all')
 			.set('transition-duration', `${duration}ms`);

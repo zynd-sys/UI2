@@ -1,5 +1,5 @@
-import { PageData } from '../../../Data/PageData/PageData'
 import { Compositing } from '../Compositing'
+import { PrefersReducedMotionValue } from './PrefersReducedMotionCSSMedia'
 import { AnimationStorage, UIAnimation, UIAnimationClass } from './UIAnimation'
 
 
@@ -24,7 +24,7 @@ export class UIAnimationObject {
 
 
 	public animateCreation(element: HTMLElement): Promise<void> | void {
-		if (!this.created || PageData.reducedAnimation) return
+		if (!this.created || PrefersReducedMotionValue) return
 
 		let func = this.created;
 		if (element.isConnected) return func(() => element.getBoundingClientRect()).animate(element)
@@ -38,7 +38,7 @@ export class UIAnimationObject {
 	}
 
 	public animateDestruction(element: HTMLElement): Promise<void> | void {
-		if (!this.destroyed || PageData.reducedAnimation) return
+		if (!this.destroyed || PrefersReducedMotionValue) return
 		return this.destroyed(() => element.getBoundingClientRect()).animate(element)
 	}
 }
