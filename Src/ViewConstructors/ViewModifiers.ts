@@ -32,6 +32,7 @@ import { PrefersReducedMotionValue } from './Modifiers/Animation/PrefersReducedM
 import { TimingFunction } from '../Styles/CSS/Enums/TimingFunction'
 import { GestureStorage } from './Modifiers/Listeners/Gesture/GestureStorage'
 import { MainStyleSheet, CSSSelectore } from '../Styles/CSS'
+import { UI2ResizeObserver } from './Modifiers/Listeners/UI2ResizeObserver'
 
 
 
@@ -76,6 +77,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	protected scrollSelf?: ScrollIntoSelf
 	protected gestureHandler?: GestureClass<any>[]
 	protected transformsRef?: TransformsStylesRef
+	protected resizeHandler?: (sizes: DOMRectReadOnly) => void
 
 	protected animations: UIAnimationObject = new UIAnimationObject
 
@@ -114,6 +116,8 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 			else if (this.gestureHandler) { GestureStorage.destroy(element); this.gestureHandler = undefined }
 			if (newRender.listeners) this.listeners = newRender.listeners.render(element);
 			else if (this.listeners) { this.listeners.destroy(element); this.listeners = undefined }
+			if (newRender.resizeHandler) { this.resizeHandler = newRender.resizeHandler; UI2ResizeObserver.observe(element, this.resizeHandler); }
+			else if (this.resizeHandler) { UI2ResizeObserver.unobserve(element); this.listeners = undefined }
 			if (newRender.attribute) this.attribute = newRender.attribute.render(element)
 			else if (this.attribute) { this.attribute.destroy(element); this.attribute = undefined }
 			if (newRender.scrollObserver) this.scrollObserver = newRender.scrollObserver.render(element)
@@ -128,6 +132,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		if (!element.isConnected) {
 			if (withAnimation) this.animations.animateCreation(element)
 			if (this.gestureHandler) GestureStorage.render(element, this.gestureHandler)
+			if (this.resizeHandler) UI2ResizeObserver.observe(element, this.resizeHandler)
 			this.popoverData?.render();
 			this.transformsRef?.render(element);
 			this.scrollObserver?.render(element);
@@ -503,6 +508,11 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		return this
 	}
 	public onTranstionEnd(value: () => void): this { this.safeListeners.set('transitionend', () => value()); return this }
+	public onResize(value: (sizes: DOMRectReadOnly) => void): this { this.resizeHandler = value; return this }
+
+
+
+
 	/**
 	 * for best performance use `TransformsStylesRef`
 	 *
