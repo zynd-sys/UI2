@@ -32,7 +32,7 @@ import { PrefersReducedMotionValue } from './Modifiers/Animation/PrefersReducedM
 import { TimingFunction } from '../Styles/CSS/Enums/TimingFunction'
 import { GestureStorage } from './Modifiers/Listeners/Gesture/GestureStorage'
 import { MainStyleSheet, CSSSelectore } from '../Styles/CSS'
-import { UI2ResizeObserver } from './Modifiers/Listeners/UI2ResizeObserver'
+import { UIResizeObserver } from './Modifiers/Listeners/UIResizeObserver'
 
 
 
@@ -116,8 +116,8 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 			else if (this.gestureHandler) { GestureStorage.destroy(element); this.gestureHandler = undefined }
 			if (newRender.listeners) this.listeners = newRender.listeners.render(element);
 			else if (this.listeners) { this.listeners.destroy(element); this.listeners = undefined }
-			if (newRender.resizeHandler) { this.resizeHandler = newRender.resizeHandler; UI2ResizeObserver.observe(element, this.resizeHandler); }
-			else if (this.resizeHandler) { UI2ResizeObserver.unobserve(element); this.listeners = undefined }
+			if (newRender.resizeHandler) { this.resizeHandler = newRender.resizeHandler; UIResizeObserver.observe(element, this.resizeHandler); }
+			else if (this.resizeHandler) { UIResizeObserver.unobserve(element); this.listeners = undefined }
 			if (newRender.attribute) this.attribute = newRender.attribute.render(element)
 			else if (this.attribute) { this.attribute.destroy(element); this.attribute = undefined }
 			if (newRender.scrollObserver) this.scrollObserver = newRender.scrollObserver.render(element)
@@ -132,7 +132,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 		if (!element.isConnected) {
 			if (withAnimation) this.animations.animateCreation(element)
 			if (this.gestureHandler) GestureStorage.render(element, this.gestureHandler)
-			if (this.resizeHandler) UI2ResizeObserver.observe(element, this.resizeHandler)
+			if (this.resizeHandler) UIResizeObserver.observe(element, this.resizeHandler)
 			this.popoverData?.render();
 			this.transformsRef?.render(element);
 			this.scrollObserver?.render(element);

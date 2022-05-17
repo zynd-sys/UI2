@@ -1,4 +1,4 @@
-import { UIAnimationClass } from './Animation/UIAnimation'
+import { AnimationStorage, UIAnimationClass } from './Animation/UIAnimation'
 import { App } from '../../Navigation/App'
 import { Units } from '../../Styles/CSS/Enums/Units'
 
@@ -55,16 +55,19 @@ class CompositingClass {
 		this.requestAnimationFrame(1, () => {
 			const animation = customAnimation || this.defualtAnimation;
 
-			for (let element of elements) {
-				if (!element[0].isConnected || element[0].getAnimations().length) continue
-				let oldCoord = element[1];
-				let newCoord = element[0].getBoundingClientRect();
+			UIAnimationClass.globalAnimationOptions = animation.animationOptions;
+			AnimationStorage.addAnimationCompletionHandler(this, () => UIAnimationClass.globalAnimationOptions = undefined)
+
+			elements.forEach((oldCoord, element) => {
+				if (!element.isConnected || element.getAnimations().length) return
+				let newCoord = element.getBoundingClientRect();
 
 				if (oldCoord.top != newCoord.top || oldCoord.left != newCoord.left) animation
 					.translateXEffect(Units.px, oldCoord.left + oldCoord.width / 2 - newCoord.left - newCoord.width / 2, 0)
 					.translateYEffect(Units.px, oldCoord.top + oldCoord.height / 2 - newCoord.top - newCoord.height / 2, 0)
-					.animate(element[0])
-			}
+					.animate(element)
+			})
+
 			this.rendering = false;
 		})
 	}

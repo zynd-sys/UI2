@@ -103,8 +103,15 @@ export const AnimationStorage = new AnimationStorageClass;
 
 export class UIAnimationClass {
 
+	static globalAnimationOptions: KeyframeAnimationOptions | undefined = undefined
+
+
+
 	protected options: KeyframeAnimationOptions = { composite: 'replace', fill: 'backwards' }
 	protected keyFrames: AnimatedStyles = {}
+
+
+	public get animationOptions(): Readonly<KeyframeAnimationOptions> { return this.options }
 
 
 	protected setCollectableStyles<S extends 'transform' | 'filter'>(style: S, property: keyof s[S], values: (string | number)[]): void {
@@ -218,7 +225,10 @@ export class UIAnimationClass {
 
 
 	public animate(element: HTMLElement, trackAnimation: boolean = true): Promise<void> {
-		let animation = element.animate(this.keyFrames as unknown as PropertyIndexedKeyframes, this.options);
+		const options = UIAnimationClass.globalAnimationOptions || this.options;
+		let keyFrames = this.keyFrames;
+
+		let animation = element.animate(keyFrames as unknown as PropertyIndexedKeyframes, options);
 		let p = animation.finished.then<void>();
 
 		if (trackAnimation) AnimationStorage.addAnimation(element, p);

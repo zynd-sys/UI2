@@ -1,7 +1,7 @@
 
 
 
-class UI2ResizeObserverClass {
+class UIResizeObserverClass {
 	protected observer = new ResizeObserver(elements => this.onResize(elements));
 	protected handlersStorage: WeakMap<Element, (sizes: DOMRectReadOnly) => void> = new WeakMap
 
@@ -26,4 +26,4 @@ class UI2ResizeObserverClass {
 	}
 }
 
-export const UI2ResizeObserver = new UI2ResizeObserverClass;
+export const UIResizeObserver = new UIResizeObserverClass;
