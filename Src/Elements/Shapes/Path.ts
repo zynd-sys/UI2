@@ -62,8 +62,8 @@ export class Path {
 	/**
 	 *
 	 * @param angle represents a rotation (in degrees) of the ellipse relative to the x-axis
-	 * @param useLargeArc [large-arc-flag] allows to chose one of the large arc (`true`) or small arc (`false`). Defualt `true`
-	 * @param clockwiseTurningArc [sweep-flag] allows to chose one of the clockwise turning arc (`true`) or counterclockwise turning arc (`false`). Defualt `true`
+	 * @param useLargeArc [large-arc-flag] allows to chose one of the large arc (`true`) or small arc (`false`). default `true`
+	 * @param clockwiseTurningArc [sweep-flag] allows to chose one of the clockwise turning arc (`true`) or counterclockwise turning arc (`false`). default `true`
 	 * @see https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d#elliptical_arc_curve
 	 */
 	public addArc(to: Point, radiusX: number, radiusY: number, angle: number, useLargeArc: boolean = true, clockwiseTurningArc: boolean = true): this {

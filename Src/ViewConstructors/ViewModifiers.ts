@@ -210,9 +210,9 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	// public title(value?: string): this { if (value) this.ti = value; return this }
 	public popover<V extends new (...p: any[]) => View>(isPresented: BindingObserve<boolean>, view: V, ...data: ConstructorParameters<V>): this { if (isPresented.value) this.popoverData = new PopoverData(view, data); return this }
 	public backgroundColor(value?: Color): this { if (value) this.styles.set('background-color', value); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public userSelect(value: boolean = true): this { if (value) this.styles.set('-webkit-user-select', 'auto').set('user-select', 'auto'); return this }
-	/** @param value defualt 'auto' */
+	/** @param value default 'auto' */
 	public cursor(value: cursorType = 'auto'): this { this.styles.set('cursor', value); return this }
 	/**
 	 * @param value default true
@@ -253,14 +253,14 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 	public outlineWidth(value: number, unit: Units = Units.px): this { this.styles.set('outline-width', `${value}${unit}`); return this }
 	public outlineOffset(value: number, unit: Units = Units.px): this { this.styles.set('outline-offset', `${value}${unit}`); return this }
-	/** @param value defualt BorderStyle.solid */
+	/** @param value default BorderStyle.solid */
 	public outlineStyle(value: BorderStyle = BorderStyle.solid): this { this.styles.set('outline-style', value); return this }
-	/** @param value defualt black(#000) */
+	/** @param value default black(#000) */
 	public outlineColor(value: Color = DefaultColor.black): this { this.styles.set('outline-color', value); return this }
 	public borderWidth(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('border', side, `${value}${unit}`, '-width'); return this }
-	/** @param value defualt BorderStyle.solid */
+	/** @param value default BorderStyle.solid */
 	public borderStyle(value: BorderStyle = BorderStyle.solid, side: Side = Side.all): this { this.setSideStyles('border', side, value, '-style'); return this }
-	/** @param value defualt black(#000) */
+	/** @param value default black(#000) */
 	public borderColor(value: Color = DefaultColor.black, side: Side = Side.all): this { this.setSideStyles('border', side, value.toString(), '-color'); return this }
 	public borderRadius(side: SideBorderRadius, value: number, unit: Units = Units.px): this {
 		let v = `${value}${unit}` as `${number}${Units}`;

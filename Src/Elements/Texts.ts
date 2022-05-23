@@ -81,7 +81,7 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 
 
 
-	/** @param value defualt 'p' */
+	/** @param value default 'p' */
 	public tagName(value: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span'): this { this.HTMLTagName = value; return this }
 	/** @param value default true */
 	public textScaleToFill(value: boolean = true): this { if (value) { this.unwrapWord(); this.scaling = value; }; return this }

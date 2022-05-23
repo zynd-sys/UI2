@@ -153,7 +153,7 @@ export abstract class ViewElementsContainer<E extends HTMLElement | { parent: HT
 
 
 	public elements(...value: (ViewBuilder | undefined)[]): this { this.content.replace(value); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public animateChild(value: boolean = true): this { this.animations.withChild = value; return this }
 	/** ⚠️ check browser compatibility https://caniuse.com/?search=gap */
 	public gap(direction: Direction.horizontal | Direction.vertical, value: number, unit: Units = Units.px): this {
@@ -207,9 +207,9 @@ export abstract class ViewElementsContainer<E extends HTMLElement | { parent: HT
 	}
 	public scrollSnapPadding(side: Side, value: number, unit: Units = Units.px) { this.setSideStyles('scroll-padding', side, String(value) + unit); return this }
 
-	/** @param value defualt true */
+	/** @param value default true */
 	public unwrap(value: boolean = true): this { if (value) this.styles.set('flex-wrap', 'nowrap'); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public scrollBehavior(value: boolean = true): this { this.styles.set('scroll-behavior', value ? 'smooth' : 'auto'); return this }
 
 

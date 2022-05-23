@@ -40,7 +40,7 @@ export class FileFieldView extends ViewFormElement<HTMLInputElement> {
 
 
 
-	/** @param value defualt true */
+	/** @param value default true */
 	public multipleFiles(value: boolean = true): this { this.attribute.set('multiple', value); return this }
 	/**
 	 * @param values MimeType or `audio/*`, `video/*`, `image/*`

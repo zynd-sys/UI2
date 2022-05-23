@@ -104,7 +104,7 @@ export class TextStackView extends ViewTextModifiers<HTMLParagraphElement | HTML
 
 
 
-	/** @param value defualt 'p' */
+	/** @param value default 'p' */
 	public tagName(value: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p'): this { this.HTMLTagName = value; return this }
 
 

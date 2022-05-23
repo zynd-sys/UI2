@@ -80,7 +80,7 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 	/**
 	 * @param value is a css `rem`
 	 *
-	 * defualt `1rem` = `16px`
+	 * default `1rem` = `16px`
 	 */
 	public textSize(value: number): this { this.styles.set('font-size', `${value}rem`); return this }
 	public textLetterSpacing(value: number, unit: Units = Units.em): this { this.styles.set('letter-spacing', `${value}${unit}`); return this }
@@ -100,23 +100,23 @@ export abstract class ViewTextModifiers<E extends HTMLElement | { parent: HTMLEl
 			.set('-webkit-line-clamp', value);
 		return this
 	}
-	/** @param value defualt true */
+	/** @param value default true */
 	public textOverflowEllipsis(value: boolean = true): this { this.styles.set('text-overflow', value ? 'ellipsis' : 'clip'); return this }
 
 
-	/** @param value defualt true */
+	/** @param value default true */
 	public oneLine(value: boolean = true): this { if (value) this.styles.set('white-space', TextSpacing.nowrap); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public hyphens(value: boolean = true): this { if (value) this.styles.set('hyphens', 'auto').set('-webkit-hyphens', 'auto'); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public unwrapWord(value: boolean = true): this { if (value) this.styles.set('overflow-wrap', 'normal'); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public underline(value: boolean = true): this { if (value) this.styles.set('text-decoration', 'underline'); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public lineThrough(value: boolean = true): this { if (value) this.styles.set('text-decoration', 'line-through'); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public italic(value: boolean = true): this { if (value) this.styles.set('font-style', 'italic'); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public bold(value: boolean = true): this { if (value) this.styles.set('font-weight', TextWeight.Bold); return this }
 
 

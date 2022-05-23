@@ -19,7 +19,7 @@ export interface CompositingCoords {
 
 class CompositingClass {
 
-	protected defualtAnimation: UIAnimationClass = new UIAnimationClass(600)
+	protected defaultAnimation: UIAnimationClass = new UIAnimationClass(600)
 	protected rendering: boolean = false
 	protected callingAnimationFrame: boolean = false
 	protected renderingActions: [Set<() => void>, Set<() => void>] = [new Set, new Set]
@@ -53,7 +53,7 @@ class CompositingClass {
 
 
 		this.requestAnimationFrame(1, () => {
-			const animation = customAnimation || this.defualtAnimation;
+			const animation = customAnimation || this.defaultAnimation;
 
 			UIAnimationClass.globalAnimationOptions = animation.animationOptions;
 			AnimationStorage.addAnimationCompletionHandler(this, () => UIAnimationClass.globalAnimationOptions = undefined)

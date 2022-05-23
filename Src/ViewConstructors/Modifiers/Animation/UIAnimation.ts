@@ -197,7 +197,7 @@ export class UIAnimationClass {
 
 	/** @param value milliseconds */
 	public animationDelay(value: number): this { this.options.delay = value; return this }
-	/** @param value defualt true  */
+	/** @param value default true  */
 	public animationReverseDirectionEachCycle(value: boolean = true): this { this.options.direction = value ? 'alternate' : 'normal'; return this }
 	public animationTimingFunction(timingFunction: TimingFunction | CSSCubicBezier | CSSStepTimingFunction): this { this.options.easing = timingFunction.toString(); return this }
 	// /** @param value number or Infinity */

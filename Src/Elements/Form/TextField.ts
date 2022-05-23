@@ -149,13 +149,13 @@ export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLText
 
 	// spellcheck?
 	// public placeHolder(value?: string): this { if (value) this.attribute.set('placeholder', value); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public wrap(value: boolean = true): this { this.isWrap = value; return this }
 	public maxLength(value: number): this { this.attribute.set('maxlength', value); return this }
 	public minLength(value: number): this { this.attribute.set('minlength', value); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public required(value: boolean = true) { if (value) { this.attribute.set('required', true); this.listeners.set('invalid', (_, e) => e.preventDefault()) }; return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public readOnly(value: boolean = true): this { if (value) this.attribute.set('readonly', value); return this }
 	public keyboardStyle(value: KeyboardStyle, autocomplete?: TextAutocomplete, autocapitalize?: Autocapitalize): this {
 		this.attribute.set('type', value);
@@ -165,7 +165,7 @@ export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLText
 	}
 
 	public onEndInput(value: (value: string) => void): this { this.listeners.set('change', () => value(this.content)); return this }
-	/** @param value defualt true */
+	/** @param value default true */
 	public secureField(value: boolean = true, currentPassword: boolean = true): this { if (value) this.keyboardStyle(KeyboardStyle.password, currentPassword ? 'current-password' : 'new-password'); return this }
 
 
