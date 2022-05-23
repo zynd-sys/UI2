@@ -44,7 +44,7 @@ export class AppLayersClass {
 	protected storage: Map<AppLayerName, { element: LayerHTMLElement, view: View | undefined }> = new Map
 
 
-	public setLayer(layerName: AppLayerName, view: View, withAnimation?: boolean): void {
+	protected setLayer(layerName: AppLayerName, view: View, withAnimation?: boolean): void {
 		let layer = this.storage.get(layerName);
 		if (!layer) { console.error('not found', layerName); return }
 		// layer.element.textContent = null;
@@ -62,7 +62,7 @@ export class AppLayersClass {
 
 
 
-	public clearLayer(layerName: AppLayerName | 'all', withAnimation?: boolean): this {
+	protected clearLayer(layerName: AppLayerName | 'all', withAnimation?: boolean): this {
 		if (layerName == 'all') {
 			this.storage.forEach(v => {
 				v.element.textContent = null;

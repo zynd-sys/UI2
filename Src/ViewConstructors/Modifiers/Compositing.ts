@@ -49,7 +49,7 @@ class CompositingClass {
 		if (this.rendering) return
 
 		let elements: Map<HTMLElement, CompositingCoords> = new Map
-		App.core.getRectElements(elements)
+		App.getRectElements(elements)
 
 
 		this.requestAnimationFrame(1, () => {

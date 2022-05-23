@@ -75,7 +75,7 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 	constructor(view: V | LinkPathClass<V>, data: ConstructorParameters<V>, elements: (ViewBuilder | undefined)[]) {
 		super(elements);
 
-		const destination = App.core.generateURL(view, data[0]);
+		const destination = App.generateURL(view, data[0]);
 		if (typeof destination == 'string') this.destination = destination;
 		else {
 			this.destination = destination[0];
@@ -84,8 +84,8 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 
 		this.listeners.set('click', (_, event) => {
 			try {
-				if (this.disablePopover) App.core.disablePopover();
-				App.core.navigate(view, data);
+				if (this.disablePopover) App.disablePopover();
+				App.navigate(view, data);
 			}
 			catch (error) { console.error(error) }
 			finally { event.preventDefault() }

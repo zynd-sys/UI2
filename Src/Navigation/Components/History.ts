@@ -1,4 +1,5 @@
 import type { View } from '../../Elements/View';
+import { AppLayersClass } from './Layers';
 import { ManifestItem, URLSegment } from './ManifestItem';
 
 
@@ -13,18 +14,21 @@ export class NotFoundError extends Error {
 
 
 
-export class AppHistoryClass {
-	protected url: string = ''
+export class AppHistoryClass extends AppLayersClass {
+
+	protected readonly manifest: Set<ManifestItem<string, new (...p: any[]) => View>> = new Set;
 	protected readonly rootPaths: Set<string> = new Set
+
+	protected url: string = ''
 
 	protected setPage(url: string): void { window.history.pushState(undefined, '', url); }
 
-	public addRootPath(path: string): void { this.rootPaths.add(path) }
+	protected addRootPath(path: string): void { this.rootPaths.add(path) }
 
 
-	public getURL(): string { return this.url }
 
-	public generateURL(partPath: string): string {
+
+	protected generateHistoryURL(partPath: string): string {
 
 		// switch to root path
 		if (this.rootPaths.has(partPath)) return '/' + partPath
@@ -35,7 +39,7 @@ export class AppHistoryClass {
 
 
 
-	public navigate(partPath: string): void {
+	protected historyNavigate(partPath: string): void {
 
 		// switch to root path
 		if (this.rootPaths.has(partPath)) {
@@ -56,14 +60,14 @@ export class AppHistoryClass {
 
 
 
-	public checkURL(manifest: Set<ManifestItem<string, new (...p: any[]) => View>>, url: string = window.location.pathname): ManifestItem<string, new () => View> {
+	protected checkURL(url: string = window.location.pathname): ManifestItem<string, new () => View> {
 		let newPath: string[] = ['']
 		let pathSplit: string[] = url.replace(/\/$/, '').split('/');
 
 
 		let manifestItem: ManifestItem<string, new (...p: any[]) => View> | undefined;
 		if (pathSplit.length == 1) {
-			for (let item of manifest) if (item.segmentType == URLSegment.root && item.segment == '') { manifestItem = item; break }
+			for (let item of this.manifest) if (item.segmentType == URLSegment.root && item.segment == '') { manifestItem = item; break }
 			if (manifestItem) return manifestItem
 			throw new NotFoundError('not found start page manifest')
 		}
@@ -76,7 +80,7 @@ export class AppHistoryClass {
 			if (checkGeneric) { segment = checkGeneric[1]!; genericValue = checkGeneric[2] };
 
 			let addPath: string | undefined
-			for (let item of manifest)
+			for (let item of this.manifest)
 				if (item.segment == segment || (item.redirectsValue && item.redirectsValue.includes(segment))) {
 					manifestItem = item;
 					addPath = item.segmentType == URLSegment.generic && genericValue ? item.segment + '~' + genericValue : item.segment;
@@ -100,5 +104,8 @@ export class AppHistoryClass {
 
 
 
-	constructor() { this.rootPaths.add('') }
+	constructor() {
+		super();
+		this.rootPaths.add('');
+	}
 }

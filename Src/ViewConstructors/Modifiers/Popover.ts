@@ -8,8 +8,8 @@ export class PopoverData {
 	public data?: any[]
 
 
-	public render(): this { if (this.view && this.data) App.core.setPopover(this.view.bind(this.view, ...this.data)); return this }
-	public destroy(): this { App.core.disablePopover(); return this }
+	public render(): this { if (this.view && this.data) App.enablePopover(this.view.bind(this.view, ...this.data)); return this }
+	public destroy(): this { App.disablePopover(); return this }
 
 	constructor(view: new (...p: any[]) => View, data?: any[]) { this.view = view; this.data = data }
 }

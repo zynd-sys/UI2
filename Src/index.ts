@@ -77,7 +77,6 @@ export * from './ViewConstructors/Modifiers/TransformsStylesRef'
 
 // navigation
 export * from './Navigation/App'
-export * from './Navigation/Components/AppCore'
 export * from './Navigation/Components/History'
 export * from './Navigation/Components/Layers'
 export * from './Navigation/Components/LinkPath'
