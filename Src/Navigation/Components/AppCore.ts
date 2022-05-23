@@ -28,8 +28,6 @@ export class AppCoreClass {
 	protected errorView?: new (error: Error) => View
 	protected notFoundView?: new () => View
 
-	public globalColorMode?: ColorScheme
-
 
 
 
@@ -41,7 +39,7 @@ export class AppCoreClass {
 		if (this.errorView) this.layers.setLayer(AppLayerName.app, new this.errorView(error));
 	}
 	protected setAppLayers(view: new (...p: any[]) => View, viewParametrs: any[], colorMode?: ColorScheme, topScroll: boolean = true): void {
-		PageDataColorMode.useOnlyColorMode(colorMode ? colorMode : this.globalColorMode);
+		PageDataColorMode.useOnlyColorMode(colorMode);
 		this.layers.setLayer(AppLayerName.app, new view(...viewParametrs));
 		if (topScroll) window.scrollTo({ top: 0, left: 0 });
 
@@ -117,7 +115,7 @@ export class AppCoreClass {
 			this.promiseInitializer = undefined;
 
 
-			this.setAppLayers(viewv, viewParametrs, manifestItem?.colorModeValue);
+			this.setAppLayers(viewv, viewParametrs, manifestItem?.colorScheme);
 			if (typeof partPath == 'string') this.history.navigate(partPath);
 			this.urlNow = window.location.pathname;
 
@@ -239,7 +237,7 @@ export class AppCoreClass {
 			if (checkURL) generateURL = checkURL[2]
 
 			let view = data.getView();
-			this.setAppLayers(view instanceof Promise ? await view : view, [generateURL], data.colorModeValue, false);
+			this.setAppLayers(view instanceof Promise ? await view : view, [generateURL], data.colorScheme, false);
 
 
 		} catch (error: any) {

@@ -26,15 +26,15 @@ export class ManifestItem<P extends string, V extends new (...p: any[]) => View>
 
 	public readonly segmentType: URLSegment
 	public redirectsValue?: string[]
-	public colorModeValue?: ColorScheme
+	public colorScheme?: ColorScheme
 
 	public checkView(value: new (...p: any[]) => View): boolean { return typeof this.view == 'function' && this.view.prototype instanceof View && this.view == value }
 
 	public redirects(...value: string[]): this { this.redirectsValue = value; return this }
-	public colorMode(value: ColorScheme): this { this.colorModeValue = value; return this }
+	public preferredColorScheme(value: ColorScheme): this { this.colorScheme = value; return this }
 
 	constructor(pathType: URLSegment, path: P, view: V | (() => Promise<V>)) {
-		super(path, view)
+		super(path, view);
 		this.segmentType = pathType;
 	}
 }
