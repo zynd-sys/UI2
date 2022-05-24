@@ -15,7 +15,7 @@ interface PageDataStyles extends StylesInterface {
 
 
 
-MainStyleSheet.add(new CSSSelectore<PageDataStyles>('body', {
+MainStyleSheet.add(new CSSSelectore<PageDataStyles>(':root', {
 	'--safe-area-inset-top': 'env(safe-area-inset-top,0)',
 	'--safe-area-inset-right': 'env(safe-area-inset-right,0)',
 	'--safe-area-inset-bottom': 'env(safe-area-inset-bottom,0)',
@@ -24,14 +24,30 @@ MainStyleSheet.add(new CSSSelectore<PageDataStyles>('body', {
 
 
 
+
+const viewportCoverRegexp = /viewport-fit\s*=\s*cover/
+
 export class PageDataWidthClass extends LightObserver {
 	protected timeoutID?: number
 	protected isViewportCover: boolean = false
-	protected viewportCoverRegexp: RegExp = /viewport-fit\s*=\s*cover/
 
-	protected computedStyles?: CSSStyleDeclaration
-	protected get computedStylesSafe(): CSSStyleDeclaration { return this.computedStyles ? this.computedStyles : this.computedStyles = window.getComputedStyle(document.body) }
+	protected computedStyles: CSSStyleDeclaration = window.getComputedStyle(document.documentElement);
 
+	protected setupMetaTag(name: string, content: string, searchWithoutContent?: boolean): HTMLMetaElement {
+		let element = document.head.querySelector<HTMLMetaElement>(searchWithoutContent ? `meta[name='${name}']` : `meta[name='${name}'][content='${content}']`);
+		if (element) return element
+
+		element = document.head.appendChild(document.createElement('meta'));
+		element.name = name;
+		element.content = content;
+		return element
+	}
+
+
+
+
+
+	public orientationPortrait: boolean = window.matchMedia('(orientation: portrait)').matches
 	public value: number = window.innerWidth
 
 	public safeAreaInsetTop: number = 0
@@ -39,16 +55,22 @@ export class PageDataWidthClass extends LightObserver {
 	public safeAreaInsetBottom: number = 0
 	public safeAreaInsetLeft: number = 0
 
-	public orientationPortrait: boolean = window.matchMedia('(orientation: portrait)').matches
 
 
 	public setViewportCover(): void {
 		if (this.isViewportCover) return
-		let element = this.getMetaViewportElement();
+		let element = this.setupMetaTag('viewport', 'width=device-width, initial-scale=1');
 		element.content += ' ,viewport-fit=cover';
 		this.isViewportCover = true;
 		this.setSafeArea();
 	}
+	/** @see https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html */
+	public appleWebAppStatusBarStyleTranslucent(): void { this.setupMetaTag('apple-mobile-web-app-status-bar-style', 'black-translucent') }
+	/** @see https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html */
+	public disableFormatDetection(): void { this.setupMetaTag('format-detection', 'telephone=no') }
+
+
+
 
 
 
@@ -64,24 +86,16 @@ export class PageDataWidthClass extends LightObserver {
 
 
 	protected setSafeArea(): void {
-		this.safeAreaInsetTop = parseInt(this.computedStylesSafe.getPropertyValue('--safe-area-inset-top'));
-		this.safeAreaInsetRight = parseInt(this.computedStylesSafe.getPropertyValue('--safe-area-inset-right'));
-		this.safeAreaInsetBottom = parseInt(this.computedStylesSafe.getPropertyValue('--safe-area-inset-bottom'));
-		this.safeAreaInsetLeft = parseInt(this.computedStylesSafe.getPropertyValue('--safe-area-inset-left'));
+		this.safeAreaInsetTop = parseInt(this.computedStyles.getPropertyValue('--safe-area-inset-top'));
+		this.safeAreaInsetRight = parseInt(this.computedStyles.getPropertyValue('--safe-area-inset-right'));
+		this.safeAreaInsetBottom = parseInt(this.computedStyles.getPropertyValue('--safe-area-inset-bottom'));
+		this.safeAreaInsetLeft = parseInt(this.computedStyles.getPropertyValue('--safe-area-inset-left'));
 	}
 
 
-	protected getMetaViewportElement(): HTMLMetaElement {
-		let element = document.querySelector<HTMLMetaElement>('meta[name=viewport]');
-		if (!element) {
-			element = document.createElement('meta');
-			element.content = 'width=device-width, initial-scale=1';
-			document.body.appendChild(element)
-		}
-		return element
-	}
+
 	protected init(): void {
-		if (this.viewportCoverRegexp.test(this.getMetaViewportElement().content)) this.isViewportCover = true;
+		if (viewportCoverRegexp.test(this.setupMetaTag('viewport', 'width=device-width, initial-scale=1').content)) this.isViewportCover = true;
 		if (this.isViewportCover) this.setSafeArea();
 	}
 
