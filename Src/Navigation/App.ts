@@ -3,10 +3,10 @@ import type { ColorScheme } from '../Styles/Colors/PrefersColorSchemeCSSMedia';
 import { Manifest, ManifestItem, URLSegment } from './Components/ManifestItem';
 import { LinkPathClass } from './Components/LinkPath';
 import { AppHistoryClass, NotFoundError } from './Components/History';
-import { PageDataColorMode } from '../Data/PageData/PageDataColorMode';
 import { AppLayerName } from './Components/Layers';
 import { MetaDescription } from './MetaDescription';
 import { AnimationStorage } from '../ViewConstructors/Modifiers/Animation/UIAnimation';
+import { PageDataClass } from './PageData';
 
 
 
@@ -21,7 +21,7 @@ class AppClass extends AppHistoryClass {
 	protected errorView?: new (error: Error) => View
 	protected notFoundView?: new () => View
 
-
+	public readonly data: PageDataClass = new PageDataClass
 
 
 	protected setErrorView(error: Error): void {
@@ -32,7 +32,7 @@ class AppClass extends AppHistoryClass {
 		if (this.errorView) this.setLayer(AppLayerName.app, new this.errorView(error));
 	}
 	protected setAppLayers(view: new (...p: any[]) => View, viewParametrs: any[], colorMode?: ColorScheme, topScroll: boolean = true): void {
-		PageDataColorMode.useOnlyColorMode(colorMode);
+		this.data.globalColors.useOnlyColorMode(colorMode);
 		this.setLayer(AppLayerName.app, new view(...viewParametrs));
 		if (topScroll) window.scrollTo({ top: 0, left: 0 });
 
@@ -214,6 +214,7 @@ class AppClass extends AppHistoryClass {
 	}
 
 
+
 	public useManifest(...value: Manifest): void {
 		if (this.manifest.size != 0) throw new Error('error replace manifest')
 		value.forEach(v => { this.manifest.add(v); if (v.segmentType == URLSegment.root) this.addRootPath(v.segment) });
@@ -271,8 +272,7 @@ class AppClass extends AppHistoryClass {
 
 	constructor() {
 		super();
-		if (document.readyState != 'complete') window.addEventListener('load', () => this.init(), { once: true })
-		else this.init()
+		this.addGlobalListner(this.data)
 	}
 }
 

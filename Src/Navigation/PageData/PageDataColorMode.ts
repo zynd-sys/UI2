@@ -1,5 +1,5 @@
 import { ColorScheme, PrefersColorSchemeCSSMedia, PrefersColorSchemeValue, setPrefersPriorityColorScheme } from '../../Styles/Colors/PrefersColorSchemeCSSMedia';
-import { LightObserver } from '../Observed';
+import { LightObserver } from '../../Data/Observed';
 
 
 

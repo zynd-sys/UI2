@@ -1,6 +1,6 @@
 import type { CSSLength, StylesInterface } from '../../Styles/CSS/Types';
 import { MainStyleSheet, CSSSelectore } from '../../Styles/CSS';
-import { LightObserver } from '../Observed';
+import { LightObserver } from '../../Data/Observed';
 
 
 

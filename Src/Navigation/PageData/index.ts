@@ -1,6 +1,6 @@
 import { PageDataColorModeClass } from './PageDataColorMode'
 import { PageDataWidthClass } from './PageDataWidth'
-import { LightObserver } from '../Observed'
+import { LightObserver } from '../../Data/Observed'
 
 
 

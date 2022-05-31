@@ -86,7 +86,6 @@ export * from './Navigation/MetaDescription'
 
 // data
 export * from './Data/AsyncDB'
-export * from './Data/PageData/PageData'
 export * from './Data/URI'
 export * as Observed from './Data/Observed'
 export * from './Data/CoreData'
