@@ -19,7 +19,6 @@ class AppClass extends AppHistoryClass {
 
 
 	protected errorView?: new (error: Error) => View
-	protected notFoundView?: new () => View
 
 	public readonly data: PageDataClass = new PageDataClass
 
@@ -206,12 +205,7 @@ class AppClass extends AppHistoryClass {
 			return view
 		}
 	}
-	public notFoundPath(): <V extends new () => View>(view: V) => V {
-		return view => {
-			this.notFoundView = view
-			return view
-		}
-	}
+
 
 
 
@@ -261,7 +255,6 @@ class AppClass extends AppHistoryClass {
 				console.warn('not found', error.url);
 				this.popoverMod = false;
 				this.clearLayer('all');
-				if (this.notFoundView) this.setLayer(AppLayerName.app, new this.notFoundView());
 			} else {
 				this.setErrorView(error)
 			}
