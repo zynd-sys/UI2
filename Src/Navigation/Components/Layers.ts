@@ -1,7 +1,6 @@
 import type { View } from '../../Elements/View';
 import type { CompositingCoords } from '../../ViewConstructors/Modifiers/Compositing';
-import { PageDataColorMode } from '../../Data/PageData/PageDataColorMode';
-import { PageDataWidth } from '../../Data/PageData/PageDataWidth';
+import type { ObserverInterface } from '../../Data/Observed';
 import { ContentAlign } from '../../Styles/CSS/Enums/ContentAlign';
 import { MainStyleSheet, CSSSelectore } from '../../Styles/CSS';
 
@@ -39,13 +38,16 @@ MainStyleSheet.add(
 
 
 
-export class AppLayersClass {
+export abstract class AppLayersClass {
 
-	protected storage: Map<AppLayerName, { element: LayerHTMLElement, view: View | undefined }> = new Map
+	private cancelHandlerStorage: Map<ObserverInterface, () => void> = new Map
+	private layersStorage: Map<AppLayerName, { element: LayerHTMLElement, view: View | undefined }> = new Map
+
+	protected update(): void { this.layersStorage.forEach(v => v.view?.update()) }
 
 
 	protected setLayer(layerName: AppLayerName, view: View, withAnimation?: boolean): void {
-		let layer = this.storage.get(layerName);
+		let layer = this.layersStorage.get(layerName);
 		if (!layer) { console.error('not found', layerName); return }
 		// layer.element.textContent = null;
 
@@ -64,7 +66,7 @@ export class AppLayersClass {
 
 	protected clearLayer(layerName: AppLayerName | 'all', withAnimation?: boolean): this {
 		if (layerName == 'all') {
-			this.storage.forEach(v => {
+			this.layersStorage.forEach(v => {
 				v.element.textContent = null;
 				v.view = void v.view?.destroy();
 			})
@@ -72,7 +74,7 @@ export class AppLayersClass {
 			return this
 		}
 
-		let layer = this.storage.get(layerName);
+		let layer = this.layersStorage.get(layerName);
 		if (!layer) { console.error('not found', layerName); return this }
 
 		let result = layer.view?.destroy(withAnimation as any);
@@ -83,22 +85,28 @@ export class AppLayersClass {
 		return this
 	}
 
-	public getRectElements(storage: Map<HTMLElement, CompositingCoords>): void { this.storage.forEach(v => v.view?.getRectElements(storage)) }
+	public getRectElements(storage: Map<HTMLElement, CompositingCoords>): void { this.layersStorage.forEach(v => v.view?.getRectElements(storage)) }
+
+	public addGlobalListner(storage: ObserverInterface): void { this.cancelHandlerStorage.set(storage, storage.addBeacon(() => this.update())); }
+	public removeGlobalListner(storage: ObserverInterface): void {
+		let callback = this.cancelHandlerStorage.get(storage);
+		if (callback) {
+			callback();
+			this.cancelHandlerStorage.delete(storage)
+		}
+	}
+
 
 
 
 	protected init(): void {
 		let appElement = document.body.appendChild(new LayerHTMLElement);
 		appElement.setAttribute('layer', 'app');
-		this.storage.set(AppLayerName.app, { element: appElement, view: undefined });
+		this.layersStorage.set(AppLayerName.app, { element: appElement, view: undefined });
 
 		let popoverElement = document.body.appendChild(new LayerHTMLElement);
 		popoverElement.setAttribute('layer', 'popover');
-		this.storage.set(AppLayerName.popover, { element: popoverElement, view: undefined });
-
-
-		PageDataColorMode.addBeacon(() => this.storage.forEach(v => v.view?.update()))
-		PageDataWidth.addBeacon(() => this.storage.forEach(v => v.view?.update()))
+		this.layersStorage.set(AppLayerName.popover, { element: popoverElement, view: undefined });
 	}
 
 	constructor() {
