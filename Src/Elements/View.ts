@@ -73,27 +73,7 @@ export abstract class View extends ViewBuilder {
 	protected abstract override content: () => ViewBuilder
 
 
-
-
-	public addSafeHandler(object: ObserverInterface, target: () => void): this {
-		this[ViewStorageKey].cancelHandlerStorage.set(object, object.addBeacon(target));
-		return this
-	}
-
-
 	protected [ViewStorageKey] = new ViewStorage
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -113,6 +93,8 @@ export abstract class View extends ViewBuilder {
 		}
 	}
 
+
+
 	public render(withAnimation: boolean = false): ViewHTMLElement {
 		const storage = this[ViewStorageKey];
 
@@ -125,8 +107,6 @@ export abstract class View extends ViewBuilder {
 
 		return storage.HTMLElement
 	}
-
-
 
 
 
