@@ -49,7 +49,7 @@ class AppClass extends AppHistoryClass {
 	protected animationPromise: Promise<void> | undefined = undefined
 	protected promiseInitializer: LinkPathClass<any> | (new () => View) | undefined = undefined
 
-	protected getManifestItem(view: (new (...p: any[]) => View) | LinkPathClass<any>): undefined | ManifestItem<string, new (...p: any[]) => View> {
+	protected getManifestItem(view: (new (...p: any[]) => View) | LinkPathClass<any>): undefined | ManifestItem<string, any, new (...p: any[]) => View> {
 		if (!this.manifest) { console.error('navigate without app manifest'); return }
 
 		if (view instanceof LinkPathClass) {

@@ -16,7 +16,7 @@ export class NotFoundError extends Error {
 
 export class AppHistoryClass extends AppLayersClass {
 
-	protected readonly manifest: Set<ManifestItem<string, new (...p: any[]) => View>> = new Set;
+	protected readonly manifest: Set<ManifestItem<string, any, new (...p: any[]) => View>> = new Set;
 	protected readonly rootPaths: Set<string> = new Set
 
 	protected url: string = ''
@@ -60,12 +60,12 @@ export class AppHistoryClass extends AppLayersClass {
 
 
 
-	protected checkURL(url: string = window.location.pathname): ManifestItem<string, new () => View> {
+	protected checkURL(url: string = window.location.pathname): ManifestItem<string, any, new () => View> {
 		let newPath: string[] = ['']
 		let pathSplit: string[] = url.replace(/\/$/, '').split('/');
 
 
-		let manifestItem: ManifestItem<string, new (...p: any[]) => View> | undefined;
+		let manifestItem: ManifestItem<string, any, new (...p: any[]) => View> | undefined;
 		if (pathSplit.length == 1) {
 			for (let item of this.manifest) if (item.segmentType == URLSegment.root && item.segment == '') { manifestItem = item; break }
 			if (manifestItem) return manifestItem
