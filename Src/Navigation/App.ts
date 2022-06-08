@@ -1,12 +1,10 @@
 import type { View } from '../Elements/View';
-import type { ColorScheme } from '../Styles/Colors/PrefersColorSchemeCSSMedia';
 import { Manifest, ManifestItem, URLSegment } from './Components/ManifestItem';
 import { LinkPathClass } from './Components/LinkPath';
 import { AppHistoryClass, NotFoundError } from './Components/History';
 import { AppLayerName } from './Components/Layers';
-import { MetaDescription } from './MetaDescription';
 import { AnimationStorage } from '../ViewConstructors/Modifiers/Animation/UIAnimation';
-import { PageDataClass } from './PageData';
+import { Environments } from '../Environment';
 
 
 
@@ -20,7 +18,6 @@ class AppClass extends AppHistoryClass {
 
 	protected errorView?: new (error: Error) => View
 
-	public readonly data: PageDataClass = new PageDataClass
 
 
 	protected setErrorView(error: Error): void {
@@ -30,12 +27,9 @@ class AppClass extends AppHistoryClass {
 		this.clearLayer('all');
 		if (this.errorView) this.setLayer(AppLayerName.app, new this.errorView(error));
 	}
-	protected setAppLayers(view: new (...p: any[]) => View, viewParametrs: any[], colorMode?: ColorScheme, topScroll: boolean = true): void {
-		this.data.globalColors.useOnlyColorMode(colorMode);
+	protected setAppLayers(view: new (...p: any[]) => View, viewParametrs: any[], topScroll: boolean = true): void {
 		this.setLayer(AppLayerName.app, new view(...viewParametrs));
 		if (topScroll) window.scrollTo({ top: 0, left: 0 });
-
-		MetaDescription.update();
 	}
 
 
@@ -107,7 +101,7 @@ class AppClass extends AppHistoryClass {
 			this.promiseInitializer = undefined;
 
 
-			this.setAppLayers(viewv, viewParametrs, manifestItem?.colorScheme);
+			this.setAppLayers(viewv, viewParametrs);
 			if (typeof partPath == 'string') this.historyNavigate(partPath);
 
 		} catch (error: any) { this.setErrorView(error) }
@@ -247,7 +241,7 @@ class AppClass extends AppHistoryClass {
 			if (checkURL) generateURL = checkURL[2]
 
 			let view = data.getView();
-			this.setAppLayers(view instanceof Promise ? await view : view, [generateURL], data.colorScheme, false);
+			this.setAppLayers(view instanceof Promise ? await view : view, [generateURL], false);
 
 
 		} catch (error: any) {
@@ -265,7 +259,7 @@ class AppClass extends AppHistoryClass {
 
 	constructor() {
 		super();
-		this.addGlobalListner(this.data)
+		this.addGlobalListner(Environments)
 	}
 }
 

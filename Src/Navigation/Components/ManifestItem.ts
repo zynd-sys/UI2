@@ -34,7 +34,6 @@ export class ManifestItem<P extends string, S extends URLSegment, V extends new 
 	public preload(value: boolean = true): this { if (value && !(this.view instanceof Promise) && !this.isView(this.view)) this.view = this.view(); return this }
 
 	public redirects(...value: string[]): this { this.redirectsValue = value; return this }
-	public preferredColorScheme(value: ColorScheme): this { this.colorScheme = value; return this }
 
 	constructor(pathType: S, path: P, view: V | (() => Promise<V>)) {
 		super(path, view);

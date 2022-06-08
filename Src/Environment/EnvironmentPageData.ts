@@ -1,25 +1,27 @@
-import { PageDataColorModeClass } from './PageDataColorMode'
-import { PageDataWidthClass } from './PageDataWidth'
-import { LightObserver } from '../../Data/Observed'
+import { EnvironmentMetaDescription } from "./EnvironmentMetaDescription"
 
 
 
-export class PageDataClass extends LightObserver {
+
+export class EnvironmentPageData extends EnvironmentMetaDescription {
 	public readonly reducedAnimation: boolean
+
 	public readonly isTouch: boolean
 	public readonly isNetworkOnline: boolean = window.navigator.onLine
 	public readonly isFullscreenMode: boolean = window.matchMedia('(display-mode: fullscreen) or (minimal-ui)').matches || window.navigator.standalone || false
 	public readonly installAppEvent?: BeforeInstallPromptEvent
 
-	public readonly windowSize!: PageDataWidthClass
-	public readonly globalColors!: PageDataColorModeClass
+
+
+	private formatDetectionValue: boolean = true
+	private formatDetectionElement: HTMLMetaElement | { content: string } = { content: '' }
+	/** @see https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html */
+	public get formatDetection(): boolean { return this.formatDetectionValue }
+	public set formatDetection(value) { this.formatDetectionElement.content = `telephone=${value ? 'yes' : 'no'}`; this.formatDetectionValue = value }
 
 
 	constructor() {
 		super();
-
-		this.action('windowSize', new PageDataWidthClass)
-		this.action('globalColors', new PageDataColorModeClass)
 
 		window.addEventListener('offline', () => this.action('isNetworkOnline', false));
 		window.addEventListener('online', () => this.action('isNetworkOnline', true));
@@ -38,8 +40,12 @@ export class PageDataClass extends LightObserver {
 		this.reducedAnimation = mediaQreducedAnimation.matches;
 		mediaQreducedAnimation.addEventListener('change', event => this.action('reducedAnimation', event.matches));
 
+		this.findOrCreateElement('meta', 'name', 'format-detection', element => {
+			element.content = this.formatDetectionElement.content
+			this.formatDetectionElement = element;
+		})
+
 	}
 }
 
 
-export const PageData: PageDataClass = new PageDataClass;

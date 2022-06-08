@@ -75,13 +75,16 @@ export * from './ViewConstructors/Modifiers/ScrollObserver'
 export * from './ViewConstructors/Modifiers/TransformsStylesRef'
 
 
+// environment
+export * from './Environment'
+
+
 // navigation
 export * from './Navigation/App'
 export * from './Navigation/Components/History'
 export * from './Navigation/Components/Layers'
 export * from './Navigation/Components/LinkPath'
 export * from './Navigation/Components/ManifestItem'
-export * from './Navigation/MetaDescription'
 
 
 // data
