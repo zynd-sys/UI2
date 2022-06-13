@@ -40,14 +40,16 @@ interface ObservedArrays extends Array<any>, ObserverInterface { }
 
 export const ArraysObservedProxyHandlerClass = new class ArraysObservedProxyHandlerClass extends ObservedProxyHandlerClass {
 	public override set(target: ObservedArrays, property: string | number | symbol, value: any, reciver: any): boolean {
-		if (property !== 'length' || typeof value != 'number') return super.set(target, property, value, reciver);
+		if(property === 'length') {
+			if (value > target.length || value == target.length) return Reflect.set(target, property, value, reciver);
 
-		if (value > target.length) return Reflect.set(target, property, value, reciver);
+			const deleteElements = target.splice(value, target.length - value);
+			for (let element of deleteElements) target[StorageKey].actionDelete(element, property);
 
-		const deleteElements = target.splice(value, target.length - value);
-		for (let element of deleteElements) target[StorageKey].actionDelete(element, property);
+			return Reflect.set(target, property, value, reciver);
+		}
 
-		return Reflect.set(target, property, value, reciver);
+		return super.set(target, property, value, reciver)
 	}
 }
 
