@@ -23,10 +23,11 @@ export class StyleSheetCustom extends Set<CSSSelectore<any>> {
 
 
 	public override add(...values: CSSSelectore<any>[]): this {
-		for (let rule of values) {
-			let index = this.sheet.insertRule('s {}',this.size);
-			rule.setCSSRule(this.sheet.cssRules[index] as CSSStyleRule);
-			super.add(rule);
+		for (let ruleCustom of values) {
+			const rule = this.sheet.cssRules[this.sheet.insertRule(`${ruleCustom.selector} {}`, this.size)]
+			if (!(rule instanceof CSSStyleRule)) throw new Error('CSS style rule not created')
+			ruleCustom.setCSSRule(rule);
+			super.add(ruleCustom);
 		}
 		return this
 	}
@@ -51,7 +52,8 @@ export class StyleSheetCustom extends Set<CSSSelectore<any>> {
 		super();
 		let styleElement = document.createElement('style');
 		document.head.appendChild(styleElement);
-		this.sheet = styleElement.sheet!;
+		if (!styleElement.sheet) throw new Error('failed created style sheet')
+		this.sheet = styleElement.sheet;
 
 	}
 }

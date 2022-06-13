@@ -53,3 +53,8 @@ export class CSSSelectore<I extends StylesInterface> extends Map<keyof I, I[keyo
 		if (values) for (let p in values) this.set(p, values[p])
 	}
 }
+
+export interface CSSSelectore<I extends StylesInterface> extends Map<keyof I, I[keyof I]> {
+	get<P extends keyof I>(key: P): I[P] | undefined
+	set<P extends keyof I>(key: P, value: NonNullable<I[P]>): this
+}
