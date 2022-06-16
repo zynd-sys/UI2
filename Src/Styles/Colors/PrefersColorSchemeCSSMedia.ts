@@ -11,7 +11,7 @@ let priorityColorScheme: undefined | ColorScheme = undefined;
 
 
 export function setPrefersPriorityColorScheme(value?: ColorScheme): void {
-	if (value) {
+	if (typeof value != 'undefined') {
 		PrefersColorSchemeValue = value;
 		priorityColorScheme = value;
 	} else {

@@ -1,5 +1,4 @@
-import { Environments } from "../../Environment"
-import { ColorScheme } from "./PrefersColorSchemeCSSMedia"
+import { PrefersColorSchemeValue, ColorScheme } from "./PrefersColorSchemeCSSMedia"
 
 
 
@@ -8,5 +7,5 @@ export abstract class Color {
 	public abstract readonly colorLight: string
 	public abstract colorDark?: string
 	public abstract darkModeColor(...p: any[]): this
-	public toString(): string { return Environments.colorScheme == ColorScheme.dark && this.colorDark ? this.colorDark : this.colorLight }
+	public toString(): string { return PrefersColorSchemeValue == ColorScheme.dark && this.colorDark ? this.colorDark : this.colorLight }
 }

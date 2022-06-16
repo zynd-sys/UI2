@@ -33,7 +33,8 @@ MainStyleSheet.add(
 		'overflow-wrap': 'break-word',
 		/* -webkit-hyphens: auto;
 		hyphens: auto; */
-		'text-overflow': 'ellipsis'
+		'text-overflow': 'ellipsis',
+		'-webkit-text-size-adjust': '100%'
 	})
 )
 

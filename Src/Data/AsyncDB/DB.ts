@@ -63,7 +63,6 @@ export abstract class AsyncDB<I extends { [key: string]: any }> {
 
 	constructor(name: string, version: number) {
 		this.db = this.openDB(name, version);
-		console.log('constructor')
 
 		window.addEventListener('pagehide', () => {
 			this.db?.then(db => db.close());
