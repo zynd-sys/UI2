@@ -36,6 +36,7 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 	protected styles: Styles<ElementsContainerStyles> = new Styles
 	protected listeners: Listeners<ElementsContainerListeners<HTMLAnchorElement>> = new Listeners
 	protected attribute?: ElementAttribute<LinkAttribute>
+	protected isNavigatedDisabled?: boolean
 
 	protected destination: string
 	protected alternativeDestination?: string
@@ -55,7 +56,8 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 	}
 
 
-
+	/** @param value default - `true` */
+	public disableNavigate(value: boolean = true): this { this.isNavigatedDisabled = value; return this }
 	public disableAnyPopover(): this {
 		if (this.alternativeDestination) this.destination = this.alternativeDestination;
 		this.disablePopover = true;
@@ -84,6 +86,8 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 
 		this.listeners.set('click', (_, event) => {
 			try {
+				if(this.isNavigatedDisabled) return
+
 				if (this.disablePopover) App.disablePopover();
 				App.navigate(view, data);
 			}
