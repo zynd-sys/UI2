@@ -15,7 +15,7 @@ export * from './Elements/Shapes/Path'
 // elements
 export * from './Elements/ButtonAction/PaymentRequest'
 export * from './Elements/ButtonAction/ShareButton'
-export * from './Elements/Form/Styles/ToggleStyle'
+export * as ToggleStyle from './Elements/Form/Styles/ToggleStyle'
 export * from './Elements/Form/DatePicker'
 export * from './Elements/Form/FileField'
 export * from './Elements/Form/Form'

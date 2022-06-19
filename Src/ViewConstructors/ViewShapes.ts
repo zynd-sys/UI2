@@ -35,13 +35,14 @@ export abstract class ViewShapeElement extends ViewModifiers<{ parent: HTMLEleme
 	protected abstract override styles: Styles<ShapeStyles>
 	protected listeners?: Listeners<ListenersInterface<any>>
 	protected attribute?: ElementAttribute<ElementAttributeInterface>
+	protected box?: string
 
 
 
 	protected generateHTMLElement(): { parent: HTMLElement; shape: SVGGeometryElement; } {
 		let parent = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 		let shape = parent.appendChild(this.generateShapeElement());
-		parent.setAttribute('viewbox', '0 0 1 1');
+		parent.setAttribute('viewbox', this.box || '0 0 1 1');
 
 		return {
 			parent: parent as unknown as HTMLElement,
@@ -49,6 +50,9 @@ export abstract class ViewShapeElement extends ViewModifiers<{ parent: HTMLEleme
 		}
 	}
 	protected merge(view: ViewShapeElement, HTMLElement: { parent: HTMLElement, shape: SVGGeometryElement }): void {
+		if (view.box) { if (view.box !== HTMLElement.parent.getAttribute('viewbox')) { this.box = view.box; HTMLElement.parent.setAttribute('viewbox', this.box) } }
+		else if (view.box) { HTMLElement.parent.setAttribute('viewbox', '0 0 1 1'); this.box = undefined }
+
 		if (this.updateShapeElement) this.updateShapeElement(view, HTMLElement.shape);
 	}
 
@@ -71,4 +75,6 @@ export abstract class ViewShapeElement extends ViewModifiers<{ parent: HTMLEleme
 	public strokeDashoffset(value: number): this { this.styles.set('--stroke-dashoffset', value); return this }
 	public strokeLinejoin(value: StrokeLinejoin): this { this.styles.set('--stroke-linejoin', value); return this }
 	public strokeMiterlimit(value: number): this { this.styles.set('--stroke-miterlimit', value); return this }
+
+	public shpaeBox(width: number, height: number, startX: number = 0, startY: number = 0): this { this.box = `${startX} ${startY} ${width} ${height}`; return this }
 }
