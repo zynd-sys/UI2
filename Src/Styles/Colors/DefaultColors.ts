@@ -91,7 +91,10 @@ export class DefaultColorClass {
 	 * light color rgb(51, 51, 51)
 	 */
 	public readonly black = new RGBColor(51, 51, 51)
-	// public readonly white = new RGBColor(255, 255, 255)
+	/**
+	 * light color rgb(255, 255, 255)
+	 */
+	public readonly white = new RGBColor(255, 255, 255)
 
 	/**
 	 * light color rgb(255, 255, 255)
