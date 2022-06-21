@@ -1,4 +1,3 @@
-import type { ColorScheme } from '../../Styles/Colors/PrefersColorSchemeCSSMedia'
 import { View } from '../../Elements/View'
 import { LinkPathClass } from './LinkPath'
 
@@ -26,7 +25,6 @@ export class ManifestItem<P extends string, S extends URLSegment, V extends new 
 
 	public readonly segmentType: URLSegment
 	public redirectsValue?: string[]
-	public colorScheme?: ColorScheme
 
 	public checkView(value: new (...p: any[]) => View): boolean { return typeof this.view == 'function' && this.view.prototype instanceof View && this.view == value }
 
