@@ -32,13 +32,23 @@ export class CSSSelectore<I extends StylesInterface> extends Map<keyof I, I[keyo
 		super.set(key, value);
 		return this
 	}
+	public updateObjectValue(key: keyof I): this {
+		if (!this.CSSRule) return this
+
+		let value = this.get(key);
+		if (!value) return this;
+
+		this.CSSRule.style.setProperty(key as string, String(value));
+
+		return this
+	}
 
 
 
 
 
 	public setCSSRule(rule: CSSStyleRule): this {
-		rule.selectorText = this.selector;
+		if (rule.selectorText != this.selector) rule.selectorText = this.selector;
 		this.clearCSSRule(rule);
 		this.forEach((value, key) => rule.style.setProperty(key as string, String(value)));
 		this.CSSRule = rule;

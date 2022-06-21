@@ -4,6 +4,7 @@ import type { PhoneNumber, Email } from '../Data/URI'
 import type { TextStyles } from '../Styles/CSS/Types'
 import { ViewTextModifiers } from '../ViewConstructors/ViewTextModifiers'
 import { Styles } from '../ViewConstructors/Modifiers/Styles'
+import { EnvironmentsValues } from '../Environment'
 
 
 
@@ -105,7 +106,7 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 		super();
 		if (typeof content == 'string') this.content = content
 		else {
-			if (!locales && document.documentElement.lang) locales = document.documentElement.lang;
+			if (!locales && EnvironmentsValues.lang) locales = EnvironmentsValues.lang;
 			this.content = content.toLocaleString(locales, options);
 		}
 	}

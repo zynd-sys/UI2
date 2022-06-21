@@ -1,15 +1,13 @@
+import { ColorScheme } from './ColorScheme';
 
 
 
-export enum ColorScheme {
-	light,
-	dark
-}
+
 
 let priorityColorScheme: undefined | ColorScheme = undefined;
 
 
-
+/** for disabled priorityColorScheme set `undefined` */
 export function setPrefersPriorityColorScheme(value?: ColorScheme): void {
 	if (typeof value != 'undefined') {
 		PrefersColorSchemeValue = value;

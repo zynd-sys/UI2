@@ -1,8 +1,10 @@
+import type { EnvironmentsList, EnvironmentsValues } from '../Environment';
 import { Compositing, CompositingCoords } from '../ViewConstructors/Modifiers/Compositing';
 import { ObserverInterface, isObserved } from '../Data/Observed';
 import { ViewsList } from '../ViewConstructors/Modifiers/ListView';
 import { ViewBuilder } from '../ViewConstructors/ViewBuilder';
 import { MainStyleSheet, CSSSelectore } from '../Styles/CSS';
+import { EnvironmentSnapshots } from '../Environment/EnvironmentSnapshots';
 
 
 
@@ -28,13 +30,19 @@ class ViewStorage {
 
 	public dataStorage: Map<string, any> = new Map
 	public cancelHandlerStorage: Map<ObserverInterface, () => void> = new Map
+	public environmentSnapshots: EnvironmentSnapshots = new EnvironmentSnapshots
+
+	public renderViews(HTMLElement: ViewHTMLElement, content: ViewBuilder, withAnimation?: boolean): void {
+		const cancleSnapshot = this.environmentSnapshots.createSnapshots();
+		this.renderingContent.render(HTMLElement, withAnimation, new ViewsList([content]));
+		cancleSnapshot();
+	}
 }
 
 
 
 export function State(target: View, propertyKey: string): void {
 	if (typeof propertyKey == 'symbol') return
-
 
 	Object.defineProperty(target, propertyKey, {
 		configurable: false,
@@ -55,6 +63,33 @@ export function State(target: View, propertyKey: string): void {
 	})
 }
 
+
+export type EnvType<P extends EnvironmentsList, T extends Object | Function> = T extends Object ? typeof EnvironmentsValues[P] : ((initValue: typeof EnvironmentsValues[P]) => typeof EnvironmentsValues[P])
+
+/**
+ * use `EnvType`
+ * @example
+ * Env('title') protected test: EnvType<'title'> = 'test page'
+ *
+ *
+ * @example
+ * Env('keywords') protected test!: EnvType<'keywords'>
+ */
+export function Env(property: Parameters<(typeof EnvironmentsValues)['safeChangeValue']>[0]): (target: View, propertyKey: string) => void {
+	return (target, propertyKey) => {
+		if (typeof propertyKey == 'symbol') return
+
+		Object.defineProperty(target, propertyKey, {
+			configurable: false,
+			get(this: View): any { return this[ViewStorageKey].environmentSnapshots.get(property) },
+			set(this: View, value: any): void {
+				this[ViewStorageKey].environmentSnapshots.set(property, value);
+				this.update();
+			}
+		})
+
+	}
+}
 
 
 
@@ -86,7 +121,7 @@ export abstract class View extends ViewBuilder {
 
 		if (!storage.timeout) {
 			Compositing.requestAnimationFrame(0, () => {
-				if (storage.HTMLElement) storage.renderingContent.render(storage.HTMLElement, undefined, new ViewsList([this.content()]));
+				if (storage.HTMLElement) storage.renderViews(storage.HTMLElement, this.content());
 				storage.timeout = false;
 			})
 			storage.timeout = true;
@@ -102,8 +137,7 @@ export abstract class View extends ViewBuilder {
 
 
 		storage.HTMLElement = new ViewHTMLElement;
-
-		storage.renderingContent.render(storage.HTMLElement, withAnimation, new ViewsList([this.content()]));
+		storage.renderViews(storage.HTMLElement, this.content(), withAnimation);
 
 		return storage.HTMLElement
 	}
@@ -122,7 +156,10 @@ export abstract class View extends ViewBuilder {
 			let renderingContent = storage.renderingContent;
 			let HTMLElement = storage.HTMLElement;
 
+			const cancleSnapshot = storage.environmentSnapshots.createSnapshots();
 			let content = renderingContent?.destroy(withAnimation);
+			cancleSnapshot();
+
 			let result: void | Promise<void>;
 			if (Array.isArray(content)) result = Promise.all(content).then(() => HTMLElement?.remove());
 			else HTMLElement?.remove()

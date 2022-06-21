@@ -1,19 +1,25 @@
-import { EnvironmentColors } from "./EnvironmentColors";
+import { EnvironmentColors } from './EnvironmentColors';
 
+
+export class EnvironmentsValueClass extends EnvironmentColors { }
 
 /**
  * @experemental
  *
  * @example
  * // from extends
- * declare module 'EnvironmentValues' {
- *		interface EnvironmentValues {
+ * declare module 'EnvironmentsValues' {
+ *		interface EnvironmentsValueClass {
  *			name: value
  *		}
- *}
+ * }
+ *
+ * Object.defineProperty(EnvironmentsValue, 'name', {
+ *		...
+ * });
  */
-export const Environments = new EnvironmentColors()
+export const EnvironmentsValues = new EnvironmentsValueClass
 
 
-
+export type EnvironmentsList = Parameters<typeof EnvironmentsValues['safeChangeValue']>[0]
 

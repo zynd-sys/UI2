@@ -4,7 +4,7 @@ import { LinkPathClass } from './Components/LinkPath';
 import { AppHistoryClass, NotFoundError } from './Components/History';
 import { AppLayerName } from './Components/Layers';
 import { AnimationStorage } from '../ViewConstructors/Modifiers/Animation/UIAnimation';
-import { Environments } from '../Environment';
+import { EnvironmentsValues } from '../Environment';
 
 
 
@@ -25,9 +25,11 @@ class AppClass extends AppHistoryClass {
 		this.popoverMod = false;
 		this.promiseInitializer = undefined;
 		this.clearLayer('all');
+		EnvironmentsValues.resetPageEnvironments();
 		if (this.errorView) this.setLayer(AppLayerName.app, new this.errorView(error));
 	}
 	protected setAppLayers(view: new (...p: any[]) => View, viewParametrs: any[], topScroll: boolean = true): void {
+		EnvironmentsValues.resetPageEnvironments();
 		this.setLayer(AppLayerName.app, new view(...viewParametrs));
 		if (topScroll) window.scrollTo({ top: 0, left: 0 });
 	}
@@ -259,7 +261,7 @@ class AppClass extends AppHistoryClass {
 
 	constructor() {
 		super();
-		this.addGlobalListner(Environments)
+		this.addGlobalListner(EnvironmentsValues)
 	}
 }
 

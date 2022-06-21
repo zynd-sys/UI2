@@ -1,4 +1,5 @@
-import { PrefersColorSchemeValue, ColorScheme } from "./PrefersColorSchemeCSSMedia"
+import { PrefersColorSchemeValue } from './PrefersColorSchemeCSSMedia'
+import { ColorScheme } from './ColorScheme'
 
 
 

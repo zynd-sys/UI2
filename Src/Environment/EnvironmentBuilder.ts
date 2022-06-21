@@ -1,16 +1,40 @@
-import { LightObserver } from "../Data/Observed";
+import { LightObserver } from '../Data/Observed';
+
+
+
+
+let onLoadCallbacksStorage: (() => void)[] = [];
+
+if (document.readyState != 'complete') window.addEventListener('load', () => {
+	for (let item of onLoadCallbacksStorage) item();
+	onLoadCallbacksStorage.length = 0;
+}, { once: true })
+
+
+
+type list<C extends EnvironmentBuilder> = Exclude<keyof C, keyof LightObserver | 'safeChangeValue' | 'resetPageEnvironments'>
+
+
+
+
+
+
+
 
 
 
 
 export abstract class EnvironmentBuilder extends LightObserver {
-	private onLoadCallbacksStorage: (() => void)[] = []
+
+	private pageEnvironments: Map<list<this>, () => void> = new Map
+
+
 
 
 
 	private addElementToFind<T extends HTMLElement>(selectore: string, result: (element: T | null) => void): void {
 		if (document.readyState == 'complete') result(document.querySelector<T>(selectore));
-		else this.onLoadCallbacksStorage.push(() => result(document.querySelector<T>(selectore)));
+		else onLoadCallbacksStorage.push(() => result(document.querySelector<T>(selectore)));
 	}
 
 
@@ -28,19 +52,46 @@ export abstract class EnvironmentBuilder extends LightObserver {
 
 
 
-	public safeChangeValue<P extends keyof this>(property: P, value: this[P]): () => void {
-		let currentValue = this[property];
+
+	protected readonlyEnvironment<P extends keyof this>(property: P, value: this[P]): this {
+		Object.defineProperty(this, property, {
+			configurable: false,
+			writable: false,
+			value: value
+		})
+		return this
+	}
+
+	protected addPageEnvironment(property: list<this>, onReset: () => void): this {
+		this.pageEnvironments.set(property, onReset);
+		return this
+	}
+
+	protected removePageEnvironment(property: list<this>): this {
+		this.pageEnvironments.delete(property);
+		return this
+	}
+
+
+
+
+
+
+
+
+	public resetPageEnvironments(): void {
+		this.pageEnvironments.forEach(value => value());
+		this.environmentSnapshots = undefined;
+	}
+
+	public safeChangeValue<P extends list<this>>(property: P, value: this[P]): (() => void) | void {
+		let oldValue = this[property];
 		this[property] = value;
-		return () => this[property] = currentValue;
+		// if (property == 'title' || property == 'allowPageTranslated') return;
+		if (this.pageEnvironments.has(property) && !this.environmentSnapshots) return;
+		return () => this[property] = oldValue;
 	}
 
 
-
-	constructor() {
-		super();
-		if (document.readyState != 'complete') window.addEventListener('load', () => {
-			for (let item of this.onLoadCallbacksStorage) item();
-			this.onLoadCallbacksStorage.length = 0;
-		}, { once: true })
-	}
+	public environmentSnapshots?: object
 }

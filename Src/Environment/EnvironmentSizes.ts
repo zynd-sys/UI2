@@ -55,19 +55,8 @@ export class EnvironmentSizes extends EnvironmentPageData {
 
 	public get viewportCover(): boolean { return this.viewportCover }
 	public set viewportCover(value: boolean) {
-		if (value == this.isViewportCover) return;
-
-		if (value) {
-			this.viewportElement.content += ' ,viewport-fit=cover';
-			this.setSafeArea()
-		} else {
-			this.viewportElement.content = this.viewportElement.content.replace(viewportCoverRegexp, '');
-			this.safeAreaInsetBottom = 0;
-			this.safeAreaInsetTop = 0;
-			this.safeAreaInsetLeft = 0;
-			this.safeAreaInsetRight = 0;
-		}
-		this.isViewportCover = value;
+		if (value) if (!viewportCoverRegexp.test(this.viewportElement.content)) this.viewportElement.content += ',viewport-fit=cover';
+		else this.viewportElement.content = this.viewportElement.content.replace(viewportCoverRegexp, '');
 	}
 
 
@@ -75,10 +64,10 @@ export class EnvironmentSizes extends EnvironmentPageData {
 	private statusBarMetaElement: HTMLMetaElement | { content: string } = { content: 'default' }
 	/** @see https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html */
 	public get appleWebAppStatusBarStyleTranslucent(): boolean { return this.statusBarValue }
-	public set appleWebAppStatusBarStyleTranslucent(value:boolean) {
+	public set appleWebAppStatusBarStyleTranslucent(value: boolean) {
 		if (value == this.statusBarValue) return;
 
-		if(value) this.statusBarMetaElement.content = 'black-translucent';
+		if (value) this.statusBarMetaElement.content = 'black-translucent';
 		else this.statusBarMetaElement.content = 'default';
 
 		this.statusBarValue = value;
@@ -108,7 +97,7 @@ export class EnvironmentSizes extends EnvironmentPageData {
 		if (this.windowWidth == window.innerWidth) return
 		clearTimeout(this.timeoutID);
 		this.timeoutID = setTimeout(() => {
-			if (this.isViewportCover) this.setSafeArea();
+			this.setSafeArea();
 			this.action('windowWidth', window.innerWidth);
 		}, 350);
 	}
@@ -130,7 +119,7 @@ export class EnvironmentSizes extends EnvironmentPageData {
 				if (viewportCoverRegexp.test(element.content)) this.isViewportCover = true;
 				else if (this.isViewportCover) element.content += ',viewport-fit=cover';
 
-				if (this.isViewportCover) this.setSafeArea();
+				this.setSafeArea();
 
 				this.viewportElement = element;
 			})
