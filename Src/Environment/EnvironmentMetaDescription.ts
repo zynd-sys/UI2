@@ -48,8 +48,8 @@ export class EnvironmentMetaDescription extends EnvironmentBuilder {
 	public set allowPageTranslated(value: boolean) { document.documentElement.translate = value }
 
 	/**  @pageEnvironment */
-	public get direction(): 'rtl' | 'ltr' { return document.documentElement.dir == 'rtl' ? 'rtl' : 'ltr' }
-	public set direction(value: 'rtl' | 'ltr') { document.documentElement.dir = value }
+	public get direction(): 'rtl' | 'ltr' | '' { return document.documentElement.dir == 'rtl' ? 'rtl' : 'ltr' }
+	public set direction(value: 'rtl' | 'ltr' | '') { document.documentElement.dir = value }
 
 
 
@@ -107,7 +107,7 @@ export class EnvironmentMetaDescription extends EnvironmentBuilder {
 			.addPageEnvironment('title' as any, () => this.title = '')
 			.addPageEnvironment('lang' as any, () => this.lang = '')
 			.addPageEnvironment('allowPageTranslated' as any, () => this.allowPageTranslated = false)
-			.addPageEnvironment('direction' as any, () => this.direction = 'rtl')
+			.addPageEnvironment('direction' as any, () => this.direction = '')
 			.addPageEnvironment('description' as any, () => this.description = '')
 			.addPageEnvironment('themeColor' as any, () => this.themeColor = undefined)
 			.addPageEnvironment('keywords' as any, () => this.keywords.length = 0)

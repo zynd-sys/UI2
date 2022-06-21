@@ -53,10 +53,11 @@ export class EnvironmentSizes extends EnvironmentPageData {
 	private isViewportCover: boolean = false
 	private viewportElement: HTMLMetaElement | { content: string } = { content: '' }
 
-	public get viewportCover(): boolean { return this.viewportCover }
+	public get viewportCover(): boolean { return this.isViewportCover }
 	public set viewportCover(value: boolean) {
 		if (value) if (!viewportCoverRegexp.test(this.viewportElement.content)) this.viewportElement.content += ',viewport-fit=cover';
-		else this.viewportElement.content = this.viewportElement.content.replace(viewportCoverRegexp, '');
+		else if(viewportCoverRegexp.test(this.viewportElement.content)) this.viewportElement.content = this.viewportElement.content.replace(viewportCoverRegexp, '');
+		this.isViewportCover = value;
 	}
 
 

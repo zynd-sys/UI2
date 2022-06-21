@@ -9,7 +9,7 @@ export class EnvironmentSnapshots extends Map<EnvironmentsList, any> {
 	protected parent?: EnvironmentSnapshots
 
 	public override get<P extends EnvironmentsList>(key: P): typeof EnvironmentsValues[P] {
-		if (this.has(key)) return this.get(key);
+		if (this.has(key)) return super.get(key);
 		if (this.parent) return this.parent.get(key);
 
 		return EnvironmentsValues[key]

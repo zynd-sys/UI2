@@ -79,4 +79,4 @@ export class LinkView extends ViewElementsContainer<HTMLAnchorElement> implement
 }
 
 
-export function Link(href: string | URL, action?: (event: Event) => void): (...elements: (ViewBuilder | undefined)[]) => LinkView { return (...elements) => new LinkView(href, elements, action) }
+export function Link(href: string | URL | PhoneNumber | Email, action?: (event: Event) => void): (...elements: (ViewBuilder | undefined)[]) => LinkView { return (...elements) => new LinkView(href, elements, action) }
