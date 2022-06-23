@@ -5,14 +5,17 @@ import { Point } from '../Point';
 
 class DragGestureState {
 	/** relative */
-	public translate: Point = new Point(0, 0)
+	public translate: Point
 	/** relative */
 	public time: number = 0
-	public startTime: number
-	public startElementPosition: Point
+	public readonly startElementRect: { width: number, height: number }
+	public readonly startTime: number
+	public readonly startElementPosition: Point
 
-	constructor(startElementPosition: Point, startTime: number) {
+	constructor(startElementPosition: Point, translate: Point, startElementRect: { width: number, height: number }, startTime: number) {
 		this.startElementPosition = startElementPosition;
+		this.startElementRect = startElementRect;
+		this.translate = translate;
 		this.startTime = startTime;
 	}
 }
@@ -40,17 +43,33 @@ export class DragGesture extends GestureClass<DragGestureState> {
 
 		element.setPointerCapture(event.pointerId);
 		this.pointerID = event.pointerId;
+		const transform = new DOMMatrixReadOnly(window.getComputedStyle(element).transform);
+		const rect = element.getBoundingClientRect();
 
-		this.state = new DragGestureState(
+		const startX = rect.left - transform.e + event.offsetX;
+		const startY = rect.top - transform.f + event.offsetY;
+
+		const state = new DragGestureState(
 			new Point(
-				element.offsetLeft + event.offsetX,
-				element.offsetTop + event.offsetY
+				startX,
+				startY
 			),
+			new Point(
+				event.pageX - startX,
+				event.pageY - startY
+			),
+			{
+				width: rect.width,
+				height: rect.height
+			},
 			event.timeStamp
 		)
 
-		this.onChangeHandler?.(this.state);
+		this.state = state;
+
+		this.onChangeHandler?.(state);
 	}
+
 	protected onMove(event: PointerEvent): void {
 		if (this.pointerID != event.pointerId || !this.state) return
 
@@ -70,6 +89,7 @@ export class DragGesture extends GestureClass<DragGestureState> {
 			this.clearData()
 		}
 	}
+
 	protected onCancle(): void { this.clearData() }
 }
 
