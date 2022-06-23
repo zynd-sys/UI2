@@ -64,18 +64,18 @@ export function State(target: View, propertyKey: string): void {
 }
 
 
-export type EnvType<P extends EnvironmentsList, T extends Object | Function> = T extends Object ? typeof EnvironmentsValues[P] : ((initValue: typeof EnvironmentsValues[P]) => typeof EnvironmentsValues[P])
+export type EnvironmenType<P extends EnvironmentsList> = typeof EnvironmentsValues[P]
 
 /**
  * use `EnvType`
  * @example
- * Env('title') protected test: EnvType<'title'> = 'test page'
+ * Environmen('title') test: EnvironmenType<'title'> = 'test page'
  *
  *
  * @example
- * Env('keywords') protected test!: EnvType<'keywords'>
+ * Environmen('keywords') test!: EnvironmenType<'keywords'>
  */
-export function Env(property: Parameters<(typeof EnvironmentsValues)['safeChangeValue']>[0]): (target: View, propertyKey: string) => void {
+export function Environmen(property: Parameters<(typeof EnvironmentsValues)['safeChangeValue']>[0]): (target: View, propertyKey: string) => void {
 	return (target, propertyKey) => {
 		if (typeof propertyKey == 'symbol') return
 
