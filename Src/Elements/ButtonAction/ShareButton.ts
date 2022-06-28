@@ -37,4 +37,4 @@ class ShareClass implements ButtonActionInterface {
 }
 
 
-export const Share: typeof ShareClass | undefined = window.navigator.share ? ShareClass : undefined
+export const Share: typeof ShareClass | undefined = 'share' in window.navigator ? ShareClass : undefined
