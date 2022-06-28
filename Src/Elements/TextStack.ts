@@ -90,7 +90,7 @@ export class TextStackView extends ViewTextModifiers<HTMLParagraphElement | HTML
 		if (this.HTMLTagName != newRender.HTMLTagName) {
 			this.HTMLElement = element = document.createElement(this.HTMLTagName);
 			element.classList.add('stack')
-		};
+		}
 		this.content.render(element, true, newRender.content);
 	}
 	protected generateHTMLElement(): HTMLParagraphElement | HTMLHeadingElement {

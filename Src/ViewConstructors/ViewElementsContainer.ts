@@ -21,11 +21,11 @@ import { MainStyleSheet, CSSSelectore } from '../Styles/CSS';
 
 
 export interface ElementsContainerListeners<E extends HTMLElement> extends ListenersInterface<E> {
-	'scroll'?: (element: E, event: MouseEvent) => any
-	'dragover'?: (element: E, event: DragEvent) => any
-	'drop'?: (element: E, event: DragEvent) => any
-	'dragleave'?: (element: E, event: DragEvent) => any
-	'dragenter'?: (element: E, event: DragEvent) => any
+	'scroll'?: (element: E, event: MouseEvent) => void
+	'dragover'?: (element: E, event: DragEvent) => void
+	'drop'?: (element: E, event: DragEvent) => void
+	'dragleave'?: (element: E, event: DragEvent) => void
+	'dragenter'?: (element: E, event: DragEvent) => void
 }
 
 

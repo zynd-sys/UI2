@@ -11,7 +11,7 @@ export class LongTapGesture extends GestureClass<void> {
 		this.onChangeHandler?.()
 		this.timerID = setTimeout(() => { this.isGestureEnded = true; this.onEndHandler?.() }, this.duration)
 	}
-	protected onMove(): void { }
+	protected onMove(): void { return }
 	protected onUp(): void { this.isGestureEnded = false; if (this.timerID) clearTimeout(this.timerID) }
 	protected onCancle(): void { this.isGestureEnded = false; if (this.timerID) clearTimeout(this.timerID) }
 

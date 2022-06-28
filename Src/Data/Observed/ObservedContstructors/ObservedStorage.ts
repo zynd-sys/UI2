@@ -108,7 +108,7 @@ export class ObservedStorage {
 
 		for (let value of this.handler)
 			try { value(isNewPropery ? Action.add : Action.change, property) }
-			catch (error) { console.error(error) };
+			catch (error) { console.error(error) }
 
 		let arr = [this.beacon];
 		for (let a of arr) for (let handler of a)

@@ -45,7 +45,6 @@ export class SectionFormView extends ViewElementsContainer<HTMLFieldSetElement> 
 
 	public header(value: StackView | TextsView | string): this {
 		let content = value instanceof StackView ? value : new StackView([typeof value == 'string' ? new TextsView(value) : value]);
-		// @ts-ignore
 		content.tagName('legend');
 		this.content.unshift(content);
 		this.headerContent = true;

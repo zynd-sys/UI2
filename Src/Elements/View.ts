@@ -12,7 +12,7 @@ import { EnvironmentSnapshots } from '../Environment/EnvironmentSnapshots';
 
 
 
-class ViewHTMLElement extends HTMLElement { };
+class ViewHTMLElement extends HTMLElement { }
 customElements.define('ui-view', ViewHTMLElement);
 MainStyleSheet.add(new CSSSelectore('ui-view', { 'display': 'contents' }))
 

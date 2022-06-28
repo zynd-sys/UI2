@@ -77,7 +77,7 @@ export class AppHistoryClass extends AppLayersClass {
 
 			let checkGeneric = segment.match(/(.+)~(.+)/);
 			let genericValue: string | undefined;
-			if (checkGeneric) { segment = checkGeneric[1]!; genericValue = checkGeneric[2] };
+			if (checkGeneric) { segment = checkGeneric[1]!; genericValue = checkGeneric[2] }
 
 			let addPath: string | undefined
 			for (let item of this.manifest)

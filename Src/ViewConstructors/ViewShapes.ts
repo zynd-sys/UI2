@@ -51,7 +51,7 @@ export abstract class ViewShapeElement extends ViewModifiers<{ parent: HTMLEleme
 	}
 	protected merge(view: ViewShapeElement, HTMLElement: { parent: HTMLElement, shape: SVGGeometryElement }): void {
 		if (view.box) { if (view.box !== HTMLElement.parent.getAttribute('viewbox')) { this.box = view.box; HTMLElement.parent.setAttribute('viewbox', this.box) } }
-		else if (view.box) { HTMLElement.parent.setAttribute('viewbox', '0 0 1 1'); this.box = undefined }
+		else if (this.box) { HTMLElement.parent.setAttribute('viewbox', '0 0 1 1'); this.box = undefined }
 
 		if (this.updateShapeElement) this.updateShapeElement(view, HTMLElement.shape);
 	}

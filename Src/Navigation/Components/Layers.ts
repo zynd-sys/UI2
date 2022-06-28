@@ -14,7 +14,7 @@ export enum AppLayerName {
 }
 
 
-class LayerHTMLElement extends HTMLElement { };
+class LayerHTMLElement extends HTMLElement { }
 customElements.define('ui-layer', LayerHTMLElement);
 
 
@@ -79,7 +79,7 @@ export abstract class AppLayersClass {
 
 		let result = layer.view?.destroy(withAnimation as any);
 		if (result instanceof Promise) result.then(() => layer!.element.textContent = null)
-		else { layer.element.textContent = null };
+		else { layer.element.textContent = null }
 
 		layer.view = undefined;
 		return this

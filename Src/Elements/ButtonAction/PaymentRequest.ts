@@ -4,6 +4,8 @@ import type { ButtonActionStyles } from '../../Styles/CSS/Types';
 import { TimingFunction } from '../../Styles/CSS';
 
 
+const checkPaymentRequestAPI:boolean = 'PaymentRequest' in window;
+
 
 
 
@@ -186,8 +188,9 @@ class PaymentDataClass {
 			}
 		});
 
+		if(!checkPaymentRequestAPI) throw new Error('PaymentRequest Api is not supported')
 
-
+		// eslint-disable-next-line compat/compat
 		let request = new window.PaymentRequest(
 			Array.from(this.paymentMethodData.values()),
 			{
@@ -233,4 +236,4 @@ class PaymentDataClass {
 
 
 export type PaymentDataInterface = PaymentDataClass
-export const PaymentData: typeof PaymentDataClass | undefined = window.PaymentRequest ? PaymentDataClass : undefined
+export const PaymentData: typeof PaymentDataClass | undefined = checkPaymentRequestAPI ? PaymentDataClass : undefined

@@ -305,7 +305,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 	// position
 	/** @param value default true */
-	public positionSticky(value: boolean = true, ZIndex: number = 100): this { if (value) { this.styles.set('position', 'sticky'); this.styles.set('z-index', ZIndex) }; return this }
+	public positionSticky(value: boolean = true, ZIndex: number = 100): this { if (value) { this.styles.set('position', 'sticky'); this.styles.set('z-index', ZIndex) } return this }
 	public position(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('inset', side, `${value}${unit}`); return this }
 	public orderSelf(value?: number): this { if (value) this.styles.set('order', value); return this }
 	public alignSelf(value?: ContentAlign): this { if (value) this.styles.set('align-self', value); return this }

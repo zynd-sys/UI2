@@ -66,7 +66,7 @@ class MediaSourceView extends ViewBuilder {
 	}
 
 
-	public getRectElements(): void { }
+	public getRectElements(): void { return }
 
 
 

@@ -93,7 +93,7 @@ export class ViewsList {
 			for (let i = contentNew.data.length; i < this.data.length; i++) if (this.data[i]) {
 				HTMLElementList.push(this.data[i]!.render())
 				this.data[i]!.destroy(animation);
-			};
+			}
 			this.data.length = contentNew.data.length;
 		}
 		return HTMLElementList
@@ -114,7 +114,7 @@ export class ViewsList {
 		if (elements.length == 0) {
 			for (let item of content) parent.appendChild(item)
 			return
-		};
+		}
 
 		for (let i = 0; i < content.length; i++) {
 			let elementNow = elements.item(i);

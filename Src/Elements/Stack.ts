@@ -7,7 +7,7 @@ import { Direction } from '../Styles/CSS'
 import { Styles } from '../ViewConstructors/Modifiers/Styles'
 
 
-type TagName = 'section' | 'main' | 'footer' | 'header' | 'aside' | 'nav' | 'article' | 'div' | 'ul' | 'ol' | 'li'
+type TagName = 'section' | 'main' | 'footer' | 'header' | 'aside' | 'nav' | 'article' | 'div' | 'ul' | 'ol' | 'li' | 'legend'
 
 
 export class StackView extends ViewElementsContainer<HTMLElement> {
