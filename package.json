@@ -7,7 +7,7 @@
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w",
-    "lint": "eslint ."
+    "linter": "eslint ."
   },
   "keywords": [
     "UI"
