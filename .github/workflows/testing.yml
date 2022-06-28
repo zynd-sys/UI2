@@ -13,3 +13,6 @@ jobs:
 
       - name: install dependencies and build packages
         run: npm ci
+
+      - name: Linter
+        run: npm lint

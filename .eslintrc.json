@@ -11,5 +11,12 @@
 		"plugin:compat/recommended"
 	],
 	"rules": {
+		"@typescript-eslint/no-inferrable-types": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/prefer-as-const": "off",
+		"@typescript-eslint/no-non-null-assertion": "off",
+		"@typescript-eslint/ban-ts-comment": "off",
+		"no-constant-condition": [ "error", { "checkLoops": false } ],
+		"prefer-const": "off"
 	}
 }

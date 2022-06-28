@@ -21,6 +21,9 @@ jobs:
       - name: install dependencies and build packages
         run: npm ci
 
+      - name: Linter
+        run: npm lint
+
       - name: set package version
         run: npm version ${{ github.event.inputs.version }} --git-tag-version false
 
