@@ -14,6 +14,8 @@ import { EnvironmentsValues } from '../Environment';
 class AppClass extends AppHistoryClass {
 
 	protected popoverMod: boolean = false
+	protected animationPromise: Promise<void> | undefined = undefined
+	protected promiseInitializer: LinkPathClass<any> | (new () => View) | undefined = undefined
 
 
 	protected errorView?: new (error: Error) => View
@@ -42,8 +44,7 @@ class AppClass extends AppHistoryClass {
 
 
 
-	protected animationPromise: Promise<void> | undefined = undefined
-	protected promiseInitializer: LinkPathClass<any> | (new () => View) | undefined = undefined
+
 
 	protected getManifestItem(view: (new (...p: any[]) => View) | LinkPathClass<any>): undefined | ManifestItem<string, any, new (...p: any[]) => View> {
 		if (!this.manifest) { console.error('navigate without app manifest'); return }
@@ -90,7 +91,8 @@ class AppClass extends AppHistoryClass {
 				partPath = manifestItem.segment;
 				if (manifestItem.segmentType == URLSegment.generic && typeof viewParametrs[0] == 'string') partPath += '~' + viewParametrs[0];
 				viewv = promise;
-			} else {
+			}
+			else {
 				console.error('not found manifest for ', view.constructor.name, view)
 
 				let promise = view instanceof LinkPathClass ? view.getView() : view;
@@ -106,7 +108,8 @@ class AppClass extends AppHistoryClass {
 			this.setAppLayers(viewv, viewParametrs);
 			if (typeof partPath == 'string') this.historyNavigate(partPath);
 
-		} catch (error: any) { this.setErrorView(error) }
+		}
+		catch (error: any) { this.setErrorView(error) }
 	}
 
 
@@ -230,6 +233,7 @@ class AppClass extends AppHistoryClass {
 
 
 
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	protected override async init(): Promise<void> {
 		try {
 			super.init();
@@ -246,12 +250,14 @@ class AppClass extends AppHistoryClass {
 			this.setAppLayers(view instanceof Promise ? await view : view, [generateURL], false);
 
 
-		} catch (error: any) {
+		}
+		catch (error: any) {
 			if (error instanceof NotFoundError) {
 				console.warn('not found', error.url);
 				this.popoverMod = false;
 				this.clearLayer('all');
-			} else {
+			}
+			else {
 				this.setErrorView(error)
 			}
 		}

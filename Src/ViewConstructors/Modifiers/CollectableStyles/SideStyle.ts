@@ -7,5 +7,5 @@ export class SideStyle {
 	/** ⇤ */ public left: string = '0'
 	/** ⇥ */ public right: string = '0'
 
-	public toString() { return `${this.top} ${this.right} ${this.bottom} ${this.left}`; }
+	public toString(): string { return `${this.top} ${this.right} ${this.bottom} ${this.left}`; }
 }

@@ -13,13 +13,6 @@ export abstract class AsyncDB<I extends { [key: string]: any }> {
 	private db?: Promise<IDBDatabase>
 
 
-	protected abstract upgrade(db: AsyncDBVersionChange<I, any>, oldVersion: number, newVersion: number | null): void
-	protected abstract versionChange(): void
-	protected abstract blocked(): void
-
-
-
-
 	private openDB(name: string, version: number): Promise<IDBDatabase> {
 		return new Promise<IDBDatabase>((resolve, reject) => {
 			let openDBRequest = indexedDB.open(name, version);
@@ -33,6 +26,15 @@ export abstract class AsyncDB<I extends { [key: string]: any }> {
 			openDBRequest.addEventListener('upgradeneeded', event => { this.upgrade(new AsyncDBVersionChange(openDBRequest.result), event.oldVersion, event.newVersion) });
 		})
 	}
+
+	protected abstract upgrade(db: AsyncDBVersionChange<I, any>, oldVersion: number, newVersion: number | null): void
+	protected abstract versionChange(): void
+	protected abstract blocked(): void
+
+
+
+
+
 
 
 

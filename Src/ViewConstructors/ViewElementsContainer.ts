@@ -205,7 +205,7 @@ export abstract class ViewElementsContainer<E extends HTMLElement | { parent: HT
 		if (vertical) this.styles.set('scroll-snap-type', `inline ${vertical}`);
 		return this
 	}
-	public scrollSnapPadding(side: Side, value: number, unit: Units = Units.px) { this.setSideStyles('scroll-padding', side, String(value) + unit); return this }
+	public scrollSnapPadding(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('scroll-padding', side, String(value) + unit); return this }
 
 	/** @param value default true */
 	public unwrap(value: boolean = true): this { if (value) this.styles.set('flex-wrap', 'nowrap'); return this }
@@ -225,7 +225,8 @@ export abstract class ViewElementsContainer<E extends HTMLElement | { parent: HT
 			if (allowTypes.length > 0) {
 				for (let item of event.dataTransfer.files) if (allowTypes.includes(item.type)) { result = true; break }
 				for (let item of event.dataTransfer.items) if (allowTypes.includes(item.type)) { result = true; break }
-			} else result = true
+			}
+ else result = true
 
 			if (result) {
 				if (isOver) isOver(true)
@@ -240,7 +241,8 @@ export abstract class ViewElementsContainer<E extends HTMLElement | { parent: HT
 			if (allowTypes.length > 0) {
 				for (let item of event.dataTransfer.files) if (allowTypes.includes(item.type)) resultArray.push(item)
 				for (let item of event.dataTransfer.items) if (item.kind != 'file' && allowTypes.includes(item.type)) resultArray.push(item)
-			} else {
+			}
+ else {
 				for (let item of event.dataTransfer.files) resultArray.push(item)
 				for (let item of event.dataTransfer.items) if (item.kind != 'file') resultArray.push(item)
 			}

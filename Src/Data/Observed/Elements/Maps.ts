@@ -1,4 +1,4 @@
-import { ObservedStorage, observerBeaconType, observerHandlerType, StorageKey } from "../ObservedContstructors/ObservedStorage";
+import { ObservedStorage, observerBeaconType, observerHandlerType, StorageKey } from '../ObservedContstructors/ObservedStorage';
 
 
 
@@ -6,7 +6,7 @@ import { ObservedStorage, observerBeaconType, observerHandlerType, StorageKey } 
 
 
 export class Maps<K, V> extends Map<K, V> {
-	[StorageKey]: ObservedStorage = new ObservedStorage;
+	public [StorageKey]: ObservedStorage = new ObservedStorage;
 
 	public addHandler(value: observerHandlerType): () => void { return this[StorageKey].addHandler(value) }
 	public removeHandler(value: observerHandlerType): void { return this[StorageKey].removeHandler(value) }
@@ -14,7 +14,7 @@ export class Maps<K, V> extends Map<K, V> {
 	public removeBeacon(value: observerBeaconType): void { return this[StorageKey].removeBeacon(value) }
 
 
-	public override clear() {
+	public override clear(): void {
 		this[StorageKey].silentActions(() => {
 			this.forEach(v => this[StorageKey].actionDelete(v, ''));
 			super.clear();

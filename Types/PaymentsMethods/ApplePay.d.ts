@@ -2,9 +2,9 @@
 
 /** @see https://developer.apple.com/documentation/apple_pay_on_the_web/applepayrequest */
 interface ApplePayRequest {
-	/** 
+	/**
 	 * The merchant identifier you registered with Apple for use with Apple Pay.
-	 * @see https://developer.apple.com/documentation/apple_pay_on_the_web/applepayrequest/2951611-merchantidentifier 
+	 * @see https://developer.apple.com/documentation/apple_pay_on_the_web/applepayrequest/2951611-merchantidentifier
 	 */
 	merchantIdentifier: string;
 	/**
@@ -38,7 +38,7 @@ interface ApplePayRequest {
 	 * @see https://developer.apple.com/documentation/apple_pay_on_the_web/applepayrequest/2951830-requiredbillingcontactfields
 	 */
 	requiredBillingContactFields?: ('name' | 'email' | 'phone' | 'postalAddress' | 'phoneticName')[]
-	/** 
+	/**
 	 * The customer's billing information.
 	 * @see https://developer.apple.com/documentation/apple_pay_on_the_web/applepayrequest/2951832-billingcontact
 	 */
@@ -53,7 +53,7 @@ interface ApplePayRequest {
 	 * @see https://developer.apple.com/documentation/apple_pay_on_the_web/applepayrequest/2951829-shippingcontact
 	 */
 	shippingContact?: ApplePayPaymentContact
-	/** 
+	/**
 	 * sting in Base64
 	 * @see https://developer.apple.com/documentation/apple_pay_on_the_web/applepayrequest/2951834-applicationdata
 	 */
@@ -100,5 +100,5 @@ interface PaymentRequestEventMap {
 interface MerchantValidationEvent {
 	methodName: string
 	validationURL: string
-	complete:()=>Promise<any>
+	complete: () => Promise<any>
 }

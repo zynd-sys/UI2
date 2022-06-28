@@ -53,7 +53,7 @@ class AnimationStorageClass {
 	protected storage: Set<Element> = new Set;
 	protected completionStorage: Map<object, () => void> = new Map;
 
-	protected mainHandler(element: Element) {
+	protected mainHandler(element: Element): void {
 		this.storage.delete(element);
 
 		if (this.storage.size == 0) {
@@ -103,7 +103,7 @@ export const AnimationStorage = new AnimationStorageClass;
 
 export class UIAnimationClass {
 
-	static globalAnimationOptions: KeyframeAnimationOptions | undefined = undefined
+	public static globalAnimationOptions: KeyframeAnimationOptions | undefined = undefined
 
 
 
@@ -166,7 +166,8 @@ export class UIAnimationClass {
 				.translateYEffect(Units.px, y, 0)
 				.scaleXEffect(fromElement.width / toElement.width, 1)
 				.scaleYEffect(fromElement.height / toElement.height, 1)
-		} else {
+		}
+ else {
 			this.translateXEffect(Units.px, 0, x)
 				.translateYEffect(Units.px, 0, y)
 				.scaleXEffect(1, fromElement.width / toElement.width)

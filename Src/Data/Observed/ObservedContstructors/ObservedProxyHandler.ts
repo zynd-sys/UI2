@@ -1,10 +1,10 @@
-import { ObserverInterface, StorageKey } from "./ObservedStorage";
+import { ObserverInterface, StorageKey } from './ObservedStorage';
 
 
 
 
 export class ObservedProxyHandlerClass implements ProxyHandler<ObserverInterface> {
-	public set(target: ObserverInterface, property: string | number | symbol, value: any, reciver: any) {
+	public set(target: ObserverInterface, property: string | number | symbol, value: any, reciver: any): boolean {
 		if (typeof property == 'symbol') return Reflect.set(target, property, value, reciver);
 
 		let isNewPropery: boolean = property in target;
@@ -17,7 +17,7 @@ export class ObservedProxyHandlerClass implements ProxyHandler<ObserverInterface
 
 		return setSuccessful
 	}
-	public deleteProperty(target: ObserverInterface, property: string | number | symbol) {
+	public deleteProperty(target: ObserverInterface, property: string | number | symbol): boolean {
 		if (typeof property == 'symbol') return Reflect.deleteProperty(target, property);
 		let oldValue = target[property];
 
@@ -40,7 +40,7 @@ interface ObservedArrays extends Array<any>, ObserverInterface { }
 
 export const ArraysObservedProxyHandlerClass = new class ArraysObservedProxyHandlerClass extends ObservedProxyHandlerClass {
 	public override set(target: ObservedArrays, property: string | number | symbol, value: any, reciver: any): boolean {
-		if(property === 'length') {
+		if (property === 'length') {
 			if (value > target.length || value == target.length) return Reflect.set(target, property, value, reciver);
 
 			const deleteElements = target.splice(value, target.length - value);

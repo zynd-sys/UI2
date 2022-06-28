@@ -47,7 +47,7 @@ export interface LoadingResourceModifiers {
 
 export class Listeners<I extends ListenersInterface<any>> extends Map<keyof I, I[keyof I]> {
 
-	protected setHandler(element: HTMLElement, eventName: string, handler: (element: HTMLElement, event: Event) => void) {
+	protected setHandler(element: HTMLElement, eventName: string, handler: (element: HTMLElement, event: Event) => void): { userHandler: (element: HTMLElement, event: Event) => void, handleEvent(event: Event): void } {
 		let o = {
 			userHandler: handler,
 			handleEvent(event: Event) {
@@ -67,7 +67,7 @@ export class Listeners<I extends ListenersInterface<any>> extends Map<keyof I, I
 
 
 
-	public destroy(element: HTMLElement) {
+	public destroy(element: HTMLElement): void {
 		let events = ListenersStorage.getHandlers<I>(element);
 		events.forEach((handler, eventName) => { element.removeEventListener(eventName as string, handler) })
 		events.clear()

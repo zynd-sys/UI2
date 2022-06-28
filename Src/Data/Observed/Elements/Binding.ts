@@ -1,14 +1,16 @@
-import { ObservedStorage, observerBeaconType, observerHandlerType, ObserverInterface, StorageKey } from "../ObservedContstructors/ObservedStorage";
+import { ObservedStorage, observerBeaconType, observerHandlerType, ObserverInterface, StorageKey } from '../ObservedContstructors/ObservedStorage';
 
 
 
 
 export class Binding<T extends (string | number | boolean | undefined)> implements ObserverInterface {
-	[StorageKey]: ObservedStorage = new ObservedStorage
+	private _value: T
+
 	protected beforeChangeHandler?: (value: T, notify: (value: boolean) => void) => T
 
-	private _value: T
-	public get value() { return this._value }
+	public [StorageKey]: ObservedStorage = new ObservedStorage
+
+	public get value(): T { return this._value }
 	public set value(value: T) {
 		let notify: boolean = true;
 		this._value = this.beforeChangeHandler ? this.beforeChangeHandler(value, n => notify = n) : value;

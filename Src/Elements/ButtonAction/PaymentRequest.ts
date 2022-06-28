@@ -4,7 +4,7 @@ import type { ButtonActionStyles } from '../../Styles/CSS/Types';
 import { TimingFunction } from '../../Styles/CSS';
 
 
-const checkPaymentRequestAPI:boolean = 'PaymentRequest' in window;
+const checkPaymentRequestAPI: boolean = 'PaymentRequest' in window;
 
 
 
@@ -51,8 +51,8 @@ class ButtonInterface implements ButtonActionInterface {
 	protected handler: () => void
 
 	public onClick(): void { if (!this.disableValue) this.handler() }
-	public elements() { if (this.ApplePayButtonValue) return [] }
-	public styles(styles: Styles<ButtonActionStyles>) {
+	public elements(): void | [] { if (this.ApplePayButtonValue) return [] }
+	public styles(styles: Styles<ButtonActionStyles>): void {
 		styles
 			.set('opacity', this.disableValue ? .5 : 1)
 			.set('transition-duration', '.6s')
@@ -96,6 +96,52 @@ class PaymentDataClass {
 	protected MerchantValidationHandler?: (event: MerchantValidationEvent) => Promise<void>
 
 
+	protected async render(): Promise<void> {
+		if (!this.items) throw new Error('not found items')
+
+
+		let total: number = 0;
+		let displayItems: PaymentItem[] | undefined;
+		const items = this.items();
+		if (typeof items == 'number') total = items
+		else displayItems = items.map(v => {
+			total += v.price;
+			return {
+				label: v.label,
+				amount: {
+					currency: this.currency,
+					value: v.price.toString()
+				}
+			}
+		});
+
+		if (!checkPaymentRequestAPI) throw new Error('PaymentRequest Api is not supported')
+
+		// eslint-disable-next-line compat/compat
+		let request = new window.PaymentRequest(
+			Array.from(this.paymentMethodData.values()),
+			{
+				total: { label: this.totalLabel, amount: { value: total.toString(), currency: this.currency } },
+				displayItems: displayItems
+			}
+		);
+		if (this.MerchantValidationHandler) request.addEventListener('merchantvalidation', this.MerchantValidationHandler)
+
+		await request.canMakePayment();
+
+		let response = await request.show();
+
+		if (this.requestValidate) while (true) {
+			let errors = await this.requestValidate(response, false)
+			if (errors == 'fail') return await response.complete('fail')
+			if (errors) await response.retry(errors)
+			else break
+		}
+		await response.complete();
+		await this.requestValidate(response, true);
+
+		return
+	}
 
 
 
@@ -169,52 +215,7 @@ class PaymentDataClass {
 
 
 
-	protected async render() {
-		if (!this.items) throw new Error('not found items')
 
-
-		let total: number = 0;
-		let displayItems: PaymentItem[] | undefined;
-		const items = this.items();
-		if (typeof items == 'number') total = items
-		else displayItems = items.map(v => {
-			total += v.price;
-			return {
-				label: v.label,
-				amount: {
-					currency: this.currency,
-					value: v.price.toString()
-				}
-			}
-		});
-
-		if(!checkPaymentRequestAPI) throw new Error('PaymentRequest Api is not supported')
-
-		// eslint-disable-next-line compat/compat
-		let request = new window.PaymentRequest(
-			Array.from(this.paymentMethodData.values()),
-			{
-				total: { label: this.totalLabel, amount: { value: total.toString(), currency: this.currency } },
-				displayItems: displayItems
-			}
-		);
-		if (this.MerchantValidationHandler) request.addEventListener('merchantvalidation', this.MerchantValidationHandler)
-
-		await request.canMakePayment();
-
-		let response = await request.show();
-
-		if (this.requestValidate) while (true) {
-			let errors = await this.requestValidate(response, false)
-			if (errors == 'fail') return await response.complete('fail')
-			if (errors) await response.retry(errors)
-			else break
-		}
-		await response.complete();
-		await this.requestValidate(response, true);
-
-		return
-	}
 
 
 

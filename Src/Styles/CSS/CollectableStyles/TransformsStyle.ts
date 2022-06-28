@@ -1,4 +1,4 @@
-import type { CSSAngle, CSSLength } from "../Types/MinimalStylesType"
+import type { CSSAngle, CSSLength } from '../Types/MinimalStylesType'
 
 
 

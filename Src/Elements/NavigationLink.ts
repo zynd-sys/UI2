@@ -86,7 +86,7 @@ export class NavigationLinkView<V extends (new (...args: any) => View)> extends 
 
 		this.listeners.set('click', (_, event) => {
 			try {
-				if(this.isNavigatedDisabled) return
+				if (this.isNavigatedDisabled) return
 
 				if (this.disablePopover) App.disablePopover();
 				App.navigate(view, data);

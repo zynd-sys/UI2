@@ -111,7 +111,7 @@ export class Path {
 		return this
 	}
 
-	public addPath(value: Path | string) { this.value += ' ' + value; }
+	public addPath(value: Path | string): this { this.value += ' ' + value; return this }
 
 
 

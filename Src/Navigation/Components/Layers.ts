@@ -61,6 +61,16 @@ export abstract class AppLayersClass {
 		layer.view = view;
 	}
 
+	protected init(): void {
+		let appElement = document.body.appendChild(new LayerHTMLElement);
+		appElement.setAttribute('layer', 'app');
+		this.layersStorage.set(AppLayerName.app, { element: appElement, view: undefined });
+
+		let popoverElement = document.body.appendChild(new LayerHTMLElement);
+		popoverElement.setAttribute('layer', 'popover');
+		this.layersStorage.set(AppLayerName.popover, { element: popoverElement, view: undefined });
+	}
+
 
 
 
@@ -98,16 +108,6 @@ export abstract class AppLayersClass {
 
 
 
-
-	protected init(): void {
-		let appElement = document.body.appendChild(new LayerHTMLElement);
-		appElement.setAttribute('layer', 'app');
-		this.layersStorage.set(AppLayerName.app, { element: appElement, view: undefined });
-
-		let popoverElement = document.body.appendChild(new LayerHTMLElement);
-		popoverElement.setAttribute('layer', 'popover');
-		this.layersStorage.set(AppLayerName.popover, { element: popoverElement, view: undefined });
-	}
 
 	constructor() {
 		if (document.readyState != 'complete') window.addEventListener('load', () => this.init(), { once: true })

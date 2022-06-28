@@ -35,7 +35,7 @@ class GestureListners {
 		if (this.pointersCount == 0) this.activeGesture = [];
 	}
 	public pointerMove = (event: PointerEvent): void => {
-		if(this.pointersCount == 0) return
+		if (this.pointersCount == 0) return
 		for (let i = 0; i < this.activeGesture.length; i++)
 			try {
 				const gesture = this.activeGesture[i]!;

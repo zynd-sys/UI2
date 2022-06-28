@@ -44,7 +44,7 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 
 
 
-	protected scaleFontSize(element: HTMLElement) {
+	protected scaleFontSize(element: HTMLElement): void {
 		if (!element.isConnected || element.scrollWidth <= element.offsetWidth) return
 
 		const size = Math.floor(element.offsetWidth / (element.scrollWidth / parseInt(window.getComputedStyle(element).fontSize)))
@@ -60,7 +60,7 @@ export class TextsView extends ViewTextModifiers<HTMLParagraphElement | HTMLHead
 			else window.requestAnimationFrame(() => this.scaleFontSize(element))
 	}
 
-	protected merge(newRender: TextsView, element: HTMLParagraphElement | HTMLHeadingElement | HTMLSpanElement) {
+	protected merge(newRender: TextsView, element: HTMLParagraphElement | HTMLHeadingElement | HTMLSpanElement): void {
 		if (this.HTMLTagName != newRender.HTMLTagName) {
 			this.HTMLElement = document.createElement(this.HTMLTagName);
 			if (this.content != newRender.content) this.content = newRender.content;

@@ -81,7 +81,7 @@ export class AppHistoryClass extends AppLayersClass {
 
 			let addPath: string | undefined
 			for (let item of this.manifest)
-				if (item.segment == segment || (item.redirectsValue && item.redirectsValue.includes(segment))) {
+				if (item.segment == segment || item.redirectsValue?.includes(segment)) {
 					manifestItem = item;
 					addPath = item.segmentType == URLSegment.generic && genericValue ? item.segment + '~' + genericValue : item.segment;
 					break

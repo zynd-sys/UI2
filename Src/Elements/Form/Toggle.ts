@@ -40,7 +40,7 @@ export class ToggleView extends ViewFormElement<HTMLInputElement> {
 
 
 
-	protected override importProperty(view: ToggleView) {
+	protected override importProperty(view: ToggleView): void {
 		this.userHandler = view.userHandler;
 		this.state = view.state;
 		return super.importProperty(view)
@@ -50,7 +50,7 @@ export class ToggleView extends ViewFormElement<HTMLInputElement> {
 
 
 	protected generateAlternativeElement(accentColorValue: Color): SpanView { return this.elementStyle(accentColorValue, this.state) }
-	protected generateHiddenElement() {
+	protected generateHiddenElement(): HTMLInputElement {
 		let element = document.createElement('input');
 		element.type = 'checkbox';
 		element.addEventListener('change', e => {

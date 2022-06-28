@@ -1,4 +1,4 @@
-import { GestureClass } from "../Gesture"
+import { GestureClass } from '../Gesture'
 
 
 export class LongTapGesture extends GestureClass<void> {

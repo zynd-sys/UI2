@@ -64,7 +64,7 @@ export abstract class ViewFormElement<E extends HTMLInputElement | HTMLProgressE
 
 
 
-	protected override importProperty(view: ViewFormElement<any>) {
+	protected override importProperty(view: ViewFormElement<any>): void {
 		this.accentColorValue = view.accentColorValue;
 		return super.importProperty(view)
 	}
@@ -83,7 +83,7 @@ export abstract class ViewFormElement<E extends HTMLInputElement | HTMLProgressE
 	protected abstract generateHiddenElement(): E
 	protected abstract generateAlternativeElement?(accentColorValue: Color): SpanView
 
-	protected safeUpdate(action: () => void) {
+	protected safeUpdate(action: () => void): void {
 		this.isUpdating = false;
 		action();
 		if (!this.HTMLElement && this.isUpdating) return

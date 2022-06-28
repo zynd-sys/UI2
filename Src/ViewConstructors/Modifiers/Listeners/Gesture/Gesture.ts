@@ -12,6 +12,23 @@
 /** @see https://webkit.org/blog/5610/more-responsive-tapping-on-ios/ */
 export abstract class GestureClass<S> {
 
+	public static updateOnUp(gesture: GestureClass<any>, event: PointerEvent): void | GestureClass<any>[] {
+		gesture.onUp(event);
+		if (gesture.isGestureEnded) return gesture.sequencedGesture || [];
+	}
+	public static updateOnMove(gesture: GestureClass<any>, event: PointerEvent): void | GestureClass<any>[] {
+		gesture.onMove(event);
+		if (gesture.isGestureEnded) return gesture.sequencedGesture || [];
+	}
+	public static updateOnDown(gesture: GestureClass<any>, event: PointerEvent): void | GestureClass<any>[] {
+		gesture.onDown(event);
+		if (gesture.isGestureEnded) return gesture.sequencedGesture || [];
+	}
+	public static updateOnCancle(gesture: GestureClass<any>, event: PointerEvent): void | GestureClass<any>[] {
+		gesture.onCancle(event);
+	}
+
+
 	protected abstract isGestureEnded: boolean
 	protected abstract state?: S
 
@@ -20,21 +37,6 @@ export abstract class GestureClass<S> {
 	protected sequencedGesture?: GestureClass<any>[]
 
 
-	static updateOnUp(gesture: GestureClass<any>, event: PointerEvent): void | GestureClass<any>[] {
-		gesture.onUp(event);
-		if (gesture.isGestureEnded) return gesture.sequencedGesture || [];
-	}
-	static updateOnMove(gesture: GestureClass<any>, event: PointerEvent): void | GestureClass<any>[] {
-		gesture.onMove(event);
-		if (gesture.isGestureEnded) return gesture.sequencedGesture || [];
-	}
-	static updateOnDown(gesture: GestureClass<any>, event: PointerEvent): void | GestureClass<any>[] {
-		gesture.onDown(event);
-		if (gesture.isGestureEnded) return gesture.sequencedGesture || [];
-	}
-	static updateOnCancle(gesture: GestureClass<any>, event: PointerEvent): void | GestureClass<any>[] {
-		gesture.onCancle(event);
-	}
 
 
 

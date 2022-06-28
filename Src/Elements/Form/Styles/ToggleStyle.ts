@@ -33,7 +33,7 @@ const path = new Path('M9.55 18 3.85 12.3 5.275 10.875 9.55 15.15 18.725 5.975 2
 
 
 
-export function Switch(accentColor: Color, isOn: boolean) {
+export function Switch(accentColor: Color, isOn: boolean): SpanView {
 	return Span()
 		.transition(300, TimingFunction.easeInOut)
 		.height(1.25, Units.rem).width(2, Units.rem)

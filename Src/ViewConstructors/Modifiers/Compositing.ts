@@ -45,7 +45,7 @@ class CompositingClass {
 
 
 
-	public render(customAnimation?: UIAnimationClass) {
+	public render(customAnimation?: UIAnimationClass): void {
 		if (this.rendering) return
 
 		let elements: Map<HTMLElement, CompositingCoords> = new Map
@@ -79,4 +79,4 @@ class CompositingClass {
 
 export const Compositing = new CompositingClass;
 
-export function withAnimation(animation?: UIAnimationClass) { Compositing.render(animation); }
+export function withAnimation(animation?: UIAnimationClass): void { Compositing.render(animation); }

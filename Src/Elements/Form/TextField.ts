@@ -154,7 +154,7 @@ export class TextFieldView extends ViewTextModifiers<HTMLInputElement | HTMLText
 	public maxLength(value: number): this { this.attribute.set('maxlength', value); return this }
 	public minLength(value: number): this { this.attribute.set('minlength', value); return this }
 	/** @param value default true */
-	public required(value: boolean = true) { if (value) { this.attribute.set('required', true); this.listeners.set('invalid', (_, e) => e.preventDefault()) } return this }
+	public required(value: boolean = true): this { if (value) { this.attribute.set('required', true); this.listeners.set('invalid', (_, e) => e.preventDefault()) } return this }
 	/** @param value default true */
 	public readOnly(value: boolean = true): this { if (value) this.attribute.set('readonly', value); return this }
 	public keyboardStyle(value: KeyboardStyle, autocomplete?: TextAutocomplete, autocapitalize?: Autocapitalize): this {

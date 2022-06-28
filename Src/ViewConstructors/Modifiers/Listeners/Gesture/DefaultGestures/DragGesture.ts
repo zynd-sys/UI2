@@ -30,7 +30,7 @@ export class DragGesture extends GestureClass<DragGestureState> {
 	protected pointerID?: number
 
 
-	protected clearData() {
+	protected clearData(): void {
 		this.isGestureEnded = false;
 		this.state = undefined;
 		this.pointerID = undefined;

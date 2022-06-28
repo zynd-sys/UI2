@@ -59,7 +59,7 @@ export class SectionFormView extends ViewElementsContainer<HTMLFieldSetElement> 
 		const headerContent = this.headerContent ? 1 : 0;
 		this.content.splice(
 			headerContent,
-			this.footerContent ? this.content.length() - 2 - (headerContent) : 0,
+			this.footerContent ? this.content.length() - 2 - headerContent : 0,
 			...values
 		);
 		return this

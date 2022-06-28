@@ -27,13 +27,14 @@ export interface FormAttribute extends ElementAttributeInterface {
 
 
 export class FormView extends ViewElementsContainer<HTMLFormElement> {
-	protected merge?(): void
-	protected generateHTMLElement(): HTMLFormElement { return document.createElement('form') }
 	protected HTMLElement?: HTMLFormElement
 
 	protected styles: Styles<ElementsContainerStyles> = new Styles
 	protected listeners: Listeners<FormListeners> = new Listeners
 	protected attribute?: ElementAttribute<FormAttribute>
+
+	protected merge?(): void
+	protected generateHTMLElement(): HTMLFormElement { return document.createElement('form') }
 
 
 	public sendMethod(value: 'post' | 'get' | 'put' | 'delete'): this { this.safeAttribute.set('method', value); return this }
@@ -53,7 +54,7 @@ export class FormView extends ViewElementsContainer<HTMLFormElement> {
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-autocomplete
 	 * @see https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion#the_autocomplete_attribute_and_login_fields — How to turn off form autocompletion
 	 */
-	public autocomplete(value: boolean) { this.safeAttribute.set('autocomplete', value ? 'on' : 'off'); return this }
+	public autocomplete(value: boolean): this { this.safeAttribute.set('autocomplete', value ? 'on' : 'off'); return this }
 
 
 

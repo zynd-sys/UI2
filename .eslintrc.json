@@ -5,6 +5,9 @@
 		"browser": true,
 		"es6": true
 	},
+	"parserOptions": {
+		"project": "./tsconfig.json"
+	},
 	"extends": [
 		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",
@@ -16,6 +19,46 @@
 		"@typescript-eslint/prefer-as-const": "off",
 		"@typescript-eslint/no-non-null-assertion": "off",
 		"@typescript-eslint/ban-ts-comment": "off",
+		"@typescript-eslint/array-type": "warn",
+		"@typescript-eslint/ban-types": "warn",
+		"@typescript-eslint/no-duplicate-enum-values": "warn",
+		"@typescript-eslint/no-parameter-properties": "warn",
+		"@typescript-eslint/object-curly-spacing": [ "warn", "always" ],
+		"@typescript-eslint/no-unused-vars": "error",
+		"@typescript-eslint/no-throw-literal": "error",
+		"@typescript-eslint/no-loop-func": "error",
+		"@typescript-eslint/no-invalid-this": "error",
+		"@typescript-eslint/no-extra-parens": "warn",
+		"@typescript-eslint/keyword-spacing": "warn",
+		"@typescript-eslint/func-call-spacing": "warn",
+		"@typescript-eslint/prefer-string-starts-ends-with": "warn",
+		"@typescript-eslint/prefer-return-this-type": "error",
+		"@typescript-eslint/prefer-optional-chain": "error",
+		"@typescript-eslint/no-confusing-non-null-assertion": "warn",
+		"@typescript-eslint/type-annotation-spacing": "warn",
+		"@typescript-eslint/comma-spacing": [ "warn", { "after": true } ],
+		"@typescript-eslint/brace-style": [ "error", "stroustrup", { "allowSingleLine": true } ],
+		"@typescript-eslint/explicit-function-return-type": [ "warn" , { "allowExpressions": true } ],
+		"@typescript-eslint/quotes": [ "warn", "single", { "allowTemplateLiterals": true } ],
+		"@typescript-eslint/member-ordering": [ "warn", {
+			"classes": [
+				"static-field",
+				"static-method",
+				"signature",
+				"private-field",
+				"protected-field",
+				"private-method",
+				"protected-method",
+				"public-method",
+				"constructor"
+			]
+		} ],
+		"@typescript-eslint/explicit-member-accessibility": [ "warn", {
+			"accessibility": "explicit",
+			"overrides": {
+				"constructors": "no-public"
+			}
+		}],
 		"no-constant-condition": [ "error", { "checkLoops": false } ],
 		"prefer-const": "off"
 	}

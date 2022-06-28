@@ -1,4 +1,4 @@
-import type { MinimalStylesInterface } from "../../Styles/CSS/Types";
+import type { MinimalStylesInterface } from '../../Styles/CSS/Types';
 
 
 

@@ -28,6 +28,7 @@ export abstract class EnvironmentBuilder extends LightObserver {
 
 	private pageEnvironments: Map<list<this>, () => void> = new Map
 
+	public environmentSnapshots?: object
 
 
 
@@ -92,6 +93,4 @@ export abstract class EnvironmentBuilder extends LightObserver {
 		return () => this[property] = oldValue;
 	}
 
-
-	public environmentSnapshots?: object
 }

@@ -55,7 +55,7 @@ class CoreDataDBClass {
 
 
 
-	protected syncHandler(object: CoreDataInteface) {
+	protected syncHandler(object: CoreDataInteface): void {
 		if (this.localStorageLastUpdate == object.id) {
 			this.localStorageLastUpdate = undefined;
 			return
@@ -67,8 +67,8 @@ class CoreDataDBClass {
 		)
 		this.changesObjects.add(object);
 	}
-	protected async mainHandler() {
-		let transaction = (await this.db.transaction(TransactionMode.readwrite, 'data'))
+	protected async mainHandler(): Promise<void> {
+		let transaction = await this.db.transaction(TransactionMode.readwrite, 'data')
 		let dataStore = transaction.objectStores['data'];
 
 		let ids: string[] = [];
@@ -95,14 +95,6 @@ class CoreDataDBClass {
 		return false
 	}
 
-	public regCoreDataClass(object: CoreDataInteface): Promise<CoreDataInteface | undefined> {
-		if (this.checkRegCoreData(object)) throw new Error(`${object.id} use twice`)
-
-		this.coreDataStorage.add(object);
-		object.addBeacon(() => this.syncHandler(object));
-
-		return this.db.get('data', object.id).then(data => { if (data) delete data.lastOpen; return data });
-	}
 
 
 
@@ -112,13 +104,14 @@ class CoreDataDBClass {
 
 
 
-	protected async unloadPage() {
+
+	protected async unloadPage(): Promise<void> {
 		let transaction = (await this.db.transaction(TransactionMode.readwrite, 'data')).objectStores['data'];
 		const time = Date.now();
 		for (let coreData of this.coreDataStorage) transaction.put(Object.assign({}, coreData.setLastOpen(time)))
 	}
 
-	protected async updateCoreData(id: string) {
+	protected async updateCoreData(id: string): Promise<void> {
 		let coreData: CoreDataInteface | undefined
 		for (let o of this.coreDataStorage) if (o.id == id) { coreData = o; break }
 
@@ -130,13 +123,29 @@ class CoreDataDBClass {
 		coreData.update(newData);
 	}
 
-	protected async init() {
+	protected async init(): Promise<void> {
 		let dataStore = (await this.db.transaction(TransactionMode.readwrite, 'data')).objectStores.data;
 		const dateNow = Date.now();
 		let items = await dataStore.getAll();
 
 		for (let coreData of items) if (!coreData.lastOpen || dateNow - coreData.lastOpen > this.maxAgeObject)
 			dataStore.delete(coreData.id)
+	}
+
+
+
+
+
+
+
+
+	public regCoreDataClass(object: CoreDataInteface): Promise<CoreDataInteface | undefined> {
+		if (this.checkRegCoreData(object)) throw new Error(`${object.id} use twice`)
+
+		this.coreDataStorage.add(object);
+		object.addBeacon(() => this.syncHandler(object));
+
+		return this.db.get('data', object.id).then(data => { if (data) delete data.lastOpen; return data });
 	}
 
 	constructor() {

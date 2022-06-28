@@ -82,7 +82,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	protected animations: UIAnimationObject = new UIAnimationObject
 
 	protected scrollObserver?: ScrollObserver
-	protected get safeScrollObserver() { return this.scrollObserver ? this.scrollObserver : this.scrollObserver = new ScrollObserver }
+	protected get safeScrollObserver(): ScrollObserver { return this.scrollObserver ? this.scrollObserver : this.scrollObserver = new ScrollObserver }
 
 
 
@@ -111,7 +111,8 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 					this.transformsRef = newRender.transformsRef;
 					this.transformsRef.render(element);
 				}
-			} else if (this.transformsRef) { this.transformsRef.destroy(); this.transformsRef = undefined }
+			}
+			else if (this.transformsRef) { this.transformsRef.destroy(); this.transformsRef = undefined }
 			if (newRender.gestureHandler) { this.gestureHandler = newRender.gestureHandler; GestureStorage.render(element, this.gestureHandler) }
 			else if (this.gestureHandler) { GestureStorage.destroy(element); this.gestureHandler = undefined }
 			if (newRender.listeners) this.listeners = newRender.listeners.render(element);
@@ -167,7 +168,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 
-	protected setSideStyles(property: 'inset' | 'border' | 'padding' | 'margin' | 'scroll-padding', side: Side, value: string, postfix: '-width' | '-style' | '-color' | '' = '') {
+	protected setSideStyles(property: 'inset' | 'border' | 'padding' | 'margin' | 'scroll-padding', side: Side, value: string, postfix: '-width' | '-style' | '-color' | '' = ''): void {
 		switch (side) {
 			case Side.all:
 				this.styles.set(property + '-block-end' + postfix as any, value);
@@ -376,6 +377,7 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 
 
 
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	protected setFilterPrefix(property: keyof FilterStyleInterface, backdrop: boolean, value: any): this {
 		this.styles.getCollectableStyles(backdrop ? 'backdrop-filter' : 'filter', FiltersStyle).set(property, value);
 		if (backdrop) this.styles.getCollectableStyles('-webkit-backdrop-filter', FiltersStyle).set(property, value);

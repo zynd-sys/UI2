@@ -146,7 +146,7 @@ export abstract class View extends ViewBuilder {
 
 
 
-	public destroy(withAnimation?: boolean) {
+	public destroy(withAnimation?: boolean): void | Promise<void> {
 		const storage = this[ViewStorageKey];
 		storage.cancelHandlerStorage.forEach(v => v());
 		storage.cancelHandlerStorage.clear();

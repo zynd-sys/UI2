@@ -13,42 +13,6 @@ export class ViewsList {
 	protected useNodeCollection?: boolean
 
 
-	public renderNodeCollection(value: boolean = true): this { this.useNodeCollection = value; return this }
-	public get(i: number): ViewBuilder | undefined { return this.data[i] }
-	public length(): number { return this.data.length }
-	public push(value: ViewBuilder | undefined): this { this.data.push(value); return this }
-	public unshift(value: ViewBuilder | undefined): this { this.data.unshift(value); return this }
-	public clear(): this { this.data.length = 0; return this }
-	public replace(value: (ViewBuilder | undefined)[]): this {
-		this.data.length = 0;
-		for (let i = 0; i < value.length; i++) this.data.push(value[i]);
-		return this
-	}
-	public forEach(callbackfn: (value: ViewBuilder | undefined, index: number) => void): this {
-		for (let i = 0; i < this.data.length; i++) callbackfn(this.data[i], i);
-		return this
-	}
-	public map<R>(callbackfn: (value: ViewBuilder | undefined, index: number) => R): R[] {
-		let array: R[] = [];
-		for (let i = 0; i < this.data.length; i++) array.push(callbackfn(this.data[i], i));
-		return array
-	}
-	public splice(start: number, deleteCount: number = 0, ...values: (ViewBuilder | undefined)[]): this {
-		this.data.splice(start, deleteCount, ...values);
-		return this
-	}
-	public destroy(withAnimation: true): (Promise<void> | void)[]
-	public destroy(withAnimation?: false | undefined): void
-	public destroy(withAnimation?: boolean): (Promise<void> | void)[] | void {
-		if (withAnimation) return this.map(v => v?.destroy(withAnimation))
-		this.forEach(v => v?.destroy())
-	}
-
-
-
-
-
-
 	protected generateElements(contentNew?: ViewsList, animation?: boolean): Node[] {
 		let HTMLElementList: Node[] = [];
 
@@ -85,7 +49,8 @@ export class ViewsList {
 
 				itemNow = itemNew;
 				itemNew = undefined;
-			} else itemNow.update(itemNew)
+			}
+			else itemNow.update(itemNew)
 			HTMLElementList.push(itemNow.render(animation));
 		}
 
@@ -97,6 +62,43 @@ export class ViewsList {
 			this.data.length = contentNew.data.length;
 		}
 		return HTMLElementList
+	}
+
+
+
+
+
+
+
+	public renderNodeCollection(value: boolean = true): this { this.useNodeCollection = value; return this }
+	public get(i: number): ViewBuilder | undefined { return this.data[i] }
+	public length(): number { return this.data.length }
+	public push(value: ViewBuilder | undefined): this { this.data.push(value); return this }
+	public unshift(value: ViewBuilder | undefined): this { this.data.unshift(value); return this }
+	public clear(): this { this.data.length = 0; return this }
+	public replace(value: (ViewBuilder | undefined)[]): this {
+		this.data.length = 0;
+		for (let i = 0; i < value.length; i++) this.data.push(value[i]);
+		return this
+	}
+	public forEach(callbackfn: (value: ViewBuilder | undefined, index: number) => void): this {
+		for (let i = 0; i < this.data.length; i++) callbackfn(this.data[i], i);
+		return this
+	}
+	public map<R>(callbackfn: (value: ViewBuilder | undefined, index: number) => R): R[] {
+		let array: R[] = [];
+		for (let i = 0; i < this.data.length; i++) array.push(callbackfn(this.data[i], i));
+		return array
+	}
+	public splice(start: number, deleteCount: number = 0, ...values: (ViewBuilder | undefined)[]): this {
+		this.data.splice(start, deleteCount, ...values);
+		return this
+	}
+	public destroy(withAnimation: true): (Promise<void> | void)[]
+	public destroy(withAnimation?: false | undefined): void
+	public destroy(withAnimation?: boolean): (Promise<void> | void)[] | void {
+		if (withAnimation) return this.map(v => v?.destroy(withAnimation))
+		this.forEach(v => v?.destroy())
 	}
 
 

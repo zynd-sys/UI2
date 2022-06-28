@@ -11,7 +11,7 @@ export class CSSSelectore<I extends StylesInterface> extends Map<keyof I, I[keyo
 
 	protected CSSRule?: CSSStyleRule
 
-	protected clearCSSRule(rule: CSSStyleRule) {
+	protected clearCSSRule(rule: CSSStyleRule): void {
 		let styles = rule.style
 		for (let i = 0; i < styles.length; i++) {
 			styles.removeProperty(styles.item(i));

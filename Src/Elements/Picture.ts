@@ -140,7 +140,8 @@ export class PictureView extends ViewMediaElement<{ parent: HTMLPictureElement, 
 			let newSourceList: ViewsList | undefined = newRender.sourceList;
 			if (!this.sourceList) { this.sourceList = newRender.sourceList; newSourceList = undefined; }
 			this.sourceList.render(element.parent, false, newSourceList, [element.image], true);
-		} else if (this.sourceList) {
+		}
+ else if (this.sourceList) {
 			this.sourceList.destroy();
 			this.sourceList = undefined;
 		}
