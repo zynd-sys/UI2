@@ -7,7 +7,7 @@ end_of_line = lf
 trim_trailing_whitespace = true
 indent_size = 4
 
-[*.{ts,css,html,json}]
+[*.{ts,css,html}]
 indent_style = tab
 indent_size = 4
 

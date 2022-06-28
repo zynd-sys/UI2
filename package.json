@@ -6,10 +6,11 @@
   "type": "module",
   "scripts": {
     "prepare": "tsc",
-    "watch": "tsc -w"
+    "watch": "tsc -w",
+    "lint": "eslint ."
   },
   "keywords": [
-	  "UI"
+    "UI"
   ],
   "license": "MIT",
   "description": "Library for creating web interfaces",
@@ -21,13 +22,17 @@
     "url": "https://github.com/zynd-sys/UI2/issues"
   },
   "files": [
-    "/Dist/*"
+    "/Dist/*",
+    "/Types/*"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/zynd-sys/UI2.git"
   },
   "devDependencies": {
-    "typescript": "^4.6.4"
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
+    "eslint": "^8.18.0",
+    "typescript": "^4.7.4"
   }
 }
