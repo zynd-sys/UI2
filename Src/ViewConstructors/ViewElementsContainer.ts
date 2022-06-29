@@ -53,8 +53,8 @@ MainStyleSheet.add(
 
 
 	new CSSSelectore('.depth', { 'position': 'relative' }),
-	new CSSSelectore('.depth > *', { 'position': 'absolute', 'inset': 0 }),
-	new CSSSelectore('.depth > *:last-child', { 'inset': 'auto' })
+	new CSSSelectore('.depth > *', { 'position': 'absolute', 'inset': 'auto' }),
+	new CSSSelectore('.depth > picture', { 'inset': 0 })
 )
 
 

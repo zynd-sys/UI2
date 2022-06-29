@@ -1,7 +1,7 @@
 
 
 
-export const enum ColorScheme {
+export enum ColorScheme {
 	light,
 	dark
 }
