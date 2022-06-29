@@ -25,7 +25,7 @@ import { ViewBuilder } from './ViewBuilder'
 import { SideBorderRadius } from './Enum/SideBorderRadius'
 import { UIAnimationObject } from './Modifiers/Animation/UIAnimationObject'
 import { ScrollObserver } from './Modifiers/ScrollObserver'
-import { DefaultColor } from '../Styles/Colors/DefaultColors'
+import { black as blackColor } from '../Styles/Colors/DefaultColors'
 import { ScrollIntoSelf } from './Modifiers/ScrollIntoSelf'
 import { Binding as BindingObserve, isObserved } from '../Data/Observed'
 import { PrefersReducedMotionValue } from './Modifiers/Animation/PrefersReducedMotionCSSMedia'
@@ -257,12 +257,12 @@ export abstract class ViewModifiers<E extends HTMLElement | { parent: HTMLElemen
 	/** @param value default BorderStyle.solid */
 	public outlineStyle(value: BorderStyle = BorderStyle.solid): this { this.styles.set('outline-style', value); return this }
 	/** @param value default black(#000) */
-	public outlineColor(value: Color = DefaultColor.black): this { this.styles.set('outline-color', value); return this }
+	public outlineColor(value: Color = blackColor): this { this.styles.set('outline-color', value); return this }
 	public borderWidth(side: Side, value: number, unit: Units = Units.px): this { this.setSideStyles('border', side, `${value}${unit}`, '-width'); return this }
 	/** @param value default BorderStyle.solid */
 	public borderStyle(value: BorderStyle = BorderStyle.solid, side: Side = Side.all): this { this.setSideStyles('border', side, value, '-style'); return this }
 	/** @param value default black(#000) */
-	public borderColor(value: Color = DefaultColor.black, side: Side = Side.all): this { this.setSideStyles('border', side, value.toString(), '-color'); return this }
+	public borderColor(value: Color = blackColor, side: Side = Side.all): this { this.setSideStyles('border', side, value.toString(), '-color'); return this }
 	public borderRadius(side: SideBorderRadius, value: number, unit: Units = Units.px): this {
 		let v = `${value}${unit}` as `${number}${Units}`;
 		switch (side) {

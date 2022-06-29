@@ -1,5 +1,5 @@
 import type { Color } from '../Styles/Colors'
-import { DefaultColor } from '../Styles/Colors/DefaultColors'
+import { blue as blueColor } from '../Styles/Colors/DefaultColors'
 import { ElementsContainerListeners, ViewElementsContainer } from './ViewElementsContainer'
 import { SpanView } from '../Elements/Form/Span'
 import { Direction } from '../Styles/CSS/Enums/Direction'
@@ -59,7 +59,7 @@ MainStyleSheet.add(
 
 export abstract class ViewFormElement<E extends HTMLInputElement | HTMLProgressElement | HTMLSelectElement> extends ViewElementsContainer<{ parent: HTMLLabelElement, input: E }> {
 
-	protected accentColorValue: Color = DefaultColor.blue
+	protected accentColorValue: Color = blueColor
 	protected isUpdating: boolean = false
 
 

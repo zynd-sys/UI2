@@ -4,7 +4,7 @@ import { Side } from '../../../ViewConstructors/Enum/Side';
 import { SideBorderRadius } from '../../../ViewConstructors/Enum/SideBorderRadius';
 import { TimingFunction } from '../../../Styles/CSS/Enums/TimingFunction';
 import { Units } from '../../../Styles/CSS/Enums/Units';
-import { DefaultColor } from '../../../Styles/Colors/DefaultColors';
+import { DefaultColor } from '../../../Styles/Colors';
 import { hex } from '../../../Styles/Colors/HEXColor';
 import { SpanView, Span } from '../Span';
 import { Path } from '../../Shapes/Path';
