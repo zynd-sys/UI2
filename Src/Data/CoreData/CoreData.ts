@@ -1,5 +1,5 @@
 import type { CoreDataInteface } from './CoreDataInteface';
-import { CoreDataDB } from './CoreDataDB';
+import { getCoreDataDB } from './CoreDataDB';
 import * as Observed from '../Observed'
 
 
@@ -47,7 +47,7 @@ export abstract class CoreData extends Observed.Objects implements CoreDataIntef
 	constructor(id: string) {
 		super();
 		this.id = id
-		let data = CoreDataDB.regCoreDataClass(this);
+		let data = getCoreDataDB().regCoreDataClass(this);
 
 		this.silentActions(() => this.init(data).catch(error => console.error(error)))
 			?.finally(() => this.userAction())

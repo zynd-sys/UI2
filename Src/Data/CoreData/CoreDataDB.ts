@@ -164,4 +164,5 @@ class CoreDataDBClass {
 }
 
 
-export const CoreDataDB = new CoreDataDBClass
+let CoreDataDB: CoreDataDBClass | undefined;
+export function getCoreDataDB(): CoreDataDBClass { return CoreDataDB ? CoreDataDB : CoreDataDB = new CoreDataDBClass }
