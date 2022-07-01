@@ -39,7 +39,7 @@ export class DragGesture extends GestureClass<DragGestureState> {
 
 	protected onDown(event: PointerEvent): void {
 		const element = event.currentTarget;
-		if (!(element instanceof HTMLElement)) return
+		if (!(element instanceof HTMLElement) || this.pointerID) return
 
 		element.setPointerCapture(event.pointerId);
 		this.pointerID = event.pointerId;
