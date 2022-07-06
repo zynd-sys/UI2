@@ -11,6 +11,8 @@ import type { Align } from '../Enums/Align';
 import type { TimingFunction } from '../Enums/TimingFunction';
 import type { CSSStepTimingFunction, CSSStepTimingFunctionType } from '../CollectableStyles/CSSStepTimingFunction';
 import type { CSSCubicBezier, CSSCubicBezierType } from '../CollectableStyles/CSSCubicBezier';
+import type { Contain } from '../Enums/Contain'
+import type { ContentVisibility } from '../Enums/ContentVisibility'
 
 
 
@@ -147,6 +149,13 @@ export interface MinimalStylesInterface {
 	'appearance'?: '-apple-pay-button' | 'none'
 	'-moz-appearance'?: 'none'
 	'-webkit-appearance'?: '-apple-pay-button' | 'none' | 'textfield'
+	/**
+	 * * `strict` — alias `size` `layout` `paint`
+	 * * `content` — alias `layout` `paint`
+	 */
+	'contain'?: Contain
+	'content-visibility'?: ContentVisibility
+	'contain-intrinsic-size'?: `${CSSLength}` | `${CSSLength} ${CSSLength}` | any
 
 	'cursor'?: cursorType
 

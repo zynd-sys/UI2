@@ -1,10 +1,10 @@
-import type { EnvironmentsList, EnvironmentsValues } from '../Environment';
-import { Compositing, CompositingCoords } from '../ViewConstructors/Modifiers/Compositing';
-import { ObserverInterface, isObserved } from '../Data/Observed';
-import { ViewsList } from '../ViewConstructors/Modifiers/ListView';
-import { ViewBuilder } from '../ViewConstructors/ViewBuilder';
-import { MainStyleSheet, CSSSelectore } from '../Styles/CSS';
-import { EnvironmentSnapshots } from '../Environment/EnvironmentSnapshots';
+import type { EnvironmentsList, EnvironmentsValues } from '../Environment'
+import { Compositing, CompositingCoords } from '../ViewConstructors/Modifiers/Compositing'
+import { ObserverInterface, isObserved } from '../Data/Observed'
+import { ViewsList } from '../ViewConstructors/Modifiers/ListView'
+import { ViewBuilder } from '../ViewConstructors/ViewBuilder'
+import { MainStyleSheet, CSSSelectore, Contain } from '../Styles/CSS'
+import { EnvironmentSnapshots } from '../Environment/EnvironmentSnapshots'
 
 
 
@@ -13,14 +13,14 @@ import { EnvironmentSnapshots } from '../Environment/EnvironmentSnapshots';
 
 
 class ViewHTMLElement extends HTMLElement { }
-customElements.define('ui-view', ViewHTMLElement);
-MainStyleSheet.add(new CSSSelectore('ui-view', { 'display': 'contents' }))
+customElements.define('ui-view', ViewHTMLElement)
+MainStyleSheet.add(new CSSSelectore('ui-view', { 'display': 'contents', 'contain': Contain.content }))
 
 
 
 
 
-const ViewStorageKey = Symbol('ViewStorage');
+const ViewStorageKey = Symbol('ViewStorage')
 
 
 class ViewStorage {
@@ -33,9 +33,9 @@ class ViewStorage {
 	public environmentSnapshots: EnvironmentSnapshots = new EnvironmentSnapshots
 
 	public renderViews(HTMLElement: ViewHTMLElement, content: ViewBuilder, withAnimation?: boolean): void {
-		const cancleSnapshot = this.environmentSnapshots.createSnapshots();
-		this.renderingContent.render(HTMLElement, withAnimation, new ViewsList([content]));
-		cancleSnapshot();
+		const cancleSnapshot = this.environmentSnapshots.createSnapshots()
+		this.renderingContent.render(HTMLElement, withAnimation, new ViewsList([content]))
+		cancleSnapshot()
 	}
 }
 
@@ -48,12 +48,14 @@ export function State(target: View, propertyKey: string): void {
 		configurable: false,
 		get(this: View): any { return this[ViewStorageKey].dataStorage.get(propertyKey) },
 		set(this: View, value: any): void {
-			let oldValue = this[ViewStorageKey].dataStorage.get(propertyKey);
-			this[ViewStorageKey].dataStorage.set(propertyKey, value);
+			let oldValue = this[ViewStorageKey].dataStorage.get(propertyKey)
+			this[ViewStorageKey].dataStorage.set(propertyKey, value)
+
+			if (!this[ViewStorageKey]) return
 
 			if (value !== oldValue) {
 				if (isObserved(oldValue)) {
-					let c = this[ViewStorageKey].cancelHandlerStorage.get(oldValue);
+					let c = this[ViewStorageKey].cancelHandlerStorage.get(oldValue)
 					if (c) { c(); this[ViewStorageKey].cancelHandlerStorage.delete(oldValue) }
 				}
 				if (isObserved(value)) this[ViewStorageKey].cancelHandlerStorage.set(value, value.addBeacon(() => this.update()))
@@ -83,8 +85,8 @@ export function Environmen(property: Parameters<(typeof EnvironmentsValues)['saf
 			configurable: false,
 			get(this: View): any { return this[ViewStorageKey].environmentSnapshots.get(property) },
 			set(this: View, value: any): void {
-				this[ViewStorageKey].environmentSnapshots.set(property, value);
-				this.update();
+				this[ViewStorageKey].environmentSnapshots.set(property, value)
+				if (this[ViewStorageKey]) this.update()
 			}
 		})
 
@@ -114,30 +116,34 @@ export abstract class View extends ViewBuilder {
 
 
 	public update(): void {
-		const storage = this[ViewStorageKey];
+		const storage = this[ViewStorageKey]
 
 		if (!storage.HTMLElement) return
 		// if (newRender) { newRender.destroy(withAnimation as any); newRender = undefined; }
 
 		if (!storage.timeout) {
 			Compositing.requestAnimationFrame(0, () => {
-				if (storage.HTMLElement) storage.renderViews(storage.HTMLElement, this.content());
-				storage.timeout = false;
+				if (storage.HTMLElement) storage.renderViews(storage.HTMLElement, this.content())
+				storage.timeout = false
 			})
-			storage.timeout = true;
+			storage.timeout = true
 		}
 	}
 
 
 
 	public render(withAnimation: boolean = false): ViewHTMLElement {
-		const storage = this[ViewStorageKey];
+		const storage = this[ViewStorageKey]
 
 		if (storage.HTMLElement) return storage.HTMLElement
 
+		for (let item of storage.dataStorage)
+			if (isObserved(item[1]))
+				storage.cancelHandlerStorage.set(item[1], item[1].addBeacon(() => this.update()))
 
-		storage.HTMLElement = new ViewHTMLElement;
-		storage.renderViews(storage.HTMLElement, this.content(), withAnimation);
+
+		storage.HTMLElement = new ViewHTMLElement
+		storage.renderViews(storage.HTMLElement, this.content(), withAnimation)
 
 		return storage.HTMLElement
 	}
@@ -147,37 +153,37 @@ export abstract class View extends ViewBuilder {
 
 
 	public destroy(withAnimation?: boolean): void | Promise<void> {
-		const storage = this[ViewStorageKey];
-		storage.cancelHandlerStorage.forEach(v => v());
-		storage.cancelHandlerStorage.clear();
+		const storage = this[ViewStorageKey]
+		storage.cancelHandlerStorage.forEach(v => v())
+		storage.cancelHandlerStorage.clear()
 
 
 		if (withAnimation) {
-			let renderingContent = storage.renderingContent;
-			let HTMLElement = storage.HTMLElement;
+			let renderingContent: ViewsList = storage.renderingContent
+			let HTMLElement = storage.HTMLElement
 
-			const cancleSnapshot = storage.environmentSnapshots.createSnapshots();
-			let content = renderingContent?.destroy(withAnimation);
-			cancleSnapshot();
+			const cancleSnapshot = storage.environmentSnapshots.createSnapshots()
+			let content = renderingContent?.destroy(withAnimation)
+			cancleSnapshot()
 
-			let result: void | Promise<void>;
-			if (Array.isArray(content)) result = Promise.all(content).then(() => HTMLElement?.remove());
+			let result: void | Promise<void>
+			if (Array.isArray(content)) result = Promise.all(content).then(() => HTMLElement?.remove())
 			else HTMLElement?.remove()
 
-			storage.HTMLElement = undefined;
-			storage.renderingContent.clear();
+			storage.HTMLElement = undefined
+			storage.renderingContent.clear()
 			return result
 		}
 
-		storage.renderingContent?.destroy();
-		storage.HTMLElement?.remove();
+		storage.renderingContent?.destroy()
+		storage.HTMLElement?.remove()
 
-		storage.renderingContent.clear();
-		storage.HTMLElement = undefined;
+		storage.renderingContent.clear()
+		storage.HTMLElement = undefined
 	}
 
 
 
 
-	public getRectElements(storage: Map<HTMLElement, CompositingCoords>): void { this[ViewStorageKey].renderingContent?.forEach(view => view?.getRectElements(storage)); }
+	public getRectElements(storage: Map<HTMLElement, CompositingCoords>): void { this[ViewStorageKey].renderingContent?.forEach(view => view?.getRectElements(storage)) }
 }
