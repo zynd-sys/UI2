@@ -226,7 +226,7 @@ export abstract class ViewElementsContainer<E extends HTMLElement | { parent: HT
 				for (let item of event.dataTransfer.files) if (allowTypes.includes(item.type)) { result = true; break }
 				for (let item of event.dataTransfer.items) if (allowTypes.includes(item.type)) { result = true; break }
 			}
- else result = true
+			else result = true
 
 			if (result) {
 				if (isOver) isOver(true)
@@ -242,7 +242,7 @@ export abstract class ViewElementsContainer<E extends HTMLElement | { parent: HT
 				for (let item of event.dataTransfer.files) if (allowTypes.includes(item.type)) resultArray.push(item)
 				for (let item of event.dataTransfer.items) if (item.kind != 'file' && allowTypes.includes(item.type)) resultArray.push(item)
 			}
- else {
+			else {
 				for (let item of event.dataTransfer.files) resultArray.push(item)
 				for (let item of event.dataTransfer.items) if (item.kind != 'file') resultArray.push(item)
 			}

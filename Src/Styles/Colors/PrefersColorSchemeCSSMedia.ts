@@ -13,7 +13,7 @@ export function setPrefersPriorityColorScheme(value?: ColorScheme): void {
 		PrefersColorSchemeValue = value;
 		priorityColorScheme = value;
 	}
- else {
+	else {
 		priorityColorScheme = undefined;
 		PrefersColorSchemeValue = PrefersColorSchemeCSSMedia.matches ? ColorScheme.light : ColorScheme.dark
 	}

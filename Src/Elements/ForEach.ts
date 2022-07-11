@@ -78,7 +78,7 @@ export class ForEachView<T> extends ViewBuilder {
 				elements.push({ index: viewNow.index, element: viewNow.view.render() })
 				viewNow.view.destroy(true);
 			}
- else {
+			else {
 				viewNow.view.update(viewNew.view)
 				viewNow.index = viewNew.index;
 			}

@@ -79,8 +79,7 @@ export class BackgroundVideoView extends ViewMediaElement<HTMLVideoElement, stri
 			let newSourceList: ViewsList | undefined = newRender.sourceList;
 			if (!this.sourceList) { this.sourceList = newRender.sourceList; newSourceList = undefined; }
 			this.sourceList.render(element, false, newSourceList);
-		}
- else if (this.sourceList) {
+		} else if (this.sourceList) {
 			this.sourceList.destroy();
 			this.sourceList = undefined;
 		}

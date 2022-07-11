@@ -167,7 +167,7 @@ export class UIAnimationClass {
 				.scaleXEffect(fromElement.width / toElement.width, 1)
 				.scaleYEffect(fromElement.height / toElement.height, 1)
 		}
- else {
+		else {
 			this.translateXEffect(Units.px, 0, x)
 				.translateYEffect(Units.px, 0, y)
 				.scaleXEffect(1, fromElement.width / toElement.width)
