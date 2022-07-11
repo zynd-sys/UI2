@@ -37,7 +37,7 @@
 		"@typescript-eslint/no-confusing-non-null-assertion": "warn",
 		"@typescript-eslint/type-annotation-spacing": "warn",
 		"@typescript-eslint/comma-spacing": [ "warn", { "after": true } ],
-		"@typescript-eslint/brace-style": [ "error", "stroustrup", { "allowSingleLine": true } ],
+		"@typescript-eslint/brace-style": [ "error", "1tbs", { "allowSingleLine": true } ],
 		"@typescript-eslint/explicit-function-return-type": [ "warn" , { "allowExpressions": true } ],
 		"@typescript-eslint/quotes": [ "warn", "single", { "allowTemplateLiterals": true } ],
 		"@typescript-eslint/member-ordering": [ "warn", {

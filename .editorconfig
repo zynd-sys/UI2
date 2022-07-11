@@ -7,10 +7,10 @@ end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[*.{ts,css,html}]
+[*.{ts, css, html, md}]
 indent_style = tab
 indent_size = 4
 
-[.github/**.yml, package-lock.json,package.json]
+[.github/**.yml, package-lock.json, package.json]
 indent_style = space
 indent_size = 2
